@@ -1,0 +1,114 @@
+# toLongPath -------------------------------------------------------------------
+toLongPath <- function(shortpath, dict)
+{
+  indices <- match(shortpath, names(dict))
+  parts <- as.character(dict)[indices]
+  kwb.utils::collapsed(parts, "/")
+}
+
+# toSubdirMatrix ---------------------------------------------------------------
+toSubdirMatrix <- function(dirparts, fill.value = "")
+{
+  if (! is.list(dirparts) || ! all(sapply(dirparts, mode) == "character")) {
+    stop("toSubdirMatrix(): dirparts must be a list of character vectors!",
+         call. = FALSE)
+  }
+
+  # Get the maximum path depth
+  maxdepth <- maxdepth(dirparts)
+
+  # Extend all list entries to the same length filling with ""
+  extend <- function(x, length) c(x, rep(fill.value, maxdepth - length(x)))
+  dirparts <- lapply(dirparts, extend, maxdepth)
+
+  # Create a matrix of subdirectories
+  matrix(unlist(dirparts), nrow = length(dirparts), byrow = TRUE)
+}
+
+# maxdepth ---------------------------------------------------------------------
+maxdepth <- function(parts = splitPaths(paths), paths = NULL)
+{
+  max(sapply(parts, length))
+}
+
+# toCumulativeID ---------------------------------------------------------------
+toCumulativeID <- function(subdirs)
+{
+  cumpaths <- matrix(nrow = nrow(subdirs), ncol = ncol(subdirs))
+  cumids <- cumpaths
+
+  cat("depth: 00")
+
+  for (depth in seq_len(ncol(subdirs))) {
+
+    cat(sprintf("\b\b%2d", depth))
+    reached <- ! is.na(subdirs[, depth])
+
+    cumpaths[reached, depth] <- if (depth > 1) {
+      paste0(cumpaths[reached, depth - 1], subdirs[reached, depth])
+    } else {
+      subdirs[reached, depth]
+    }
+
+    cumids[, depth] <- as.integer(as.factor(cumpaths[, depth]))
+  }
+
+  cat("\n")
+
+  cumids
+}
+
+# toFrequencyData --------------------------------------------------------------
+toFrequencyData <- function(freqs)
+{
+  f <- sort(unlist(freqs), decreasing = TRUE)
+
+  pathlen <- nchar(names(f))
+  count <- f / pathlen
+
+  data.frame(
+    path = names(f),
+    score = f,
+    length = pathlen,
+    count = count,
+    stringsAsFactors = FALSE,
+    row.names = NULL
+  )
+}
+
+# toPlaceholder ----------------------------------------------------------------
+toPlaceholder <- function(x)
+{
+  paste0("<", x, ">")
+}
+
+# toDataFrame ------------------------------------------------------------------
+toDataFrame <- function(x)
+{
+  if (is.list(x)) {
+    do.call(data.frame, c(x, stringsAsFactors = FALSE))
+  } else {
+    data.frame(x = x, stringsAsFactors = FALSE)
+  }
+}
+
+# toDictionary -----------------------------------------------------------------
+toDictionary <- function(x, prefix = "a", leading.zeros = FALSE)
+{
+  dict <- as.list(names(sortedImportance(x)))
+  structure(dict, names = toKey(seq_along(dict), prefix, leading.zeros))
+}
+
+# toKey ------------------------------------------------------------------------
+toKey <- function(i, prefix = "p", leading.zeros = FALSE)
+{
+  #fmt <- "p%05X"
+  fmt <- if (leading.zeros) {
+    digits <- nchar(toKey(length(i), ""))
+    paste0("%s%0", digits, "X")
+  } else {
+    "%s%X"
+  }
+
+  sprintf(fmt, prefix, i)
+}
