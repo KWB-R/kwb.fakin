@@ -3,7 +3,4 @@ pkgdown: 1.1.0
 pkgdown_sha: ~
 articles:
   tutorial: tutorial.html
-urls:
-  reference: https://kwb-r.github.io/kwb.fakin/reference
-  article: https://kwb-r.github.io/kwb.fakin/articles
 

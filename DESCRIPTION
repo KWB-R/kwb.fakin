@@ -3,18 +3,21 @@ Type: Package
 Title: Functions Used in Our Fakin Project
 Version: 0.2.0
 Authors@R: c(person("Hauke", "Sonnenberg", , "hauke.sonnenberg@kompetenz-wasser.de", role = c("aut", "cre")),
+             person("Michael", "Rustler", , "michael.rustler@kompetenz-wasser.de", role = c("ctb"), 
+             comment = c(ORCID = "0000-0003-0647-7726")),
              person("Kompetenzzentrum Wasser Berlin gGmbH", role = c("cph")))
 Description: This package contains all functions and evaluations related to
     KWB project "FAKIN". Set the Subversion setting 'enable-auto-props' to 'yes' 
     so that the 'auto-probs' options are considered.
-Imports: kwb.utils, kwb.plot, digest, yaml
+Imports: kwb.utils, kwb.plot, digest, yaml, stringr, fs, usethis
 Remotes: 
    github::kwb-r/kwb.utils,
    github::kwb-r/kwb.plot
 Suggests: 
     testthat,
     knitr,
-    rmarkdown
+    rmarkdown,
+    covr
 License: MIT + file LICENSE
 LazyData: TRUE
 RoxygenNote: 6.0.1
