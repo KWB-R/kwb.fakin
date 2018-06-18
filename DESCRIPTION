@@ -9,7 +9,7 @@ Authors@R: c(person("Hauke", "Sonnenberg", , "hauke.sonnenberg@kompetenz-wasser.
 Description: This package contains all functions and evaluations related to
     KWB project "FAKIN". Set the Subversion setting 'enable-auto-props' to 'yes' 
     so that the 'auto-probs' options are considered.
-Imports: kwb.utils, kwb.plot, digest, yaml, stringr, fs, usethis
+Imports: kwb.utils, kwb.plot, digest
 Remotes: 
    github::kwb-r/kwb.utils,
    github::kwb-r/kwb.plot
