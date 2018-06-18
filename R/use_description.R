@@ -82,8 +82,8 @@ options(
   `Authors@R` = authors_meta,
   License = license,
   Version = version,
-  URL = sprintf("https://kwb-r.github.io/%s", pkg$name),
-  Issues = sprintf("https:/github.com/KWB-R/%s/issues", pkg$name)
+  URL = sprintf("https://github.com/KWB-R/%s", pkg$name),
+  BugReports = sprintf("https:/github.com/KWB-R/%s/issues", pkg$name)
 )
 )
 
