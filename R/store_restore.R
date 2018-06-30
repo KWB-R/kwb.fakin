@@ -48,16 +48,15 @@ write_object <- function(x, name, file, dbg = TRUE)
 # write_metadata ---------------------------------------------------------------
 write_metadata <- function(sha1, folder, file, script_name, dbg = TRUE)
 {
-  kwb.utils::catIf(dbg, "Writing metadata to", file, "... ")
-
-  text <- sprintf(
-    "Folder: %s\nFile: %s\nCreated: %s\nCreator: %s\nsha1: %s\n",
-    folder, file, Sys.time(), script_name, sha1
+  kwb.utils::writeText(
+    x = sprintf(
+      "Folder: %s\nFile: %s\nCreated: %s\nCreator: %s\nsha1: %s\n",
+      folder, file, Sys.time(), script_name, sha1
+    ),
+    file = file.path(folder, file),
+    type = "metadata to",
+    dbg = dbg
   )
-
-  writeLines(text, file.path(folder, file))
-
-  kwb.utils::catIf(dbg, "ok.\n")
 }
 
 # read_sha1 --------------------------------------------------------------------

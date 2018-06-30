@@ -74,9 +74,7 @@ subtree_for_treejack <- function(
 
     } else {
 
-      cat("Writing tree structure to", output_file, "... ")
-      writeLines(textlines, con = output_file)
-      cat("ok.\n")
+      kwb.utils::writeText(textlines, output_file, "tree structure to")
     }
   }
 }
