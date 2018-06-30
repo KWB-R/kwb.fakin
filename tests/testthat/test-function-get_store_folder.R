@@ -4,27 +4,10 @@
 
 test_that("get_store_folder() works", {
 
-  expect_error(
-    kwb.fakin:::get_store_folder()
-    # No such file: 'tmp' in
-#   'C:/Users/Micha/Desktop'.
-# Available files:
-#   '20130221_154303.jpg'
-#   'achilles'
-#   'bewerbung'
-#   'Brave.lnk'
-#   'desktop.ini'
-#   'DigiCorder ISIO C  PVConnect Windows Media Connect - Verknüpfung.lnk'
-#   'Einschulung'
-#   'Entfernte Anwendungen.html'
-#   'F1 2013.url'
-#   'IMG_5256.JPG'
-#   'Neuer Ordner'
-#   'Neuer Ordner (2)'
-#   'RUSTLER_2.zip'
-#   'Steam.lnk'
-#   'Windows 10-Update-Assistent.lnk'
-  )
+  path <- try(kwb.fakin:::get_store_folder())
 
+  if (! inherits(path, "try-error")) {
+
+    expect_true(file.exists(path))
+  }
 })
-
