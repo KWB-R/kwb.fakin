@@ -12,41 +12,52 @@
 #'
 #' @return vector of character
 #'
+#' @importFrom kwb.utils catAndRun
+#' @importFrom kwb.utils stringList
+#'
 #' @export
 #'
 read_paths <- function(file, encoding = NULL, do_sort = TRUE)
 {
+  #kwb.utils::assignArgumentDefaults(kwb.fakin::read_paths)
+
   if (is.null(encoding)) {
 
     encodings <- utils::localeToCharset()
 
-    if (length(encodings) > 1) {
-      cat("Suggested encodings:", kwb.utils::stringList(encodings), "\n")
-    }
+    kwb.utils::catIf(
+      length(encodings) > 1,
+      "Suggested encodings:", stringList(encodings), "\n"
+    )
 
     encoding <- encodings[1]
   }
 
-  cat("Selected encoding:", kwb.utils::hsQuoteChr(encoding), "\n")
+  cat(sprintf("Selected encoding: '%s'\n", encoding))
 
-  cat("Reading paths from\n ", file, "...\n")
-  paths <- readLines(file, encoding = encodings[2])
-  cat("ok.", length(paths), "lines have been read.\n")
+  catAndRun(sprintf("Reading paths from '%s'", file), {
 
-  cat("Checking for (back-)slashes... ")
-  has_slash <- grepl("/", paths)
-  has_backslash <- grepl("[\\]", paths)
-  all_slash <- all(has_slash)
-  all_backslash <- all(has_backslash)
-  cat("ok.\n")
+    paths <- readLines(file, encoding = encoding)
+  })
+
+  cat(length(paths), "lines have been read.\n")
+
+  catAndRun("Checking for (back-)slashes", {
+
+    has_slash <- grepl("/", paths)
+    has_backslash <- grepl("[\\]", paths)
+    all_slash <- all(has_slash)
+    all_backslash <- all(has_backslash)
+  })
 
   if (! all_slash) {
 
     if (all_backslash) {
 
-      cat("Converting backslashes to slashes... ")
-      paths <- gsub("[\\]", "/", paths)
-      cat("ok.\n")
+      catAndRun("Converting backslashes to slashes", {
+
+        paths <- gsub("[\\]", "/", paths)
+      })
 
     } else {
 
@@ -59,9 +70,7 @@ read_paths <- function(file, encoding = NULL, do_sort = TRUE)
 
   if (do_sort) {
 
-    cat("Sorting paths... ")
-    paths <- sort(paths)
-    cat("ok.\n")
+    catAndRun("Sorting paths", paths <- sort(paths))
   }
 
   paths
