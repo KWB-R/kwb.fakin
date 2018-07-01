@@ -134,7 +134,7 @@ xx <span class="co"># will be encoded in hex</span>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">text &lt;-<span class="st"> "Schöne Grüße"</span>
 
 test_file &lt;-<span class="st"> </span>kwb.utils::<span class="kw">writeText</span>(text, <span class="kw">tempfile</span>(<span class="dt">fileext =</span> <span class="st">".txt"</span>))
-<span class="co">#&gt; Writing '/tmp/RtmpKx98hk/file32763d7904ba.txt' ... ok.</span></code></pre></div>
+<span class="co">#&gt; Writing '/tmp/RtmpJQ2weB/file5c10472975c0.txt' ... ok.</span></code></pre></div>
 <p>And now read the line back with <code>readLines()</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">readLines</span>(test_file)
 <span class="co">#&gt; [1] "Schöne Grüße"</span></code></pre></div>
@@ -154,6 +154,66 @@ test_file &lt;-<span class="st"> </span>kwb.utils::<span class="kw">writeText</s
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(raw_bytes &lt;-<span class="st"> </span><span class="kw">readBin</span>(test_file, <span class="st">"raw"</span>, <span class="dv">100</span>))
 <span class="co">#&gt;  [1] 53 63 68 c3 b6 6e 65 20 47 72 c3 bc c3 9f 65 0a</span></code></pre></div>
 </div>
+<div id="conversion-between-numeric-codes-and-characters" class="section level2">
+<h2 class="hasAnchor">
+<a href="#conversion-between-numeric-codes-and-characters" class="anchor"></a>Conversion Between Numeric Codes and Characters</h2>
+<p>What characters do the numeric codes given as hexedecimal numbers in <code>raw_bytes</code> represent?</p>
+<p>Let’s first see what the hexanumeric codes are in the decimal system:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.integer</span>(raw_bytes)
+<span class="co">#&gt;  [1]  83  99 104 195 182 110 101  32  71 114 195 188 195 159 101  10</span></code></pre></div>
+<p>And now let’s convert the codes to characters:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rawToChar</span>(raw_bytes)
+<span class="co">#&gt; [1] "Schöne Grüße\n"</span></code></pre></div>
+<p>The function <code>rawToChar()</code> seems to know how to interpret the sequence of byte codes.</p>
+<p>Note that the last character (<code>10</code> in the decimal and <code>0a</code> in the hexadecimal system) represents the newline character <code>\n</code>.</p>
+<p>What happens if I ask <code>rawToChar()</code> to convert the first and second byte representing the <code>ö</code> character separately?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rawToChar</span>(raw_bytes[<span class="dv">4</span>])
+<span class="co">#&gt; [1] "\xc3"</span>
+<span class="kw">rawToChar</span>(raw_bytes[<span class="dv">5</span>])
+<span class="co">#&gt; [1] "\xb6"</span></code></pre></div>
+<p>And now together:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rawToChar</span>(raw_bytes[<span class="dv">4</span>:<span class="dv">5</span>])
+<span class="co">#&gt; [1] "ö"</span></code></pre></div>
+<p>There is an argument <code>multiple</code> to <code>rawToChar()</code>. It is <code>FALSE</code> by default. What happens if we set it to <code>TRUE</code>?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rawToChar</span>(raw_bytes[<span class="dv">4</span>:<span class="dv">5</span>], <span class="dt">multiple =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt; [1] "\xc3" "\xb6"</span></code></pre></div>
+<p>As the documentation says, setting <code>multiple</code> to <code>TRUE</code> returns the single characters instead of a single string.</p>
+<p>How does this look if we convert the whole string?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(characters_1 &lt;-<span class="st"> </span><span class="kw">rawToChar</span>(raw_bytes, <span class="dt">multiple =</span> <span class="ot">TRUE</span>))
+<span class="co">#&gt;  [1] "S"    "c"    "h"    "\xc3" "\xb6" "n"    "e"    " "    "G"    "r"   </span>
+<span class="co">#&gt; [11] "\xc3" "\xbc" "\xc3" "\x9f" "e"    "\n"</span></code></pre></div>
+<p>Is this the same as splitting the original string into single characters?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">strsplit</span>(text, <span class="dt">split =</span> <span class="st">""</span>)[[<span class="dv">1</span>]]
+<span class="co">#&gt;  [1] "S" "c" "h" "ö" "n" "e" " " "G" "r" "ü" "ß" "e"</span></code></pre></div>
+<p>No, the German special characters are here shown as one character only instead of two. But we can achieve the same when setting the argument <code>useBytes</code> to <code>TRUE</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(characters_2 &lt;-<span class="st"> </span><span class="kw">strsplit</span>(text, <span class="dt">split =</span> <span class="st">""</span>, <span class="dt">useBytes =</span> <span class="ot">TRUE</span>)[[<span class="dv">1</span>]])
+<span class="co">#&gt;  [1] "S"    "c"    "h"    "\xc3" "\xb6" "n"    "e"    " "    "G"    "r"   </span>
+<span class="co">#&gt; [11] "\xc3" "\xbc" "\xc3" "\x9f" "e"</span>
+
+<span class="kw">identical</span>(characters_1[-<span class="kw">length</span>(characters_1)], characters_2)
+<span class="co">#&gt; [1] TRUE</span></code></pre></div>
+</div>
+<div id="replace-special-characters-with-ascii-characters" class="section level1">
+<h1 class="hasAnchor">
+<a href="#replace-special-characters-with-ascii-characters" class="anchor"></a>Replace Special Characters with ASCII Characters</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">raw_bytes
+<span class="co">#&gt;  [1] 53 63 68 c3 b6 6e 65 20 47 72 c3 bc c3 9f 65 0a</span>
+
+<span class="kw">rawToChar</span>(raw_bytes)
+<span class="co">#&gt; [1] "Schöne Grüße\n"</span>
+
+<span class="kw">gsub</span>(<span class="st">"</span><span class="ch">\xc3\xb6</span><span class="st">"</span>, <span class="st">"oe"</span>, <span class="kw">rawToChar</span>(raw_bytes))
+<span class="co">#&gt; [1] "Schoene Grüße\n"</span>
+<span class="kw">gsub</span>(<span class="st">"</span><span class="ch">\xc3\xb6</span><span class="st">"</span>, <span class="st">"oe"</span>, <span class="kw">rawToChar</span>(raw_bytes), <span class="dt">useBytes =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt; [1] "Schoene Grüße\n"</span></code></pre></div>
+<p>Ok, it seems that we can replace special characters if we know their byte codes (here: <code>c3</code> and <code>b6</code> for letter <code>ö</code>).</p>
+<p>It will be helpful to have a function that shows the special characters and the corresponding byte codes</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kwb.fakin::<span class="kw"><a href="../reference/get_special_character_info.html">get_special_character_info</a></span>(text)
+<span class="co">#&gt;   special bytes</span>
+<span class="co">#&gt; 1       ö c3 b6</span>
+<span class="co">#&gt; 2       ü c3 bc</span>
+<span class="co">#&gt; 3       ß c3 9f</span></code></pre></div>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -164,6 +224,8 @@ test_file &lt;-<span class="st"> </span>kwb.utils::<span class="kw">writeText</s
 <li><a href="#introduction">Introduction</a></li>
       <li><a href="#example-sessions">Example Sessions</a></li>
       <li><a href="#writing-to-and-reading-from-files">Writing to and Reading from Files</a></li>
+      <li><a href="#conversion-between-numeric-codes-and-characters">Conversion Between Numeric Codes and Characters</a></li>
+      <li><a href="#replace-special-characters-with-ascii-characters">Replace Special Characters with ASCII Characters</a></li>
       </ul>
 </div>
       </div>
