@@ -3,10 +3,13 @@
 #' Get Special Characters and Their Byte Codes
 #'
 #' @param text vector of character of length one
+#' @param context_length number of characters left and right of special
+#'   character to be put into column \code{context}
+#' @param bytes_per_char number of bytes per character
 #'
-#' @return data frame with columns \code{special} (containing the special
-#'   characters) and \code{bytes} (containing the hexadecimanl byte codes as
-#'   as space separated string)
+#' @return data frame with columns \code{special} (special characters) and
+#'   \code{bytes} (hexadecimanl byte codes as a space separated string),
+#'   \code{context} (strings "around" the special characters)
 #'
 #' @export
 #'
@@ -15,20 +18,43 @@
 #'
 #' get_special_character_info(text)
 #'
-get_special_character_info <- function(text)
+get_special_character_info <- function(
+  text, context_length = 7, bytes_per_char = 2
+)
 {
+  # kwb.utils::assignArgumentDefaults(get_special_character_info)
+
   stopifnot(length(text) == 1)
 
-  characters <- strsplit(text, "")[[1]]
+  characters <- strsplit(text, "", useBytes = TRUE)[[1]]
 
-  special_characters <- characters[! isASCII(characters)]
+  is_special <- ! isASCII(characters)
+
+  special_characters <- characters[is_special]
+
+  bytes <- lapply(special_characters, charToRaw)
+
+  indices <- which(is_special)
+
+  indices <- indices[seq(1, length(indices), by = bytes_per_char)]
+
+  collapsed_0 <- function(x) kwb.utils::collapsed(x, "")
+
+  contexts <- sapply(indices, function(i) {
+    j <- i + bytes_per_char - 1
+    min_index <- max(i - context_length, 1)
+    max_index <- min(j + context_length, length(is_special))
+    paste0(
+      collapsed_0(characters[min_index:(i - 1)]),
+      paste0(" [ ", collapsed_0(characters[i:j]), " ] "),
+      collapsed_0(characters[(j + 1):max_index])
+    )
+  })
 
   data.frame(
     special = special_characters,
-    bytes = unname(sapply(special_characters, function(char) {
-
-      kwb.utils::collapsed(as.character(charToRaw(char)))
-    })),
+    bytes = sapply(bytes, collapsed_0),
+    context = contexts,
     stringsAsFactors = FALSE
   )
 }

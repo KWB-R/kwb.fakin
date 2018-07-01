@@ -4,15 +4,20 @@
 \alias{get_special_character_info}
 \title{Get Special Characters and Their Byte Codes}
 \usage{
-get_special_character_info(text)
+get_special_character_info(text, context_length = 7, bytes_per_char = 2)
 }
 \arguments{
 \item{text}{vector of character of length one}
+
+\item{context_length}{number of characters left and right of special
+character to be put into column \code{context}}
+
+\item{bytes_per_char}{number of bytes per character}
 }
 \value{
-data frame with columns \code{special} (containing the special
-  characters) and \code{bytes} (containing the hexadecimanl byte codes as
-  as space separated string)
+data frame with columns \code{special} (special characters) and
+  \code{bytes} (hexadecimanl byte codes as a space separated string),
+  \code{context} (strings "around" the special characters)
 }
 \description{
 Get Special Characters and Their Byte Codes
