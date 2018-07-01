@@ -1,0 +1,103 @@
+---
+title: "Understanding Encoding"
+author: "Hauke Sonnenberg"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Understanding Encoding}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Introduction
+
+In our document on best practices in research data managment we recommend to 
+stick to a very basic set of characters when [naming files and folders](https://kwb-r.github.io/fakin.doc/best-practices.html#data-storage-naming).
+
+You may ask, why? You may never have had any problems when working with files
+containing spaces or special characters. If this is the case for you, you are
+lucky. You then most probably 
+
+- do not exchange files between computers with different operating systems (i.e.
+Windows vs. Linux) and/or with different regional settings (e.g. German vs. 
+English vs. French vs. Bulgarian),
+
+- do not automate tasks by programming.
+
+## Example Sessions
+
+What does R tell us about Encoding?
+
+```{r}
+?Encoding
+```
+
+We learn, that R offers a function `Encoding()` as well as the functions
+`enc2native()` and `enc2utf8()`. How do these functions work?
+
+Let's have a look at the Examples given in the R documentation:
+
+```{r}
+## x is intended to be in latin1
+x <- "fa\xE7ile"
+Encoding(x)
+Encoding(x) <- "latin1"
+x
+xx <- iconv(x, "latin1", "UTF-8")
+Encoding(c(x, xx))
+c(x, xx)
+Encoding(xx) <- "bytes"
+xx # will be encoded in hex
+cat("xx = ", xx, "\n", sep = "")
+```
+
+## Writing to and Reading from Files
+
+Lets write a line containing German special characters to a text file. We use
+the function `writeText()` from our 
+[kwb.utils](https://github.com/kwb-r/kwb.utils)
+package. This function does no more than using `writeLines()`, but additionally 
+gives a message about it and returns the path to the file:
+
+```{r}
+text <- "Schöne Grüße"
+
+test_file <- kwb.utils::writeText(text, file = tempfile(fileext = ".txt"))
+```
+
+And now read the line back with `readLines()`:
+
+```{r}
+readLines(test_file)
+```
+
+Ok, no problem so far, because we used the same system to write and read the
+file. 
+
+Let's have a look at the file byte-by-byte:
+
+```{r}
+con <- file(test_file, "r")
+
+sapply(seq_len(nchar(text, "bytes")), function(i) {
+  readChar(con, 1, useBytes = TRUE)
+})
+
+close(con)
+```
+
+Wow, that is interesting. I did not know that! Standard characters are stored
+as on byte and only the special characters are stored as two bytes!
+
+Now read the file again, this time as a vector of `raw`:
+
+```{r}
+(raw_bytes <- readBin(test_file, "raw", 100))
+```
