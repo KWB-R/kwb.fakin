@@ -69,7 +69,7 @@ gives a message about it and returns the path to the file:
 ```{r}
 text <- "Schöne Grüße"
 
-test_file <- kwb.utils::writeText(text, file = tempfile(fileext = ".txt"))
+test_file <- kwb.utils::writeText(text, tempfile(fileext = ".txt"))
 ```
 
 And now read the line back with `readLines()`:
@@ -94,7 +94,7 @@ close(con)
 ```
 
 Wow, that is interesting. I did not know that! Standard characters are stored
-as on byte and only the special characters are stored as two bytes!
+as one byte and only the special characters are stored as two bytes!
 
 Now read the file again, this time as a vector of `raw`:
 
