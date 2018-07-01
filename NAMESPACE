@@ -3,6 +3,7 @@
 export(createLocalProject)
 export(get_example_read_and_write_matrices)
 export(get_file_duplicates)
+export(get_special_character_info)
 export(isASCII)
 export(isDotOrDoubleDot)
 export(list_files)

@@ -1,3 +1,48 @@
+# get_special_character_info ---------------------------------------------------
+
+#' Get Special Characters and Their Byte Codes
+#'
+#' @param text vector of character of length one
+#'
+#' @return data frame with columns \code{special} (containing the special
+#'   characters) and \code{bytes} (containing the hexadecimanl byte codes as
+#'   as space separated string)
+#'
+#' @export
+#'
+#' @examples
+#' (text <- kwb.fakin:::example_string_with_specials("de"))
+#'
+#' get_special_character_info(text)
+#'
+get_special_character_info <- function(text)
+{
+  stopifnot(length(text) == 1)
+
+  characters <- strsplit(text, "")[[1]]
+
+  special_characters <- characters[! isASCII(characters)]
+
+  data.frame(
+    special = special_characters,
+    bytes = unname(sapply(special_characters, function(char) {
+
+      kwb.utils::collapsed(as.character(charToRaw(char)))
+    })),
+    stringsAsFactors = FALSE
+  )
+}
+
+# example_string_with_specials -------------------------------------------------
+example_string_with_specials <- function(language_code)
+{
+  if (language_code == "de") {
+    "Sch\xc3\xb6ne Gr\xc3\xbc\xc3\x9fe"
+  } else {
+    stop("So far, only implemented for language_code = 'de'", call. = FALSE)
+  }
+}
+
 # replaceSpecial ---------------------------------------------------------------
 replaceSpecial <- function(x, all = TRUE, dbg = TRUE) {
 
