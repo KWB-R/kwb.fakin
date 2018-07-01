@@ -101,3 +101,92 @@ Now read the file again, this time as a vector of `raw`:
 ```{r}
 (raw_bytes <- readBin(test_file, "raw", 100))
 ```
+
+## Conversion Between Numeric Codes and Characters
+
+What characters do the numeric codes given as hexedecimal numbers in `raw_bytes`
+represent?
+
+Let's first see what the hexanumeric codes are in the decimal system:
+
+```{r}
+as.integer(raw_bytes)
+```
+
+And now let's convert the codes to characters:
+
+```{r}
+rawToChar(raw_bytes)
+```
+
+The function `rawToChar()` seems to know how to interpret the sequence of byte
+codes. 
+
+Note that the last character (`10` in the decimal and `0a` in the hexadecimal
+system) represents the newline character `\n`. 
+
+What happens if I ask `rawToChar()` to convert the first and second byte
+representing the `ö` character separately?
+
+```{r}
+rawToChar(raw_bytes[4])
+rawToChar(raw_bytes[5])
+```
+And now together:
+
+```{r}
+rawToChar(raw_bytes[4:5])
+```
+There is an argument `multiple` to `rawToChar()`. It is `FALSE` by default.
+What happens if we set it to `TRUE`?
+
+```{r}
+rawToChar(raw_bytes[4:5], multiple = TRUE)
+```
+
+As the documentation says, setting `multiple` to `TRUE` returns the single
+characters instead of a single string.
+
+How does this look if we convert the whole string?
+
+```{r}
+(characters_1 <- rawToChar(raw_bytes, multiple = TRUE))
+```
+
+Is this the same as splitting the original string into single characters?
+
+```{r}
+strsplit(text, split = "")[[1]]
+```
+
+No, the German special characters are here shown as one character only instead
+of two. But we can achieve the same when setting the argument `useBytes` to
+`TRUE`:
+
+```{r}
+(characters_2 <- strsplit(text, split = "", useBytes = TRUE)[[1]])
+
+identical(characters_1[-length(characters_1)], characters_2)
+```
+
+# Replace Special Characters with ASCII Characters
+
+```{r}
+raw_bytes
+
+rawToChar(raw_bytes)
+
+gsub("\xc3\xb6", "oe", rawToChar(raw_bytes))
+gsub("\xc3\xb6", "oe", rawToChar(raw_bytes), useBytes = TRUE)
+```
+
+Ok, it seems that we can replace special characters if we know their byte codes
+(here: `c3` and `b6` for letter `ö`).
+
+It will be helpful to have a function that shows the special characters and the
+corresponding byte codes
+
+```{r}
+kwb.fakin::get_special_character_info(text)
+```
+
