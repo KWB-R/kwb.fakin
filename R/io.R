@@ -13,6 +13,7 @@
 #' @return vector of character
 #'
 #' @importFrom kwb.utils catAndRun
+#' @importFrom kwb.utils catIf
 #' @importFrom kwb.utils stringList
 #'
 #' @export
@@ -25,10 +26,9 @@ read_paths <- function(file, encoding = NULL, do_sort = TRUE)
 
     encodings <- utils::localeToCharset()
 
-    kwb.utils::catIf(
-      length(encodings) > 1,
-      "Suggested encodings:", stringList(encodings), "\n"
-    )
+    catIf(length(encodings) > 1, sprintf(
+      "Suggested encodings: %s\n", stringList(encodings)
+    ))
 
     encoding <- encodings[1]
   }
