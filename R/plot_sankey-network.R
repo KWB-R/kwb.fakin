@@ -31,6 +31,8 @@ plot_path_network <- function(paths, max_depth = 2, ...)
 # get_path_network -------------------------------------------------------------
 get_path_network <- function(paths, max_depth = 3)
 {
+  # kwb.utils::assignPackageObjects("kwb.fakin")
+
   # Create data frame with each column representing a folder depth level
   folder_data <- as_no_factor_data_frame(toSubdirMatrix(splitPaths(paths)))
 
@@ -39,9 +41,6 @@ get_path_network <- function(paths, max_depth = 3)
 
   # We need at least a depth of two
   stopifnot(max_depth >= 2)
-
-  # Define helper function
-  columns_to_path <- function(...) kwb.utils::pasteColumns(..., sep = "/")
 
   links <- do.call(rbind, lapply(2:max_depth, get_links_at_depth, folder_data))
 
@@ -60,26 +59,25 @@ get_path_network <- function(paths, max_depth = 3)
 # get_links_at_depth -----------------------------------------------------------
 get_links_at_depth <- function(i, folder_data)
 {
-  (column_indices <- seq_len(i))
-  (column_names <- paste0("V", column_indices))
-
-  source_data <- stats::setNames(folder_data[, column_indices], column_names)
-
-  # Count the number of files per path
-  files_per_path <- stats::aggregate(
-    rep(1, nrow(source_data)),
-    by = source_data,
-    FUN = length
-  )
+  # Select the first i columns
+  source_data <- folder_data[, seq_len(i)]
 
   # Exclude rows being empty in the i-th column
-  files_per_path <- files_per_path[files_per_path[, i] != "", ]
+  source_data <- source_data[source_data[, i] != "", ]
+
+  # Count the number of files per path
+  n_files <- stats::aggregate(source_data[, 1], by = source_data, length)
+
+  # Define helper function
+  n_columns_to_path <- function(data, n) kwb.utils::pasteColumns(
+    data[, seq_len(n), drop = FALSE], sep = "/"
+  )
 
   # Create the data frame linking source to target nodes with value as weight
   no_factor_data_frame(
-    source = columns_to_path(files_per_path, column_names[seq_len(i - 1)]),
-    target = columns_to_path(files_per_path, column_names),
-    value = files_per_path[, i + 1]
+    source = n_columns_to_path(n_files, i - 1),
+    target = n_columns_to_path(n_files, i),
+    value = n_files$x
   )
 }
 
