@@ -1,24 +1,3 @@
-# getSubdirsByFrequence --------------------------------------------------------
-getSubdirsByFrequence <- function(subdirs, cumid, freqinfo, dbg = TRUE)
-{
-  kwb.utils::printIf(dbg, freqinfo)
-  rows <- which(cumid[, freqinfo$depth] == freqinfo$n.x)[1]
-  subdirs[rows, seq_len(freqinfo$depth)]
-}
-
-# replaceSubdirs ---------------------------------------------------------------
-replaceSubdirs <- function(s, r, p)
-{
-  selected <- startsWithParts(s, r)
-  cols <- seq(length(r) + 1, ncol(s))
-  fillright <- matrix(nrow = sum(selected), ncol = length(r) -1)
-  s[selected, ] <- cbind(p, s[selected, cols, drop = FALSE], fillright)
-
-  # Remove empty columns
-  maxcol <- max(which(apply(s, 2, function(x) sum(! is.na(x))) > 0))
-  s[, seq_len(maxcol)]
-}
-
 # compressWithDictionary -------------------------------------------------------
 compressWithDictionary <- function(subdirs, dict, fill.value = "")
 {
@@ -29,41 +8,6 @@ compressWithDictionary <- function(subdirs, dict, fill.value = "")
   }
 
   matrix(strings, nrow = nrow(subdirs))
-}
-
-# removeCommonRoot -------------------------------------------------------------
-#' Remove the common root parts
-#'
-#' @param x list of list of character as returned by
-#'   \code{\link[base]{strsplit}}
-#' @export
-#' @examples
-#' # Split paths at the slashes
-#' absparts <- strsplit(c("a/b/c", "a/b/d", "a/b/e/f/g", "a/b/hi"), "/")
-#'
-#' # Remove the common parts of the paths
-#' relparts <- removeCommonRoot(absparts)
-#' relparts
-#'
-#' # The extracted root is returned in attribute "root"
-#' attr(relparts, "root")
-removeCommonRoot <- function(x)
-{
-  maxi <- max(sapply(x, length))
-
-  i <- 1
-
-  while (i < maxi && kwb.utils::allAreEqual(sapply(x, "[", i))) {
-    i <- i + 1
-  }
-
-  indices <- seq_len(i - 1)
-
-  # Determine the root path
-  root <- kwb.utils::collapsed(x[[1]][indices], "/")
-
-  # Remove the first i - 1 parts of each list entry, set attribute "root"
-  structure(lapply(x, function(xx) xx[- indices]), root = root)
 }
 
 # getDictOneByOne --------------------------------------------------------------
@@ -143,16 +87,6 @@ getFrequencies <- function(subdirs = splitPaths(paths), paths = NULL,
 
     if (first.only) y[1] else y
   })
-}
-
-# splitPaths -------------------------------------------------------------------
-splitPaths <- function(paths, dbg = TRUE)
-{
-  kwb.utils::catIf(dbg, "Splitting paths... ")
-  result <- strsplit(paths, "/")
-  kwb.utils::catIf(dbg, "ok.\n")
-
-  result
 }
 
 # sortedImportance -------------------------------------------------------------
