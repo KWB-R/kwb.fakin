@@ -32,9 +32,3 @@ isASCII <- function(x)
   asc <- iconv(x, "latin1", "ASCII")
   ! is.na(asc) & asc == x
 }
-
-# isPlaceholder ----------------------------------------------------------------
-isPlaceholder <- function(x)
-{
-  grepl("^<[^<>]+>$", x)
-}

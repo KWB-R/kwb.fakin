@@ -58,30 +58,6 @@ toCumulativeID <- function(subdirs)
   cumids
 }
 
-# toFrequencyData --------------------------------------------------------------
-toFrequencyData <- function(freqs)
-{
-  f <- sort(unlist(freqs), decreasing = TRUE)
-
-  pathlen <- nchar(names(f))
-  count <- f / pathlen
-
-  data.frame(
-    path = names(f),
-    score = f,
-    length = pathlen,
-    count = count,
-    stringsAsFactors = FALSE,
-    row.names = NULL
-  )
-}
-
-# toPlaceholder ----------------------------------------------------------------
-toPlaceholder <- function(x)
-{
-  paste0("<", x, ">")
-}
-
 # toDataFrame ------------------------------------------------------------------
 toDataFrame <- function(x)
 {
@@ -90,25 +66,4 @@ toDataFrame <- function(x)
   } else {
     data.frame(x = x, stringsAsFactors = FALSE)
   }
-}
-
-# toDictionary -----------------------------------------------------------------
-toDictionary <- function(x, prefix = "a", leading.zeros = FALSE)
-{
-  dict <- as.list(names(sortedImportance(x)))
-  structure(dict, names = toKey(seq_along(dict), prefix, leading.zeros))
-}
-
-# toKey ------------------------------------------------------------------------
-toKey <- function(i, prefix = "p", leading.zeros = FALSE)
-{
-  #fmt <- "p%05X"
-  fmt <- if (leading.zeros) {
-    digits <- nchar(toKey(length(i), ""))
-    paste0("%s%0", digits, "X")
-  } else {
-    "%s%X"
-  }
-
-  sprintf(fmt, prefix, i)
 }

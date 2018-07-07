@@ -101,3 +101,15 @@ removeCommonRoot <- function(x)
   structure(lapply(x, function(xx) xx[- indices]), root = root)
 }
 
+# lookup -----------------------------------------------------------------------
+lookup <- function(x, dict)
+{
+  #x <- old_dirs; dict <- old_dict
+
+  ready <- x %in% toPlaceholder(names(dict))
+
+  out <- x
+  out[! ready] <- toPlaceholder(names(dict[match(x[! ready], dict)]))
+
+  out
+}

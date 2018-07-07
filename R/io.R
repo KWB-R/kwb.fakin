@@ -76,13 +76,6 @@ read_paths <- function(file, encoding = NULL, do_sort = TRUE)
   paths
 }
 
-# printFreqs -------------------------------------------------------------------
-printFreqs <- function(x, maxchar = 80)
-{
-  x$path <- substr(x$path, 1, maxchar)
-  print(x)
-}
-
 # writePathsToFiles ------------------------------------------------------------
 writePathsToFiles <- function(xall, file)
 {
@@ -91,17 +84,5 @@ writePathsToFiles <- function(xall, file)
     file.out <- sub(".txt", paste0("_", LETTERS[i], ".txt"), file)
 
     kwb.utils::writeText(xall[[i]], file = file.out)
-  }
-}
-
-# logResultIf ------------------------------------------------------------------
-logResultIf <- function(dbg, x, y)
-{
-  if (dbg) {
-
-    kwb.utils::catLines(c("\n### x:", x))
-    kwb.utils::catLines(c("\n### y:", y))
-    cat("\n### str(dict):\n")
-    utils::str(kwb.utils::getAttribute(y, "dict"))
   }
 }
