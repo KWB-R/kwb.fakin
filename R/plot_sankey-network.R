@@ -34,7 +34,9 @@ get_path_network <- function(paths, max_depth = 3)
   # kwb.utils::assignPackageObjects("kwb.fakin")
 
   # Create data frame with each column representing a folder depth level
-  folder_data <- as_no_factor_data_frame(toSubdirMatrix(splitPaths(paths)))
+  folder_data <- kwb.utils::asNoFactorDataFrame(
+    toSubdirMatrix(splitPaths(paths))
+  )
 
   # Reduce max_depth to the number of available columns
   max_depth <- min(max_depth, ncol(folder_data))
@@ -51,7 +53,9 @@ get_path_network <- function(paths, max_depth = 3)
   links$source <- get_matching_index(links$source)
   links$target <- get_matching_index(links$target)
 
-  nodes <- no_factor_data_frame(path = node_names, name = basename(node_names))
+  nodes <- kwb.utils::noFactorDataFrame(
+    path = node_names, name = basename(node_names)
+  )
 
   list(links = links, nodes = nodes)
 }
@@ -74,21 +78,9 @@ get_links_at_depth <- function(i, folder_data)
   )
 
   # Create the data frame linking source to target nodes with value as weight
-  no_factor_data_frame(
+  kwb.utils::noFactorDataFrame(
     source = n_columns_to_path(n_files, i - 1),
     target = n_columns_to_path(n_files, i),
     value = n_files$x
   )
-}
-
-# as_no_factor_data_frame ------------------------------------------------------
-as_no_factor_data_frame <- function(...)
-{
-  as.data.frame(..., stringsAsFactors = FALSE)
-}
-
-# no_factor_data_frame ---------------------------------------------------------
-no_factor_data_frame <- function(...)
-{
-  data.frame(..., stringsAsFactors = FALSE)
 }
