@@ -3,9 +3,10 @@ Type: Package
 Title: Functions Used in Our Fakin Project
 Version: 0.2.0.9000
 Authors@R: c(
-    person("Hauke", "Sonnenberg", , "hauke.sonnenberg@kompetenz-wasser.de", role = c("aut", "cre")),
-    person("Michael", "Rustler", , "michael.rustler@kompetenz-wasser.de", role = c("ctb"), 
-    comment = c(ORCID = "0000-0003-0647-7726")),
+    person("Hauke", "Sonnenberg", , "hauke.sonnenberg@kompetenz-wasser.de", 
+           role = c("aut", "cre"), comment = c(ORCID = "0000-0001-9134-2871")),
+    person("Michael", "Rustler", , "michael.rustler@kompetenz-wasser.de", 
+           role = c("ctb"), comment = c(ORCID = "0000-0003-0647-7726")),
     person("Kompetenzzentrum Wasser Berlin gGmbH", role = c("cph")))
 Description: This package contains all functions and evaluations related to
     KWB project "FAKIN". Set the Subversion setting 'enable-auto-props' to 'yes' 
