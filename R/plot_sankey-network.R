@@ -42,10 +42,7 @@ get_path_network <- function(paths, max_depth = 3)
 
   link_list <- lapply(2:max_depth, function(i) {
 
-    base_path_data <- as.data.frame(
-      folder_matrix[, seq_len(i)],
-      stringsAsFactors = FALSE
-    )
+    base_path_data <- as_no_factor_data_frame(folder_matrix[, seq_len(i)])
 
     names(base_path_data) <- paste0("V", seq_len(i))
 
@@ -61,16 +58,13 @@ get_path_network <- function(paths, max_depth = 3)
 
     paste_to_path <- function(x) {
 
-      kwb.utils::pasteColumns(sep = "/", as.data.frame(
-        x, stringsAsFactors = FALSE
-      ))
+      kwb.utils::pasteColumns(sep = "/", as_no_factor_data_frame(x))
     }
 
-    data.frame(
+    no_factor_data_frame(
       source = paste_to_path(files_per_base_path[, seq_len(i - 1)]),
       target = paste_to_path(files_per_base_path[, seq_len(i)]),
-      value = files_per_base_path[, i + 1],
-      stringsAsFactors = FALSE
+      value = files_per_base_path[, i + 1]
     )
   })
 
@@ -83,11 +77,19 @@ get_path_network <- function(paths, max_depth = 3)
   links$source <- get_matching_index(links$source)
   links$target <- get_matching_index(links$target)
 
-  nodes <- data.frame(
-    path = node_names,
-    name = basename(node_names),
-    stringsAsFactors = FALSE
-  )
+  nodes <- no_factor_data_frame(path = node_names, name = basename(node_names))
 
   list(links = links, nodes = nodes)
+}
+
+# as_no_factor_data_frame ------------------------------------------------------
+as_no_factor_data_frame <- function(...)
+{
+  as.data.frame(..., stringsAsFactors = FALSE)
+}
+
+# no_factor_data_frame ---------------------------------------------------------
+no_factor_data_frame <- function(...)
+{
+  data.frame(..., stringsAsFactors = FALSE)
 }
