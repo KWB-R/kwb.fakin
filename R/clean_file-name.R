@@ -9,8 +9,6 @@ if (FALSE)
   # basename() removes the information on the Encoding!
   table(Encoding(file_names_raw <- basename(paths)))
 
-  (x <- file_names[21:30])
-
   file_names <- file_names_raw
 
   # Neglect files starting or ending with "~" (backup files?)
