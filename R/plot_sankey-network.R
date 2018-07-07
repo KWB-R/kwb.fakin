@@ -31,44 +31,44 @@ plot_path_network <- function(paths, max_depth = 2, ...)
 # get_path_network -------------------------------------------------------------
 get_path_network <- function(paths, max_depth = 3)
 {
+  # Create matrix with each column representing a folder depth level
   folder_matrix <- toSubdirMatrix(splitPaths(paths))
 
-  #folder_matrix <- cbind("<root>", folder_matrix)
+  # Convert to data frame
+  folder_data <- as_no_factor_data_frame(folder_matrix)
 
-  # Reduce max_depth to the number of columns
+  # Reduce max_depth to the number of available columns
   max_depth <- min(max_depth, ncol(folder_matrix))
 
+  # We need at least a depth of two
   stopifnot(max_depth >= 2)
 
-  link_list <- lapply(2:max_depth, function(i) {
+  # Define helper function
+  columns_to_path <- function(...) kwb.utils::pasteColumns(..., sep = "/")
 
-    base_path_data <- as_no_factor_data_frame(folder_matrix[, seq_len(i)])
+  links <- do.call(rbind, lapply(2:max_depth, function(i) {
 
-    names(base_path_data) <- paste0("V", seq_len(i))
+    column_indices <- seq_len(i)
+    column_names <- paste0("V", column_indices)
 
-    columns <- paste0("V", seq_len(i))
+    base_path_data <- stats::setNames(folder_data[, column_indices], column_names)
 
-    files_per_base_path <- stats::aggregate(
+    files_per_path <- stats::aggregate(
       rep(1, nrow(base_path_data)),
-      by = kwb.utils::selectColumns(base_path_data, columns, drop = FALSE),
+      by = kwb.utils::selectColumns(base_path_data, column_names, drop = FALSE),
       FUN = length
     )
 
-    files_per_base_path <- files_per_base_path[files_per_base_path[, i] != "", ]
+    # Exclude rows being empty in the i-th column
+    files_per_path <- files_per_path[files_per_path[, i] != "", ]
 
-    paste_to_path <- function(x) {
-
-      kwb.utils::pasteColumns(sep = "/", as_no_factor_data_frame(x))
-    }
-
+    # Create the data frame linking source to target nodes with value as weight
     no_factor_data_frame(
-      source = paste_to_path(files_per_base_path[, seq_len(i - 1)]),
-      target = paste_to_path(files_per_base_path[, seq_len(i)]),
-      value = files_per_base_path[, i + 1]
+      source = columns_to_path(files_per_path, column_names[seq_len(i - 1)]),
+      target = columns_to_path(files_per_path, column_names),
+      value = files_per_path[, i + 1]
     )
-  })
-
-  links <- do.call(rbind, link_list)
+  }))
 
   node_names <- unique(unlist(links[, -3]))
 
