@@ -36,6 +36,37 @@ paths <- c(
 )
 ```
 
+## Plotting Paths
+
+Let's get a first impression on the paths defined above by plotting them. We 
+provide a plot function that uses the `sankeyNetwork()` function from the 
+networkD3 package. Make sure that this package is installed:
+
+```{r}
+if (! require("networkD3")) install.packages("networkD3")
+```
+
+You can then use the `plot_path_network()` function from the kwb.fakin package
+to plot the example paths defined above:
+
+```{r}
+kwb.fakin::plot_path_network(paths)
+```
+
+The function accepts all arguments provided by `networkD3::sankeyNetwork()`.
+You may e.g. use the argument `fontSize` to increase the node labels:
+
+```{r}
+kwb.fakin::plot_path_network(paths, fontSize = 16)
+```
+
+By default only the first two levels of folders or files are shown. You can
+increase the folder level by setting the `max_depth` argument:
+
+```{r}
+kwb.fakin::plot_path_network(paths, max_depth = 4, fontSize = 16)
+```
+
 ## Quality of File and Folder Names
 
 The automatic processing of files may fail due to special characters (e.g. 

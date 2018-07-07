@@ -35,7 +35,7 @@ get_path_network <- function(paths, max_depth = 3)
 
   # Create data frame with each column representing a folder depth level
   folder_data <- kwb.utils::asNoFactorDataFrame(
-    toSubdirMatrix(splitPaths(paths))
+    toSubdirMatrix(splitPaths(paths, dbg = FALSE))
   )
 
   # Reduce max_depth to the number of available columns
