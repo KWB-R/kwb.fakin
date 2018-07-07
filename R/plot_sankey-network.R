@@ -31,14 +31,11 @@ plot_path_network <- function(paths, max_depth = 2, ...)
 # get_path_network -------------------------------------------------------------
 get_path_network <- function(paths, max_depth = 3)
 {
-  # Create matrix with each column representing a folder depth level
-  folder_matrix <- toSubdirMatrix(splitPaths(paths))
-
-  # Convert to data frame
-  folder_data <- as_no_factor_data_frame(folder_matrix)
+  # Create data frame with each column representing a folder depth level
+  folder_data <- as_no_factor_data_frame(toSubdirMatrix(splitPaths(paths)))
 
   # Reduce max_depth to the number of available columns
-  max_depth <- min(max_depth, ncol(folder_matrix))
+  max_depth <- min(max_depth, ncol(folder_data))
 
   # We need at least a depth of two
   stopifnot(max_depth >= 2)
@@ -46,29 +43,7 @@ get_path_network <- function(paths, max_depth = 3)
   # Define helper function
   columns_to_path <- function(...) kwb.utils::pasteColumns(..., sep = "/")
 
-  links <- do.call(rbind, lapply(2:max_depth, function(i) {
-
-    column_indices <- seq_len(i)
-    column_names <- paste0("V", column_indices)
-
-    base_path_data <- stats::setNames(folder_data[, column_indices], column_names)
-
-    files_per_path <- stats::aggregate(
-      rep(1, nrow(base_path_data)),
-      by = kwb.utils::selectColumns(base_path_data, column_names, drop = FALSE),
-      FUN = length
-    )
-
-    # Exclude rows being empty in the i-th column
-    files_per_path <- files_per_path[files_per_path[, i] != "", ]
-
-    # Create the data frame linking source to target nodes with value as weight
-    no_factor_data_frame(
-      source = columns_to_path(files_per_path, column_names[seq_len(i - 1)]),
-      target = columns_to_path(files_per_path, column_names),
-      value = files_per_path[, i + 1]
-    )
-  }))
+  links <- do.call(rbind, lapply(2:max_depth, get_links_at_depth, folder_data))
 
   node_names <- unique(unlist(links[, -3]))
 
@@ -80,6 +55,32 @@ get_path_network <- function(paths, max_depth = 3)
   nodes <- no_factor_data_frame(path = node_names, name = basename(node_names))
 
   list(links = links, nodes = nodes)
+}
+
+# get_links_at_depth -----------------------------------------------------------
+get_links_at_depth <- function(i, folder_data)
+{
+  (column_indices <- seq_len(i))
+  (column_names <- paste0("V", column_indices))
+
+  source_data <- stats::setNames(folder_data[, column_indices], column_names)
+
+  # Count the number of files per path
+  files_per_path <- stats::aggregate(
+    rep(1, nrow(source_data)),
+    by = source_data,
+    FUN = length
+  )
+
+  # Exclude rows being empty in the i-th column
+  files_per_path <- files_per_path[files_per_path[, i] != "", ]
+
+  # Create the data frame linking source to target nodes with value as weight
+  no_factor_data_frame(
+    source = columns_to_path(files_per_path, column_names[seq_len(i - 1)]),
+    target = columns_to_path(files_per_path, column_names),
+    value = files_per_path[, i + 1]
+  )
 }
 
 # as_no_factor_data_frame ------------------------------------------------------
