@@ -83,7 +83,7 @@
       <h1>Understanding Encoding</h1>
                         <h4 class="author">Hauke Sonnenberg</h4>
             
-            <h4 class="date">2018-07-01</h4>
+            <h4 class="date">2018-07-07</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/kwb-r/kwb.fakin/blob/master/vignettes/understanding_encoding.Rmd"><code>vignettes/understanding_encoding.Rmd</code></a></small>
       <div class="hidden name"><code>understanding_encoding.Rmd</code></div>
@@ -134,7 +134,7 @@ xx <span class="co"># will be encoded in hex</span>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">text &lt;-<span class="st"> "Schöne Grüße"</span>
 
 test_file &lt;-<span class="st"> </span>kwb.utils::<span class="kw">writeText</span>(text, <span class="kw">tempfile</span>(<span class="dt">fileext =</span> <span class="st">".txt"</span>))
-<span class="co">#&gt; Writing '/tmp/RtmpJQ2weB/file5c10472975c0.txt' ... ok.</span></code></pre></div>
+<span class="co">#&gt; Writing '/tmp/Rtmp0f4z6J/file2dea71ad1bd8.txt' ... ok.</span></code></pre></div>
 <p>And now read the line back with <code>readLines()</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">readLines</span>(test_file)
 <span class="co">#&gt; [1] "Schöne Grüße"</span></code></pre></div>
@@ -209,10 +209,13 @@ test_file &lt;-<span class="st"> </span>kwb.utils::<span class="kw">writeText</s
 <p>Ok, it seems that we can replace special characters if we know their byte codes (here: <code>c3</code> and <code>b6</code> for letter <code>ö</code>).</p>
 <p>It will be helpful to have a function that shows the special characters and the corresponding byte codes</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kwb.fakin::<span class="kw"><a href="../reference/get_special_character_info.html">get_special_character_info</a></span>(text)
-<span class="co">#&gt;   special bytes</span>
-<span class="co">#&gt; 1       ö c3 b6</span>
-<span class="co">#&gt; 2       ü c3 bc</span>
-<span class="co">#&gt; 3       ß c3 9f</span></code></pre></div>
+<span class="co">#&gt;   special bytes          context</span>
+<span class="co">#&gt; 1    \xc3    c3 Sch [ ö ] ne Grü</span>
+<span class="co">#&gt; 2    \xb6    b6  öne Gr [ ü ] ße</span>
+<span class="co">#&gt; 3    \xc3    c3   ne Grü [ ß ] e</span>
+<span class="co">#&gt; 4    \xbc    bc Sch [ ö ] ne Grü</span>
+<span class="co">#&gt; 5    \xc3    c3  öne Gr [ ü ] ße</span>
+<span class="co">#&gt; 6    \x9f    9f   ne Grü [ ß ] e</span></code></pre></div>
 </div>
   </div>
 

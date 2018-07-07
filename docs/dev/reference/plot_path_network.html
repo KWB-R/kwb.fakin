@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get Special Characters and Their Byte Codes — get_special_character_info • kwb.fakin</title>
+<title>Plot Paths as Sankey Network — plot_path_network • kwb.fakin</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,9 +28,9 @@
 
 
 
-<meta property="og:title" content="Get Special Characters and Their Byte Codes — get_special_character_info" />
+<meta property="og:title" content="Plot Paths as Sankey Network — plot_path_network" />
 
-<meta property="og:description" content="Get Special Characters and Their Byte Codes" />
+<meta property="og:description" content="Plot Paths as Sankey Network" />
 <meta name="twitter:card" content="summary" />
 
 <meta name="robots" content="noindex">
@@ -111,53 +111,48 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get Special Characters and Their Byte Codes</h1>
-    <small class="dont-index">Source: <a href='https://github.com/kwb-r/kwb.fakin/blob/master/R/specialChars.R'><code>R/specialChars.R</code></a></small>
-    <div class="hidden name"><code>get_special_character_info.Rd</code></div>
+    <h1>Plot Paths as Sankey Network</h1>
+    <small class="dont-index">Source: <a href='https://github.com/kwb-r/kwb.fakin/blob/master/R/plot_sankey-network.R'><code>R/plot_sankey-network.R</code></a></small>
+    <div class="hidden name"><code>plot_path_network.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Get Special Characters and Their Byte Codes</p>
+    <p>Plot Paths as Sankey Network</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>get_special_character_info</span>(<span class='no'>text</span>, <span class='kw'>context_length</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>bytes_per_char</span> <span class='kw'>=</span> <span class='fl'>2</span>)</pre>
+    <pre class="usage"><span class='fu'>plot_path_network</span>(<span class='no'>paths</span>, <span class='kw'>max_depth</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>text</th>
-      <td><p>vector of character of length one</p></td>
+      <th>paths</th>
+      <td><p>character vector of paths</p></td>
     </tr>
     <tr>
-      <th>context_length</th>
-      <td><p>number of characters left and right of special
-character to be put into column <code>context</code></p></td>
+      <th>max_depth</th>
+      <td><p>maximum depth of paths to be shown</p></td>
     </tr>
     <tr>
-      <th>bytes_per_char</th>
-      <td><p>number of bytes per character</p></td>
+      <th>&#8230;</th>
+      <td><p>arguments passed to <code><a href='http://www.rdocumentation.org/packages/networkD3/topics/sankeyNetwork'>sankeyNetwork</a></code>, such
+as <code>nodeWidth</code>, <code>nodePadding</code>, <code>fontSize</code></p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data frame with columns <code>special</code> (special characters) and
-  <code>bytes</code> (hexadecimanl byte codes as a space separated string),
-  <code>context</code> (strings "around" the special characters)</p>
+    <p>object representing an HTML page</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>(<span class='no'>text</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>kwb.fakin</span><span class='kw ns'>:::</span><span class='fu'>example_string_with_specials</span>(<span class='st'>"de"</span>))</div><div class='output co'>#&gt; [1] "Schöne Grüße"</div><div class='input'>
-<span class='fu'>get_special_character_info</span>(<span class='no'>text</span>)</div><div class='output co'>#&gt;   special bytes          context
-#&gt; 1    \xc3    c3 Sch [ ö ] ne Grü
-#&gt; 2    \xb6    b6  öne Gr [ ü ] ße
-#&gt; 3    \xc3    c3   ne Grü [ ß ] e
-#&gt; 4    \xbc    bc Sch [ ö ] ne Grü
-#&gt; 5    \xc3    c3  öne Gr [ ü ] ße
-#&gt; 6    \x9f    9f   ne Grü [ ß ] e</div><div class='input'>
+    <pre class="examples"><div class='input'><span class='co'># Get the paths to all folders on the desktop</span>
+<span class='no'>paths</span> <span class='kw'>&lt;-</span> <span class='fu'>dir</span>(<span class='fu'>system.file</span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"kwb.fakin"</span>), <span class='kw'>recursive</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
+<span class='co'># Plot the folder network</span>
+<span class='fu'>plot_path_network</span>(<span class='no'>paths</span>)</div><div class='output co'>#&gt; Splitting paths... ok.</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

@@ -22,7 +22,7 @@ Plot Paths as Sankey Network
 }
 \examples{
 # Get the paths to all folders on the desktop
-paths <- dirname(dir(kwb.utils::desktop(), recursive = TRUE))
+paths <- dir(system.file(package = "kwb.fakin"), recursive = TRUE)
 
 # Plot the folder network
 plot_path_network(paths)
