@@ -38,6 +38,18 @@ if (FALSE)
   file_names <- standardise_file_names(file_names)
 }
 
+# get_non_standard_names -------------------------------------------------------
+get_non_standard_names <- function(x)
+{
+  x[is_non_standard_name(x)]
+}
+
+# is_non_standard_name ---------------------------------------------------------
+is_non_standard_name <- function(x)
+{
+  ! grepl("^[A-Za-z0-9 $_./-]+$", x)
+}
+
 # clean_file_name --------------------------------------------------------------
 clean_file_name <- function(x)
 {
@@ -116,24 +128,6 @@ clean_file_name <- function(x)
   x
 }
 
-# utf8_to_iso_8859_1 -----------------------------------------------------------
-utf8_to_iso_8859_1 <- function(x)
-{
-  iconv(x, from = "UTF-8", to = "ISO-8859-1")
-}
-
-# get_non_standard_names -------------------------------------------------------
-get_non_standard_names <- function(x)
-{
-  x[is_non_standard_name(x)]
-}
-
-# is_non_standard_name ---------------------------------------------------------
-is_non_standard_name <- function(x)
-{
-  ! grepl("^[A-Za-z0-9 $_./-]+$", x)
-}
-
 # standardise_file_names -------------------------------------------------------
 standardise_file_names <- function(x)
 {
@@ -142,16 +136,4 @@ standardise_file_names <- function(x)
     "\xdc" = "Ue",
     "[ -]+" = "-"
   ))
-}
-
-# restoreEncoding --------------------------------------------------------------
-restoreEncoding <- function(x, FUN, ...)
-{
-  encodings <- Encoding(x)
-
-  result <- FUN(x, ...)
-
-  Encoding(result) <- encodings
-
-  result
 }
