@@ -1,0 +1,65 @@
+---
+title: "Analysing R Scripts"
+author: "Hauke Sonnenberg"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Analysing R Scripts}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+It is quite impressive how more and more people at our research institute
+[Kompetenzzentrum Wasser Berlin](http://komptenz-wasser.de) began to use
+the programming language R to support their data-related work.
+As a result, if we are currently counting more than one thousand R scripts in 
+our internal version control system.
+
+It is difficult to keep control over so many files. 
+Therefore, this package contains a function that aims at giving an overview
+over R script files and the functions defined within these files.
+Use the function `report_about_r_scripts()` to create an R Markdown document 
+about all the R script files below a certain root directory:
+
+```{r report-example, eval = FALSE}
+kwb.fakin::report_about_r_scripts(root = "path/to/your/script/folder")
+```
+
+With the (private) helper functions `github_package_path()` and
+`github_package_files()` that are also contained in the package, we can also 
+report on the R files that are contained in an R package hosted on 
+[GitHub](https://github.com).
+For example, we can have a look at the files that are contained in this package
+kwb.fakin:
+
+```{r report-scripts}
+repo <- "kwb-r/kwb.fakin"
+
+kwb.fakin::report_about_r_scripts(
+  root = kwb.fakin:::github_package_path(repo, "R"),
+  scripts = kwb.fakin:::github_package_files(repo, "R"),
+  show = FALSE
+)
+```
+
+We set `show` to `FALSE` in order to prevent that the created HTML file is
+opened in a browser. 
+
+A shortcut to the above call is:
+
+```{r report-github-fakin, eval = FALSE}
+kwb.fakin:::report_about_github_package("kwb-r/kwb.fakin", show = FALSE)
+```
+
+It is up to you to compare with what the great guys do. Try e.g.
+
+```{r report-github-dplyr, eval = FALSE}
+kwb.fakin:::report_about_github_package("tidyverse/dplyr")
+```
