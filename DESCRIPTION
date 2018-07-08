@@ -16,11 +16,13 @@ Remotes:
     github::kwb-r/kwb.utils,
     github::kwb-r/kwb.plot
 Suggests: 
-    testthat,
-    knitr,
-    rmarkdown,
     covr,
-    networkD3
+    jsonlite,
+    knitr,
+    kwb.code,
+    networkD3,
+    rmarkdown,
+    testthat
 License: MIT + file LICENSE
 LazyData: TRUE
 RoxygenNote: 6.0.1
