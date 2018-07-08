@@ -8,9 +8,11 @@ flatten_tree <- function(x)
     do.call(c, lapply(seq_along(x), function(i) {
 
       sub_paths <- flatten_tree(x[[i]])
+
       available <- sub_paths != ""
 
       paths <- rep(keys[i], length(sub_paths))
+
       paths[available] <- paste0(paths[available], "/", sub_paths[available])
 
       paths
@@ -35,7 +37,9 @@ to_tree <- function(x)
 
   # Keep only elements of non-zero depth
   selected <- depths > 0
+
   x <- x[selected]
+
   depths <- depths[selected]
 
   # Get first level folders/files
@@ -54,6 +58,7 @@ to_tree <- function(x)
   if (any(is_tree)) {
 
     trees <- lapply(split(x[is_tree], first_elements[is_tree]), lapply, "[", -1)
+
     trees <- lapply(trees, to_tree)
 
   } else {

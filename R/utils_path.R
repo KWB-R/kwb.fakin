@@ -12,7 +12,9 @@ splitPaths <- function(paths, dbg = TRUE)
 getSubdirsByFrequence <- function(subdirs, cumid, freqinfo, dbg = TRUE)
 {
   kwb.utils::printIf(dbg, freqinfo)
+
   rows <- which(cumid[, freqinfo$depth] == freqinfo$n.x)[1]
+
   subdirs[rows, seq_len(freqinfo$depth)]
 }
 
@@ -20,12 +22,16 @@ getSubdirsByFrequence <- function(subdirs, cumid, freqinfo, dbg = TRUE)
 replaceSubdirs <- function(s, r, p)
 {
   selected <- startsWithParts(s, r)
+
   cols <- seq(length(r) + 1, ncol(s))
+
   fillright <- matrix(nrow = sum(selected), ncol = length(r) -1)
+
   s[selected, ] <- cbind(p, s[selected, cols, drop = FALSE], fillright)
 
   # Remove empty columns
   maxcol <- max(which(apply(s, 2, function(x) sum(! is.na(x))) > 0))
+
   s[, seq_len(maxcol)]
 }
 
@@ -39,11 +45,14 @@ replaceSubdirs <- function(s, r, p)
 #' @return vector of logical as long as \code{parts} containing \code{TRUE} at
 #'   positions \code{i} for which \code{all(parts[[i]][seq_along(elements)] ==
 #'   elements)} is \code{TRUE}
+#'
 #' @export
+#'
 #' @examples
 #' parts <- strsplit(c("a/b/c", "a/b/d", "b/c"), "/")
 #' startsWithParts(parts, c("a", "b"))
 #' startsWithParts(parts, c("b", "c"))
+#'
 startsWithParts <- function(parts, elements)
 {
   stopifnot(is.list(parts) || is.matrix(parts))
@@ -52,13 +61,20 @@ startsWithParts <- function(parts, elements)
   indices <- seq_along(elements)
 
   if (is.list(parts)) {
+
     selected <- rep(TRUE, length(parts))
+
     for (i in indices) {
+
       selected <- selected & sapply(parts, "[", i) == elements[i]
     }
+
   } else {
+
     selected <- rep(TRUE, nrow(parts))
+
     for (i in seq_along(elements)) {
+
       selected <- selected & ! is.na(parts[, i]) & (parts[, i] == elements[i])
     }
   }
@@ -89,6 +105,7 @@ removeCommonRoot <- function(x)
   i <- 1
 
   while (i < maxi && kwb.utils::allAreEqual(sapply(x, "[", i))) {
+
     i <- i + 1
   }
 
@@ -109,6 +126,7 @@ lookup <- function(x, dict)
   ready <- x %in% toPlaceholder(names(dict))
 
   out <- x
+
   out[! ready] <- toPlaceholder(names(dict[match(x[! ready], dict)]))
 
   out

@@ -82,11 +82,8 @@ subtree_for_treejack <- function(
 # check_or_set_ending_slash ----------------------------------------------------
 check_or_set_ending_slash <- function(x)
 {
-  if (! grepl("/$", x)) {
-    x <- paste0(x, "/")
-  }
-
-  x
+  # Add slash to the end and replace multiple occurrences of slash at the end
+  gsub("/+$", "/", paste0(x, "/"))
 }
 
 # all_path_levels --------------------------------------------------------------
@@ -107,7 +104,11 @@ check_or_set_ending_slash <- function(x)
 all_path_levels <- function(path)
 {
   parts <- strsplit(path, "/")[[1]]
-  sapply(seq_along(parts), function(i) kwb.utils::collapsed(parts[seq_len(i)], "/"))
+
+  sapply(seq_along(parts), function(i) {
+
+    paste(parts[seq_len(i)], collapse = "/")
+  })
 }
 
 # get_example_leafs ------------------------------------------------------------
@@ -117,14 +118,17 @@ get_example_leafs <- function(size = 10, depth = 5)
   stopifnot(size < 1000)
 
   indentation <- function(depth, sep = "\t") {
+
     do.call(paste0, as.list(rep(sep, depth)))
   }
 
   folderInDepth <- function(i, prefix = "") {
+
     paste0(indentation(i-1), prefix, LETTERS[i])
   }
 
   unlist(lapply(sprintf("T%02d_", seq_len(size)), function(prefix) {
+
     sapply(seq_len(depth), folderInDepth, prefix = prefix)
   }))
 }
@@ -137,10 +141,12 @@ to_leaf_matrix <- function(subdirs)
     i_last <- max(which(row != ""))
 
     if (i_last > 1) {
+
       row[seq(1, i_last - 1)] <- NA
     }
 
     if (i_last < ncol(subdirs)) {
+
       row[seq(i_last + 1, ncol(subdirs))] <- NA
     }
 
