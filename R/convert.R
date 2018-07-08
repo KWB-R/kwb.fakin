@@ -2,7 +2,9 @@
 toLongPath <- function(shortpath, dict)
 {
   indices <- match(shortpath, names(dict))
+
   parts <- as.character(dict)[indices]
+
   kwb.utils::collapsed(parts, "/")
 }
 
@@ -10,8 +12,8 @@ toLongPath <- function(shortpath, dict)
 toSubdirMatrix <- function(dirparts, fill.value = "")
 {
   if (! is.list(dirparts) || ! all(sapply(dirparts, mode) == "character")) {
-    stop("toSubdirMatrix(): dirparts must be a list of character vectors!",
-         call. = FALSE)
+
+    stop_("toSubdirMatrix(): dirparts must be a list of character vectors!")
   }
 
   # Get the maximum path depth
@@ -19,10 +21,17 @@ toSubdirMatrix <- function(dirparts, fill.value = "")
 
   # Extend all list entries to the same length filling with ""
   extend <- function(x, length) c(x, rep(fill.value, maxdepth - length(x)))
+
   dirparts <- lapply(dirparts, extend, maxdepth)
 
   # Create a matrix of subdirectories
   matrix(unlist(dirparts), nrow = length(dirparts), byrow = TRUE)
+}
+
+# stop_ ------------------------------------------------------------------------
+stop_ <- function(...)
+{
+  stop(..., call. = FALSE)
 }
 
 # maxdepth ---------------------------------------------------------------------
@@ -35,6 +44,7 @@ maxdepth <- function(parts = splitPaths(paths), paths = NULL)
 toCumulativeID <- function(subdirs)
 {
   cumpaths <- matrix(nrow = nrow(subdirs), ncol = ncol(subdirs))
+
   cumids <- cumpaths
 
   cat("depth: 00")
@@ -42,11 +52,15 @@ toCumulativeID <- function(subdirs)
   for (depth in seq_len(ncol(subdirs))) {
 
     cat(sprintf("\b\b%2d", depth))
+
     reached <- ! is.na(subdirs[, depth])
 
     cumpaths[reached, depth] <- if (depth > 1) {
+
       paste0(cumpaths[reached, depth - 1], subdirs[reached, depth])
+
     } else {
+
       subdirs[reached, depth]
     }
 
