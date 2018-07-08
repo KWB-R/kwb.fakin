@@ -7,9 +7,10 @@ cut_left <- function(x, start_string)
 
   if (! all(matching)) {
 
-    stop(
-      sum(! matching), " strings in x do not start with '", start_string, "'!"
-    )
+    stop_(sprintf(
+      "%d strings in '%s' do not start with '%s'!",
+      sum(! matching), deparse(substitute(x)), start_string
+    ))
   }
 
   substr(x, string_length + 1, nchar(x))

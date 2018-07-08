@@ -27,9 +27,12 @@ createLocalProject <- function(project)
   }
 
   paths[index]
+
   projects[index]
 
-  targetdir <- file.path(kwb.utils::get_homedir(), "Documents/Projekte", projects[index])
+  targetdir <- file.path(
+    kwb.utils::get_homedir(), "Documents/Projekte", projects[index]
+  )
 
   kwb.utils::createDirectory(targetdir)
 

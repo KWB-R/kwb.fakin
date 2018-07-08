@@ -13,16 +13,19 @@ plot_biggest_folders <- function(tree, max_depth = 5, to_pdf = TRUE)
   pdf_file <- kwb.utils::preparePdfIf(to_pdf)
 
   kwb.plot::setMargins(left = 15)
+
   depth <- 0
 
   while (depth < max_depth) {
 
     tree_paths <- lapply(tree, flatten_tree)
+
     lengths <- sapply(tree_paths, length)
 
     graphics::barplot(lengths, horiz = TRUE, las = 1, cex.names = 0.8)
 
     tree <- tree[[which.max(lengths)]]
+
     depth <- depth + 1
   }
 
@@ -53,11 +56,13 @@ plot_number_of_elements_per_folder <- function(
   kwb.plot::setMargins(left = 8, right = 0)
 
   par_old <- graphics::par(mfrow = kwb.plot::bestRowColumnSetting(length(x)))
+
   on.exit(graphics::par(par_old))
 
   for (i in seq_along(x)) {
 
     folder <- kwb.utils::shorten(names(x)[i], max_chars)
+
     full_main <- if (main != "") paste(main, folder, sep = "\n") else folder
 
     graphics::barplot(
