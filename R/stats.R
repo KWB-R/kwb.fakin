@@ -1,3 +1,9 @@
+# maxdepth ---------------------------------------------------------------------
+maxdepth <- function(parts = splitPaths(paths), paths = NULL)
+{
+  max(getElementLengths(parts))
+}
+
 # get_file_duplicates ----------------------------------------------------------
 
 #' Get list of paths containing files of the same name
@@ -22,6 +28,7 @@ get_file_duplicates <- function(paths, pattern, ...)
   duplicates_exe <- unique(files_exe[duplicated(files_exe)])
 
   lapply(kwb.utils::toNamedList(duplicates_exe), function(x) {
+
     paths_exe[files_exe == x]
   })
 }
@@ -30,6 +37,7 @@ get_file_duplicates <- function(paths, pattern, ...)
 ascii_stats <- function(x)
 {
   nonAscii <- ! isASCII(x)
+
   100 * prop.table(table(nonAscii))
 }
 
@@ -47,6 +55,7 @@ get_path_stat_matrix <- function(project_folder, template_folders)
   cat("Generating folder statistics for", project_folder, "...\n")
 
   paths <- dir(project_folder, full.names = TRUE, all.files = FALSE)
+
   paths <- remove_unwanted(paths)
 
   stats <- sapply(paths, function(path) {
@@ -70,8 +79,11 @@ get_path_stat_matrix <- function(project_folder, template_folders)
   new_names <- gsub(x, "", old_names, fixed = TRUE)
 
   if (length(dim(stats)) == 2) {
+
     colnames(stats) <- new_names
+
   } else {
+
     names(stats) <- new_names
   }
 
@@ -84,6 +96,7 @@ remove_unwanted <- function(x)
   x <- x[! grepl("(desktop\\.ini|Thumbs\\.db|\\.pdf|\\.lnk)$", x)]
   x <- x[! grepl("(cut and paste from_Proposals|projektspezifisch)$", x)]
   x <- x[! grepl("^_", basename(x))]
+
   x
 }
 

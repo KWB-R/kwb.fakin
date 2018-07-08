@@ -20,12 +20,7 @@ list_files <- function(root, file, use_batch = TRUE)
   # Check the output directory
   kwb.utils::safePath(dirname(file))
 
-  cat_time <- function(tag) {
-
-    cat(paste0("\n", tag, ":"), as.character(Sys.time()), "\n\n")
-  }
-
-  cat_time("Start")
+  catTime("Start")
 
   if (use_batch) {
 
@@ -60,7 +55,7 @@ list_files <- function(root, file, use_batch = TRUE)
     kwb.utils::writeText(paths, file, "paths to")
   }
 
-  cat_time("End")
+  catTime("End")
 }
 
 # write_batch_list_files -------------------------------------------------------

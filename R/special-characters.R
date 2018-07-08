@@ -51,11 +51,10 @@ get_special_character_info <- function(
     )
   })
 
-  data.frame(
+  kwb.utils::noFactorDataFrame(
     special = special_characters,
     bytes = sapply(bytes, collapsed_0),
-    context = contexts,
-    stringsAsFactors = FALSE
+    context = contexts
   )
 }
 
@@ -63,9 +62,12 @@ get_special_character_info <- function(
 example_string_with_specials <- function(language_code)
 {
   if (language_code == "de") {
+
     "Sch\xc3\xb6ne Gr\xc3\xbc\xc3\x9fe"
+
   } else {
-    stop("So far, only implemented for language_code = 'de'", call. = FALSE)
+
+    stop_("So far, only implemented for language_code = 'de'")
   }
 }
 

@@ -28,18 +28,6 @@ toSubdirMatrix <- function(dirparts, fill.value = "")
   matrix(unlist(dirparts), nrow = length(dirparts), byrow = TRUE)
 }
 
-# stop_ ------------------------------------------------------------------------
-stop_ <- function(...)
-{
-  stop(..., call. = FALSE)
-}
-
-# maxdepth ---------------------------------------------------------------------
-maxdepth <- function(parts = splitPaths(paths), paths = NULL)
-{
-  max(sapply(parts, length))
-}
-
 # toCumulativeID ---------------------------------------------------------------
 toCumulativeID <- function(subdirs)
 {
@@ -70,14 +58,4 @@ toCumulativeID <- function(subdirs)
   cat("\n")
 
   cumids
-}
-
-# toDataFrame ------------------------------------------------------------------
-toDataFrame <- function(x)
-{
-  if (is.list(x)) {
-    do.call(data.frame, c(x, stringsAsFactors = FALSE))
-  } else {
-    data.frame(x = x, stringsAsFactors = FALSE)
-  }
 }
