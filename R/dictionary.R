@@ -8,54 +8,44 @@
 getDictOneByOne <- function(paths, n = 10)
 {
   # Get the frequencies of the directory paths
-  freqs <- getFrequencies(paths = paths, first.only = TRUE)
+  frequencies <- getFrequencies(paths = paths, first.only = TRUE)
 
-  Freqs0 <- toFrequencyData(freqs)
+  frequency_data_raw <- toFrequencyData(frequencies)
 
-  dict <- list()
+  frequency_data <- frequency_data_raw
 
-  Freqs <- Freqs0
+  dictionary <- list()
 
-  while (length(dict) < n) {
+  while (length(dictionary) < n) {
 
     # Next key to be used in the dictionary
-    key <- toKey(length(dict) + 1)
+    key <- toKey(length(dictionary) + 1)
 
-    # Rescore and reorder Freqs
-    Freqs$score2 <- (Freqs$length - nchar(toPlaceholder(key))) * Freqs$count
+    # Rescore and reorder frequency_data
+    frequency_data <- rescore_and_reorder_frequency_data(frequency_data, key)
 
-    rank <- order(Freqs$score2, decreasing = TRUE)
-
-    Freqs <- kwb.utils::resetRowNames(Freqs[rank, ])
-
-    printFreqs(Freqs)
+    printFreqs(frequency_data)
 
     # Which is the "winning" path?
-    winner <- Freqs[1, ]
+    winner <- frequency_data[1, ]
 
     # Remove the winning path
-    Freqs <- Freqs[-1, ]
+    frequency_data <- frequency_data[-1, ]
 
     # Put the winning path into the dictionary
-    dict[[key]] <- winner$path
+    dictionary[[key]] <- winner$path
 
-    winner <- cbind(i = length(dict), key = key, winner)
+    winner <- cbind(i = length(dictionary), key = key, winner)
 
-    columns <- c("i", "key", "score", "count", "length")
-
-    winner <- kwb.utils::moveColumnsToFront(winner, columns)
+    winner <- kwb.utils::moveColumnsToFront(winner, main_columns_winner())
 
     print(winner, row.names = FALSE)
 
     # Update the length (reduce by "shortage", the number of saved characters)
-    shortage <- winner$length - nchar(toPlaceholder(key))
-
-    matching <- (substr(Freqs$path, 1, winner$length) == winner$path)
-
-    Freqs[matching, "length"] <- Freqs[matching, "length"] - shortage
+    frequency_data <- update_frequency_data_length(frequency_data, winner, key)
   }
 
-  dict
+  dictionary
 }
 
 # getFrequencies ---------------------------------------------------------------
@@ -63,24 +53,24 @@ getFrequencies <- function(
   subdirs = splitPaths(paths), paths = NULL, first.only = TRUE, dbg = TRUE
 )
 {
-  n.levels <- sapply(subdirs, length)
+  n_levels <- getElementLengths(subdirs)
 
   if (dbg) {
 
     main <- "Distribution of path depths"
 
-    graphics::hist(n.levels, main = main)
+    graphics::hist(n_levels, main = main)
 
-    kwb.utils::printIf(dbg, table(n.levels), main)
+    kwb.utils::printIf(dbg, table(n_levels), main)
   }
 
-  lapply(seq_len(max(n.levels)), function(i) {
+  lapply(seq_len(max(n_levels)), function(i) {
 
-    isLongEnough <- n.levels >= i
+    is_long_enough <- n_levels >= i
 
-    kwb.utils::catIf(dbg, sprintf("i = %d, n = %d...\n", i, sum(isLongEnough)))
+    kwb.utils::catIf(dbg, sprintf("i = %d, n = %d...\n", i, sum(is_long_enough)))
 
-    x <- sapply(subdirs[isLongEnough], function(xx) {
+    x <- sapply(subdirs[is_long_enough], function(xx) {
 
       kwb.utils::collapsed(xx[seq_len(i)], "/")
     })
@@ -133,18 +123,15 @@ sortedImportance <- function(x, weighted = TRUE)
 # toFrequencyData --------------------------------------------------------------
 toFrequencyData <- function(freqs)
 {
-  f <- sort(unlist(freqs), decreasing = TRUE)
+  sorted_frequencies <- sort(unlist(freqs), decreasing = TRUE)
 
-  pathlen <- nchar(names(f))
+  path_length <- nchar(names(sorted_frequencies))
 
-  count <- f / pathlen
-
-  data.frame(
-    path = names(f),
-    score = f,
-    length = pathlen,
-    count = count,
-    stringsAsFactors = FALSE,
+  kwb.utils::noFactorDataFrame(
+    path = names(sorted_frequencies),
+    score = sorted_frequencies,
+    length = path_length,
+    count = sorted_frequencies / path_length,
     row.names = NULL
   )
 }
@@ -166,6 +153,28 @@ toKey <- function(i, prefix = "p", leading.zeros = FALSE)
   sprintf(fmt, prefix, i)
 }
 
+# rescore_and_reorder_frequency_data -------------------------------------------
+rescore_and_reorder_frequency_data <-function(frequency_data, key)
+{
+  frequency_data$score2 <- get_frequency_score(frequency_data, key)
+
+  row_order <- order(frequency_data$score2, decreasing = TRUE)
+
+  kwb.utils::resetRowNames(frequency_data[row_order, ])
+}
+
+# get_frequency_score ----------------------------------------------------------
+get_frequency_score <- function(frequency_data, key)
+{
+  key_placeholder_size <- nchar(toPlaceholder(key))
+
+  lengths <- kwb.utils::selectColumns(frequency_data, "length")
+
+  counts <- kwb.utils::selectColumns(frequency_data, "count")
+
+  (lengths - key_placeholder_size) * counts
+}
+
 # toPlaceholder ----------------------------------------------------------------
 toPlaceholder <- function(x)
 {
@@ -178,6 +187,30 @@ printFreqs <- function(x, maxchar = 80)
   x$path <- substr(x$path, 1, maxchar)
 
   print(x)
+}
+
+# main_columns_winner ----------------------------------------------------------
+main_columns_winner <- function()
+{
+  c("i", "key", "score", "count", "length")
+}
+
+# update_frequency_data_length -------------------------------------------------
+update_frequency_data_length <- function(frequency_data, winner, key)
+{
+  winner_length <- kwb.utils::selectColumns(winner, "length")
+  winner_path <- kwb.utils::selectColumns(winner, "path")
+
+  data_length <- kwb.utils::selectColumns(frequency_data, "length")
+  data_path <- kwb.utils::selectColumns(frequency_data, "path")
+
+  shortage <- winner_length - nchar(toPlaceholder(key))
+
+  matching <- (substr(data_path, 1, winner_length) == winner_path)
+
+  frequency_data$length[matching] <- data_length[matching] - shortage
+
+  frequency_data
 }
 
 # usedict ----------------------------------------------------------------------
