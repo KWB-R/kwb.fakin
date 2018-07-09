@@ -29,7 +29,7 @@
 #' plot_path_network(paths)
 #'
 plot_path_network <- function(
-  paths, max_depth = 2, nodePadding = 8, sinksRight = FALSE,
+  paths, max_depth = 3, nodePadding = 8, sinksRight = FALSE,
   names_to_colours = names_to_colours_good_name, ...
 )
 {

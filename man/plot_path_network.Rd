@@ -4,7 +4,7 @@
 \alias{plot_path_network}
 \title{Plot Paths as Sankey Network}
 \usage{
-plot_path_network(paths, max_depth = 2, nodePadding = 8,
+plot_path_network(paths, max_depth = 3, nodePadding = 8,
   sinksRight = FALSE, names_to_colours = names_to_colours_good_name, ...)
 }
 \arguments{
