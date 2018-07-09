@@ -11,15 +11,15 @@ Authors@R: c(
 Description: This package contains all functions and evaluations related to
     KWB project "FAKIN". Set the Subversion setting 'enable-auto-props' to 'yes' 
     so that the 'auto-probs' options are considered.
-Imports: kwb.utils, kwb.plot, digest
+Imports: digest, kwb.code, kwb.plot, kwb.utils
 Remotes: 
-    github::kwb-r/kwb.utils,
-    github::kwb-r/kwb.plot
+    github::kwb-r/kwb.code,
+    github::kwb-r/kwb.plot,
+    github::kwb-r/kwb.utils
 Suggests: 
     covr,
     jsonlite,
     knitr,
-    kwb.code,
     networkD3,
     rmarkdown,
     testthat
