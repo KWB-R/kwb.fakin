@@ -24,15 +24,15 @@ Command Window to a file (`dir /s /b > paths.txt`).
 
 ```{r}
 paths <- c(
-  "project_1/wp_1/input/file_1.csv",
-  "project_1/wp_1/input/file_2.csv",
-  "project_1/wp_1/analysis/summary.pdf",
-  "project_1/wp_2/input/köpenick_dirty.csv",
-  "project_1/wp_2/output/koepenick_clean.csv",
-  "project_2/Daten/file_1.csv",
-  "project_2/Grafiken/file_1.png",
-  "project_2/Berichte/bericht_1.doc",
-  "project_2/Berichte/bericht_2.doc"
+  "project-1/wp-1/input/file 1.csv",
+  "project-1/wp-1/input/file-2.csv",
+  "project-1/wp-1/analysis/summary.pdf",
+  "project-1/wp 2/input/köpenick_dirty.csv",
+  "project-1/wp 2/output/koepenick_clean.csv",
+  "project-2/Daten/file-1.csv",
+  "project-2/Grafiken/file 1.png",
+  "project-2/Berichte/bericht-1.doc",
+  "project-2/Berichte/bericht-2.doc"
 )
 ```
 
@@ -63,11 +63,76 @@ You may e.g. use the argument `fontSize` to increase the node labels:
 kwb.fakin::plot_path_network(paths, fontSize = 16)
 ```
 
-By default only the first two levels of folders or files are shown. You can
-increase the folder level by setting the `max_depth` argument:
+Let's always use this font size by defining a short helper function:
 
 ```{r}
-kwb.fakin::plot_path_network(paths, max_depth = 4, fontSize = 16)
+plot_16pt <- function(...) kwb.fakin::plot_path_network(..., fontSize = 16)
+```
+
+By default only the first three levels of folders or files are shown. You can
+increase (or decrease) the folder level by setting the `max_depth` argument:
+
+```{r}
+plot_16pt(paths, max_depth = 4)
+```
+
+Now, that all three traffic light colours (green, yellow, red) appear in the 
+plot, we want to explain what these colours are intended to indicate:
+
+* Green: name is fully compliant with our naming rules. It consists only of
+alphanumeric letters, underscore, hyphen or dot. 
+
+* Yellow: name is almost compliant with our naming rules. It constists only of 
+alphanumeric letters, underscore, hyphen, dot or space. 
+
+* Red: name does not comply with our naming rules. It contains at least one
+character that is not alphanumeric or underscore, hyphen, dot or space. In most
+of our cases this is due to German special characters, such as 'ä', 'ö', 'ü'.
+
+## Selecting Paths
+
+If you want to investigate the structure of a complex folder structure with 
+hundreds or thousands of files the overview plot will not show up properly.
+It is then useful to select only a subsection of the folder structure for 
+further investigation. To simplify the selection of paths we wrote a function 
+that converts a vector of path strings into a nested list. In that list, the
+folder names appear as the names of the list elements. Let's try this out with
+the example paths defined above:
+
+```{r}
+# Convert the vector of paths into a tree structure
+path_tree <- kwb.fakin:::to_tree(paths)
+
+# Show the structure of the tree
+str(path_tree)
+```
+The path tree is a list of lists with the top level elements representing the
+top level folders of the paths, the second level elements representing the
+sub-folders of the top level folders, and so on. With that tree structure, it is
+easy to select a sub-tree by just using the dollar operator `$` for lists. If, 
+for example, we want to select the paths belonging to project 1, we can write:
+
+```{r}
+# Select the sub-tree below "project-1"
+subtree <- path_tree$`project-1`
+
+# Show the sub-tree
+str(subtree)
+```
+**Note** that the element name `project-1` needs to be quoted in special quotes
+because, in R, the hyphen would else be interpreted as minus operator. 
+
+To convert the tree structure back to the path strings, use `flatten_tree`:
+
+```{r}
+kwb.fakin:::flatten_tree(subtree)
+```
+
+You can plot the sub-tree by passing it directly to `plot_path_network`, or here
+to our helper function, without prior conversion:
+
+```{r}
+plot_16pt(subtree)
 ```
 
 ## Quality of File and Folder Names
@@ -101,7 +166,7 @@ representing a branch or a leaf of the tree.
 The function `subtree_for_treejack` creates the text that is required here:
 
 ```{r}
-kwb.fakin:::subtree_for_treejack(root = "project_1", paths)
+kwb.fakin:::subtree_for_treejack(root = "project-1", paths)
 ```
 
 ## Analysis of Paths
