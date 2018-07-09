@@ -97,11 +97,11 @@ plot_path_network <- function(
 # names_to_colours_good_name ---------------------------------------------------
 names_to_colours_good_name <- function(node_names)
 {
-  colour_strings <- rep("green", length(node_names))
+  colour_strings <- rep("red", length(node_names))
 
-  #is_invalid <- ! grepl("^[A-za-z0-9._-]+$", node_names)
+  colour_strings[name_is_ok(node_names, mildness = 2)] <- "yellow"
 
-  colour_strings[is_non_standard_name(node_names)] <- "red"
+  colour_strings[name_is_ok(node_names, mildness = 1)] <- "green"
 
   colour_strings
 }

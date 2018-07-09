@@ -27,7 +27,7 @@ if (FALSE)
   # Use restoreEncoding to keep the declared Encodings
   table(Encoding(file_names_old <- restoreEncoding(paths, basename)))
 
-  table(is_non_standard_name(file_names_old))
+  table(name_is_ok(file_names_old))
 
   file_names <- file_names_old
 
@@ -41,13 +41,35 @@ if (FALSE)
 # get_non_standard_names -------------------------------------------------------
 get_non_standard_names <- function(x)
 {
-  x[is_non_standard_name(x)]
+  x[! name_is_ok(x)]
 }
 
-# is_non_standard_name ---------------------------------------------------------
-is_non_standard_name <- function(x)
+# name_is_ok -------------------------------------------------------------------
+
+#' Is the Name Ok According to Our Best Practices?
+#'
+#' @param x vector of character
+#' @param mildness level of mildness. 1: not mild, all characters must be
+#'   hyphen or alphanumeric or dot or underscore, 2: more mild, all characters
+#'   must be one of the above or space
+#' @export
+#'
+#' @return vector of logical as long as \code{x}
+#'
+#' @examples
+#' name_is_ok(c("a", "$", ".", " "))
+#' name_is_ok(c("a", "$", ".", " "), mildness = 2)
+#'
+name_is_ok <- function(x, mildness = 1)
 {
-  ! grepl("^[A-Za-z0-9 $_./-]+$", x)
+  stopifnot(mildness %in% 1:2)
+
+  patterns <- list(
+    "^[-A-Za-z0-9._]+$",
+    "^[-A-Za-z0-9._ ]+$"
+  )
+
+  grepl(patterns[[mildness]], x)
 }
 
 # clean_file_name --------------------------------------------------------------
