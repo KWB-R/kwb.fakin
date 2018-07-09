@@ -125,7 +125,8 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>plot_path_network</span>(<span class='no'>paths</span>, <span class='kw'>max_depth</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>plot_path_network</span>(<span class='no'>paths</span>, <span class='kw'>max_depth</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>nodePadding</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>sinksRight</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -139,9 +140,19 @@
       <td><p>maximum depth of paths to be shown</p></td>
     </tr>
     <tr>
+      <th>nodePadding</th>
+      <td><p>passed to <code><a href='http://www.rdocumentation.org/packages/networkD3/topics/sankeyNetwork'>sankeyNetwork</a></code>, see
+there</p></td>
+    </tr>
+    <tr>
+      <th>sinksRight</th>
+      <td><p>passed to <code><a href='http://www.rdocumentation.org/packages/networkD3/topics/sankeyNetwork'>sankeyNetwork</a></code>, see there</p></td>
+    </tr>
+    <tr>
       <th>&#8230;</th>
-      <td><p>arguments passed to <code><a href='http://www.rdocumentation.org/packages/networkD3/topics/sankeyNetwork'>sankeyNetwork</a></code>, such
-as <code>nodeWidth</code>, <code>nodePadding</code>, <code>fontSize</code></p></td>
+      <td><p>further arguments passed to
+<code><a href='http://www.rdocumentation.org/packages/networkD3/topics/sankeyNetwork'>sankeyNetwork</a></code>, such as <code>nodeWidth</code>,
+<code>nodePadding</code>, <code>fontSize</code></p></td>
     </tr>
     </table>
     

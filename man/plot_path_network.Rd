@@ -4,15 +4,22 @@
 \alias{plot_path_network}
 \title{Plot Paths as Sankey Network}
 \usage{
-plot_path_network(paths, max_depth = 2, ...)
+plot_path_network(paths, max_depth = 2, nodePadding = 1,
+  sinksRight = FALSE, ...)
 }
 \arguments{
 \item{paths}{character vector of paths}
 
 \item{max_depth}{maximum depth of paths to be shown}
 
-\item{\dots}{arguments passed to \code{\link[networkD3]{sankeyNetwork}}, such
-as \code{nodeWidth}, \code{nodePadding}, \code{fontSize}}
+\item{nodePadding}{passed to \code{\link[networkD3]{sankeyNetwork}}, see
+there}
+
+\item{sinksRight}{passed to \code{\link[networkD3]{sankeyNetwork}}, see there}
+
+\item{\dots}{further arguments passed to
+\code{\link[networkD3]{sankeyNetwork}}, such as \code{nodeWidth},
+\code{nodePadding}, \code{fontSize}}
 }
 \value{
 object representing an HTML page

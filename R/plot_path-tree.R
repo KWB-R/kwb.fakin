@@ -4,8 +4,13 @@
 #'
 #' @param paths character vector of paths
 #' @param max_depth maximum depth of paths to be shown
-#' @param \dots arguments passed to \code{\link[networkD3]{sankeyNetwork}}, such
-#'   as \code{nodeWidth}, \code{nodePadding}, \code{fontSize}
+#' @param nodePadding passed to \code{\link[networkD3]{sankeyNetwork}}, see
+#'   there. Decrease this value (e.g. `nodePadding = 0`) if there are
+#'   many nodes to plot and the plot does not look as expected
+#' @param sinksRight passed to \code{\link[networkD3]{sankeyNetwork}}, see there
+#' @param \dots further arguments passed to
+#'   \code{\link[networkD3]{sankeyNetwork}}, such as \code{nodeWidth},
+#'   \code{nodePadding}, \code{fontSize}
 #'
 #' @return object representing an HTML page
 #'
@@ -18,18 +23,21 @@
 #' # Plot the folder network
 #' plot_path_network(paths)
 #'
-plot_path_network <- function(paths, max_depth = 2, ...)
+plot_path_network <- function(
+  paths, max_depth = 2, nodePadding = 8, sinksRight = FALSE, ...
+)
 {
   network <- get_path_network(paths, max_depth)
 
   networkD3::sankeyNetwork(
     network$links, network$nodes, Source = "source", Target = "target",
-    Value = "value", NodeID = "name", NodeGroup = "name", ...
+    Value = "value", NodeID = "name", NodeGroup = "name",
+    sinksRight = sinksRight, nodePadding = nodePadding, ...
   )
 }
 
 # get_path_network -------------------------------------------------------------
-get_path_network <- function(paths, max_depth = 3, reverse = TRUE)
+get_path_network <- function(paths, max_depth = 3, reverse = FALSE)
 {
   # kwb.utils::assignPackageObjects("kwb.fakin")
 
