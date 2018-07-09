@@ -95,15 +95,15 @@
 
     
     
-<p>It is quite impressive how more and more people at our research institute <a href="http://komptenz-wasser.de">Kompetenzzentrum Wasser Berlin</a> began to use the programming language R to support their data-related work. As a result, if we are currently counting more than one thousand R scripts in our internal version control system.</p>
-<p>It is difficult to keep control over so many files. Therefore, this package contains a function that aims at giving an overview over R script files and the functions defined within these files. Use the function <code><a href="../reference/report_about_r_scripts.html">report_about_r_scripts()</a></code> to create an R Markdown document about all the R script files below a certain root directory:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kwb.fakin::<span class="kw"><a href="../reference/report_about_r_scripts.html">report_about_r_scripts</a></span>(<span class="dt">root =</span> <span class="st">"path/to/your/script/folder"</span>)</code></pre></div>
-<p>With the (private) helper functions <code>github_package_path()</code> and <code>github_package_files()</code> that are also contained in the package, we can also report on the R files that are contained in an R package hosted on <a href="https://github.com">GitHub</a>. For example, we can have a look at the files that are contained in this package kwb.fakin:</p>
+<p>It is quite impressive how, since more or less ten years, more and more people at our research institute <a href="http://komptenz-wasser.de">Kompetenzzentrum Wasser Berlin</a> began to use the programming language R to support their daily data-related work. As a result, we are currently hosting more than one thousand R scripts in our internal version control system.</p>
+<p>It is difficult to keep control over so many files. Therefore, this package contains a function that aims at giving an overview of R script files and the functions defined within these files. Use the function <code><a href="../reference/report_about_r_scripts.html">report_about_r_scripts()</a></code> to create an R Markdown document about all the R script files below a certain root directory:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kwb.fakin<span class="op">::</span><span class="kw">report_about_r_scripts</span>(<span class="dt">root =</span> <span class="st">"path/to/your/script/folder"</span>)</code></pre></div>
+<p>With the (private) helper functions <code>github_package_path()</code> and <code>github_package_files()</code> that are also contained in the package, we can also report on the R files that are contained in an R package hosted on <a href="https://github.com">GitHub</a>. For example, we can have a look at the files that are contained in this package. They are available in the repository <a href="https://github.com/kwb-r/kwb.fakin">kwb.fakin</a> on our <a href="https://github.com/kwb-r">GitHub account</a>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">repo &lt;-<span class="st"> "kwb-r/kwb.fakin"</span>
 
-kwb.fakin::<span class="kw"><a href="../reference/report_about_r_scripts.html">report_about_r_scripts</a></span>(
-  <span class="dt">root =</span> kwb.fakin:::<span class="kw">github_package_path</span>(repo, <span class="st">"R"</span>),
-  <span class="dt">scripts =</span> kwb.fakin:::<span class="kw">github_package_files</span>(repo, <span class="st">"R"</span>),
+kwb.fakin<span class="op">::</span><span class="kw">report_about_r_scripts</span>(
+  <span class="dt">root =</span> kwb.fakin<span class="op">:::</span><span class="kw">github_package_path</span>(repo, <span class="st">"R"</span>),
+  <span class="dt">scripts =</span> kwb.fakin<span class="op">:::</span><span class="kw">github_package_files</span>(repo, <span class="st">"R"</span>),
   <span class="dt">show =</span> <span class="ot">FALSE</span>
 )
 <span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/clean_file-name.R ... ok.</span>
@@ -111,6 +111,7 @@ kwb.fakin::<span class="kw"><a href="../reference/report_about_r_scripts.html">r
 <span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/convert.R ... ok.</span>
 <span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/dictionary.R ... ok.</span>
 <span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/encoding.R ... ok.</span>
+<span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/github.R ... ok.</span>
 <span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/input_output.R ... ok.</span>
 <span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/list_files.R ... ok.</span>
 <span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/logical.R ... ok.</span>
@@ -120,6 +121,7 @@ kwb.fakin::<span class="kw"><a href="../reference/report_about_r_scripts.html">r
 <span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/plot_path-tree.R ... ok.</span>
 <span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/project.R ... ok.</span>
 <span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/references.R ... ok.</span>
+<span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/report_about_scripts.R ... ok.</span>
 <span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/special-characters.R ... ok.</span>
 <span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/stats.R ... ok.</span>
 <span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/store_restore.R ... ok.</span>
@@ -128,18 +130,18 @@ kwb.fakin::<span class="kw"><a href="../reference/report_about_r_scripts.html">r
 <span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/tree.R ... ok.</span>
 <span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/utils.R ... ok.</span>
 <span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/utils_path.R ... ok.</span>
-<span class="co">#&gt; Rendering '/tmp/RtmpePlTlR/file3cfe4d892bfe.Rmd' ...</span>
-<span class="co">#&gt; processing file: file3cfe4d892bfe.Rmd</span>
-<span class="co">#&gt; output file: file3cfe4d892bfe.knit.md</span>
-<span class="co">#&gt; /usr/lib/rstudio/bin/pandoc/pandoc +RTS -K512m -RTS file3cfe4d892bfe.utf8.md --to html4 --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash --output file3cfe4d892bfe.html --smart --email-obfuscation none --self-contained --standalone --section-divs --template /home/hauke/R/i686-pc-linux-gnu-library/3.3/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --variable 'theme:bootstrap' --include-in-header /tmp/RtmpePlTlR/rmarkdown-str3cfe5b613f7e.html --mathjax --variable 'mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'</span>
+<span class="co">#&gt; Rendering '/tmp/RtmpALVlY8/file2c45039e96da4.Rmd' ...</span>
+<span class="co">#&gt; processing file: file2c45039e96da4.Rmd</span>
+<span class="co">#&gt; output file: file2c45039e96da4.knit.md</span>
+<span class="co">#&gt; /usr/lib/rstudio-server/bin/pandoc/pandoc +RTS -K512m -RTS file2c45039e96da4.utf8.md --to html4 --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash --output file2c45039e96da4.html --smart --email-obfuscation none --self-contained --standalone --section-divs --template /home/hsonne/R/packages/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --variable 'theme:bootstrap' --include-in-header /tmp/RtmpALVlY8/rmarkdown-str2c4505b9ed963.html --mathjax --variable 'mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Output created: file3cfe4d892bfe.html</span>
+<span class="co">#&gt; Output created: file2c45039e96da4.html</span>
 <span class="co">#&gt; ok.</span></code></pre></div>
 <p>We set <code>show</code> to <code>FALSE</code> in order to prevent that the created HTML file is opened in a browser.</p>
 <p>A shortcut to the above call is:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kwb.fakin:::<span class="kw">report_about_github_package</span>(<span class="st">"kwb-r/kwb.fakin"</span>, <span class="dt">show =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kwb.fakin<span class="op">:::</span><span class="kw">report_about_github_package</span>(<span class="st">"kwb-r/kwb.fakin"</span>, <span class="dt">show =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <p>It is up to you to compare with what the great guys do. Try e.g.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kwb.fakin:::<span class="kw">report_about_github_package</span>(<span class="st">"tidyverse/dplyr"</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kwb.fakin<span class="op">:::</span><span class="kw">report_about_github_package</span>(<span class="st">"tidyverse/dplyr"</span>)</code></pre></div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
