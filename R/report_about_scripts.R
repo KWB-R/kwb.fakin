@@ -111,7 +111,9 @@ render_text <- function(
 
   kwb.utils::catAndRun(sprintf("Rendering '%s'", rmd_file), {
 
-    html_file <- rmarkdown::render(rmd_file, params = params_to_rmd)
+    html_file <- rmarkdown::render(
+      rmd_file, params = params_to_rmd, quiet = TRUE
+    )
   })
 
   if (isTRUE(show)) {
