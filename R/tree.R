@@ -29,9 +29,15 @@ flatten_tree <- function(x)
 #' Convert List of Path Parts to Tree Structure
 #'
 #' @param x list as returned by \code{\link[base]{strsplit}}
+#' @param dbg if \code{TRUE}, debug messages are shown
 #'
-to_tree <- function(x)
+to_tree <- function(x, dbg = TRUE)
 {
+  if (! is.list(x)) {
+
+    x <- splitPaths(as.character(x), dbg = dbg)
+  }
+
   # Get path depths
   depths <- sapply(x, length)
 

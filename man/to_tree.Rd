@@ -4,10 +4,12 @@
 \alias{to_tree}
 \title{Convert List of Path Parts to Tree Structure}
 \usage{
-to_tree(x)
+to_tree(x, dbg = TRUE)
 }
 \arguments{
 \item{x}{list as returned by \code{\link[base]{strsplit}}}
+
+\item{dbg}{if \code{TRUE}, debug messages are shown}
 }
 \description{
 Convert List of Path Parts to Tree Structure
