@@ -4,7 +4,7 @@
 \alias{to_tree}
 \title{Convert List of Path Parts to Tree Structure}
 \usage{
-to_tree(x, dbg = TRUE)
+to_tree(x, dbg = FALSE)
 }
 \arguments{
 \item{x}{list as returned by \code{\link[base]{strsplit}}}
