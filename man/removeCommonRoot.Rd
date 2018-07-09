@@ -7,8 +7,8 @@
 removeCommonRoot(x)
 }
 \arguments{
-\item{x}{list of list of character as returned by
-\code{\link[base]{strsplit}}}
+\item{x}{list of vectors of character as returned by
+\code{\link[base]{strsplit}} or a vector of character.}
 }
 \description{
 Remove the common root parts

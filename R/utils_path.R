@@ -2,7 +2,9 @@
 splitPaths <- function(paths, dbg = TRUE)
 {
   kwb.utils::catIf(dbg, "Splitting paths... ")
+
   result <- strsplit(paths, "/")
+
   kwb.utils::catIf(dbg, "ok.\n")
 
   result
@@ -83,10 +85,11 @@ startsWithParts <- function(parts, elements)
 }
 
 # removeCommonRoot -------------------------------------------------------------
+
 #' Remove the common root parts
 #'
-#' @param x list of list of character as returned by
-#'   \code{\link[base]{strsplit}}
+#' @param x list of vectors of character as returned by
+#'   \code{\link[base]{strsplit}} or a vector of character.
 #' @export
 #' @examples
 #' # Split paths at the slashes
@@ -100,6 +103,17 @@ startsWithParts <- function(parts, elements)
 #' attr(relparts, "root")
 removeCommonRoot <- function(x)
 {
+  if (is.list(x)) {
+
+    was_list <- TRUE
+
+  } else {
+
+    was_list <- FALSE
+
+    x <- splitPaths(as.character(x))
+  }
+
   maxi <- max(sapply(x, length))
 
   i <- 1
@@ -115,7 +129,17 @@ removeCommonRoot <- function(x)
   root <- kwb.utils::collapsed(x[[1]][indices], "/")
 
   # Remove the first i - 1 parts of each list entry, set attribute "root"
-  structure(lapply(x, function(xx) xx[- indices]), root = root)
+  result <- structure(lapply(x, function(xx) xx[- indices]), root = root)
+
+  # If the input was not a list, convert the list back to a vector of character
+  if (! was_list) {
+
+    sapply(result, function(x) do.call(file.path, as.list(x)))
+
+  } else {
+
+    result
+  }
 }
 
 # lookup -----------------------------------------------------------------------
