@@ -43,7 +43,10 @@ provide a plot function that uses the `sankeyNetwork()` function from the
 networkD3 package. Make sure that this package is installed:
 
 ```{r}
-if (! require("networkD3")) install.packages("networkD3")
+if (! require("networkD3")) {
+  
+  install.packages("networkD3", repos = "https://cloud.r-project.org")
+}
 ```
 
 You can then use the `plot_path_network()` function from the kwb.fakin package
