@@ -8,6 +8,11 @@
 #'   there. Decrease this value (e.g. `nodePadding = 0`) if there are
 #'   many nodes to plot and the plot does not look as expected
 #' @param sinksRight passed to \code{\link[networkD3]{sankeyNetwork}}, see there
+#' @param names_to_colours if not \code{NULL} expected to be a function that
+#'   accepts one argument \code{x} and returns a vector of colour names that is
+#'   as long as \code{x}. This function will be called by
+#'   \code{plot_path_network} passing the vector of all node names. Use this
+#'   function to set a colour for the each node based on its name
 #' @param \dots further arguments passed to
 #'   \code{\link[networkD3]{sankeyNetwork}}, such as \code{nodeWidth},
 #'   \code{nodePadding}, \code{fontSize}
@@ -24,16 +29,69 @@
 #' plot_path_network(paths)
 #'
 plot_path_network <- function(
-  paths, max_depth = 2, nodePadding = 8, sinksRight = FALSE, ...
+  paths, max_depth = 2, nodePadding = 8, sinksRight = FALSE,
+  names_to_colours = names_to_colours_good_name, ...
 )
 {
+  #kwb.utils::assignArgumentDefaults(kwb.fakin::plot_path_network)
   network <- get_path_network(paths, max_depth)
 
-  networkD3::sankeyNetwork(
+  colourScale <- if (! is.null(names_to_colours)) {
+
+    stopifnot(is.function(names_to_colours))
+
+    node_names <- network$nodes$name
+
+    colour_strings <- names_to_colours(node_names)
+
+    stopifnot(is.character(node_names))
+
+    stopifnot(length(colour_strings) == length(node_names))
+
+    network$nodes$colour <- colour_strings
+
+    colour_string_list <- kwb.utils::stringList(unique(colour_strings))
+
+    sprintf(
+      'd3.scaleOrdinal() .domain([%s]) .range([%s])',
+      colour_string_list, colour_string_list
+    )
+
+  } else {
+
+    # Default of sankeyNetwork
+    #networkD3:::JS("d3.scaleOrdinal(d3.schemeCategory20);")
+    NULL
+  }
+
+  arguments <- list(
     network$links, network$nodes, Source = "source", Target = "target",
-    Value = "value", NodeID = "name", NodeGroup = "name",
-    sinksRight = sinksRight, nodePadding = nodePadding, ...
+    Value = "value", NodeID = "name", sinksRight = sinksRight,
+    nodePadding = nodePadding, ...
   )
+
+  if (is.null(colourScale)) {
+
+    arguments <- c(arguments, NodeGroup = "name")
+
+  } else {
+
+    arguments <- c(arguments, NodeGroup = "colour", colourScale = colourScale)
+  }
+
+  do.call(networkD3::sankeyNetwork, arguments)
+}
+
+# names_to_colours_good_name ---------------------------------------------------
+names_to_colours_good_name <- function(node_names)
+{
+  colour_strings <- rep("green", length(node_names))
+
+  #is_invalid <- ! grepl("^[A-za-z0-9._-]+$", node_names)
+
+  colour_strings[is_non_standard_name(node_names)] <- "red"
+
+  colour_strings
 }
 
 # get_path_network -------------------------------------------------------------

@@ -4,8 +4,8 @@
 \alias{plot_path_network}
 \title{Plot Paths as Sankey Network}
 \usage{
-plot_path_network(paths, max_depth = 2, nodePadding = 1,
-  sinksRight = FALSE, ...)
+plot_path_network(paths, max_depth = 2, nodePadding = 8,
+  sinksRight = FALSE, names_to_colours = names_to_colours_good_name, ...)
 }
 \arguments{
 \item{paths}{character vector of paths}
@@ -13,9 +13,16 @@ plot_path_network(paths, max_depth = 2, nodePadding = 1,
 \item{max_depth}{maximum depth of paths to be shown}
 
 \item{nodePadding}{passed to \code{\link[networkD3]{sankeyNetwork}}, see
-there}
+there. Decrease this value (e.g. `nodePadding = 0`) if there are
+many nodes to plot and the plot does not look as expected}
 
 \item{sinksRight}{passed to \code{\link[networkD3]{sankeyNetwork}}, see there}
+
+\item{names_to_colours}{if not \code{NULL} expected to be a function that
+accepts one argument \code{x} and returns a vector of colour names that is
+as long as \code{x}. This function will be called by
+\code{plot_path_network} passing the vector of all node names. Use this
+function to set a colour for the each node based on its name}
 
 \item{\dots}{further arguments passed to
 \code{\link[networkD3]{sankeyNetwork}}, such as \code{nodeWidth},

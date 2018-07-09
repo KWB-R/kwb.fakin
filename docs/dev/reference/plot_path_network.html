@@ -125,8 +125,8 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>plot_path_network</span>(<span class='no'>paths</span>, <span class='kw'>max_depth</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>nodePadding</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>sinksRight</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>plot_path_network</span>(<span class='no'>paths</span>, <span class='kw'>max_depth</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>nodePadding</span> <span class='kw'>=</span> <span class='fl'>8</span>,
+  <span class='kw'>sinksRight</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>names_to_colours</span> <span class='kw'>=</span> <span class='no'>names_to_colours_good_name</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -142,11 +142,20 @@
     <tr>
       <th>nodePadding</th>
       <td><p>passed to <code><a href='http://www.rdocumentation.org/packages/networkD3/topics/sankeyNetwork'>sankeyNetwork</a></code>, see
-there</p></td>
+there. Decrease this value (e.g. `nodePadding = 0`) if there are
+many nodes to plot and the plot does not look as expected</p></td>
     </tr>
     <tr>
       <th>sinksRight</th>
       <td><p>passed to <code><a href='http://www.rdocumentation.org/packages/networkD3/topics/sankeyNetwork'>sankeyNetwork</a></code>, see there</p></td>
+    </tr>
+    <tr>
+      <th>names_to_colours</th>
+      <td><p>if not <code>NULL</code> expected to be a function that
+accepts one argument <code>x</code> and returns a vector of colour names that is
+as long as <code>x</code>. This function will be called by
+<code>plot_path_network</code> passing the vector of all node names. Use this
+function to set a colour for the each node based on its name</p></td>
     </tr>
     <tr>
       <th>&#8230;</th>
