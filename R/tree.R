@@ -31,7 +31,7 @@ flatten_tree <- function(x)
 #' @param x list as returned by \code{\link[base]{strsplit}}
 #' @param dbg if \code{TRUE}, debug messages are shown
 #'
-to_tree <- function(x, dbg = TRUE)
+to_tree <- function(x, dbg = FALSE)
 {
   if (! is.list(x)) {
 
