@@ -111,7 +111,7 @@ removeCommonRoot <- function(x)
 
     was_list <- FALSE
 
-    x <- splitPaths(as.character(x))
+    x <- splitPaths(as.character(x), dbg = FALSE)
   }
 
   maxi <- max(sapply(x, length))
