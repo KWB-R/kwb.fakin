@@ -29,7 +29,7 @@ plot_path_network <- function(paths, max_depth = 2, ...)
 }
 
 # get_path_network -------------------------------------------------------------
-get_path_network <- function(paths, max_depth = 3)
+get_path_network <- function(paths, max_depth = 3, reverse = TRUE)
 {
   # kwb.utils::assignPackageObjects("kwb.fakin")
 
@@ -52,6 +52,16 @@ get_path_network <- function(paths, max_depth = 3)
 
   links$source <- get_matching_index(links$source)
   links$target <- get_matching_index(links$target)
+
+  # Swap the names of columns "source" and "target" for reverse = TRUE
+  if (isTRUE(reverse)) {
+
+    elements <- c("source", "target")
+
+    indices <- match(elements, names(links))
+
+    names(links)[indices] <- rev(elements)
+  }
 
   nodes <- kwb.utils::noFactorDataFrame(
     path = node_names, name = basename(node_names)
