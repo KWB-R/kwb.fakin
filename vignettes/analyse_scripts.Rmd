@@ -16,15 +16,16 @@ knitr::opts_chunk$set(
 )
 ```
 
-It is quite impressive how more and more people at our research institute
+It is quite impressive how, since more or less ten years, more and more people 
+at our research institute 
 [Kompetenzzentrum Wasser Berlin](http://komptenz-wasser.de) began to use
-the programming language R to support their data-related work.
-As a result, if we are currently counting more than one thousand R scripts in 
+the programming language R to support their daily data-related work.
+As a result, we are currently hosting more than one thousand R scripts in 
 our internal version control system.
 
 It is difficult to keep control over so many files. 
 Therefore, this package contains a function that aims at giving an overview
-over R script files and the functions defined within these files.
+of R script files and the functions defined within these files.
 Use the function `report_about_r_scripts()` to create an R Markdown document 
 about all the R script files below a certain root directory:
 
@@ -36,8 +37,10 @@ With the (private) helper functions `github_package_path()` and
 `github_package_files()` that are also contained in the package, we can also 
 report on the R files that are contained in an R package hosted on 
 [GitHub](https://github.com).
-For example, we can have a look at the files that are contained in this package
-kwb.fakin:
+For example, we can have a look at the files that are contained in this package.
+They are available in the repository 
+[kwb.fakin](https://github.com/kwb-r/kwb.fakin) on our 
+[GitHub account](https://github.com/kwb-r):
 
 ```{r report-scripts}
 repo <- "kwb-r/kwb.fakin"
