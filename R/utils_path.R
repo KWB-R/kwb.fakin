@@ -123,23 +123,29 @@ removeCommonRoot <- function(x)
     i <- i + 1
   }
 
-  indices <- seq_len(i - 1)
+  if (length(indices <- seq_len(i - 1))) {
 
-  # Determine the root path
-  root <- kwb.utils::collapsed(x[[1]][indices], "/")
+    # Determine the root path
+    root <- kwb.utils::collapsed(x[[1]][indices], "/")
 
-  # Remove the first i - 1 parts of each list entry, set attribute "root"
-  result <- structure(lapply(x, function(xx) xx[- indices]), root = root)
+    # Remove the first i - 1 parts of each list entry, set attribute "root"
+    result <- lapply(x, function(xx) xx[- indices])
+
+  } else {
+
+    root <- ""
+
+    result <- x
+  }
 
   # If the input was not a list, convert the list back to a vector of character
   if (! was_list) {
 
-    sapply(result, function(x) do.call(file.path, as.list(x)))
+    result <- sapply(result, function(x) do.call(file.path, as.list(x)))
 
-  } else {
-
-    result
   }
+
+  structure(result, root = root)
 }
 
 # lookup -----------------------------------------------------------------------
