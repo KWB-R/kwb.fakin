@@ -33,6 +33,18 @@ plot_path_network <- function(
   names_to_colours = names_to_colours_good_name, ...
 )
 {
+  #kwb.utils::assignPackageObjects("kwb.fakin")
+  #kwb.utils::assignArgumentDefaults(kwb.fakin::plot_path_network)
+
+  # Remove the common root in order to "save" depth levels
+  paths <- removeCommonRoot(paths)
+
+  # If a path tree is given, flatten the tree into a vector of character
+  if (is.list(paths)) {
+
+    paths <- flatten_tree(paths)
+  }
+
   #kwb.utils::assignArgumentDefaults(kwb.fakin::plot_path_network)
   network <- get_path_network(paths, max_depth)
 
