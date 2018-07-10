@@ -70,7 +70,7 @@ plot_16pt <- function(...) kwb.fakin::plot_path_network(..., fontSize = 16)
 ```
 
 By default only the first three levels of folders or files are shown. You can
-increase (or decrease) the folder level by setting the `max_depth` argument:
+increase (or decrease) the number of shown levels by setting the `max_depth` argument:
 
 ```{r}
 plot_16pt(paths, max_depth = 4)
@@ -91,7 +91,7 @@ of our cases this is due to German special characters, such as 'ä', 'ö', 'ü'.
 
 ## Selecting Paths
 
-If you want to investigate the structure of a complex folder structure with 
+If you want to investigate a complex folder structure with 
 hundreds or thousands of files the overview plot will not show up properly.
 It is then useful to select only a subsection of the folder structure for 
 further investigation. To simplify the selection of paths we wrote a function 
