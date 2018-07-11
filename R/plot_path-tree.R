@@ -95,6 +95,26 @@ plot_path_network <- function(
 }
 
 # names_to_colours_good_name ---------------------------------------------------
+
+#' Get Traffic Light Colours for Names
+#'
+#' @param node_names character of (file or folder) names, e.g. as they appear as
+#'   node labels in the plot generated with \code{\link{plot_path_network}
+#'
+#' @return vector of colour strings each of which is \code{green} (name does
+#'   comply with naming convention), \code{yellow} (name does almost comply with
+#'   naming convention), \code{red} (name does not comply with naming
+#'   convention).
+#'
+#' @export
+#'
+#' @examples
+#' # Define a vector of names
+#' node_names <- c("has_speci@l", "has space", "is_ok")
+#'
+#' # Colour names by their compliance with naming convention
+#' kwb.fakin:::names_to_colours_good_name(node_names)
+#'
 names_to_colours_good_name <- function(node_names)
 {
   colour_strings <- rep("red", length(node_names))
