@@ -1,7 +1,8 @@
 pandoc: 1.17.2
-pkgdown: 1.0.0
+pkgdown: 1.1.0
 pkgdown_sha: ~
 articles:
+  analyse_scripts: analyse_scripts.html
   understanding_encoding: understanding_encoding.html
   working_with_paths: working_with_paths.html
 

@@ -21,9 +21,11 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
@@ -34,7 +36,6 @@
 <meta name="twitter:card" content="summary" />
 
 <meta name="robots" content="noindex">
-
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -126,7 +127,7 @@
     </div>
 
     <pre class="usage"><span class='fu'>plot_path_network</span>(<span class='no'>paths</span>, <span class='kw'>max_depth</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>nodePadding</span> <span class='kw'>=</span> <span class='fl'>8</span>,
-  <span class='kw'>sinksRight</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>names_to_colours</span> <span class='kw'>=</span> <span class='no'>names_to_colours_good_name</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>sinksRight</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>names_to_colours</span> <span class='kw'>=</span> <span class='no'>name_to_traffic_light</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -152,10 +153,10 @@ many nodes to plot and the plot does not look as expected</p></td>
     <tr>
       <th>names_to_colours</th>
       <td><p>if not <code>NULL</code> expected to be a function that
-accepts one argument <code>x</code> and returns a vector of colour names that is
-as long as <code>x</code>. This function will be called by
-<code>plot_path_network</code> passing the vector of all node names. Use this
-function to set a colour for the each node based on its name</p></td>
+accepts a vector of (node) names and returns a vector of (colour) names
+of same length. This function will be called by <code>plot_path_network</code>
+to determine the colour for each node based on its name. By default, the
+function <code><a href='name_to_traffic_light.html'>name_to_traffic_light</a></code> is called.</p></td>
     </tr>
     <tr>
       <th>&#8230;</th>
