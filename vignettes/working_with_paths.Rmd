@@ -89,6 +89,9 @@ alphanumeric letters, underscore, hyphen, dot or space.
 character that is not alphanumeric or underscore, hyphen, dot or space. In most
 of our cases this is due to German special characters, such as 'ä', 'ö', 'ü'.
 
+The naming rules are documented in our 
+[FAKIN Best Practices Document](https://kwb-r.github.io/fakin.doc/best-practices.html#data-storage-naming)
+
 ## Selecting Paths
 
 If you want to investigate a complex folder structure with 

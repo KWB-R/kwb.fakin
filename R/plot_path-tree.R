@@ -9,10 +9,10 @@
 #'   many nodes to plot and the plot does not look as expected
 #' @param sinksRight passed to \code{\link[networkD3]{sankeyNetwork}}, see there
 #' @param names_to_colours if not \code{NULL} expected to be a function that
-#'   accepts one argument \code{x} and returns a vector of colour names that is
-#'   as long as \code{x}. This function will be called by
-#'   \code{plot_path_network} passing the vector of all node names. Use this
-#'   function to set a colour for the each node based on its name
+#'   accepts a vector of (node) names and returns a vector of (colour) names
+#'   of same length. This function will be called by \code{plot_path_network}
+#'   to determine the colour for each node based on its name. By default, the
+#'   function \code{\link{name_to_traffic_light}} is called.
 #' @param \dots further arguments passed to
 #'   \code{\link[networkD3]{sankeyNetwork}}, such as \code{nodeWidth},
 #'   \code{nodePadding}, \code{fontSize}
@@ -30,7 +30,7 @@
 #'
 plot_path_network <- function(
   paths, max_depth = 3, nodePadding = 8, sinksRight = FALSE,
-  names_to_colours = names_to_colours_good_name, ...
+  names_to_colours = name_to_traffic_light, ...
 )
 {
   #kwb.utils::assignPackageObjects("kwb.fakin")
@@ -71,8 +71,6 @@ plot_path_network <- function(
 
   } else {
 
-    # Default of sankeyNetwork
-    #networkD3:::JS("d3.scaleOrdinal(d3.schemeCategory20);")
     NULL
   }
 
@@ -94,12 +92,12 @@ plot_path_network <- function(
   do.call(networkD3::sankeyNetwork, arguments)
 }
 
-# names_to_colours_good_name ---------------------------------------------------
+# name_to_traffic_light --------------------------------------------------------
 
 #' Get Traffic Light Colours for Names
 #'
-#' @param node_names character of (file or folder) names, e.g. as they appear as
-#'   node labels in the plot generated with \code{\link{plot_path_network}
+#' @param x character of (file or folder) names, e.g. as they appear as
+#'   node labels in the plot generated with \code{\link{plot_path_network}}
 #'
 #' @return vector of colour strings each of which is \code{green} (name does
 #'   comply with naming convention), \code{yellow} (name does almost comply with
@@ -110,18 +108,18 @@ plot_path_network <- function(
 #'
 #' @examples
 #' # Define a vector of names
-#' node_names <- c("has_speci@l", "has space", "is_ok")
+#' x <- c("has_speci&l", "has space", "is_ok")
 #'
 #' # Colour names by their compliance with naming convention
-#' kwb.fakin:::names_to_colours_good_name(node_names)
+#' name_to_traffic_light(x)
 #'
-names_to_colours_good_name <- function(node_names)
+name_to_traffic_light <- function(x)
 {
-  colour_strings <- rep("red", length(node_names))
+  colour_strings <- rep("red", length(x))
 
-  colour_strings[name_is_ok(node_names, mildness = 2)] <- "yellow"
+  colour_strings[name_is_ok(x, mildness = 2)] <- "yellow"
 
-  colour_strings[name_is_ok(node_names, mildness = 1)] <- "green"
+  colour_strings[name_is_ok(x, mildness = 1)] <- "green"
 
   colour_strings
 }
