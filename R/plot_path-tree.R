@@ -8,6 +8,7 @@
 #'   there. Decrease this value (e.g. `nodePadding = 0`) if there are
 #'   many nodes to plot and the plot does not look as expected
 #' @param sinksRight passed to \code{\link[networkD3]{sankeyNetwork}}, see there
+#' @param remove_common_root remove the common root parts? (default: TRUE)
 #' @param names_to_colours if not \code{NULL} expected to be a function that
 #'   accepts a vector of (node) names and returns a vector of (colour) names
 #'   of same length. This function will be called by \code{plot_path_network}
@@ -30,14 +31,16 @@
 #'
 plot_path_network <- function(
   paths, max_depth = 3, nodePadding = 8, sinksRight = FALSE,
-  names_to_colours = name_to_traffic_light, ...
+  remove_common_root = TRUE, names_to_colours = name_to_traffic_light, ...
 )
 {
   #kwb.utils::assignPackageObjects("kwb.fakin")
   #kwb.utils::assignArgumentDefaults(kwb.fakin::plot_path_network)
 
   # Remove the common root in order to "save" depth levels
-  paths <- removeCommonRoot(paths)
+  if (remove_common_root) {
+    paths <- removeCommonRoot(paths)
+  }
 
   # If a path tree is given, flatten the tree into a vector of character
   if (is.list(paths)) {

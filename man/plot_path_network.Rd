@@ -5,7 +5,8 @@
 \title{Plot Paths as Sankey Network}
 \usage{
 plot_path_network(paths, max_depth = 3, nodePadding = 8,
-  sinksRight = FALSE, names_to_colours = name_to_traffic_light, ...)
+  sinksRight = FALSE, remove_common_root = TRUE,
+  names_to_colours = name_to_traffic_light, ...)
 }
 \arguments{
 \item{paths}{character vector of paths}
@@ -17,6 +18,8 @@ there. Decrease this value (e.g. `nodePadding = 0`) if there are
 many nodes to plot and the plot does not look as expected}
 
 \item{sinksRight}{passed to \code{\link[networkD3]{sankeyNetwork}}, see there}
+
+\item{remove_common_root}{remove the common root parts? (default: TRUE)}
 
 \item{names_to_colours}{if not \code{NULL} expected to be a function that
 accepts a vector of (node) names and returns a vector of (colour) names
