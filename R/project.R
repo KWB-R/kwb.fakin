@@ -13,7 +13,7 @@
 #'
 createLocalProject <- function(project)
 {
-  paths <- getProjectPaths(startDirectory = "//medusa/projekte$")
+  paths <- getProjectPaths(start_directory = "//medusa/projekte$")
 
   index <- grep(paste0("/", project, "$"), paths)
 
@@ -43,20 +43,37 @@ createLocalProject <- function(project)
 
 #' Paths where to find project on the KWB server
 #'
-#' @param startDirectory Path to the project network drive at KWB
+#' @param start_directory Path to the project network drive at KWB
+#' @param as_list If \code{TRUE} (the default is \code{FALSE}) the paths
+#'   are returned as a list with the folder names as list element names.
 #'
-getProjectPaths <- function(startDirectory)
+#' @return full paths to project folders as a vector of character or as a named
+#'   list if \code{as_list = TRUE}.
+#'
+#' @export
+#'
+getProjectPaths <- function(start_directory, as_list = FALSE)
 {
-  folders <- c(
+  roots <- file.path(start_directory, c(
     "Auftraege",
     "SUW_Department/Projects",
     "GROUNDWATER/PROJECTS",
     "WWT_Department/PROJECTS"
-  )
+  ))
 
-  paths <- file.path(startDirectory, folders)
+  # Get the paths to all sub directories
+  paths <- unlist(lapply(roots, list.dirs, recursive = FALSE))
 
-  paths <- unlist(lapply(paths, dir, full.names = TRUE))
+  # Remove subdirectories starting with underscore
+  paths <- paths[! grepl("/_", paths)]
 
-  paths[! grepl("/_|\\.(pdf|ini|db|lnk)$", paths)]
+  # Convert to named list if requested
+  if (as_list) {
+
+    stats::setNames(as.list(paths), basename(paths))
+
+  } else {
+
+    paths
+  }
 }
