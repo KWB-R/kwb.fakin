@@ -9,8 +9,13 @@ toLongPath <- function(shortpath, dict)
 }
 
 # toSubdirMatrix ---------------------------------------------------------------
-toSubdirMatrix <- function(dirparts, fill.value = "")
+toSubdirMatrix <- function(dirparts, fill.value = "", dbg = TRUE)
 {
+  if (! is.list(dirparts)) {
+
+    dirparts <- splitPaths(dirparts, dbg = dbg)
+  }
+
   if (! is.list(dirparts) || ! all(sapply(dirparts, mode) == "character")) {
 
     stop_("toSubdirMatrix(): dirparts must be a list of character vectors!")
