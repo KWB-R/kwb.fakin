@@ -203,7 +203,7 @@ above).
 ```{r}
 (parent_paths <- kwb.fakin:::all_path_levels(paths[1]))
 
-parents <- kwb.fakin:::toSubdirMatrix(kwb.fakin:::splitPaths(parent_paths))
+parents <- kwb.fakin:::toSubdirMatrix(parent_paths)
 ```
 
 ```{r results = "asis", echo = FALSE}

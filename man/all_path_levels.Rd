@@ -19,6 +19,6 @@ For a given path \code{a/b/c/d}, all the parent paths \code{a}, \code{a/b},
 }
 \examples{
 paths <- kwb.fakin:::all_path_levels("this/is/a/long/path")
-kwb.fakin:::toSubdirMatrix(kwb.fakin:::splitPaths(paths))
+kwb.fakin:::toSubdirMatrix(paths)
 
 }
