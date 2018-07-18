@@ -35,9 +35,12 @@ report_about_r_scripts <- function(
     rmd_intro("R Script Analysis"),
     code_to_r_block("plot_row_numbers(params$script_info)"),
     "",
+    "# Overview of Scripts and Functions",
+    "",
+    get_rmd_script_function_enumeration(all_function_info),
+    "",
     "# Functions per Script",
-    ""
-    ,
+    "",
     get_rmd_per_script(all_function_info, scripts = names(trees))
   )
 
@@ -84,7 +87,9 @@ get_rmd_per_script <- function(all_function_info, scripts)
 
     #script <- scripts[1]
 
-    rmd_text <- c(rmd_text, sprintf("## %s\n\n", script))
+    rmd_text <- c(rmd_text, sprintf(
+      "## %s {#%s}\n\n", script, path_to_acronym(script)
+    ))
 
     belongs_to_script <- all_function_info$script == script
 
@@ -111,6 +116,27 @@ get_rmd_per_script <- function(all_function_info, scripts)
   rmd_text
 }
 
+# get_rmd_script_function_enumeration ------------------------------------------
+get_rmd_script_function_enumeration <- function(all_function_info)
+{
+  function_info_list <- split(all_function_info, all_function_info$script)
+
+  unlist(lapply(names(function_info_list), function(script) {
+    c(
+      paste(sprintf("* [%s](#%s)", script, path_to_acronym(script))),
+      paste(sprintf("    + %s()", function_info_list[[script]]$functionName))
+    )
+  }))
+}
+
+# path_to_acronym --------------------------------------------------------------
+path_to_acronym <- function(x)
+{
+  x <- gsub("[/ _.]", "-", tolower(x))
+  x <- gsub("^-+", "", x)
+  x
+}
+
 # get_rmd_function_enumeration -------------------------------------------------
 get_rmd_function_enumeration <- function(all_function_info, script)
 {
@@ -119,7 +145,7 @@ get_rmd_function_enumeration <- function(all_function_info, script)
   c(
     sprintf("The script `%s` defines the following functions:", script),
     "",
-    paste("*", function_info$functionName)
+    paste(sprintf("* %s()", function_info$functionName))
   )
 }
 
