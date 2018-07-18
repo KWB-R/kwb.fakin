@@ -4,9 +4,9 @@
 \alias{plot_path_network}
 \title{Plot Paths as Sankey Network}
 \usage{
-plot_path_network(paths, max_depth = 3, nodePadding = 8,
+plot_path_network(paths, max_depth = 3, nodePadding = 8, nodeHeight = 10,
   sinksRight = FALSE, remove_common_root = TRUE,
-  names_to_colours = name_to_traffic_light, ...)
+  names_to_colours = name_to_traffic_light, height = NULL, ...)
 }
 \arguments{
 \item{paths}{character vector of paths}
@@ -17,6 +17,9 @@ plot_path_network(paths, max_depth = 3, nodePadding = 8,
 there. Decrease this value (e.g. `nodePadding = 0`) if there are
 many nodes to plot and the plot does not look as expected}
 
+\item{nodeHeight}{height of a node in pixels. Used to calculate the total
+plot height.}
+
 \item{sinksRight}{passed to \code{\link[networkD3]{sankeyNetwork}}, see there}
 
 \item{remove_common_root}{remove the common root parts? (default: TRUE)}
@@ -26,6 +29,11 @@ accepts a vector of (node) names and returns a vector of (colour) names
 of same length. This function will be called by \code{plot_path_network}
 to determine the colour for each node based on its name. By default, the
 function \code{\link{name_to_traffic_light}} is called.}
+
+\item{height}{plot height in pixels, passed to
+\code{\link[networkD3]{sankeyNetwork}}. If \code{NULL}, the height is
+calculated based on \code{nodeHeight}, \code{nodePadding} and the maximum
+number of nodes at one folder depth.}
 
 \item{\dots}{further arguments passed to
 \code{\link[networkD3]{sankeyNetwork}}, such as \code{nodeWidth},

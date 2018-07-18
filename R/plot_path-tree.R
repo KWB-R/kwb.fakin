@@ -7,6 +7,8 @@
 #' @param nodePadding passed to \code{\link[networkD3]{sankeyNetwork}}, see
 #'   there. Decrease this value (e.g. `nodePadding = 0`) if there are
 #'   many nodes to plot and the plot does not look as expected
+#' @param nodeHeight height of a node in pixels. Used to calculate the total
+#'   plot height.
 #' @param sinksRight passed to \code{\link[networkD3]{sankeyNetwork}}, see there
 #' @param remove_common_root remove the common root parts? (default: TRUE)
 #' @param names_to_colours if not \code{NULL} expected to be a function that
@@ -14,6 +16,10 @@
 #'   of same length. This function will be called by \code{plot_path_network}
 #'   to determine the colour for each node based on its name. By default, the
 #'   function \code{\link{name_to_traffic_light}} is called.
+#' @param height plot height in pixels, passed to
+#'   \code{\link[networkD3]{sankeyNetwork}}. If \code{NULL}, the height is
+#'   calculated based on \code{nodeHeight}, \code{nodePadding} and the maximum
+#'   number of nodes at one folder depth.
 #' @param \dots further arguments passed to
 #'   \code{\link[networkD3]{sankeyNetwork}}, such as \code{nodeWidth},
 #'   \code{nodePadding}, \code{fontSize}
@@ -30,8 +36,9 @@
 #' plot_path_network(paths)
 #'
 plot_path_network <- function(
-  paths, max_depth = 3, nodePadding = 8, sinksRight = FALSE,
-  remove_common_root = TRUE, names_to_colours = name_to_traffic_light, ...
+  paths, max_depth = 3, nodePadding = 8, nodeHeight = 10, sinksRight = FALSE,
+  remove_common_root = TRUE, names_to_colours = name_to_traffic_light,
+  height = NULL, ...
 )
 {
   #kwb.utils::assignPackageObjects("kwb.fakin")
@@ -77,10 +84,15 @@ plot_path_network <- function(
     NULL
   }
 
+  if (is.null(height)) {
+
+    height <- (nodeHeight + nodePadding) * get_max_path_width(paths)
+  }
+
   arguments <- list(
     network$links, network$nodes, Source = "source", Target = "target",
     Value = "value", NodeID = "name", sinksRight = sinksRight,
-    nodePadding = nodePadding, ...
+    nodePadding = nodePadding, height = height, ...
   )
 
   if (is.null(colourScale)) {
@@ -93,6 +105,12 @@ plot_path_network <- function(
   }
 
   do.call(networkD3::sankeyNetwork, arguments)
+}
+
+# get_max_path_width -----------------------------------------------------------
+get_max_path_width <- function(paths)
+{
+  max(colSums(toSubdirMatrix(paths) != ""))
 }
 
 # name_to_traffic_light --------------------------------------------------------
