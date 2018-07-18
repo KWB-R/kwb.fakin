@@ -22,6 +22,9 @@ report_about_r_scripts <- function(
   show = TRUE
 )
 {
+  #kwb.utils::assignArgumentDefaults(kwb.fakin::report_about_r_scripts)
+  #kwb.utils::assignPackageObjects("kwb.fakin")
+
   trees <- kwb.code::parse_scripts(root = root, scripts = scripts)
 
   script_info <- kwb.code::to_full_script_info(trees)
@@ -81,15 +84,21 @@ get_rmd_per_script <- function(all_function_info, scripts)
 
     #script <- scripts[1]
 
-    rmd_text <- c(rmd_text, sprintf("## %s\n", script))
+    rmd_text <- c(rmd_text, sprintf("## %s\n\n", script))
 
     belongs_to_script <- all_function_info$script == script
 
     rmd_new <- if (any(belongs_to_script)) {
 
-      code_to_r_block(sprintf(
-        "plot_expression_numbers(params$all_function_info, \"%s\")", script
-      ))
+      c(
+        get_rmd_function_enumeration(all_function_info, script),
+        "",
+        "These functions contain the following numbers of expressions:",
+        "",
+        code_to_r_block(sprintf(
+          "plot_expression_numbers(params$all_function_info, \"%s\")", script
+        ))
+      )
 
     } else {
 
@@ -100,6 +109,18 @@ get_rmd_per_script <- function(all_function_info, scripts)
   }
 
   rmd_text
+}
+
+# get_rmd_function_enumeration -------------------------------------------------
+get_rmd_function_enumeration <- function(all_function_info, script)
+{
+  function_info <- filter_function_info_for_script(all_function_info, script)
+
+  c(
+    sprintf("The script `%s` defines the following functions:", script),
+    "",
+    paste("*", function_info$functionName)
+  )
 }
 
 # render_text ------------------------------------------------------------------
@@ -129,14 +150,14 @@ plot_row_numbers <- function(script_info)
 {
   plot_horizontal_bars(
     data = script_info, column_values = "rows", column_labels = "script",
-    xlab = "Number of Rows"
+    xlab = "Number of Lines in Script"
   )
 }
 
 # plot_expression_numbers ------------------------------------------------------
 plot_expression_numbers <- function(all_function_info, script)
 {
-  function_info <- all_function_info[all_function_info$script == script, ]
+  function_info <- filter_function_info_for_script(all_function_info, script)
 
   plot_horizontal_bars(
     data = function_info,
@@ -144,6 +165,21 @@ plot_expression_numbers <- function(all_function_info, script)
     column_labels = "functionName",
     xlab = "Number of Expressions in Function"
   )
+}
+
+# filter_function_info_for_script ----------------------------------------------
+filter_function_info_for_script <- function(all_function_info, script)
+{
+  # Get the vector of script names
+  scripts <- kwb.utils::selectColumns(all_function_info, "script")
+
+  function_info <- all_function_info[scripts == script, ]
+
+  # Get the vector of function names
+  function_names <- kwb.utils::selectColumns(function_info, "functionName")
+
+  # Order rows by function name
+  function_info[order(function_names), ]
 }
 
 # plot_horizontal_bars ---------------------------------------------------------
