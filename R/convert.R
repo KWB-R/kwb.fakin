@@ -9,28 +9,31 @@ toLongPath <- function(shortpath, dict)
 }
 
 # toSubdirMatrix ---------------------------------------------------------------
-toSubdirMatrix <- function(dirparts, fill.value = "", dbg = TRUE)
+toSubdirMatrix <- function(paths, fill.value = "", dbg = TRUE)
 {
-  if (! is.list(dirparts)) {
+  if (! is.list(paths)) {
 
-    dirparts <- splitPaths(dirparts, dbg = dbg)
+    paths <- splitPaths(paths, dbg = dbg)
   }
 
-  if (! is.list(dirparts) || ! all(sapply(dirparts, mode) == "character")) {
+  if (! is.list(paths) || ! all(sapply(paths, mode) == "character")) {
 
-    stop_("toSubdirMatrix(): dirparts must be a list of character vectors!")
+    stop_(
+      "toSubdirMatrix(): paths must be a list of character vectors ",
+      "or a vector of character."
+    )
   }
 
   # Get the maximum path depth
-  maxdepth <- maxdepth(dirparts)
+  max_depth <- maxdepth(paths)
 
   # Extend all list entries to the same length filling with ""
-  extend <- function(x, length) c(x, rep(fill.value, maxdepth - length(x)))
+  extend <- function(x, length) c(x, rep(fill.value, max_depth - length(x)))
 
-  dirparts <- lapply(dirparts, extend, maxdepth)
+  paths <- lapply(paths, extend, max_depth)
 
   # Create a matrix of subdirectories
-  matrix(unlist(dirparts), nrow = length(dirparts), byrow = TRUE)
+  matrix(unlist(paths), nrow = length(paths), byrow = TRUE)
 }
 
 # toCumulativeID ---------------------------------------------------------------
