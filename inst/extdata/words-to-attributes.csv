@@ -54,7 +54,7 @@ calendar
 
 cc
 
-(clara);kwb-editor:Clara
+(hauke|michael|clara);kwb-editor:\1
 
 closure
 
@@ -106,7 +106,7 @@ flyer
 
 forum
 
-frachtmodellierung
+frachtmodellierung;subject:modelling
 fu
 grundwasser
 homepage
@@ -138,7 +138,7 @@ literatur(e|listen)?;document-type:literature
 
 logos;document-type:image
 
-malte;kwb-editor:Malte 
+malte;kwb-editor:Malte
 
 managers
 
