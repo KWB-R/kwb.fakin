@@ -3,12 +3,10 @@
 
 library("kwb.utils")
 
-#file <- "Desktop/Data/FAKIN/paths_poseidon_projekte.txt"
-#file_composed <- "~/KWB/replacements_composed-words.csv"
-#file_attribute_words <- "~/KWB/words-to-attributes.csv"
+file <- "Desktop/Data/FAKIN/paths_poseidon_projekte.txt"
+#file <- "~/Desktop/tmp/paths_projekte_2.txt"
 
 pkg_file <- function(name) system.file("extdata", name, package = "kwb.fakin")
-file <- "~/Desktop/tmp/paths_projekte_2.txt"
 file_composed <- pkg_file("replacements_composed-words.csv")
 file_attribute_words <- pkg_file("words-to-attributes.csv")
 
@@ -28,7 +26,9 @@ if (FALSE)
   # kwb.fakin:::store(path_tree, "extract_properties")
   # path_tree <- kwb.fakin:::restore("path_tree")
 
-  first_levels <- get_first_levels(tree = path_tree$SUW_Department$Projects, 2)
+  subtree <- path_tree$SUW_Department$Projects
+
+  first_levels <- get_first_levels(tree = subtree, 2)
 
   # Get all unique folder names
   folder_names <- sort_unique(unlist(first_levels))
@@ -50,8 +50,16 @@ if (FALSE)
     x = folder_names_3,
     patterns = property_defs$word,
     replacements = property_defs$attributes,
-    as_data_frame = TRUE
+    as_data_frame = FALSE
   )
+
+  result <- get_path_properties(subtree, folder_properties)
+
+  kwb.plot::setMargins(left = 14, top = 0, bottom = 2)
+  barplot(tail(sort(table(result)), 30), horiz = TRUE, cex.names = 0.6, las = 1)
+
+  file <- tempfile("subdir_list_", fileext = ".yml")
+  yaml::write_yaml(subdir_list, file = )
 
   dim(folder_properties)
   View(folder_properties)
@@ -177,8 +185,6 @@ extract_properties <- function(x, patterns, replacements, as_data_frame = FALSE)
     extract_and_substitute(patterns[i], replacements[i], x)
   })
 
-  remove_empty <- function(x) x[x != ""]
-
   property_strings <- sapply(seq_along(x), function(i) {
 
     kwb.utils::collapsed(remove_empty(sapply(property_list, "[", i)), "+")
@@ -192,6 +198,12 @@ extract_properties <- function(x, patterns, replacements, as_data_frame = FALSE)
 
     stats::setNames(property_strings, x)
   }
+}
+
+# remove_empty -----------------------------------------------------------------
+remove_empty <- function(x)
+{
+  x[x != ""]
 }
 
 # extract_and_substitute -------------------------------------------------------
@@ -225,4 +237,25 @@ property_strings_to_data_frame <- function(property_strings, values = NULL)
 
     df
   }
+}
+
+# get_path_properties ----------------------------------------------------------
+get_path_properties <- function(subtree, folder_properties)
+{
+  non_empty_properties <- remove_empty(folder_properties)
+
+  paths_lower <- tolower(kwb.fakin:::flatten_tree(subtree))
+
+  subdir_list <- kwb.fakin:::splitPaths(paths_lower)
+
+  sapply(subdir_list, function(folders) {
+
+    #folders <- subdir_list[[1]]
+
+    property_strings <- non_empty_properties[folders[-1]]
+
+    non_empty_properties <- unname(property_strings[! is.na(property_strings)])
+
+    paste(collapse = "+", non_empty_properties)
+  })
 }
