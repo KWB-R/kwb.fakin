@@ -28,7 +28,7 @@ andere-projekte;project:others
 
 anfragen
 
-ap\d;work-package:\1
+ap(\d+);work-package-number:\1
 
 aquaurbanica(\d{4});conference-name:AquaUrbanica+conference-year:\1
 
