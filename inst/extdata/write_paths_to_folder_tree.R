@@ -5,7 +5,12 @@ library("kwb.utils")
 # MAIN -------------------------------------------------------------------------
 if (FALSE)
 {
-  files <- dir("//medusa/processing/CONTENTS/folders_projects", full.names = TRUE)
+  Sys.setlocale(locale = "C")
+
+  #path_repo <- "//medusa/processing/CONTENTS/folders_projects"
+  path_repo <- "~/Desktop/Data/FAKIN/folders_projects"
+
+  files <- dir(path_repo, full.names = TRUE)
 
   (file <- files[1])
 
@@ -19,7 +24,7 @@ if (FALSE)
     pattern_aquanes, paths_relative, ignore.case = TRUE, value = TRUE
   )
 
-  paths_aquanes_relative <- unlist(kwb.fakin::removeCommonRoot(paths_aquanes))
+  paths_aquanes_relative <- kwb.fakin::removeCommonRoot(x = paths_aquanes)
 
   catLines(paths_aquanes_relative)
 
@@ -31,8 +36,12 @@ if (FALSE)
   write_paths_to_folder_tree(
     paths = paths_aquanes_relative,
     target_dir = createDirectory(target_root),
-    max_depth = 6
+    max_depth = 3
   )
+
+  paths_reread <- dir(target_root, include.dirs = TRUE, recursive = TRUE, full.names = TRUE)
+
+  kwb.fakin:::plot_path_network(paths_reread, max_depth = 5)
 }
 
 # write_paths_to_folder_tree ---------------------------------------------------
@@ -41,46 +50,51 @@ write_paths_to_folder_tree <- function(paths, target_dir, max_depth = 2, depth =
   #paths <- paths_aquanes_relative
   #target_dir <- target_root
 
-  if (depth == max_depth || length(paths) == 0 || all(paths == "")) {
+  paths <- kwb.fakin:::remove_empty(paths, dbg = TRUE)
 
-    # Write a file containing all paths
-    write_paths_file(paths, output_dir = target_dir)
+  if (length(paths) == 0) {
 
-  } else {
+    return()
+  }
 
-    folder_matrix <- kwb.fakin:::toSubdirMatrix(paths)
+  folder_matrix <- kwb.fakin:::toSubdirMatrix(paths)
 
-    #head(folder_matrix, 30)
-    #View(folder_matrix)
+  (top_level_folders <- folder_matrix[, 1])
 
-    level_one_folders <- folder_matrix[, 1]
+  # Split the folder matrix into sub-matrices each of which refers to one
+  # first-level folder
+  subsets <- split(
+    kwb.utils::asNoFactorDataFrame(folder_matrix), top_level_folders
+  )
 
-    # Create new directories
-    target_paths <- file.path(target_dir, unique(level_one_folders))
+  # Remove the first level folders and convert the folder data frames back to
+  # path vectors
+  path_vectors <- lapply(subsets, function(x) {
 
-    for (target_path in target_paths) {
+    data_frame_to_paths(x[, -1, drop = FALSE])
+  })
 
-      createDirectory(target_path)
-    }
+  # Loop through the top level folders
+  for (top_level_folder in names(path_vectors)) {
 
-    # Split the folder matrix into sub-matrices each of which refers to one
-    # first-level folder
-    sub_matrices <- split(asNoFactorDataFrame(folder_matrix), level_one_folders)
+    #top_level_folder <- names(path_vectors)[2]
 
-    # Convert the folder matrices back to path vectors by removing the first
-    # level folder
-    path_vectors <- lapply(sub_matrices, function(x) {
-      kwb.fakin:::remove_empty(gsub("/+$", "", pasteColumns(
-        x, columns = names(x)[-1], sep = "/")
-      ))
-    })
+    # If we are already at maximal depth, write one file per top level folder
+    # containing the paths to all subfolders in each top level folder
+    if (depth == max_depth) {
 
-    # Call this function recursively for each path vector
-    for (i in seq_along(path_vectors)) {
-      #i <- 1
+      write_paths_file(path_vectors, top_level_folder, output_dir = target_dir)
+
+    } else {
+
+      # Create the top level folder and call this function recursively
+      new_target_dir <- file.path(target_dir, top_level_folder)
+
+      kwb.utils::createDirectory(new_target_dir)
+
       write_paths_to_folder_tree(
-        paths = path_vectors[[i]],
-        target_dir = target_paths[i],
+        paths = path_vectors[[top_level_folder]],
+        target_dir = new_target_dir,
         max_depth = max_depth,
         depth = depth + 1
       )
@@ -88,11 +102,20 @@ write_paths_to_folder_tree <- function(paths, target_dir, max_depth = 2, depth =
   }
 }
 
-# write_paths_file -------------------------------------------------------------
-write_paths_file <- function(paths, output_dir = "")
+# data_frame_to_paths ----------------------------------------------------------
+data_frame_to_paths <- function(df)
 {
-  #folder_matrix <- kwb.fakin:::toSubdirMatrix(paths)
-  #file <- sprintf("FOLDERS_%s.txt", folder_matrix[1, 1])
-  file <- sprintf("%04d_FOLDERS.txt", length(paths))
+  stopifnot(is.data.frame(df))
+
+  paths_with_trailing_slashes <- kwb.utils::pasteColumns(df, sep = "/")
+
+  kwb.fakin:::remove_empty(gsub("/+$", "", paths_with_trailing_slashes))
+}
+
+# write_paths_file -------------------------------------------------------------
+write_paths_file <- function(path_list, element, output_dir = "")
+{
+  paths <- kwb.utils::selectElements(path_list, element)
+  file <- sprintf("%04d_FOLDERS_IN_%s.txt", length(paths), element)
   writeText(paths, file.path(output_dir, file))
 }
