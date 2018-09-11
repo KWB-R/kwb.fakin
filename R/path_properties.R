@@ -74,8 +74,6 @@ extract_properties <- function(x, patterns, replacements, as_data_frame = FALSE)
     extract_and_substitute(patterns[i], replacements[i], x)
   })
 
-  remove_empty <- function(x) x[x != ""]
-
   property_strings <- sapply(seq_along(x), function(i) {
 
     kwb.utils::collapsed(remove_empty(sapply(property_list, "[", i)), "+")
@@ -101,6 +99,12 @@ extract_and_substitute <- function(pattern, replacement, x)
   result[is_matching] <- gsub(pattern, replacement, result[is_matching])
 
   result
+}
+
+# remove_empty -----------------------------------------------------------------
+remove_empty <- function(x)
+{
+  x[x != ""]
 }
 
 # property_strings_to_data_frame -----------------------------------------------
