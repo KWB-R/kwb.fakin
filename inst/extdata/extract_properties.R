@@ -3,12 +3,10 @@
 
 library("kwb.utils")
 
-#file <- "Desktop/Data/FAKIN/paths_poseidon_projekte.txt"
-#file_composed <- "~/KWB/replacements_composed-words.csv"
-#file_attribute_words <- "~/KWB/words-to-attributes.csv"
+file <- "Desktop/Data/FAKIN/paths_poseidon_projekte.txt"
+#file <- "~/Desktop/tmp/paths_projekte_2.txt"
 
 pkg_file <- function(name) system.file("extdata", name, package = "kwb.fakin")
-file <- "~/Desktop/tmp/paths_projekte_2.txt"
 file_composed <- pkg_file("replacements_composed-words.csv")
 file_attribute_words <- pkg_file("words-to-attributes.csv")
 
@@ -28,7 +26,9 @@ if (FALSE)
   # kwb.fakin:::store(path_tree, "extract_properties")
   # path_tree <- kwb.fakin:::restore("path_tree")
 
-  first_levels <- get_first_levels(tree = path_tree$SUW_Department$Projects, 2)
+  subtree <- path_tree$SUW_Department$Projects
+
+  first_levels <- get_first_levels(tree = subtree, 2)
 
   # Get all unique folder names
   folder_names <- sort_unique(unlist(first_levels))
@@ -50,8 +50,16 @@ if (FALSE)
     x = folder_names_3,
     patterns = property_defs$word,
     replacements = property_defs$attributes,
-    as_data_frame = TRUE
+    as_data_frame = FALSE
   )
+
+  result <- get_path_properties(subtree, folder_properties)
+
+  kwb.plot::setMargins(left = 14, top = 0, bottom = 2)
+  barplot(tail(sort(table(result)), 30), horiz = TRUE, cex.names = 0.6, las = 1)
+
+  file <- tempfile("subdir_list_", fileext = ".yml")
+  yaml::write_yaml(subdir_list, file = )
 
   dim(folder_properties)
   View(folder_properties)
