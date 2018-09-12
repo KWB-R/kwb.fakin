@@ -4,7 +4,7 @@ library("kwb.utils")
 
 Sys.setlocale(locale = "C")
 
-# MAIN -------------------------------------------------------------------------
+# MAIN: Create folder trees from path files ------------------------------------
 if (FALSE)
 {
   #path_repo <- "//medusa/processing/CONTENTS/folders_projects"
@@ -21,6 +21,7 @@ if (FALSE)
   # Delete all existing directories below target_root!
   unlink(dir(target_root, all.files = TRUE, full.names = TRUE, recursive = TRUE))
 
+  # Create the first folder tree
   kwb.fakin:::build_folders_from_file(
     file = files[1],
     pattern = pattern,
@@ -28,13 +29,18 @@ if (FALSE)
     max_depth = 2
   )
 
+  # Create a second folder tree
   kwb.fakin:::build_folders_from_file(
     file = files[2],
     pattern = pattern,
     target_dir = file.path(target_root, "aquanes-2"),
     max_depth = 2
   )
+}
 
+# MAIN: Validate a created folder tree -----------------------------------------
+if (FALSE)
+{
   # Read back the paths to the created folder structure
   paths_reread <- dir(target_dir, include.dirs = TRUE, recursive = TRUE, full.names = TRUE, all.files = TRUE)
 
