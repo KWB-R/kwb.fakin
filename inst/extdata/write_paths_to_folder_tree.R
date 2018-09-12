@@ -19,14 +19,14 @@ if (FALSE)
   pattern <- "/WWT_Department/Projects/AquaNES"
 
   # Delete all existing directories below target_root!
-  unlink(dir(target_root, all.files = TRUE, full.names = TRUE, recursive = TRUE))
+  unlink(file.path(target_root, "*"), recursive = TRUE)
 
   # Create the first folder tree
   kwb.fakin:::build_folders_from_file(
     file = files[1],
     pattern = pattern,
     target_dir = file.path(target_root, "aquanes-1"),
-    max_depth = 2
+    max_depth = 3
   )
 
   # Create a second folder tree
@@ -34,7 +34,7 @@ if (FALSE)
     file = files[2],
     pattern = pattern,
     target_dir = file.path(target_root, "aquanes-2"),
-    max_depth = 2
+    max_depth = 3
   )
 }
 
