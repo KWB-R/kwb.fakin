@@ -9,6 +9,7 @@ file <- "~/Desktop/Data/FAKIN/folders_projects/folders_projects_2018-09-11.txt"
 
 pkg_file <- function(name) system.file("extdata", name, package = "kwb.fakin")
 file_composed <- pkg_file("replacements_composed-words.csv")
+file_unify <- pkg_file("replacements_unify.csv")
 #file_attribute_words <- pkg_file("words-to-attributes.csv")
 file_attribute_words <- pkg_file("words-to-attributes_aquanes.csv")
 
@@ -38,17 +39,21 @@ if (FALSE)
   folder_names <- kwb.fakin:::sort_unique(unlist(first_levels))
 
   # Prepare file for replacements for composed words
-  # print_replacement_template(sort_unique(folder_names))
+  # kwb.fakin:::print_replacement_template(kwb.fakin:::sort_unique(folder_names))
 
   # Correct composed words
-  folder_names_2 <- correct_composed_words(folder_names, file_composed)
+
+  folder_names_2 <- kwb.fakin:::apply_substitutions_from_file(
+    folder_names, file_composed
+  )
 
   folder_names_3 <- tolower(folder_names_2)
-  catChanges(folder_names_2, folder_names_3)
 
-  # print_replacement_template(sort_unique(folder_names_2))
+  # kwb.fakin:::print_replacement_template(kwb.fakin:::sort_unique(folder_names_2))
 
-  property_defs <- kwb.fakin:::get_words_to_attribute_list(file = file_attribute_words)
+  property_defs <- kwb.fakin:::get_words_to_attribute_list(
+    file = file_attribute_words
+  )
 
   folder_properties <- kwb.fakin:::extract_properties(
     x = folder_names, # folder_names_3
@@ -63,23 +68,13 @@ if (FALSE)
   barplot(tail(sort(table(result)), 30), horiz = TRUE, cex.names = 0.6, las = 1)
 
   file <- tempfile("subdir_list_", fileext = ".yml")
+
   yaml::write_yaml(subdir_list, file = )
 
   dim(folder_properties)
   View(folder_properties)
 
-  substitutions <- list(
-    "\\s+|-+" = "_",
-    "_+" = "_",
-    "^_" = "",
-    "(\\d+)(st|nd|rd|th)(.*)" = "\\2_no-\\1",
-    "(\\d+)[.]_?zwischenbericht" = "zwischenbericht_\\1",
-    "^\\d+_" = "",
-    "^(wp|ap|tp)(_?(\\d|$))" = "wp_\\2",
-    "^ppt$" = "powerpoint"
-  )
-
-  folder_names <- kwb.utils::multiSubstitute(folder_names, substitutions)
+  folder_names <- apply_substitutions_from_file(folder_names, file_unify)
 
   sort_unique(folder_names)
 

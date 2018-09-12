@@ -1,0 +1,9 @@
+pattern;substitution
+\s+|-+;_
+_+;_
+^_;
+(\d+)(st|nd|rd|th)(.*);\2_no-\1
+(\d+)[.]_?zwischenbericht;zwischenbericht_\1
+^\d+_;
+^(wp|ap|tp)(_?(\d|$));wp_\2
+^ppt$;powerpoint

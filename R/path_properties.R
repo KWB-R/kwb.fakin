@@ -23,16 +23,22 @@ print_replacement_template <- function(x)
   kwb.utils::catLines(paste(x, x, sep = ";"))
 }
 
-# correct_composed_words -------------------------------------------------------
-correct_composed_words <- function(x, file, dbg = TRUE)
+# apply_substitutions_from_file ------------------------------------------------
+apply_substitutions_from_file <- function(x, file, dbg = TRUE)
 {
-  data <- utils::read.csv2(file)
+  y <- kwb.utils::multiSubstitute(x, read_substitutions_from_file(file))
 
-  x_new <- kwb.utils::multiSubstitute(x, kwb.utils::toLookupList(data = data))
+  kwb.fakin:::catChangesIf(dbg, x, y)
 
-  catChangesIf(dbg, x, x_new)
+  y
+}
 
-  x_new
+# read_substitutions_from_file -------------------------------------------------
+read_substitutions_from_file <- function(file)
+{
+  substitution_data <- utils::read.csv2(file, stringsAsFactors = FALSE)
+
+  kwb.utils::toLookupList(data = substitution_data)
 }
 
 # catChangesIf -----------------------------------------------------------------
