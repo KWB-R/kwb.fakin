@@ -1,0 +1,136 @@
+word;attributes
+
+Organisat(ion|orisches);task-type:admin
+Orders and Offers;tag:document-type:order+document-type:offer
+Health and Safety;subject:health+subject:safety
+Johan;kwb-editor:Johan Stueber
+AP_(\d\.\d(\.\d)?)(_.*)$;work-package-number:\1+work-package-name:\3
+AP_(\d\.\d(\.\d)?);work-package-number:\1
+WP(\d+)($|_);work-package-number:\1
+_LCA$;subject:life-cycle-assessment
+Risk assessment;subject:risk-assessment
+_(Braunschweig|El Port)$;city:\1
+Rabea;kwb-editor:Rabea Schubert
+[_ -]WP(\d+)$;work-package-number:\1
+_R$|R_Skripte;subject:r-programming
+Versuchsanlagen?;subject:pilot-plant
+_draft;version:draft
+Wolfgang;kwb-editor:Wolfgang Seis
+Datenauswertung|Auswertungen;subject:data-analysis
+Tr.bungssonden?;device:probe+parameter:turbidity
+Sampling;subject:monitoring
+Datenauswertung;subject:data-analysis
+06 Pamas Water Viewer;
+Ludwig;kwb-editor:Ludwig
+Onlinedaten;subject:monitoring
+07 Anlagenbetrieb, Versuche, Probenahme;
+Fabian;kwb-editor:Fabian
+Auswertungen;subject:data-analysis
+Micaela;kwb-editor:Micaela
+Datenauswertung;subject:data-analysis
+09_Studenten;
+10 Leihscheine;
+Literaturauswertung;task-type:literature-review
+101_PaperMitUwe;task-type:writing-paper
+Pictures;document-type:image
+Tiefwerder;site:Tiefwerder
+12 Sch.nerlinde;site:Schoenerlinde
+18 Month Expert report;
+200_Communication;
+70_Studenten;
+Kl.rwerk Ruhleben;site:Klaerwerk Ruhleben
+Bilder_Abbildungen;document-type:image-or-figure
+Sonstiges;
+Abschlussbericht(_(.*))?$;document-type:final-report+subject:\2
+Abwasserdesinfektion;domain:wastewater
+Administration;task-type:admin
+Amendments;version:amendment
+Andere Projekte;project:other
+Anfragen;document-type:request
+Angebot_Bestellungen;Angebot_Bestellungen
+Archiv;folder-type:archive
+BMBF;funder:BMBF
+Budget;task-type:admin
+Communication;
+Conferences;
+Consortium Agreement;
+Contracts;document-type:contract
+Correspondence-Letters-Job descriptions;
+Correspondence_Memos;
+^D(\d\.\d)$;deliverable-number:\1
+Data - Workpackages;
+Data-Work packages;
+Data_work packages;
+von TUB$;owner:Technische Universitaet Berlin
+Deliverables;document-type:deliverable
+Docs;
+EC Guidance;document-type:guidance
+Fulda;city:Fulda
+Endnote;document-type:literature
+Erfolgskontrollbericht;document-type:success-report
+Exchange;permission:exchange
+Michael;kwb-editor:Michael Rustler or Michael Stapf
+Exchange_studierende;
+Fact[ sS]heets?;document-type:fact-sheet
+Film;media-type:video
+Flyer;document-type:flyer
+Franziska;kwb-editor:Franziska
+F.rderbescheid;document-type:grant-notification
+General;
+General Assembly;meeting-type:general-assembly
+Grant Agreement;document-type:grant-agreement
+LCA;subject:life-cycle-assessment
+LCC;subject:life-cycle-cost
+Labor BWB;
+Literatur_(.*)$;document-type:literature+parameter:ozone
+Literatur$;document-type:literature
+Logos;document-type:logo
+^M(\d+)_(.*)$;milestone-number:\1+milestone-name:\2
+midterm report;document-type:midterm-report
+progress report;document-type:progress report
+Material f.r Probenahme;
+Meetings?-Minutes;document-type:minutes
+Meetings;
+[- _]BWB$;project-partner:Berliner Wasserbetriebe
+Memos?$;document-type:memo
+Mid-term report;document-type:midterm-report
+Milestones;
+Britta Wiedemann;person:Britta Wiedemann
+Flavie Prieux;person:Flavie Prieux
+Monthly Project Review;document-type:project-review+task-type:admin
+(OEMP|POWERSTEP);project:\1
+kick off$;event-type:kick-off-meeting
+\.Data$;document-type:endnote-database
+PhD canditate;
+Pictures;document-type:image
+Policy brief;
+Poster;document-type:poster
+Preparation_KWB_board;
+Presentations;document-type:presentation
+ProgressReports;document-type:progress-report
+Project Proposal;project-phase:proposal
+Project development;task-type:project-development
+Project reviews;task-type:review+document-type:project-review
+Publications;task-type:publication
+Reports;document-type:report
+Reports_deliverables;document-type:report+document-type:deliverable
+Review Ozon + Traceorganics;parameter:ozone+parameter:trace-contaminant
+Reviews;task-type:admin
+SAK$;parameter:SAK
+SchussenAktiv;
+Skizze;document-type:sketch
+Support;task-type:support
+Templates;document-type:template
+(TimeSheets|Timesheets)([- _](\d{4}))?$;task-type:admin+year:\3
+Vahid;kwb-editor:Vahid
+[-_ ](19|20)\d\d$;year:\1
+Verbundprojekt;project-type:joint-project
+Versuche;subject:experiment
+Vollantrag;document-type:full-proposal
+Vorlagen;document-type:template
+Website;subject:web-site
+Zwischenberichte?;document-type:intermediate-report
+[ _-]BMBF$;funder:BMBF
+offene Dokumente;document-type:open-document
+projektspezifisch;
+.koTox(ikologie)?;subject:eco-toxigology
