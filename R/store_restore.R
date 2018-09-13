@@ -1,82 +1,99 @@
+DATE_TIME_FORMAT <- "_%Y-%m-%d_%H%M%S"
+DATE_TIME_PATTERN <- "_\\d{4}-\\d{2}-\\d{2}_\\d{6}"
+
 # store ------------------------------------------------------------------------
 store <- function(x, script_name, dbg = TRUE)
 {
   folder <- get_store_folder()
 
   old_dir <- setwd(folder)
+
   on.exit(setwd(old_dir))
 
   name <- deparse(substitute(x))
 
-  data_file <- function(xx, sha1) paste0(xx, "_", sha1, ".RData")
-  text_file <- function(xx, sha1) paste0(xx, "_", sha1, ".txt")
+  kwb.utils::catAndRun("Calculating sha1", dbg = dbg, {
 
-  kwb.utils::catIf(dbg, "Calculating sha1... ")
+    sha1 <- digest::sha1(x)
+  })
 
-  sha1 <- digest::sha1(x)
+  metadata_list <- find_metadata(name, sha1)
 
-  kwb.utils::catIf(dbg, "ok.\n")
+  if (length(metadata_list)) {
 
-  if (file.exists(data_file(name, sha1))) {
+    existing_file <- kwb.utils::selectElements(metadata_list[[1]], "file")
 
-    message("The object is already stored in ", data_file(name, sha1))
+    message("The object is already stored in ", existing_file)
 
   } else {
 
-    write_object(x, name, data_file(name, sha1))
+    date_time_extension <- format(Sys.time(), DATE_TIME_FORMAT)
 
-    write_metadata(x, folder, text_file(name, sha1), script_name)
+    file_rdata <- paste0(name, date_time_extension, ".RData")
+
+    file_yaml <- paste0(name, date_time_extension, ".yml")
+
+    write_metadata(sha1, folder, file_yaml, script_name)
+
+    write_object(x, name, file_rdata)
   }
+
+  invisible()
 }
 
 # get_store_folder -------------------------------------------------------------
-get_store_folder <- function()
+get_store_folder <- function(dbg = FALSE)
 {
-  kwb.utils::safePath(kwb.utils::desktop(), "tmp")
+  path <- file.path(dirname(tempdir()), "kwb.fakin.store")
+
+  kwb.utils::createDirectory(path, dbg = dbg)
+}
+
+# find_metadata ----------------------------------------------------------------
+find_metadata <- function(name, sha1 = NULL)
+{
+  # Read metadata from all files related to the object
+  pattern <- paste0(DATE_TIME_PATTERN, ".yml$")
+
+  metadata_files <- dir(pattern = paste0("^", name, pattern))
+
+  result <- lapply(metadata_files, yaml::read_yaml)
+
+  if (length(result) && ! is.null(sha1)) {
+
+    sha_values <- sapply(result, kwb.utils::selectElements, "sha1")
+
+    result <- result[sha_values == sha1]
+  }
+
+  result
 }
 
 # write_object -----------------------------------------------------------------
 write_object <- function(x, name, file, dbg = TRUE)
 {
-  kwb.utils::catIf(dbg, "Writing", name, "to", file, "... ")
+  kwb.utils::catAndRun(dbg = dbg, paste("Writing", name, "to", file), {
 
-  save(x, file = file)
-
-  kwb.utils::catIf(dbg, "ok.\n")
+    save(x, file = file)
+  })
 }
 
 # write_metadata ---------------------------------------------------------------
-write_metadata <- function(sha1, folder, file, script_name, dbg = TRUE)
+write_metadata <- function(sha1, folder, file, script_name, dbg = TRUE, ...)
 {
-  kwb.utils::writeText(
-    x = sprintf(
-      "Folder: %s\nFile: %s\nCreated: %s\nCreator: %s\nsha1: %s\n",
-      folder, file, Sys.time(), script_name, sha1
-    ),
-    file = file.path(folder, file),
-    type = "metadata to",
-    dbg = dbg
+  metadata <- list(
+    folder = folder,
+    file = paste0(kwb.utils::removeExtension(file), ".RData"),
+    created = format(Sys.time()),
+    creator = script_name,
+    sha1 = sha1,
+    ...
   )
-}
 
-# read_sha1 --------------------------------------------------------------------
-read_sha1 <- function(file)
-{
-  if (! file.exists(file)) {
+  kwb.utils::catAndRun(paste("Writing metadata to" , file), {
 
-    stop("No metadata available. Missing file: ", file)
-  }
-
-  content <- readLines(file)
-
-  index <- grep("^sha1:", content)
-
-  if (length(index) == 0) {
-
-    stop("No information on sha1 available in ", file)
-  }
-
-  gsub("^sha1:\\s+", "", content[index])
+    yaml::write_yaml(metadata, file)
+  })
 }
 
 # restore ----------------------------------------------------------------------
@@ -84,7 +101,9 @@ restore <- function(name, index = NULL)
 {
   folder <- get_store_folder()
 
-  files <- dir(folder, paste0("", name, "_[0-9a-f]{40}\\.RData$"))
+  pattern <- paste0("", name, DATE_TIME_PATTERN, ".RData$")
+
+  files <- dir(folder, pattern, full.names = TRUE)
 
   n_files <- length(files)
 
@@ -95,8 +114,18 @@ restore <- function(name, index = NULL)
 
   if (n_files > 1 && is.null(index)) {
 
+    metadata_list <- get_metadata(files)
+
     cat("Set the index argument to decide for a file:\n")
-    cat(paste(seq_along(files), files, sep = ": ", collapse = "\n"))
+
+    message_lines <- sprintf(
+      "%d: %s (creator: %s)",
+      seq_along(files),
+      basename(files),
+      sapply(metadata_list, kwb.utils::selectElements, "creator")
+    )
+
+    kwb.utils::catLines(message_lines)
 
     return(invisible())
   }
@@ -108,5 +137,32 @@ restore <- function(name, index = NULL)
     stop("index must be a value between 1 and ", n_files)
   }
 
-  kwb.utils::loadObject(kwb.utils::safePath(folder, files[index]), "x")
+  kwb.utils::loadObject(files[index], "x")
+}
+
+# get_metadata -----------------------------------------------------------------
+get_metadata <- function(file)
+{
+  stopifnot(is.character(file))
+
+  if (length(file) > 1) {
+
+    return(lapply(file, get_metadata))
+  }
+
+  stopifnot(file.exists(file))
+
+  file_yaml <- paste0(kwb.utils::removeExtension(file), ".yml")
+
+  if (file.exists(file_yaml)) {
+
+    yaml::read_yaml(file_yaml)
+
+  } else {
+
+    stop_(
+      "No metadata available for file ", file, ".\n",
+      "No such file: ", file_yaml
+    )
+  }
 }
