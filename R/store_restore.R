@@ -1,6 +1,34 @@
 DATE_TIME_FORMAT <- "_%Y-%m-%d_%H%M%S"
 DATE_TIME_PATTERN <- "_\\d{4}-\\d{2}-\\d{2}_\\d{6}"
 
+# clear_storage ----------------------------------------------------------------
+clear_storage <- function(name)
+{
+  files <- get_storage_files(name, extension = "[.][^.]+$")
+
+  n_files <- length(files)
+
+  if (n_files) {
+
+    invisible(kwb.utils::catAndRun(expr = unlink(files), sprintf(
+      "Deleting %d files storing objects with name '%s'",
+      n_files, name
+    )))
+
+  } else {
+
+    cat(sprintf("No objects with name '%s' stored.\n", name))
+  }
+}
+
+# get_storage_files ------------------------------------------------------------
+get_storage_files <- function(name, extension = "[.]RData$")
+{
+  pattern <- paste0("", name, DATE_TIME_PATTERN, extension)
+
+  dir(get_store_folder(), pattern, full.names = TRUE)
+}
+
 # store ------------------------------------------------------------------------
 store <- function(x, script_name, dbg = TRUE)
 {
@@ -99,11 +127,7 @@ write_metadata <- function(sha1, folder, file, script_name, dbg = TRUE, ...)
 # restore ----------------------------------------------------------------------
 restore <- function(name, index = NULL)
 {
-  folder <- get_store_folder()
-
-  pattern <- paste0("", name, DATE_TIME_PATTERN, ".RData$")
-
-  files <- dir(folder, pattern, full.names = TRUE)
+  files <- get_storage_files(name)
 
   n_files <- length(files)
 
