@@ -117,11 +117,6 @@ get_example_leafs <- function(size = 10, depth = 5)
   stopifnot(depth <= length(LETTERS))
   stopifnot(size < 1000)
 
-  indentation <- function(depth, sep = "\t") {
-
-    do.call(paste0, as.list(rep(sep, depth)))
-  }
-
   folderInDepth <- function(i, prefix = "") {
 
     paste0(indentation(i-1), prefix, LETTERS[i])
@@ -131,6 +126,12 @@ get_example_leafs <- function(size = 10, depth = 5)
 
     sapply(seq_len(depth), folderInDepth, prefix = prefix)
   }))
+}
+
+# indentation ------------------------------------------------------------------
+indentation <- function(depth, space = "\t")
+{
+  paste(rep(space, depth), collapse = "")
 }
 
 # to_leaf_matrix ---------------------------------------------------------------
