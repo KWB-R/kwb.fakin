@@ -18,7 +18,9 @@ build_folders_from_file <- function(
 
   max_depth <- kwb.utils::defaultIfNULL(max_depth, maxdepth(paths = paths))
 
-  write_paths_to_folder_tree(paths, createDirectory(target_dir), max_depth)
+  kwb.utils::createDirectory(target_dir)
+
+  write_paths_to_folder_tree(paths, target_dir, max_depth)
 }
 
 # write_paths_to_folder_tree ---------------------------------------------------
@@ -29,14 +31,14 @@ write_paths_to_folder_tree <- function(
   #paths <- paths_aquanes_relative
   #target_dir <- target_dir
 
-  paths <- kwb.fakin:::remove_empty(paths, dbg = TRUE)
+  paths <- remove_empty(paths, dbg = TRUE)
 
   if (length(paths) == 0) {
 
     return()
   }
 
-  folder_matrix <- kwb.fakin:::toSubdirMatrix(paths)
+  folder_matrix <- toSubdirMatrix(paths)
 
   (top_level_folders <- folder_matrix[, 1])
 
@@ -88,7 +90,7 @@ data_frame_to_paths <- function(df)
 
   paths_with_trailing_slashes <- kwb.utils::pasteColumns(df, sep = "/")
 
-  kwb.fakin:::remove_empty(gsub("/+$", "", paths_with_trailing_slashes))
+  remove_empty(gsub("/+$", "", paths_with_trailing_slashes))
 }
 
 # write_paths_file -------------------------------------------------------------
@@ -105,5 +107,5 @@ write_paths_file <- function(path_list, element, output_dir = "")
     if (n_paths != 1) "S" else ""
   )
 
-  writeText(paths, file.path(output_dir, file))
+  kwb.utils::writeText(paths, file.path(output_dir, file))
 }

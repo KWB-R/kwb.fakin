@@ -28,7 +28,7 @@ apply_substitutions_from_file <- function(x, file, dbg = TRUE)
 {
   y <- kwb.utils::multiSubstitute(x, read_substitutions_from_file(file))
 
-  kwb.fakin:::catChangesIf(dbg, x, y)
+  catChangesIf(dbg, x, y)
 
   y
 }
