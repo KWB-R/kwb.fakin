@@ -78,5 +78,5 @@ to_tree <- function(x, dbg = FALSE)
     #trees <- c(list("[files]" = leafs), trees)
   }
 
-  trees
+  kwb.utils::addClass(trees, "path_tree")
 }
