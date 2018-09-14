@@ -13,12 +13,15 @@ file_unify <- pkg_file("replacements_unify.csv")
 #file_attribute_words <- pkg_file("words-to-attributes.csv")
 file_attribute_words <- pkg_file("words-to-attributes_aquanes.csv")
 
+Sys.setlocale(locale = "C")
+
 # MAIN -------------------------------------------------------------------------
 if (FALSE)
 {
-  # paths_raw <- kwb.fakin::read_paths(file)
+  # paths_raw <- kwb.fakin::read_paths(file, encoding = "UTF-8")
   # paths <- kwb.fakin::removeCommonRoot(paths_raw)
 
+  # kwb.fakin:::clear_storage("paths")
   # kwb.fakin:::store(paths, "extract_properties")
   # paths <- kwb.fakin:::restore("paths")
 
@@ -27,8 +30,9 @@ if (FALSE)
 
   path_tree <- kwb.fakin:::to_tree(folder_paths)
 
+  # kwb.fakin:::clear_storage("path_tree")
   # kwb.fakin:::store(path_tree, "extract_properties")
-  # path_tree <- kwb.fakin:::restore("path_tree", 2)
+  # path_tree <- kwb.fakin:::restore("path_tree")
 
   #subtree <- path_tree$SUW_Department$Projects
   subtree <- path_tree$WWT_Department$Projects
@@ -62,17 +66,17 @@ if (FALSE)
     as_data_frame = FALSE
   )
 
-  result <- get_path_properties(subtree, folder_properties)
+  View(folder_properties)
+
+  result <- get_path_properties(subtree$AquaNES, folder_properties)
+
+  cat(yaml::as.yaml(result))
+
+  frequencies <- sort(table(sapply(result, to_property_strings)))
 
   kwb.plot::setMargins(left = 14, top = 0, bottom = 2)
-  barplot(tail(sort(table(result)), 30), horiz = TRUE, cex.names = 0.6, las = 1)
 
-  file <- tempfile("subdir_list_", fileext = ".yml")
-
-  yaml::write_yaml(subdir_list, file = )
-
-  dim(folder_properties)
-  View(folder_properties)
+  barplot(tail(frequencies, 30), horiz = TRUE, cex.names = 0.6, las = 1)
 
   folder_names <- apply_substitutions_from_file(folder_names, file_unify)
 
@@ -109,29 +113,39 @@ if (FALSE)
 }
 
 # get_path_properties (rewritten, where is the original?) ----------------------
-get_path_properties <- function(subtree, folder_properties)
+get_path_properties <- function(paths, folder_properties)
 {
-  path_part_list <- kwb.fakin:::splitPaths(kwb.fakin:::flatten_tree(subtree$AquaNES))
+  if (is.list(paths)) {
 
-  remove_na_or_empty <- function(x) x[! kwb.utils::isNaOrEmpty(x)]
+    paths <- kwb.fakin:::flatten_tree(paths)
+  }
 
-  property_strings <- sapply(path_part_list, function(path_parts) {
+  subdir_list <- kwb.fakin:::splitPaths(paths)
 
-    paste(collapse = "+", kwb.fakin:::sort_unique(remove_na_or_empty(
-      folder_properties[path_parts]
-    )))
-  })
+  stats::setNames(nm = paths, lapply(subdir_list, function(subdirs) {
 
-  # property_list <- lapply(property_strings, function(property_string) {
-  #
-  #   key_values <- kwb.utils::toKeysAndValues(property_string, c("[+]", ":"))
-  #
-  #   result <- do.call(kwb.utils::toLookupTable, key_values)
-  #
-  #   stats::setNames(result, kwb.utils::makeUnique(names(result), warn = FALSE))
-  # })
-  #
-  # as.matrix(kwb.utils::safeRowBindAll(property_list))
+    #subdirs <- subdir_list[[1]]
+    properties <- folder_properties[subdirs]
+    properties <- properties[! kwb.utils::isNaOrEmpty(properties)]
+    properties <- kwb.fakin:::sort_unique(properties)
+    properties <- kwb.utils::collapsed(properties, "+")
+    key_values <- kwb.utils::toKeysAndValues(properties, c("\\+", ":"))
+    key_values$keys <- kwb.utils::makeUnique(key_values$keys)
+    do.call(kwb.utils::toLookupList, key_values)
+  }))
+}
 
-  property_strings
+# to_property_strings ----------------------------------------------------------
+to_property_strings <- function(x)
+{
+  stopifnot(is.list(x))
+
+  if (length(x)) {
+
+    paste0(names(x), ":", x, collapse = "+" )
+
+  } else {
+
+    ""
+  }
 }
