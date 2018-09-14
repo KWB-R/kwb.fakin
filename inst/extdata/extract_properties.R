@@ -5,7 +5,8 @@ library("kwb.utils")
 
 #file <- "Desktop/Data/FAKIN/paths_poseidon_projekte.txt"
 #file <- "~/Desktop/tmp/paths_projekte_2.txt"
-file <- "~/Desktop/Data/FAKIN/folders_projects/folders_projects_2018-09-11.txt"
+#file <- "~/Desktop/Data/FAKIN/folders_projects/folders_projects_2018-09-11.txt"
+file <- "~/Desktop/Data/FAKIN/paths_poseidon_projekte_2016_05_16.txt"
 
 pkg_file <- function(name) system.file("extdata", name, package = "kwb.fakin")
 file_composed <- pkg_file("replacements_composed-words.csv")
@@ -25,14 +26,16 @@ if (FALSE)
   # kwb.fakin:::store(paths, "extract_properties")
   # paths <- kwb.fakin:::restore("paths")
 
-  #folder_paths <- unique(dirname(paths))
-  folder_paths <- paths
+  folder_paths <- unique(dirname(paths))
+  #folder_paths <- paths
 
   path_tree <- kwb.fakin:::to_tree(folder_paths)
 
   # kwb.fakin:::clear_storage("path_tree")
   # kwb.fakin:::store(path_tree, "extract_properties")
   # path_tree <- kwb.fakin:::restore("path_tree")
+
+  kwb.fakin:::print_tree(path_tree)
 
   #subtree <- path_tree$SUW_Department$Projects
   subtree <- path_tree$WWT_Department$Projects
