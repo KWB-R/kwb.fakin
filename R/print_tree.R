@@ -5,10 +5,11 @@
 #' @param tree object of class \code{"path_tree"} as returned by
 #'   \code{kwb.fakin:::to_tree}
 #' @param max_depth number of depth levels to be printed
+#' @param \dots further arguments (currently not used)
 #'
 #' @export
 #'
-print.path_tree <- function(tree, max_depth = 2)
+print.path_tree <- function(tree, max_depth = 2, ...)
 {
   if (is.list(tree)) {
 

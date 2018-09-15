@@ -4,10 +4,11 @@
 #'
 #' @param tree object of class \code{path_tree} as returned by
 #'   \code{kwb.fakin:::to_tree}
+#' @param \dots further arguments (currently not used)
 #'
 #' @export
 #'
-summary.path_tree <- function(tree)
+summary.path_tree <- function(tree, ...)
 {
   name_frequency <- table(get_names_recursively(tree))
 

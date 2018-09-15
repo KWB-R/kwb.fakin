@@ -8,10 +8,11 @@
 #'   \code{kwb.fakin:::to_tree}
 #' @param n_levels number of levels to which the tree is cut
 #' @param depth current depth level
+#' @param \dots further arguments (currently not used)
 #'
 #' @export
 #'
-cut.path_tree <- function(tree, n_levels = 2, depth = 0)
+cut.path_tree <- function(tree, n_levels = 2, depth = 0, ...)
 {
   if (depth == n_levels || ! is.list(tree)) {
 
