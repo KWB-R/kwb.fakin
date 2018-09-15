@@ -4,15 +4,16 @@
 \alias{cut.path_tree}
 \title{Cut a Path Tree}
 \usage{
-\method{cut}{path_tree}(tree, n_levels = 2, depth = 0)
+\method{cut}{path_tree}(x, n_levels = 2, depth = 0, ...)
 }
 \arguments{
-\item{tree}{object of class \code{tree} as returned by
-\code{kwb.fakin:::to_tree}}
+\item{x}{tree object as returned by \code{kwb.fakin:::to_tree}}
 
 \item{n_levels}{number of levels to which the tree is cut}
 
 \item{depth}{current depth level}
+
+\item{\dots}{further arguments (currently not used)}
 }
 \description{
 Reduce a path tree to its first levels.

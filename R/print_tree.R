@@ -2,17 +2,17 @@
 
 #' Print a tree
 #'
-#' @param tree object of class \code{"path_tree"} as returned by
-#'   \code{kwb.fakin:::to_tree}
+#' @param x tree object as returned by \code{kwb.fakin:::to_tree}
 #' @param max_depth number of depth levels to be printed
+#' @param \dots further arguments (currently not used)
 #'
 #' @export
 #'
-print.path_tree <- function(tree, max_depth = 2)
+print.path_tree <- function(x, max_depth = 2, ...)
 {
-  if (is.list(tree)) {
+  if (is.list(x)) {
 
-    kwb.utils::catLines(tree_to_text(tree, max_depth))
+    kwb.utils::catLines(tree_to_text(x, max_depth))
 
   } else {
 

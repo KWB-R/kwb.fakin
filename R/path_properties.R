@@ -4,22 +4,22 @@
 #'
 #' Reduce a path tree to its first levels.
 #'
-#' @param tree object of class \code{tree} as returned by
-#'   \code{kwb.fakin:::to_tree}
+#' @param x tree object as returned by \code{kwb.fakin:::to_tree}
 #' @param n_levels number of levels to which the tree is cut
 #' @param depth current depth level
+#' @param \dots further arguments (currently not used)
 #'
 #' @export
 #'
-cut.path_tree <- function(tree, n_levels = 2, depth = 0)
+cut.path_tree <- function(x, n_levels = 2, depth = 0, ...)
 {
-  if (depth == n_levels || ! is.list(tree)) {
+  if (depth == n_levels || ! is.list(x)) {
 
     ""
 
   } else {
 
-    result <- lapply(tree, function(subtree) {
+    result <- lapply(x, function(subtree) {
 
       cut.path_tree(subtree, n_levels, depth + 1)
     })

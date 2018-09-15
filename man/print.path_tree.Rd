@@ -4,13 +4,14 @@
 \alias{print.path_tree}
 \title{Print a tree}
 \usage{
-\method{print}{path_tree}(tree, max_depth = 2)
+\method{print}{path_tree}(x, max_depth = 2, ...)
 }
 \arguments{
-\item{tree}{object of class \code{"path_tree"} as returned by
-\code{kwb.fakin:::to_tree}}
+\item{x}{tree object as returned by \code{kwb.fakin:::to_tree}}
 
 \item{max_depth}{number of depth levels to be printed}
+
+\item{\dots}{further arguments (currently not used)}
 }
 \description{
 Print a tree

@@ -2,14 +2,14 @@
 
 #' Get Statistics on Path Tree Nodes
 #'
-#' @param tree object of class \code{path_tree} as returned by
-#'   \code{kwb.fakin:::to_tree}
+#' @param object tree object as returned by \code{kwb.fakin:::to_tree}
+#' @param \dots further arguments (currently not used)
 #'
 #' @export
 #'
-summary.path_tree <- function(tree)
+summary.path_tree <- function(object, ...)
 {
-  name_frequency <- table(get_names_recursively(tree))
+  name_frequency <- table(get_names_recursively(object))
 
   result <- as.matrix(name_frequency[order(names(name_frequency))])
 
