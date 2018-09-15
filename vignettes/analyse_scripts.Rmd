@@ -42,7 +42,7 @@ They are available in the repository
 [kwb.fakin](https://github.com/kwb-r/kwb.fakin) on our 
 [GitHub account](https://github.com/kwb-r):
 
-```{r report-scripts}
+```{r report-scripts, eval = FALSE}
 repo <- "kwb-r/kwb.fakin"
 
 kwb.fakin::report_about_r_scripts(
