@@ -1,14 +1,31 @@
-# get_first_levels -------------------------------------------------------------
-get_first_levels <- function(tree, n_levels)
-{
-  tree <- tree[sapply(tree, is.list)]
+# cut.path_tree ----------------------------------------------------------------
 
-  lapply(tree, function(subtree) {
-    subpaths <- toSubdirMatrix(flatten_tree(subtree))
-    apply(subpaths[, seq_len(min(ncol(subpaths), n_levels))], 2, function(x) {
-      sort(unique(x[x != ""]))
+#' Cut a Path Tree
+#'
+#' Reduce a path tree to its first levels.
+#'
+#' @param tree object of class \code{tree} as returned by
+#'   \code{kwb.fakin:::to_tree}
+#' @param n_levels number of levels to which the tree is cut
+#' @param depth current depth level
+#'
+#' @export
+#'
+cut.path_tree <- function(tree, n_levels = 2, depth = 0)
+{
+  if (depth == n_levels || ! is.list(tree)) {
+
+    ""
+
+  } else {
+
+    result <- lapply(tree, function(subtree) {
+
+      cut.path_tree(subtree, n_levels, depth + 1)
     })
-  })
+
+    kwb.utils::addClass(result, className = "path_tree")
+  }
 }
 
 # sort_unique ------------------------------------------------------------------

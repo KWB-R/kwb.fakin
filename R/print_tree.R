@@ -1,5 +1,14 @@
-# print_tree -------------------------------------------------------------------
-print_tree <- function(tree, max_depth = 2)
+# print.path_tree --------------------------------------------------------------
+
+#' Print a tree
+#'
+#' @param tree object of class \code{"path_tree"} as returned by
+#'   \code{kwb.fakin:::to_tree}
+#' @param max_depth number of depth levels to be printed
+#'
+#' @export
+#'
+print.path_tree <- function(tree, max_depth = 2)
 {
   if (is.list(tree)) {
 
@@ -14,6 +23,8 @@ print_tree <- function(tree, max_depth = 2)
 # tree_to_text -----------------------------------------------------------------
 tree_to_text <- function(tree, max_depth = 1, depth = 1, indent = "")
 {
+  stopifnot(is.list(tree))
+
   chars <- c(
     space = " ", bottom_left = "\u2514", vertical = "\u2502",
     vertical_right = "\u251c"

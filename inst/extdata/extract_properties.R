@@ -3,8 +3,8 @@
 
 library("kwb.utils")
 
-file <- "~/Desktop/tmp/folders_projects_2018-09-11.txt"
-#file <- "~/Desktop/Data/FAKIN/folders_projects/folders_projects_2018-09-11.txt"
+#file <- safePath("~/Desktop/tmp/folders_projects_2018-09-11.txt")
+file <- safePath("~/Desktop/Data/FAKIN/folders_projects/folders_projects_2018-09-11.txt")
 #file <- "~/Desktop/Data/FAKIN/paths_poseidon_projekte_2016_05_16.txt"
 
 pkg_file <- function(name) system.file("extdata", name, package = "kwb.fakin")
@@ -13,7 +13,8 @@ file_unify <- pkg_file("replacements_unify.csv")
 #file_attribute_words <- pkg_file("words-to-attributes.csv")
 file_attribute_words <- pkg_file("words-to-attributes_aquanes.csv")
 
-Sys.setlocale(locale = "de_DE.utf-8")
+#Sys.setlocale(locale = "de_DE.utf-8")
+Sys.setlocale(locale = "C")
 
 # MAIN -------------------------------------------------------------------------
 if (FALSE)
@@ -26,23 +27,27 @@ if (FALSE)
   # paths <- kwb.fakin:::restore("paths")
 
   #folder_paths <- unique(dirname(paths))
-  #folder_paths <- paths
+  folder_paths <- paths
 
   path_tree <- kwb.fakin:::to_tree(folder_paths)
 
   # kwb.fakin:::clear_storage("path_tree")
   # kwb.fakin:::store(path_tree, "extract_properties")
-  # path_tree <- kwb.fakin:::restore("path_tree")
+  # path_tree <- kwb.fakin:::restore("path_tree", 2)
 
-  kwb.fakin:::print_tree(path_tree)
+  tree_SUW <- path_tree$SUW_Department$Projects
+  tree_WWT <- path_tree$WWT_Department$Projects
+  tree_GRW <- path_tree$GROUNDWATER$PROJECTS
 
-  #subtree <- path_tree$SUW_Department$Projects
-  subtree <- path_tree$WWT_Department$Projects
+  tree <- tree_SUW
+  pattern <- "litera"
 
-  first_levels <- kwb.fakin:::get_first_levels(tree = subtree, 2)
+  grep(pattern, rownames(summary(tree)), ignore.case = TRUE, value = TRUE)
+
+  (folder_frequency <- summary(cut(tree, 3)))
 
   # Get all unique folder names
-  folder_names <- kwb.fakin:::sort_unique(unlist(first_levels))
+  (folder_names <- rownames(folder_frequency))
 
   # Prepare file for replacements for composed words
   # kwb.fakin:::print_replacement_template(kwb.fakin:::sort_unique(folder_names))
