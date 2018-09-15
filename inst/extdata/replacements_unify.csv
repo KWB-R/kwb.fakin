@@ -1,7 +1,6 @@
-pattern;substitution
-\s+|-+;_
-_+;_
-^_;
+pattern;substitution;remark
+([ _-])+;\1;multiple (space|underscore|dash) -> one (space|underscore|dash)
+^_;;remove underscore at the beginning
 (\d+)(st|nd|rd|th)(.*);\2_no-\1
 (\d+)[.]_?zwischenbericht;zwischenbericht_\1
 ^\d+_;
