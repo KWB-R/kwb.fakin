@@ -1,7 +1,20 @@
 # install.packages("devtools")
 # devtools::install_github("kwb-r/kwb.fakin")
 
+# To avoid errors with pandoc in Ubuntu:
+# apt-get install pandoc
+#
+# rm /usr/lib/rstudio/bin/pandoc/pandoc
+# ln -s /usr/bin/pandoc /usr/lib/rstudio/bin/pandoc/pandoc
+#
+# rm /usr/lib/rstudio/bin/pandoc/pandoc-citeproc
+# ln -s /usr/bin/pandoc-citeproc /usr/lib/rstudio/bin/pandoc/pandoc-citeproc
+Sys.getenv("RSTUDIO_PANDOC")
+#Sys.setenv(RSTUDIO_PANDOC = "/usr/bin/pandoc")
+
 library("kwb.utils")
+
+THIS_SCRIPT <- "extract_properties"
 
 #file <- safePath("~/Desktop/tmp/folders_projects_2018-09-11.txt")
 file <- safePath("~/Desktop/Data/FAKIN/folders_projects/folders_projects_2018-09-11.txt")
@@ -14,37 +27,40 @@ file_unify <- pkg_file("replacements_unify.csv")
 file_attribute_words <- pkg_file("words-to-attributes_aquanes.csv")
 
 #Sys.setlocale(locale = "de_DE.utf-8")
-Sys.setlocale(locale = "C")
+Sys.setlocale(locale = "german")
 
 # MAIN -------------------------------------------------------------------------
 if (FALSE)
 {
-  # paths_raw <- kwb.fakin::read_paths(file, encoding = "UTF-8")
-  # paths <- kwb.fakin::removeCommonRoot(paths_raw)
+  # Try to restore a path tree or reread, recreate and store the tree
+  if (fails(path_tree <- kwb.fakin:::restore("path_tree"))) {
 
-  # kwb.fakin:::clear_storage("paths")
-  # kwb.fakin:::store(paths, "extract_properties")
-  # paths <- kwb.fakin:::restore("paths")
+    # Try to restore a vector of folder paths or recreate and store it
+    if (fails(paths <- kwb.fakin:::restore("paths"))) {
 
-  #folder_paths <- unique(dirname(paths))
-  folder_paths <- paths
+      paths_raw <- kwb.fakin::read_paths(file, encoding = "UTF-8")
+      paths <- kwb.fakin::removeCommonRoot(paths_raw)
+      kwb.fakin:::store(paths, THIS_SCRIPT)
+    }
 
-  path_tree <- kwb.fakin:::to_tree(folder_paths)
+    path_tree <- kwb.fakin:::to_tree(paths)
+    kwb.fakin:::store(path_tree, THIS_SCRIPT)
+  }
 
-  # kwb.fakin:::clear_storage("path_tree")
-  # kwb.fakin:::store(path_tree, "extract_properties")
-  # path_tree <- kwb.fakin:::restore("path_tree", 2)
+  # Select path trees by department
+  department_trees <- list(
+    SUW = path_tree$SUW_Department$Projects,
+    WWT = path_tree$WWT_Department$Projects,
+    GRW = path_tree$GROUNDWATER$PROJECTS
+  )
 
-  tree_SUW <- path_tree$SUW_Department$Projects
-  tree_WWT <- path_tree$WWT_Department$Projects
-  tree_GRW <- path_tree$GROUNDWATER$PROJECTS
+  # Get folder frequencies down to a certain folder depth
+  (folder_frequencies <- lapply(department_trees, get_folder_frequency, 3))
 
-  tree <- tree_SUW
-  pattern <- "litera"
+  # Search the frequency tables for relevant patterns
+  lapply(folder_frequencies, grep_frequency, "litera")
 
-  grep(pattern, rownames(summary(tree)), ignore.case = TRUE, value = TRUE)
-
-  (folder_frequency <- summary(cut(tree, 3)))
+  print(department_trees$SUW, 2)
 
   # Get all unique folder names
   (folder_names <- rownames(folder_frequency))
@@ -109,6 +125,38 @@ if (FALSE)
   kwb.utils::catLines(attributes[grep("@", attributes)])
 
   attributes[grep("@", attributes, invert = TRUE)]
+}
+
+# MAIN: Clear storage ----------------------------------------------------------
+if (FALSE)
+{
+  kwb.fakin:::clear_storage("paths")
+  kwb.fakin:::clear_storage("path_tree")
+}
+
+# fails ------------------------------------------------------------------------
+fails <- function(expr)
+{
+  inherits(try(expr), "try-error")
+}
+
+# succeeds ---------------------------------------------------------------------
+succeeds <- function(expr)
+{
+  ! fails(expr)
+}
+
+# get_folder_frequency ---------------------------------------------------------
+get_folder_frequency <- function(tree, depth)
+{
+  summary(cut(tree, depth))
+}
+
+# grep_frequency ---------------------------------------------------------------
+grep_frequency <- function(f, p)
+{
+  names <- rownames(f)
+  f[grepl(p, names, ignore.case = TRUE), , drop = FALSE]
 }
 
 # TEST AREA --------------------------------------------------------------------
