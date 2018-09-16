@@ -16,11 +16,23 @@ get_recursive_file_info <- function(root_dir, pattern = NULL, dbg = TRUE)
 
   # For each directory separately, get the paths to the files first and the
   # properties of these files second
-  do.call(rbind, lapply(roots, function(root) {
+  file_info <- do.call(rbind, lapply(roots, function(root) {
 
     kwb.utils::catAndRun(paste("Browsing", root), dbg = dbg, file.info(
       list.files(root, full.names = TRUE, recursive = TRUE),
       extra_cols = TRUE
     ))
   }))
+
+  stopifnot(all(! file_info$isdir))
+
+  file_info
+}
+
+# add_path_column --------------------------------------------------------------
+add_path_column <- function(file_info)
+{
+  paths <- removeCommonRoot(rownames(file_info), keep_root = TRUE)
+
+  kwb.utils::resetRowNames(kwb.utils::setColumns(file_info, pathString = paths))
 }
