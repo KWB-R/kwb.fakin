@@ -94,6 +94,9 @@
     </li>
   </ul>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
@@ -127,7 +130,8 @@
     </div>
 
     <pre class="usage"><span class='fu'>plot_path_network</span>(<span class='no'>paths</span>, <span class='kw'>max_depth</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>nodePadding</span> <span class='kw'>=</span> <span class='fl'>8</span>,
-  <span class='kw'>sinksRight</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>names_to_colours</span> <span class='kw'>=</span> <span class='no'>name_to_traffic_light</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>nodeHeight</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>sinksRight</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>remove_common_root</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>names_to_colours</span> <span class='kw'>=</span> <span class='no'>name_to_traffic_light</span>, <span class='kw'>height</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -147,8 +151,17 @@ there. Decrease this value (e.g. `nodePadding = 0`) if there are
 many nodes to plot and the plot does not look as expected</p></td>
     </tr>
     <tr>
+      <th>nodeHeight</th>
+      <td><p>height of a node in pixels. Used to calculate the total
+plot height.</p></td>
+    </tr>
+    <tr>
       <th>sinksRight</th>
       <td><p>passed to <code><a href='http://www.rdocumentation.org/packages/networkD3/topics/sankeyNetwork'>sankeyNetwork</a></code>, see there</p></td>
+    </tr>
+    <tr>
+      <th>remove_common_root</th>
+      <td><p>remove the common root parts? (default: TRUE)</p></td>
     </tr>
     <tr>
       <th>names_to_colours</th>
@@ -157,6 +170,13 @@ accepts a vector of (node) names and returns a vector of (colour) names
 of same length. This function will be called by <code>plot_path_network</code>
 to determine the colour for each node based on its name. By default, the
 function <code><a href='name_to_traffic_light.html'>name_to_traffic_light</a></code> is called.</p></td>
+    </tr>
+    <tr>
+      <th>height</th>
+      <td><p>plot height in pixels, passed to
+<code><a href='http://www.rdocumentation.org/packages/networkD3/topics/sankeyNetwork'>sankeyNetwork</a></code>. If <code>NULL</code>, the height is
+calculated based on <code>nodeHeight</code>, <code>nodePadding</code> and the maximum
+number of nodes at one folder depth.</p></td>
     </tr>
     <tr>
       <th>&#8230;</th>

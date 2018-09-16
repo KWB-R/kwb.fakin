@@ -4,7 +4,8 @@
 \alias{get_special_character_info}
 \title{Get Special Characters and Their Byte Codes}
 \usage{
-get_special_character_info(text, context_length = 7, bytes_per_char = 2)
+get_special_character_info(text, context_length = 7,
+  bytes_per_char = 2)
 }
 \arguments{
 \item{text}{vector of character of length one}

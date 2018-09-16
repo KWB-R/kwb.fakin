@@ -63,6 +63,9 @@
     </li>
   </ul>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
@@ -80,13 +83,13 @@
 <!--/.navbar -->
 
       
-      </header><script src="working_with_paths_files/htmlwidgets-1.0/htmlwidgets.js"></script><script src="working_with_paths_files/d3-4.5.0/d3.min.js"></script><script src="working_with_paths_files/sankey-1/sankey.js"></script><script src="working_with_paths_files/sankeyNetwork-binding-0.4/sankeyNetwork.js"></script><div class="row">
+      </header><script src="working_with_paths_files/htmlwidgets-1.2/htmlwidgets.js"></script><script src="working_with_paths_files/d3-4.5.0/d3.min.js"></script><script src="working_with_paths_files/sankey-1/sankey.js"></script><script src="working_with_paths_files/sankeyNetwork-binding-0.4/sankeyNetwork.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Working with Paths</h1>
                         <h4 class="author">Hauke Sonnenberg</h4>
             
-            <h4 class="date">2018-07-11</h4>
+            <h4 class="date">2018-09-16</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/kwb-r/kwb.fakin/blob/master/vignettes/working_with_paths.Rmd"><code>vignettes/working_with_paths.Rmd</code></a></small>
       <div class="hidden name"><code>working_with_paths.Rmd</code></div>
@@ -117,23 +120,26 @@
 <h2 class="hasAnchor">
 <a href="#plotting-paths" class="anchor"></a>Plotting Paths</h2>
 <p>Let’s get a first impression on the paths defined above by plotting them. We provide a plot function that uses the <code><a href="http://www.rdocumentation.org/packages/networkD3/topics/sankeyNetwork">sankeyNetwork()</a></code> function from the networkD3 package. Make sure that this package is installed:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">if (!<span class="st"> </span><span class="kw">require</span>(<span class="st">"networkD3"</span>)) {
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (<span class="op">!</span><span class="st"> </span><span class="kw">require</span>(<span class="st">"networkD3"</span>)) {
   
   <span class="kw">install.packages</span>(<span class="st">"networkD3"</span>, <span class="dt">repos =</span> <span class="st">"https://cloud.r-project.org"</span>)
 }</code></pre></div>
 <pre><code>## Loading required package: networkD3</code></pre>
 <p>You can then use the <code><a href="../reference/plot_path_network.html">plot_path_network()</a></code> function from the kwb.fakin package to plot the example paths defined above:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kwb.fakin::<span class="kw"><a href="../reference/plot_path_network.html">plot_path_network</a></span>(paths)</code></pre></div>
-<div id="htmlwidget-3310f10672d34ec815c8" style="width:700px;height:432.632880098888px;" class="sankeyNetwork html-widget"></div>
-<script type="application/json" data-for="htmlwidget-3310f10672d34ec815c8">{"x":{"links":{"source":[0,0,0,1,1,2,3,3,4,5,2,6,6],"target":[3,4,5,2,6,7,8,9,10,11,12,13,14],"value":[2,1,1,3,2,1,1,1,1,1,2,1,1]},"nodes":{"name":["project-2","project-1","wp-1","Berichte","Daten","Grafiken","wp 2","analysis","bericht-1.doc","bericht-2.doc","file-1.csv","file 1.png","input","input","output"],"group":["green","green","green","green","green","green","yellow","green","green","green","green","yellow","green","green","green"]},"options":{"NodeID":"name","NodeGroup":"colour","LinkGroup":null,"colourScale":"d3.scaleOrdinal() .domain(['green', 'yellow']) .range(['green', 'yellow'])","fontSize":7,"fontFamily":null,"nodeWidth":15,"nodePadding":8,"units":"","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":false}},"evals":[],"jsHooks":[]}</script><p>The function accepts all arguments provided by <code><a href="http://www.rdocumentation.org/packages/networkD3/topics/sankeyNetwork">networkD3::sankeyNetwork()</a></code>. You may e.g. use the argument <code>fontSize</code> to increase the node labels:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kwb.fakin::<span class="kw"><a href="../reference/plot_path_network.html">plot_path_network</a></span>(paths, <span class="dt">fontSize =</span> <span class="dv">16</span>)</code></pre></div>
-<div id="htmlwidget-2f52b1ca79dddea8ee0e" style="width:700px;height:432.632880098888px;" class="sankeyNetwork html-widget"></div>
-<script type="application/json" data-for="htmlwidget-2f52b1ca79dddea8ee0e">{"x":{"links":{"source":[0,0,0,1,1,2,3,3,4,5,2,6,6],"target":[3,4,5,2,6,7,8,9,10,11,12,13,14],"value":[2,1,1,3,2,1,1,1,1,1,2,1,1]},"nodes":{"name":["project-2","project-1","wp-1","Berichte","Daten","Grafiken","wp 2","analysis","bericht-1.doc","bericht-2.doc","file-1.csv","file 1.png","input","input","output"],"group":["green","green","green","green","green","green","yellow","green","green","green","green","yellow","green","green","green"]},"options":{"NodeID":"name","NodeGroup":"colour","LinkGroup":null,"colourScale":"d3.scaleOrdinal() .domain(['green', 'yellow']) .range(['green', 'yellow'])","fontSize":16,"fontFamily":null,"nodeWidth":15,"nodePadding":8,"units":"","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":false}},"evals":[],"jsHooks":[]}</script><p>Let’s always use this font size by defining a short helper function:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">plot_16pt &lt;-<span class="st"> </span>function(...) kwb.fakin::<span class="kw"><a href="../reference/plot_path_network.html">plot_path_network</a></span>(..., <span class="dt">fontSize =</span> <span class="dv">16</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kwb.fakin<span class="op">::</span><span class="kw">plot_path_network</span>(paths)</code></pre></div>
+<pre><code>## Splitting paths... ok.</code></pre>
+<div id="htmlwidget-4aa95bcc46603f2c5666" style="width:700px;height:162px;" class="sankeyNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4aa95bcc46603f2c5666">{"x":{"links":{"source":[0,0,0,1,1,2,3,3,4,5,6,2,6],"target":[3,5,4,6,2,7,8,9,10,11,12,13,14],"value":[2,1,1,2,3,1,1,1,1,1,1,2,1]},"nodes":{"name":["project-2","project-1","wp-1","Berichte","Grafiken","Daten","wp 2","analysis","bericht-1.doc","bericht-2.doc","file 1.png","file-1.csv","input","input","output"],"group":["green","green","green","green","green","green","yellow","green","green","green","yellow","green","green","green","green"]},"options":{"NodeID":"name","NodeGroup":"colour","LinkGroup":null,"colourScale":"d3.scaleOrdinal() .domain(['green', 'yellow']) .range(['green', 'yellow'])","fontSize":7,"fontFamily":null,"nodeWidth":15,"nodePadding":8,"units":"","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":false}},"evals":[],"jsHooks":[]}</script><p>The function accepts all arguments provided by <code><a href="http://www.rdocumentation.org/packages/networkD3/topics/sankeyNetwork">networkD3::sankeyNetwork()</a></code>. You may e.g. use the argument <code>fontSize</code> to increase the node labels:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kwb.fakin<span class="op">::</span><span class="kw">plot_path_network</span>(paths, <span class="dt">fontSize =</span> <span class="dv">16</span>)</code></pre></div>
+<pre><code>## Splitting paths... ok.</code></pre>
+<div id="htmlwidget-e52460d73b893c30d155" style="width:700px;height:162px;" class="sankeyNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e52460d73b893c30d155">{"x":{"links":{"source":[0,0,0,1,1,2,3,3,4,5,6,2,6],"target":[3,5,4,6,2,7,8,9,10,11,12,13,14],"value":[2,1,1,2,3,1,1,1,1,1,1,2,1]},"nodes":{"name":["project-2","project-1","wp-1","Berichte","Grafiken","Daten","wp 2","analysis","bericht-1.doc","bericht-2.doc","file 1.png","file-1.csv","input","input","output"],"group":["green","green","green","green","green","green","yellow","green","green","green","yellow","green","green","green","green"]},"options":{"NodeID":"name","NodeGroup":"colour","LinkGroup":null,"colourScale":"d3.scaleOrdinal() .domain(['green', 'yellow']) .range(['green', 'yellow'])","fontSize":16,"fontFamily":null,"nodeWidth":15,"nodePadding":8,"units":"","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":false}},"evals":[],"jsHooks":[]}</script><p>Let’s always use this font size by defining a short helper function:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">plot_16pt &lt;-<span class="st"> </span><span class="cf">function</span>(...) kwb.fakin<span class="op">::</span><span class="kw">plot_path_network</span>(..., <span class="dt">fontSize =</span> <span class="dv">16</span>)</code></pre></div>
 <p>By default only the first three levels of folders or files are shown. You can increase (or decrease) the number of shown levels by setting the <code>max_depth</code> argument:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot_16pt</span>(paths, <span class="dt">max_depth =</span> <span class="dv">4</span>)</code></pre></div>
-<div id="htmlwidget-170ae2c7b880371252ae" style="width:700px;height:432.632880098888px;" class="sankeyNetwork html-widget"></div>
-<script type="application/json" data-for="htmlwidget-170ae2c7b880371252ae">{"x":{"links":{"source":[0,0,0,1,1,2,3,3,4,5,2,6,6,7,7,8,9,10],"target":[3,4,5,2,6,10,11,12,13,14,7,9,8,15,16,17,18,19],"value":[2,1,1,3,2,1,1,1,1,1,2,1,1,1,1,1,1,1]},"nodes":{"name":["project-2","project-1","wp-1","Berichte","Daten","Grafiken","wp 2","input","output","input","analysis","bericht-1.doc","bericht-2.doc","file-1.csv","file 1.png","file 1.csv","file-2.csv","koepenick_clean.csv","köpenick_dirty.csv","summary.pdf"],"group":["green","green","green","green","green","green","yellow","green","green","green","green","green","green","green","yellow","yellow","green","green","red","green"]},"options":{"NodeID":"name","NodeGroup":"colour","LinkGroup":null,"colourScale":"d3.scaleOrdinal() .domain(['green', 'yellow', 'red']) .range(['green', 'yellow', 'red'])","fontSize":16,"fontFamily":null,"nodeWidth":15,"nodePadding":8,"units":"","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":false}},"evals":[],"jsHooks":[]}</script><p>Now, that all three traffic light colours (green, yellow, red) appear in the plot, we want to explain what these colours are intended to indicate:</p>
+<pre><code>## Splitting paths... ok.</code></pre>
+<div id="htmlwidget-556b122c86d3ad7b563a" style="width:700px;height:162px;" class="sankeyNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-556b122c86d3ad7b563a">{"x":{"links":{"source":[0,0,0,1,1,2,3,3,4,5,6,2,6,7,7,8,9,10],"target":[3,5,4,6,2,10,11,12,13,14,9,7,8,15,16,17,18,19],"value":[2,1,1,2,3,1,1,1,1,1,1,2,1,1,1,1,1,1]},"nodes":{"name":["project-2","project-1","wp-1","Berichte","Grafiken","Daten","wp 2","input","output","input","analysis","bericht-1.doc","bericht-2.doc","file 1.png","file-1.csv","file 1.csv","file-2.csv","koepenick_clean.csv","köpenick_dirty.csv","summary.pdf"],"group":["green","green","green","green","green","green","yellow","green","green","green","green","green","green","yellow","green","yellow","green","green","red","green"]},"options":{"NodeID":"name","NodeGroup":"colour","LinkGroup":null,"colourScale":"d3.scaleOrdinal() .domain(['green', 'yellow', 'red']) .range(['green', 'yellow', 'red'])","fontSize":16,"fontFamily":null,"nodeWidth":15,"nodePadding":8,"units":"","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":false}},"evals":[],"jsHooks":[]}</script><p>Now, that all three traffic light colours (green, yellow, red) appear in the plot, we want to explain what these colours are intended to indicate:</p>
 <ul>
 <li><p>Green: name is fully compliant with our naming rules. It consists only of alphanumeric letters, underscore, hyphen or dot.</p></li>
 <li><p>Yellow: name is almost compliant with our naming rules. It constists only of alphanumeric letters, underscore, hyphen, dot or space.</p></li>
@@ -146,65 +152,85 @@
 <a href="#selecting-paths" class="anchor"></a>Selecting Paths</h2>
 <p>If you want to investigate a complex folder structure with hundreds or thousands of files the overview plot will not show up properly. It is then useful to select only a subsection of the folder structure for further investigation. To simplify the selection of paths we wrote a function that converts a vector of path strings into a nested list. In that list, the folder names appear as the names of the list elements. Let’s try this out with the example paths defined above:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Convert the vector of paths into a tree structure</span>
-path_tree &lt;-<span class="st"> </span>kwb.fakin:::<span class="kw"><a href="../reference/to_tree.html">to_tree</a></span>(paths)
+path_tree &lt;-<span class="st"> </span>kwb.fakin<span class="op">:::</span><span class="kw"><a href="../reference/to_tree.html">to_tree</a></span>(paths)
 
 <span class="co"># Show the structure of the tree</span>
 <span class="kw">str</span>(path_tree)</code></pre></div>
 <pre><code>## List of 2
 ##  $ project-1:List of 2
-##   ..$ wp-1:List of 2
-##   .. ..$ analysis:List of 1
-##   .. .. ..$ summary.pdf: chr ""
-##   .. ..$ input   :List of 2
-##   .. .. ..$ file 1.csv: chr ""
-##   .. .. ..$ file-2.csv: chr ""
 ##   ..$ wp 2:List of 2
 ##   .. ..$ input :List of 1
 ##   .. .. ..$ köpenick_dirty.csv: chr ""
+##   .. .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"
 ##   .. ..$ output:List of 1
 ##   .. .. ..$ koepenick_clean.csv: chr ""
+##   .. .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"
+##   .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"
+##   ..$ wp-1:List of 2
+##   .. ..$ analysis:List of 1
+##   .. .. ..$ summary.pdf: chr ""
+##   .. .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"
+##   .. ..$ input   :List of 2
+##   .. .. ..$ file 1.csv: chr ""
+##   .. .. ..$ file-2.csv: chr ""
+##   .. .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"
+##   .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"
+##   ..- attr(*, "class")= chr [1:2] "path_tree" "list"
 ##  $ project-2:List of 3
 ##   ..$ Berichte:List of 2
 ##   .. ..$ bericht-1.doc: chr ""
 ##   .. ..$ bericht-2.doc: chr ""
+##   .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"
 ##   ..$ Daten   :List of 1
 ##   .. ..$ file-1.csv: chr ""
+##   .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"
 ##   ..$ Grafiken:List of 1
-##   .. ..$ file 1.png: chr ""</code></pre>
+##   .. ..$ file 1.png: chr ""
+##   .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"
+##   ..- attr(*, "class")= chr [1:2] "path_tree" "list"
+##  - attr(*, "class")= chr [1:2] "path_tree" "list"</code></pre>
 <p>The path tree is a list of lists with the top level elements representing the top level folders of the paths, the second level elements representing the sub-folders of the top level folders, and so on. With that tree structure, it is easy to select a sub-tree by just using the dollar operator <code>$</code> for lists. If, for example, we want to select the paths belonging to project 1, we can write:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Select the sub-tree below "project-1"</span>
-subtree &lt;-<span class="st"> </span>path_tree$<span class="st">`</span><span class="dt">project-1</span><span class="st">`</span>
+subtree &lt;-<span class="st"> </span>path_tree<span class="op">$</span><span class="st">`</span><span class="dt">project-1</span><span class="st">`</span>
 
 <span class="co"># Show the sub-tree</span>
 <span class="kw">str</span>(subtree)</code></pre></div>
 <pre><code>## List of 2
-##  $ wp-1:List of 2
-##   ..$ analysis:List of 1
-##   .. ..$ summary.pdf: chr ""
-##   ..$ input   :List of 2
-##   .. ..$ file 1.csv: chr ""
-##   .. ..$ file-2.csv: chr ""
 ##  $ wp 2:List of 2
 ##   ..$ input :List of 1
 ##   .. ..$ köpenick_dirty.csv: chr ""
+##   .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"
 ##   ..$ output:List of 1
-##   .. ..$ koepenick_clean.csv: chr ""</code></pre>
+##   .. ..$ koepenick_clean.csv: chr ""
+##   .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"
+##   ..- attr(*, "class")= chr [1:2] "path_tree" "list"
+##  $ wp-1:List of 2
+##   ..$ analysis:List of 1
+##   .. ..$ summary.pdf: chr ""
+##   .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"
+##   ..$ input   :List of 2
+##   .. ..$ file 1.csv: chr ""
+##   .. ..$ file-2.csv: chr ""
+##   .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"
+##   ..- attr(*, "class")= chr [1:2] "path_tree" "list"
+##  - attr(*, "class")= chr [1:2] "path_tree" "list"</code></pre>
 <p><strong>Note</strong> that the element name <code>project-1</code> needs to be quoted in special quotes because, in R, the hyphen would else be interpreted as minus operator.</p>
 <p>To convert the tree structure back to the path strings, use <code>flatten_tree</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kwb.fakin:::<span class="kw">flatten_tree</span>(subtree)</code></pre></div>
-<pre><code>## [1] "wp-1/analysis/summary.pdf"       "wp-1/input/file 1.csv"          
-## [3] "wp-1/input/file-2.csv"           "wp 2/input/köpenick_dirty.csv"  
-## [5] "wp 2/output/koepenick_clean.csv"</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kwb.fakin<span class="op">:::</span><span class="kw">flatten_tree</span>(subtree)</code></pre></div>
+<pre><code>## [1] "wp 2/input/köpenick_dirty.csv"   "wp 2/output/koepenick_clean.csv"
+## [3] "wp-1/analysis/summary.pdf"       "wp-1/input/file 1.csv"          
+## [5] "wp-1/input/file-2.csv"</code></pre>
 <p>You can plot the sub-tree by passing it directly to <code>plot_path_network</code>, or here to our helper function, without prior conversion:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot_16pt</span>(subtree)</code></pre></div>
-<div id="htmlwidget-a0d4a58e4f528568d2fc" style="width:700px;height:432.632880098888px;" class="sankeyNetwork html-widget"></div>
-<script type="application/json" data-for="htmlwidget-a0d4a58e4f528568d2fc">{"x":{"links":{"source":[0,0,1,1,2,2,3,4,5],"target":[5,2,4,3,6,7,8,9,10],"value":[1,2,1,1,1,1,1,1,1]},"nodes":{"name":["wp-1","wp 2","input","output","input","analysis","file 1.csv","file-2.csv","koepenick_clean.csv","köpenick_dirty.csv","summary.pdf"],"group":["green","yellow","green","green","green","green","yellow","green","green","red","green"]},"options":{"NodeID":"name","NodeGroup":"colour","LinkGroup":null,"colourScale":"d3.scaleOrdinal() .domain(['green', 'yellow', 'red']) .range(['green', 'yellow', 'red'])","fontSize":16,"fontFamily":null,"nodeWidth":15,"nodePadding":8,"units":"","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":false}},"evals":[],"jsHooks":[]}</script>
+<pre><code>## Splitting paths... ok.</code></pre>
+<div id="htmlwidget-aa6aa6e37adcdb8c35e5" style="width:700px;height:90px;" class="sankeyNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-aa6aa6e37adcdb8c35e5">{"x":{"links":{"source":[0,1,0,1,2,2,3,4,5],"target":[5,4,2,3,6,7,8,9,10],"value":[1,1,2,1,1,1,1,1,1]},"nodes":{"name":["wp-1","wp 2","input","output","input","analysis","file 1.csv","file-2.csv","koepenick_clean.csv","köpenick_dirty.csv","summary.pdf"],"group":["green","yellow","green","green","green","green","yellow","green","green","red","green"]},"options":{"NodeID":"name","NodeGroup":"colour","LinkGroup":null,"colourScale":"d3.scaleOrdinal() .domain(['green', 'yellow', 'red']) .range(['green', 'yellow', 'red'])","fontSize":16,"fontFamily":null,"nodeWidth":15,"nodePadding":8,"units":"","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="quality-of-file-and-folder-names" class="section level2">
 <h2 class="hasAnchor">
 <a href="#quality-of-file-and-folder-names" class="anchor"></a>Quality of File and Folder Names</h2>
 <p>The automatic processing of files may fail due to special characters (e.g. German Umlaute) that are contained in the folder or file names. The package contains a function <code>ascii_stats</code> that calculates the percentages of strings containing or not containing special (non-ASCII) characters.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kwb.fakin:::<span class="kw">ascii_stats</span>(paths)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kwb.fakin<span class="op">:::</span><span class="kw">ascii_stats</span>(paths)</code></pre></div>
 <pre><code>## nonAscii
 ##    FALSE     TRUE 
 ## 88.88889 11.11111</code></pre>
@@ -217,7 +243,7 @@ subtree &lt;-<span class="st"> </span>path_tree$<span class="st">`</span><span c
 <p><a href="https://www.optimalworkshop.com/treejack" class="uri">https://www.optimalworkshop.com/treejack</a></p>
 <p>There, you can define tree structures of which interactive web-pages are created where users are asked to navigate to a certain file in the tree. Behind the scenes the web page tracks the clicks of the user on his way through the tree. The treejack service provides an import functionality where you can define the structure of the tree by giving a set of text lines with each line representing a branch or a leaf of the tree.</p>
 <p>The function <code>subtree_for_treejack</code> creates the text that is required here:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kwb.fakin:::<span class="kw">subtree_for_treejack</span>(<span class="dt">root =</span> <span class="st">"project-1"</span>, paths)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kwb.fakin<span class="op">:::</span><span class="kw">subtree_for_treejack</span>(<span class="dt">root =</span> <span class="st">"project-1"</span>, paths)</code></pre></div>
 <pre><code>## Filter for paths starting with project-1/ ...
 ##   ok. Remaining paths: 5 
 ## Convert to relative paths ... ok.
@@ -230,20 +256,20 @@ subtree &lt;-<span class="st"> </span>path_tree$<span class="st">`</span><span c
 ## 
 ## ================================================================
 ## 
-## wp-1 
-##  analysis
-##  input
 ## wp 2 
 ##  input
-##  output</code></pre>
+##  output
+## wp-1 
+##  analysis
+##  input</code></pre>
 </div>
 <div id="analysis-of-paths" class="section level2">
 <h2 class="hasAnchor">
 <a href="#analysis-of-paths" class="anchor"></a>Analysis of Paths</h2>
 <p>We can split the paths into their parts using <code>splitPaths</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">parts &lt;-<span class="st"> </span>kwb.fakin:::<span class="kw">splitPaths</span>(paths)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">parts &lt;-<span class="st"> </span>kwb.fakin<span class="op">:::</span><span class="kw">splitPaths</span>(paths)</code></pre></div>
 <pre><code>## Splitting paths... ok.</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">parts[<span class="dv">1</span>:<span class="dv">3</span>]</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">parts[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]</code></pre></div>
 <pre><code>## [[1]]
 ## [1] "project-1"  "wp-1"       "input"      "file 1.csv"
 ## 
@@ -253,7 +279,7 @@ subtree &lt;-<span class="st"> </span>path_tree$<span class="st">`</span><span c
 ## [[3]]
 ## [1] "project-1"   "wp-1"        "analysis"    "summary.pdf"</code></pre>
 <p>It may be useful to convert the list that is returned by <code>splitPaths</code> into a matrix:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">subdirs &lt;-<span class="st"> </span>kwb.fakin:::<span class="kw">toSubdirMatrix</span>(parts)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">subdirs &lt;-<span class="st"> </span>kwb.fakin<span class="op">:::</span><span class="kw">toSubdirMatrix</span>(parts)</code></pre></div>
 <table class="table">
 <caption>Content of the subdirs matrix</caption>
 <tbody>
@@ -315,10 +341,10 @@ subtree &lt;-<span class="st"> </span>path_tree$<span class="st">`</span><span c
 </table>
 <p>In the matrix, each row represents a path and each column represents a depth level.</p>
 <p>If you have only one path, you may create the paths to all direct parent directories using the function <code>all_path_levels</code>. This is how <code>subtree_for_treejack</code> creates the text for the bulk import to Treejack (see above).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(parent_paths &lt;-<span class="st"> </span>kwb.fakin:::<span class="kw"><a href="../reference/all_path_levels.html">all_path_levels</a></span>(paths[<span class="dv">1</span>]))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(parent_paths &lt;-<span class="st"> </span>kwb.fakin<span class="op">:::</span><span class="kw"><a href="../reference/all_path_levels.html">all_path_levels</a></span>(paths[<span class="dv">1</span>]))</code></pre></div>
 <pre><code>## [1] "project-1"                       "project-1/wp-1"                 
 ## [3] "project-1/wp-1/input"            "project-1/wp-1/input/file 1.csv"</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">parents &lt;-<span class="st"> </span>kwb.fakin:::<span class="kw">toSubdirMatrix</span>(kwb.fakin:::<span class="kw">splitPaths</span>(parent_paths))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">parents &lt;-<span class="st"> </span>kwb.fakin<span class="op">:::</span><span class="kw">toSubdirMatrix</span>(parent_paths)</code></pre></div>
 <pre><code>## Splitting paths... ok.</code></pre>
 <table class="table">
 <caption>Content of the parents matrix</caption>
@@ -354,7 +380,7 @@ subtree &lt;-<span class="st"> </span>path_tree$<span class="st">`</span><span c
 <h2 class="hasAnchor">
 <a href="#importance-of-directories" class="anchor"></a>Importance of Directories</h2>
 <p>In order to find the most important folder paths in terms of frequency and length you may use the function <code>sortedImportance</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kwb.fakin:::<span class="kw"><a href="../reference/sortedImportance.html">sortedImportance</a></span>(<span class="kw">dirname</span>(paths))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kwb.fakin<span class="op">:::</span><span class="kw"><a href="../reference/sortedImportance.html">sortedImportance</a></span>(<span class="kw">dirname</span>(paths))</code></pre></div>
 <pre><code>## x
 ##    project-1/wp-1/input      project-2/Berichte project-1/wp-1/analysis 
 ##                      40                      36                      23 
@@ -369,12 +395,12 @@ subtree &lt;-<span class="st"> </span>path_tree$<span class="st">`</span><span c
 <p>Assume you have a folder with a long path (either due to a lot of levels or due to long folder names). This long path is repeated for each file in the folder. The package provides a <code>compress</code> function that may be used to introduce short names for directory paths.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">directories &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"short"</span>, <span class="st">"short"</span>, <span class="st">"short"</span>, <span class="st">"longer/path"</span>, <span class="st">"longer/path"</span>)
 
-short_dirs &lt;-<span class="st"> </span>kwb.fakin:::<span class="kw">compress</span>(directories)
+short_dirs &lt;-<span class="st"> </span>kwb.fakin<span class="op">:::</span><span class="kw">compress</span>(directories)
 
 <span class="kw">as.character</span>(short_dirs)</code></pre></div>
 <pre><code>## [1] "&lt;a2&gt;" "&lt;a2&gt;" "&lt;a2&gt;" "&lt;a1&gt;" "&lt;a1&gt;"</code></pre>
 <p>The function returns the lookup table (dictionary) that maps short names to long names in the attribute <code>dict</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(dictionary &lt;-<span class="st"> </span>kwb.utils::<span class="kw">getAttribute</span>(short_dirs, <span class="st">"dict"</span>))
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(dictionary &lt;-<span class="st"> </span>kwb.utils<span class="op">::</span><span class="kw">getAttribute</span>(short_dirs, <span class="st">"dict"</span>))
 ## $a1
 ## [1] "longer/path"
 ## 
@@ -382,13 +408,13 @@ short_dirs &lt;-<span class="st"> </span>kwb.fakin:::<span class="kw">compress</
 ## [1] "short"</code></pre></div>
 <p>The dictionary is sorted by the importance of the strings (paths) that have been given to <code>compress</code> so that the most important paths get the highest positions in the dictionary. With importance we mean the product of the length of a string (path) and its number of occurrences.</p>
 <p>The dictionary is required to convert the short names back to the original paths using the <code>resolve</code> function of the <code>kwb.utils</code> package:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(long_dirs &lt;-<span class="st"> </span>kwb.utils::<span class="kw">resolve</span>(short_dirs, dictionary))
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(long_dirs &lt;-<span class="st"> </span>kwb.utils<span class="op">::</span><span class="kw">resolve</span>(short_dirs, dictionary))
 ## [1] "short"       "short"       "short"       "longer/path" "longer/path"
 
 <span class="kw">identical</span>(long_dirs, directories)
 ## [1] TRUE</code></pre></div>
 <p>There is another function <code>compressOneByOne</code>, what does it do?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">attributes</span>(kwb.fakin:::<span class="kw">compressOneByOne</span>(paths, <span class="dt">n =</span> <span class="dv">3</span>))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">attributes</span>(kwb.fakin<span class="op">:::</span><span class="kw">compressOneByOne</span>(paths, <span class="dt">n =</span> <span class="dv">3</span>))</code></pre></div>
 <pre><code>## Splitting paths... ok.
 ## Elapsed: 0.0 s
 ## Splitting paths... ok.

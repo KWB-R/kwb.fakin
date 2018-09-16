@@ -63,6 +63,9 @@
     </li>
   </ul>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
@@ -86,7 +89,7 @@
       <h1>Analysing R Scripts</h1>
                         <h4 class="author">Hauke Sonnenberg</h4>
             
-            <h4 class="date">2018-07-11</h4>
+            <h4 class="date">2018-09-16</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/kwb-r/kwb.fakin/blob/master/vignettes/analyse_scripts.Rmd"><code>vignettes/analyse_scripts.Rmd</code></a></small>
       <div class="hidden name"><code>analyse_scripts.Rmd</code></div>
@@ -97,48 +100,83 @@
     
 <p>It is quite impressive how, since more or less ten years, more and more people at our research institute <a href="http://komptenz-wasser.de">Kompetenzzentrum Wasser Berlin</a> began to use the programming language R to support their daily data-related work. As a result, we are currently hosting more than one thousand R scripts in our internal version control system.</p>
 <p>It is difficult to keep control over so many files. Therefore, this package contains a function that aims at giving an overview of R script files and the functions defined within these files. Use the function <code><a href="../reference/report_about_r_scripts.html">report_about_r_scripts()</a></code> to create an R Markdown document about all the R script files below a certain root directory:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kwb.fakin::<span class="kw"><a href="../reference/report_about_r_scripts.html">report_about_r_scripts</a></span>(<span class="dt">root =</span> <span class="st">"path/to/your/script/folder"</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kwb.fakin<span class="op">::</span><span class="kw">report_about_r_scripts</span>(<span class="dt">root =</span> <span class="st">"path/to/your/script/folder"</span>)</code></pre></div>
 <p>With the (private) helper functions <code>github_package_path()</code> and <code>github_package_files()</code> that are also contained in the package, we can also report on the R files that are contained in an R package hosted on <a href="https://github.com">GitHub</a>. For example, we can have a look at the files that are contained in this package. They are available in the repository <a href="https://github.com/kwb-r/kwb.fakin">kwb.fakin</a> on our <a href="https://github.com/kwb-r">GitHub account</a>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">repo &lt;-<span class="st"> "kwb-r/kwb.fakin"</span>
 
-kwb.fakin::<span class="kw"><a href="../reference/report_about_r_scripts.html">report_about_r_scripts</a></span>(
-  <span class="dt">root =</span> kwb.fakin:::<span class="kw">github_package_path</span>(repo, <span class="st">"R"</span>),
-  <span class="dt">scripts =</span> kwb.fakin:::<span class="kw">github_package_files</span>(repo, <span class="st">"R"</span>),
+kwb.fakin<span class="op">::</span><span class="kw">report_about_r_scripts</span>(
+  <span class="dt">root =</span> kwb.fakin<span class="op">:::</span><span class="kw">github_package_path</span>(repo, <span class="st">"R"</span>),
+  <span class="dt">scripts =</span> kwb.fakin<span class="op">:::</span><span class="kw">github_package_files</span>(repo, <span class="st">"R"</span>),
   <span class="dt">show =</span> <span class="ot">FALSE</span>
-)
-<span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/clean_file-name.R ... ok.</span>
-<span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/compress_paths.R ... ok.</span>
-<span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/convert.R ... ok.</span>
-<span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/dictionary.R ... ok.</span>
-<span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/encoding.R ... ok.</span>
-<span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/github.R ... ok.</span>
-<span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/input_output.R ... ok.</span>
-<span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/list_files.R ... ok.</span>
-<span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/logical.R ... ok.</span>
-<span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/manipulate.R ... ok.</span>
-<span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/merge_permissions.R ... ok.</span>
-<span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/plot.R ... ok.</span>
-<span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/plot_path-tree.R ... ok.</span>
-<span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/project.R ... ok.</span>
-<span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/references.R ... ok.</span>
-<span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/report_about_scripts.R ... ok.</span>
-<span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/special-characters.R ... ok.</span>
-<span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/stats.R ... ok.</span>
-<span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/store_restore.R ... ok.</span>
-<span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/test.R ... ok.</span>
-<span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/tree-jack.R ... ok.</span>
-<span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/tree.R ... ok.</span>
-<span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/utils.R ... ok.</span>
-<span class="co">#&gt; Reading https://raw.githubusercontent.com/kwb-r/kwb.fakin/master/R/utils_path.R ... ok.</span>
-<span class="co">#&gt; Rendering '/tmp/RtmpvOzbIT/file7808758c28cf.Rmd' ... ok.</span></code></pre></div>
+)</code></pre></div>
 <p>We set <code>show</code> to <code>FALSE</code> in order to prevent that the created HTML file is opened in a browser.</p>
 <p>A shortcut to the above call is:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kwb.fakin:::<span class="kw">report_about_github_package</span>(<span class="st">"kwb-r/kwb.fakin"</span>, <span class="dt">show =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kwb.fakin<span class="op">:::</span><span class="kw">report_about_github_package</span>(<span class="st">"kwb-r/kwb.fakin"</span>, <span class="dt">show =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <p>It is up to you to compare with what the great guys do. Try e.g.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kwb.fakin:::<span class="kw">report_about_github_package</span>(<span class="st">"tidyverse/dplyr"</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kwb.fakin<span class="op">:::</span><span class="kw">report_about_github_package</span>(<span class="st">"tidyverse/dplyr"</span>)</code></pre></div>
+<div id="what-packages-are-used-by-our-scripts" class="section level2">
+<h2 class="hasAnchor">
+<a href="#what-packages-are-used-by-our-scripts" class="anchor"></a>What packages are used by our scripts?</h2>
+<p>To find out what R-packages are used in our R-scripts, you may use the function <code>get_names_of_used_packages</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Define the top level directory in which to look recursively for R-scripts</span>
+root_dir =<span class="st"> "~/Desktop/R-Development/RScripts"</span>
+
+<span class="co"># Get the names of the packages that are loaded in the scripts with "library()"</span>
+packages &lt;-<span class="st"> </span><span class="kw"><a href="../reference/get_names_of_used_packages.html">get_names_of_used_packages</a></span>(root_dir)
+
+<span class="co"># Print the script names</span>
+kwb.utils<span class="op">::</span><span class="kw">catLines</span>(packages)</code></pre></div>
+</div>
+<div id="get-file-properties-recursively" class="section level2">
+<h2 class="hasAnchor">
+<a href="#get-file-properties-recursively" class="anchor"></a>Get file properties recursively</h2>
+<p>The base function <code>file.info</code> can be used to get detailed information about a file. The package <code>kwb.fakin</code> contains a function that calls this function on all files that are below a certain root folder:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Define the root directory</span>
+root_dir &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="dt">package =</span> <span class="st">"kwb.fakin"</span>)
+
+<span class="co"># Get information on all files in this directory</span>
+file_info &lt;-<span class="st"> </span>kwb.fakin<span class="op">::</span><span class="kw">get_recursive_file_info</span>(root_dir)
+<span class="co">#&gt; Browsing /home/hauke/R/i686-pc-linux-gnu-library/3.4/kwb.fakin ... ok. </span>
+<span class="co">#&gt; Browsing /home/hauke/R/i686-pc-linux-gnu-library/3.4/kwb.fakin/extdata ... ok. </span>
+<span class="co">#&gt; Browsing /home/hauke/R/i686-pc-linux-gnu-library/3.4/kwb.fakin/help ... ok. </span>
+<span class="co">#&gt; Browsing /home/hauke/R/i686-pc-linux-gnu-library/3.4/kwb.fakin/html ... ok. </span>
+<span class="co">#&gt; Browsing /home/hauke/R/i686-pc-linux-gnu-library/3.4/kwb.fakin/Meta ... ok. </span>
+<span class="co">#&gt; Browsing /home/hauke/R/i686-pc-linux-gnu-library/3.4/kwb.fakin/R ... ok.</span>
+
+<span class="co"># Get information on R scripts only...</span>
+file_info_scripts &lt;-<span class="st"> </span>kwb.fakin<span class="op">::</span><span class="kw">get_recursive_file_info</span>(root_dir, <span class="st">"[.]R$"</span>)
+<span class="co">#&gt; Browsing /home/hauke/R/i686-pc-linux-gnu-library/3.4/kwb.fakin ... ok. </span>
+<span class="co">#&gt; Browsing /home/hauke/R/i686-pc-linux-gnu-library/3.4/kwb.fakin/extdata ... ok. </span>
+<span class="co">#&gt; Browsing /home/hauke/R/i686-pc-linux-gnu-library/3.4/kwb.fakin/help ... ok. </span>
+<span class="co">#&gt; Browsing /home/hauke/R/i686-pc-linux-gnu-library/3.4/kwb.fakin/html ... ok. </span>
+<span class="co">#&gt; Browsing /home/hauke/R/i686-pc-linux-gnu-library/3.4/kwb.fakin/Meta ... ok. </span>
+<span class="co">#&gt; Browsing /home/hauke/R/i686-pc-linux-gnu-library/3.4/kwb.fakin/R ... ok.</span>
+
+<span class="co"># Show the structure of the result</span>
+<span class="kw">str</span>(file_info_scripts)
+<span class="co">#&gt; 'data.frame':    55 obs. of  10 variables:</span>
+<span class="co">#&gt;  $ size  : num  1355 6306 506 1270 272 ...</span>
+<span class="co">#&gt;  $ isdir : logi  FALSE FALSE FALSE FALSE FALSE FALSE ...</span>
+<span class="co">#&gt;  $ mode  :Class 'octmode'  int [1:55] 436 436 436 436 436 436 436 436 436 436 ...</span>
+<span class="co">#&gt;  $ mtime : POSIXct, format: "2018-09-16 12:22:20" "2018-09-16 12:22:20" ...</span>
+<span class="co">#&gt;  $ ctime : POSIXct, format: "2018-09-16 12:22:21" "2018-09-16 12:22:21" ...</span>
+<span class="co">#&gt;  $ atime : POSIXct, format: "2018-09-16 12:31:43" "2018-09-16 12:22:20" ...</span>
+<span class="co">#&gt;  $ uid   : int  1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 ...</span>
+<span class="co">#&gt;  $ gid   : int  1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 ...</span>
+<span class="co">#&gt;  $ uname : chr  "hauke" "hauke" "hauke" "hauke" ...</span>
+<span class="co">#&gt;  $ grname: chr  "hauke" "hauke" "hauke" "hauke" ...</span></code></pre></div>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+        <div id="tocnav">
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
+      <ul class="nav nav-pills nav-stacked">
+<li><a href="#what-packages-are-used-by-our-scripts">What packages are used by our scripts?</a></li>
+      <li><a href="#get-file-properties-recursively">Get file properties recursively</a></li>
+      </ul>
+</div>
       </div>
 
 </div>

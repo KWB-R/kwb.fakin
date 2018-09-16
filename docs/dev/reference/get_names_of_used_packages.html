@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Articles • kwb.fakin</title>
+<title>Get Names of Packages Used in R-Scripts — get_names_of_used_packages • kwb.fakin</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,7 +30,10 @@
 
 
 
-<meta property="og:title" content="Articles" />
+<meta property="og:title" content="Get Names of Packages Used in R-Scripts — get_names_of_used_packages" />
+
+<meta property="og:description" content="Get Names of Packages Used in R-Scripts" />
+<meta name="twitter:card" content="summary" />
 
 <meta name="robots" content="noindex">
 
@@ -46,7 +49,7 @@
   </head>
 
   <body>
-    <div class="container template-article-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -115,19 +118,41 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Articles</h1>
+    <h1>Get Names of Packages Used in R-Scripts</h1>
+    <small class="dont-index">Source: <a href='https://github.com/kwb-r/kwb.fakin/blob/master/R/get_names_of_used_packages.R'><code>R/get_names_of_used_packages.R</code></a></small>
+    <div class="hidden name"><code>get_names_of_used_packages.Rd</code></div>
     </div>
 
-    <div class="section ">
-      <h3>All vignettes</h3>
-      <p class="section-desc"></p>
-
-      <ul>
-        <li><a href="analyse_scripts.html">Analysing R Scripts</a></li>
-        <li><a href="understanding_encoding.html">Understanding Encoding</a></li>
-        <li><a href="working_with_paths.html">Working with Paths</a></li>
-      </ul>
+    <div class="ref-description">
+    
+    <p>Get Names of Packages Used in R-Scripts</p>
+    
     </div>
+
+    <pre class="usage"><span class='fu'>get_names_of_used_packages</span>(<span class='no'>root_dir</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"[.][rR](md)?$"</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>root_dir</th>
+      <td><p>directory in which to look recursively for R-scripts</p></td>
+    </tr>
+    <tr>
+      <th>pattern</th>
+      <td><p>regular expression matching the names of the files to be
+considered</p></td>
+    </tr>
+    </table>
+    
+
+  </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+                </ul>
+
   </div>
 </div>
 
