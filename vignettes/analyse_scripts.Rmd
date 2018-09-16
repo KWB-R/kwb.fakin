@@ -82,3 +82,24 @@ packages <- get_names_of_used_packages(root_dir)
 # Print the script names
 kwb.utils::catLines(packages)
 ```
+
+## Get file properties recursively
+
+The base function `file.info` can be used to get detailed information about
+a file. The package `kwb.fakin` contains a function that calls this function
+on all files that are below a certain root folder:
+
+```{r}
+# Define the root directory
+root_dir <- system.file(package = "kwb.fakin")
+
+# Get information on all files in this directory
+file_info <- kwb.fakin::get_recursive_file_info(root_dir)
+
+# Get information on R scripts only...
+file_info_scripts <- kwb.fakin::get_recursive_file_info(root_dir, "[.]R$")
+
+# Show the structure of the result
+str(file_info_scripts)
+```
+
