@@ -1,13 +1,9 @@
 # splitPaths -------------------------------------------------------------------
 splitPaths <- function(paths, dbg = TRUE)
 {
-  kwb.utils::catIf(dbg, "Splitting paths... ")
-
-  result <- strsplit(paths, "/")
-
-  kwb.utils::catIf(dbg, "ok.\n")
-
-  result
+  kwb.utils::catAndRun("Splitting paths", dbg = dbg, {
+    result <- strsplit(paths, "/")
+  })
 }
 
 # getSubdirsByFrequence --------------------------------------------------------
@@ -101,50 +97,56 @@ startsWithParts <- function(parts, elements)
 #'
 #' # The extracted root is returned in attribute "root"
 #' attr(relparts, "root")
-removeCommonRoot <- function(x)
+#'
+removeCommonRoot <- function(x, keep_root = FALSE, dbg = TRUE)
 {
-  if (is.list(x)) {
+  if (! (was_list <- is.list(x))) {
 
-    was_list <- TRUE
-
-  } else {
-
-    was_list <- FALSE
-
-    x <- splitPaths(as.character(x), dbg = FALSE)
+    x <- splitPaths(as.character(x), dbg = dbg)
   }
 
-  maxi <- max(sapply(x, length))
+  tree_height <- max(sapply(x, length))
 
   i <- 1
 
-  while (i < maxi && kwb.utils::allAreEqual(sapply(x, "[", i))) {
+  get_at_index <- function(List, index) {
+
+    result <- sapply(List, "[", i)
+    result[is.na(result)] <- ""
+    result
+  }
+
+  while (i < tree_height && kwb.utils::allAreEqual(get_at_index(x, i))) {
 
     i <- i + 1
   }
 
-  result <- if (length(indices <- seq_len(i - 1))) {
+  root <- ""
+
+  if (n_common <- i - 1) {
+
+    indices <- seq_len(n_common - as.integer(keep_root))
 
     # Determine the root path
     root <- kwb.utils::collapsed(x[[1]][indices], "/")
 
-    # Remove the first i - 1 parts of each list entry, set attribute "root"
-    lapply(x, function(xx) if (length(xx) > i - 1) xx[- indices] else "")
-
-  } else {
-
-    root <- ""
-
-    x
+    # Remove the first n_common parts of each list entry
+    kwb.utils::catAndRun(
+      paste("Removing the first", n_common, "path segments"), dbg = dbg,
+      x <- lapply(x, function(xx) if (length(xx) > i - 1) xx[- indices] else "")
+    )
   }
 
   # If the input was not a list, convert the list back to a vector of character
   if (! was_list) {
 
-    result <- sapply(result, function(x) do.call(file.path, as.list(x)))
+    kwb.utils::catAndRun("Putting path segments together", dbg = dbg, {
+      x <- sapply(x, function(xx) do.call(paste, c(as.list(xx), sep = "/")))
+    })
   }
 
-  structure(result, root = root)
+  # Set attribute "root"
+  structure(x, root = root)
 }
 
 # lookup -----------------------------------------------------------------------
