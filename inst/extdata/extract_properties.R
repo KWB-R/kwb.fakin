@@ -1,16 +1,13 @@
 # install.packages("devtools")
 # devtools::install_github("kwb-r/kwb.fakin")
 
-# To avoid errors with pandoc in Ubuntu:
+# In Ubuntu, do not use pandoc that ships with RStudio but use pandoc that
+# we install manually with:
+#
 # apt-get install pandoc
 #
-# rm /usr/lib/rstudio/bin/pandoc/pandoc
-# ln -s /usr/bin/pandoc /usr/lib/rstudio/bin/pandoc/pandoc
-#
-# rm /usr/lib/rstudio/bin/pandoc/pandoc-citeproc
-# ln -s /usr/bin/pandoc-citeproc /usr/lib/rstudio/bin/pandoc/pandoc-citeproc
-Sys.getenv("RSTUDIO_PANDOC")
-#Sys.setenv(RSTUDIO_PANDOC = "/usr/bin/pandoc")
+
+Sys.setenv(RSTUDIO_PANDOC = "/usr/bin/pandoc")
 
 library("kwb.utils")
 
@@ -56,6 +53,11 @@ if (FALSE)
 
   # Get folder frequencies down to a certain folder depth
   (folder_frequencies <- lapply(department_trees, get_folder_frequency, 3))
+
+  (words <- rownames(folder_frequencies$GRW))
+  (words <- sort(unique(unlist(strsplit(words, "\\s+")))))
+
+  words[order(RecordLinkage::levenshteinSim("report", words))]
 
   # Search the frequency tables for relevant patterns
   lapply(folder_frequencies, grep_frequency, "litera")
