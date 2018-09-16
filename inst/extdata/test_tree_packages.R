@@ -17,8 +17,39 @@
 # - Check promising package R.filesets!
 # - Have a look at package RecordLinkage (for similarity of files)
 
-library(data.tree)
-library(igraph)
+# Get example file list with file properties -----------------------------------
+
+#   user  system elapsed
+# 21.492   2.121  26.741
+system.time(
+  file_info <- kwb.fakin::get_recursive_file_info(root_dir = "~/Desktop/test_diff")
+)
+
+Encoding(rownames(file_info)) <- "latin1"
+
+rownames(file_info)[c(3929, 3930, 3936, 3937, 3940)]
+
+# [1] "/aquanes-1/Exchange/01 Health and Safety/01 GEF\xc4HRDUNGSBEURTEILUNGEN
+# [3] "/aquanes-1/Exchange/01 Health and Safety/05 Chemikalien/Stoffdatenbl\xe4tter"
+# [4] "/aquanes-1/Exchange/01 Health and Safety/06 HSE-Briefing/Sch\xf6nerlinde"
+# [5] "/aquanes-1/Exchange/01 Health and Safety/10 Literatur/Gef\xe4hrdungsbeurteilungen"
+
+full_file_info <- kwb.fakin:::add_path_column(file_info)
+
+View(full_file_info)
+
+system.time(full_tree <- data.tree::as.Node(full_file_info))
+
+full_tree
+
+print(full_tree$tmp$furain$raw_images$`2017`$`201701`)
+
+full_tree$fields
+
+# Load paths from a text file --------------------------------------------------
+
+#library(data.tree)
+#library(igraph)
 
 file <- "~/Desktop/Data/FAKIN/folders_projects/folders_projects_2018-09-11.txt"
 
@@ -49,40 +80,60 @@ names(root_node)
 
 subtree <- root_node$GROUNDWATER$PROJECTS $FAKIN
 
+# treemapify
+str(folder_structure)
+
+ggplot2::ggplot(folder_structure, ggplot2::aes(
+  area = gdp_mil_usd, fill = hdi)) +
+  treemapify::geom_treemap()
+
 # data.tree --------------------------------------------------------------------
 
-SetGraphStyle(subtree, rankdir = "TB")
-SetNodeStyle(subtree$`Data-Work packages`, fillcolor = "LightBlue")
+subtree <- full_tree
 
-SetNodeStyle(
+data.tree::SetGraphStyle(subtree, rankdir = "TB")
+data.tree::SetNodeStyle(subtree$`aquanes-1`, fillcolor = "LightBlue")
+data.tree::SetNodeStyle(
   subtree, style = "filled,rounded", shape = "box",
   fillcolor = "GreenYellow", fontname = "helvetica",
-  tooltip = GetDefaultTooltip
+  tooltip = data.tree::GetDefaultTooltip
 )
 
-plot(as.dendrogram(subtree), center = TRUE)
+plot(as.dendrogram(subtree$`aquanes-1`$Exchange$`03 Versuchsanlage WP1`), center = TRUE)
 
-plot(as.igraph(subtree$Reports, directed = TRUE, direction = "climb"))
+full_tree$Set(name = sprintf("%05d__%s", seq_len(full_tree$totalCount), full_tree$Get("name")))
+
+plot(data.tree::as.igraph.Node(full_tree$`00002__aquanes-1`$`00003__Administration`, directed = TRUE, direction = "climb"))
 
 # networkD3 --------------------------------------------------------------------
 
 library(networkD3)
 
-network <- ToDataFrameNetwork(subtree, "name")
+subtree <- full_tree$`00002__aquanes-1`$`00097__Communication`
 
-si*****mpleNetwork(network, fontSize = 10)
+network <- ToDataFrameNetwork(subtree, "size")
 
-subtree <- root_node$GROUNDWATER$PROJECTS
+head(network)
+
+networkD3::simpleNetwork(network, fontSize = 6)
 
 tree_list <- ToListExplicit(subtree, unname = TRUE)
 
-radialNetwork(tree_list)
+networkD3::radialNetwork(tree_list)
 
+subdata <- as.data.frame(subtree)
+
+View(subdata)
 
 path_tree <- kwb.fakin:::to_tree(paths)
 subtree <- path_tree$SUW_Department$Projects
-folder_structure <- kwb.utils::asNoFactorDataFrame(kwb.fakin:::toSubdirMatrix(kwb.fakin:::flatten_tree(subtree)))
+
+folder_structure <- kwb.utils::asNoFactorDataFrame(kwb.fakin:::toSubdirMatrix(
+  kwb.fakin:::flatten_tree(subtree)
+))
+
 View(folder_structure)
+
 folder_structure$id <- seq_len(nrow(folder_structure))
 
 # collapsibleTree --------------------------------------------------------------
@@ -100,13 +151,21 @@ shiny::runApp(system.file("examples/02shiny", package = "collapsibleTree"))
 
 # jsTree (Top!) ----------------------------------------------------------------
 
-jsTree::jsTree(kwb.fakin:::flatten_tree(subtree))
+jsTree::jsTree(full_file_info$pathString[1:10])
+
+x <- table(full_file_info$pathString)
 
 # d3Tree -----------------------------------------------------------------------
 
+folder_structure <- kwb.fakin:::toSubdirMatrix(full_file_info$pathString)
+
+folder_structure <- kwb.utils::asNoFactorDataFrame(folder_structure)
+
+View(folder_structure)
+
 root <- d3Tree::df2tree(
   rootname = 'kwb-folders',
-  struct = folder_structure[1:10, 1:4]
+  struct = folder_structure[1:10, 1:10]
 )
 
 d3Tree::d3tree(list(root = root, layout = 'collapse'))
@@ -121,7 +180,10 @@ d3Tree::d3tree(list(
 ))
 
 d3Tree::d3tree(list(
-  root = d3Tree::df2tree(rootname = 'book', struct = d3Tree::stan.models),
+  root = d3Tree::df2tree(
+    rootname = 'book',
+    struct = d3Tree::stan.models
+  ),
   layout = 'collapse'
 ))
 
@@ -144,10 +206,3 @@ sort(table(properties$encoding))
 
 View(properties)
 
-# Get example file list with file properties -----------------------------------
-
-file_paths <- list.files("~/Desktop/Data", full.names = TRUE, recursive = TRUE)
-
-file_info <- file.info(file_paths)
-
-View(file_info)
