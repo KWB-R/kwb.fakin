@@ -66,3 +66,19 @@ It is up to you to compare with what the great guys do. Try e.g.
 ```{r report-github-dplyr, eval = FALSE}
 kwb.fakin:::report_about_github_package("tidyverse/dplyr")
 ```
+
+## What packages are used by our scripts?
+
+To find out what R-packages are used in our R-scripts, you may use the 
+function `get_names_of_used_packages`:
+
+```{r eval = FALSE}
+# Define the top level directory in which to look recursively for R-scripts
+root_dir = "~/Desktop/R-Development/RScripts"
+
+# Get the names of the packages that are loaded in the scripts with "library()"
+packages <- get_names_of_used_packages(root_dir)
+
+# Print the script names
+kwb.utils::catLines(packages)
+```
