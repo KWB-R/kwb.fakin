@@ -4,7 +4,7 @@
 \alias{removeCommonRoot}
 \title{Remove the common root parts}
 \usage{
-removeCommonRoot(x)
+removeCommonRoot(x, keep_root = FALSE, dbg = TRUE)
 }
 \arguments{
 \item{x}{list of vectors of character as returned by
@@ -23,4 +23,5 @@ relparts
 
 # The extracted root is returned in attribute "root"
 attr(relparts, "root")
+
 }
