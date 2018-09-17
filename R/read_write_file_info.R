@@ -1,3 +1,39 @@
+# get_and_save_file_info -------------------------------------------------------
+
+#' Get and Save File Information
+#'
+#' @param root_dir path to the directory from which to start searching for
+#'   files
+#' @param output_dir path to the output directory. In this directory, a file
+#'   "path-info_<date-time>_<parent-folder>.csv" will be generated with
+#'   <date-time> being a date and time string in yyyy-mm-dd_HHMM format and
+#'   <parent-folder> being the last path segment of \code{root_dir}
+#'
+#' @export
+#'
+get_and_save_file_info <- function(root_dir, output_dir)
+{
+  # Check if the root directory exists
+  kwb.utils::safePath(root_dir)
+
+  # Get information on all files in this directory
+  runtime <- system.time(file_info <- get_recursive_file_info(root_dir))
+
+  cat_elapsed(runtime)
+
+  # Define path to output file
+  datetime_string <- format(Sys.time(), "%Y-%m-%d_%H%M")
+
+  parent_folder <- basename(root_dir)
+
+  filename <- sprintf("path-info_%s_%s.csv", datetime_string, parent_folder)
+
+  file <- file.path(kwb.utils::safePath(output_dir), filename)
+
+  # Write the file information to a CSV file
+  write_file_info(file_info, file)
+}
+
 # write_file_info --------------------------------------------------------------
 
 #' Write File Information to CSV File
