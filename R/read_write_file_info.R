@@ -95,5 +95,5 @@ read_file_info_v1 <- function(file)
 # read_file_info_v2 ------------------------------------------------------------
 read_file_info_v2 <- function(file)
 {
-  data.table::fread(file = file, sep = ";")
+  as.data.frame(data.table::fread(file = file, sep = ";"))
 }
