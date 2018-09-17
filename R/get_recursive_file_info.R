@@ -6,7 +6,7 @@
 #'   search for files
 #' @param pattern regular expression matching the names of the files to be
 #'   considered. By default, all files are considered.
-#' @param all see \code{\link[fs]{dir_info}}
+#' @param all if \code{TRUE} (default) hidden files are also returned
 #' @param dbg if \code{TRUE} (default) progress messages are shown
 #'
 #' @export

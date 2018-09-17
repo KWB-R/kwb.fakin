@@ -13,7 +13,7 @@ search for files}
 \item{pattern}{regular expression matching the names of the files to be
 considered. By default, all files are considered.}
 
-\item{all}{see \code{\link[fs]{dir_info}}}
+\item{all}{if \code{TRUE} (default) hidden files are also returned}
 
 \item{dbg}{if \code{TRUE} (default) progress messages are shown}
 }
