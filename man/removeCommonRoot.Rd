@@ -9,6 +9,11 @@ removeCommonRoot(x, n_keep = 0, dbg = TRUE)
 \arguments{
 \item{x}{list of vectors of character as returned by
 \code{\link[base]{strsplit}} or a vector of character.}
+
+\item{n_keep}{number of common path segments to keep (so that the path
+tree keeps its root)}
+
+\item{dbg}{if \code{TRUE} debug messages are shown}
 }
 \description{
 Remove the common root parts

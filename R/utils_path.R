@@ -86,6 +86,10 @@ startsWithParts <- function(parts, elements)
 #'
 #' @param x list of vectors of character as returned by
 #'   \code{\link[base]{strsplit}} or a vector of character.
+#' @param n_keep number of common path segments to keep (so that the path
+#'   tree keeps its root)
+#' @param dbg if \code{TRUE} debug messages are shown
+#'
 #' @export
 #' @examples
 #' # Split paths at the slashes
@@ -149,7 +153,7 @@ get_common_start_segments <- function(list_of_segments)
     result
   }
 
-  tree_height <- kwb.fakin:::maxdepth(parts = list_of_segments)
+  tree_height <- maxdepth(parts = list_of_segments)
 
   i <- 1
 
