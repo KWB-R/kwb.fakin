@@ -24,6 +24,7 @@
 #   user  system elapsed
 # 21.492   2.121  26.741
 root_dir <- "/home/hauke/Documents/FAKIN"
+root_dir <- "/home/hsonne/Desktop"
 
 system.time(file_info <- kwb.fakin::get_recursive_file_info(root_dir))
 
@@ -48,17 +49,59 @@ paths <- kwb.fakin:::removeCommonRoot(kwb.fakin::read_paths(
 ))
 
 Encoding(paths) <- "latin1"
-
 path_data <- data.frame(
   pathString = paste0("root/", dirname(paths)),
   leafFolder = basename(paths)
 )
 
+# Load full file information from a text file ----------------------------------
+
+file <- "~/Desktop/tmp/pathinfo_2.csv"
+
+path_info <- kwb.fakin::read_file_info(file)
+
+# Prepare data frame for data.tree
+path_data <- kwb.utils::selectColumns(path_info, c("path", "size", "type"))
+
+# Keep only files
+path_data <- path_data[path_data$type == "file", ]
+
+# Cut off the first segments of the common root path
+path_data$path <- kwb.fakin::removeCommonRoot(path_data$path, n_keep = 1)
+
+head(path_data)
+
+# Prepare for aggregation ------------------------------------------------------
+
+path_segments <- kwb.fakin:::toSubdirMatrix(path_data$path)
+View(path_segments)
+
+n_levels <- 3
+
+folder_size <- cbind(
+  kwb.utils::asNoFactorDataFrame(path_segments[, 1:n_levels]),
+  size = as.numeric(kwb.utils::selectColumns(path_data, "size"))
+)
+
+View(folder_size)
+
+# Aggregate file numbers and sizes ---------------------------------------------
+total_size <- folder_size %>%
+  dplyr::group_by(V1, V2, V3) %>%
+  dplyr::summarise(
+    n_files = length(size),
+    total_size = sum(size)
+  ) %>%
+  as.data.frame()
+
 # Create a tree with data.tree -------------------------------------------------
 
 View(path_data)
+str(path_data)
 
-system.time(root_node <- data.tree::as.Node(path_data))
+test_data <- path_data
+
+system.time(root_node <- data.tree::as.Node(test_data, pathName = "path"))
 
 print(root_node, limit = 10)
 
@@ -79,9 +122,28 @@ subtree <- root_node
 
 str(folder_structure)
 
-ggplot2::ggplot(folder_structure, ggplot2::aes(
-  area = gdp_mil_usd, fill = hdi)) +
-  treemapify::geom_treemap()
+testdata <- read.table(sep = ",", header = TRUE,
+  text = "level_1,level_2,level_3,value,colour
+a,b,,10,1
+a,c,c1,20,1
+a,c,c2,5,2"
+)
+testdata$label <- kwb.utils::pasteColumns(testdata, paste0("level_", 1:3))
+ggplot2::ggplot(testdata, ggplot2::aes(
+  area = value, fill = colour, label = label, subgroup = level_2
+)) +
+  treemapify::geom_treemap() +
+  treemapify::geom_treemap_text(fontface = "italic", colour = "white", place = "centre",
+                  grow = TRUE) +
+  treemapify::geom_treemap_subgroup_border(color = "red")
+
+# treemap ----------------------------------------------------------------------
+
+args <- list(total_size, index = c("V2", "V3"))
+
+do.call(treemap::treemap, c(args, vSize = "total_size", vColor = "n_files"))
+
+do.call(treemap::treemap, c(args, vSize = "n_files", vColor = "total_size"))
 
 # Plot the tree using data.tree methods ----------------------------------------
 
