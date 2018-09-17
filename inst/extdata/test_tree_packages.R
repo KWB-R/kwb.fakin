@@ -17,39 +17,29 @@
 # - Check promising package R.filesets!
 # - Have a look at package RecordLinkage (for similarity of files)
 
+`%>%` <- magrittr::`%>%`
+
 # Get example file list with file properties -----------------------------------
 
 #   user  system elapsed
 # 21.492   2.121  26.741
-system.time(
-  file_info <- kwb.fakin::get_recursive_file_info(root_dir = "~/Desktop/test_diff")
-)
+root_dir <- "/home/hauke/Documents/FAKIN"
+
+system.time(file_info <- kwb.fakin::get_recursive_file_info(root_dir))
+
+nrow(file_info)
 
 Encoding(rownames(file_info)) <- "latin1"
 
-rownames(file_info)[c(3929, 3930, 3936, 3937, 3940)]
-
+# rownames(file_info)[c(3929, 3930, 3936, 3937, 3940)]
 # [1] "/aquanes-1/Exchange/01 Health and Safety/01 GEF\xc4HRDUNGSBEURTEILUNGEN
 # [3] "/aquanes-1/Exchange/01 Health and Safety/05 Chemikalien/Stoffdatenbl\xe4tter"
 # [4] "/aquanes-1/Exchange/01 Health and Safety/06 HSE-Briefing/Sch\xf6nerlinde"
 # [5] "/aquanes-1/Exchange/01 Health and Safety/10 Literatur/Gef\xe4hrdungsbeurteilungen"
 
-full_file_info <- kwb.fakin:::add_path_column(file_info)
-
-View(full_file_info)
-
-system.time(full_tree <- data.tree::as.Node(full_file_info))
-
-full_tree
-
-print(full_tree$tmp$furain$raw_images$`2017`$`201701`)
-
-full_tree$fields
+path_data <- kwb.fakin:::extend_file_info(file_info, n_keep = 2)
 
 # Load paths from a text file --------------------------------------------------
-
-#library(data.tree)
-#library(igraph)
 
 file <- "~/Desktop/Data/FAKIN/folders_projects/folders_projects_2018-09-11.txt"
 
@@ -64,9 +54,13 @@ path_data <- data.frame(
   leafFolder = basename(paths)
 )
 
+# Create a tree with data.tree -------------------------------------------------
+
 View(path_data)
 
-root_node <- data.tree::as.Node(path_data)
+system.time(root_node <- data.tree::as.Node(path_data))
+
+print(root_node, limit = 10)
 
 root_node$isRoot
 root_node$height
@@ -78,69 +72,83 @@ root_node$averageBranchingFactor
 
 names(root_node)
 
-subtree <- root_node$GROUNDWATER$PROJECTS $FAKIN
+#subtree <- root_node$children[[1]]
+subtree <- root_node
 
-# treemapify
+# treemapify -------------------------------------------------------------------
+
 str(folder_structure)
 
 ggplot2::ggplot(folder_structure, ggplot2::aes(
   area = gdp_mil_usd, fill = hdi)) +
   treemapify::geom_treemap()
 
-# data.tree --------------------------------------------------------------------
+# Plot the tree using data.tree methods ----------------------------------------
 
-subtree <- full_tree
+# Take care, do not plot large trees!
+stopifnot(subtree$totalCount < 20)
+
+plot(subtree)
 
 data.tree::SetGraphStyle(subtree, rankdir = "TB")
-data.tree::SetNodeStyle(subtree$`aquanes-1`, fillcolor = "LightBlue")
+
+marked_node <- subtree$children[[1]]
+
+data.tree::SetNodeStyle(marked_node, fillcolor = "LightBlue", fontcolor = "red")
+
 data.tree::SetNodeStyle(
   subtree, style = "filled,rounded", shape = "box",
   fillcolor = "GreenYellow", fontname = "helvetica",
   tooltip = data.tree::GetDefaultTooltip
 )
 
-plot(as.dendrogram(subtree$`aquanes-1`$Exchange$`03 Versuchsanlage WP1`), center = TRUE)
+plot(subtree)
 
-full_tree$Set(name = sprintf("%05d__%s", seq_len(full_tree$totalCount), full_tree$Get("name")))
+# Plot as dendogram ------------------------------------------------------------
 
-plot(data.tree::as.igraph.Node(full_tree$`00002__aquanes-1`$`00003__Administration`, directed = TRUE, direction = "climb"))
+dendogram <- as.dendrogram(subtree)
 
-# networkD3 --------------------------------------------------------------------
+plot(dendogram, center = TRUE)
 
-library(networkD3)
+# Plot as igraph ---------------------------------------------------------------
 
-subtree <- full_tree$`00002__aquanes-1`$`00097__Communication`
+node_names <- unname(root_node$Get("name"))
+node_ids <- unname(root_node$Get("id"))
 
-network <- ToDataFrameNetwork(subtree, "size")
+# Make the node names unique
+#root_node$Set(name = sprintf("%05d__%s", node_ids, node_names))
+root_node$Set(name = node_ids)
 
-head(network)
+igraph_tree <- data.tree::as.igraph.Node(root_node)
 
+plot(igraph_tree, directed = TRUE, direction = "climb")
+
+# networkD3: simpleNetwork, radialNetwork --------------------------------------
+
+network <- data.tree::ToDataFrameNetwork(subtree, "size")
 networkD3::simpleNetwork(network, fontSize = 6)
 
-tree_list <- ToListExplicit(subtree, unname = TRUE)
-
+tree_list <- data.tree::ToListExplicit(subtree, unname = TRUE)
 networkD3::radialNetwork(tree_list)
-
-subdata <- as.data.frame(subtree)
-
-View(subdata)
-
-path_tree <- kwb.fakin:::to_tree(paths)
-subtree <- path_tree$SUW_Department$Projects
-
-folder_structure <- kwb.utils::asNoFactorDataFrame(kwb.fakin:::toSubdirMatrix(
-  kwb.fakin:::flatten_tree(subtree)
-))
-
-View(folder_structure)
-
-folder_structure$id <- seq_len(nrow(folder_structure))
 
 # collapsibleTree --------------------------------------------------------------
 
+path_tree <- kwb.fakin:::to_tree(path_data$pathString)
+
+subtree <- path_tree
+
+folder_structure <- subtree %>%
+  kwb.fakin:::flatten_tree() %>%
+  kwb.fakin:::toSubdirMatrix() %>%
+  kwb.utils::asNoFactorDataFrame()
+
+folder_structure$id <- seq_len(nrow(folder_structure))
+
+View(folder_structure)
+
 collapsibleTree::collapsibleTree(
   folder_structure,
-  hierarchy = paste0("V", 1:7),
+  hierarchy = c("V1", "V2"),
   width = 800,
   zoomable = TRUE,
   nodeSize = "leafCount",
@@ -151,25 +159,11 @@ shiny::runApp(system.file("examples/02shiny", package = "collapsibleTree"))
 
 # jsTree (Top!) ----------------------------------------------------------------
 
-jsTree::jsTree(full_file_info$pathString[1:10])
-
-x <- table(full_file_info$pathString)
+jsTree::jsTree(path_data$pathString[1:100])
 
 # d3Tree -----------------------------------------------------------------------
 
-folder_structure <- kwb.fakin:::toSubdirMatrix(full_file_info$pathString)
-
-folder_structure <- kwb.utils::asNoFactorDataFrame(folder_structure)
-
-View(folder_structure)
-
-root <- d3Tree::df2tree(
-  rootname = 'kwb-folders',
-  struct = folder_structure[1:10, 1:10]
-)
-
-d3Tree::d3tree(list(root = root, layout = 'collapse'))
-
+# Example 1
 d3Tree::d3tree(list(
   root = d3Tree::df2tree(
     rootname = 'Titanic',
@@ -179,6 +173,7 @@ d3Tree::d3tree(list(
   layout = 'collapse'
 ))
 
+# Example 2
 d3Tree::d3tree(list(
   root = d3Tree::df2tree(
     rootname = 'book',
@@ -186,6 +181,14 @@ d3Tree::d3tree(list(
   ),
   layout = 'collapse'
 ))
+
+# Our tree
+d3_tree <- d3Tree::df2tree(
+  rootname = 'kwb_example',
+  struct = folder_structure
+)
+
+d3Tree::d3tree(list(root = d3_tree, layout = 'collapse'))
 
 # wand -------------------------------------------------------------------------
 
@@ -205,4 +208,3 @@ system.time(properties <- wand::incant(example_paths[1:30]))
 sort(table(properties$encoding))
 
 View(properties)
-
