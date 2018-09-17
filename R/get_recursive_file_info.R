@@ -6,44 +6,20 @@
 #'   search for files
 #' @param pattern regular expression matching the names of the files to be
 #'   considered. By default, all files are considered.
-#' @param use_fs if \code{TRUE} (default) \code{\link[fs]{file_info}} is used
-#'   instead of \code{\link{file.info}}
+#' @param all see \code{\link[fs]{dir_info}}
 #' @param dbg if \code{TRUE} (default) progress messages are shown
 #'
 #' @export
 #'
 get_recursive_file_info <- function(
-  root_dir, pattern = NULL, use_fs = TRUE, dbg = TRUE
+  root_dir, pattern = NULL, all = TRUE, dbg = TRUE
 )
 {
-  roots <- list.dirs(root_dir)
-
-  # For each directory separately, get the paths to the files first and the
-  # properties of these files second
-  file_info <- do.call(rbind, lapply(roots, function(root) {
-
-    paths <- if (use_fs) {
-
-      unclass(unname(fs::dir_ls(root, recursive = TRUE, type = "directory")))
-
-    } else {
-
-      list.files(root, full.names = TRUE, recursive = TRUE)
-    }
-
-    kwb.utils::catAndRun(paste("Browsing", root), dbg = dbg, if (use_fs) {
-      fs::file_info(paths)
-    } else {
-      file.info(paths, extra_cols = TRUE)
-    })
-  }))
-
-  if (! use_fs) {
-
-    stopifnot(all(! file_info$isdir))
-  }
-
-  file_info
+  kwb.utils::catAndRun(
+    paste("Getting file information on files below", root_dir),
+    dbg = dbg,
+    fs::dir_info(root_dir, all = all, recursive = TRUE, regexp = pattern)
+  )
 }
 
 # extend_file_info -------------------------------------------------------------
