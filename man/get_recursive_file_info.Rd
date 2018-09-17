@@ -4,7 +4,8 @@
 \alias{get_recursive_file_info}
 \title{Call file.info recursively on files below a root folder}
 \usage{
-get_recursive_file_info(root_dir, pattern = NULL, dbg = TRUE)
+get_recursive_file_info(root_dir, pattern = NULL, use_fs = TRUE,
+  dbg = TRUE)
 }
 \arguments{
 \item{root_dir}{path to the root directory from which to start the recursive
@@ -12,6 +13,9 @@ search for files}
 
 \item{pattern}{regular expression matching the names of the files to be
 considered. By default, all files are considered.}
+
+\item{use_fs}{if \code{TRUE} (default) \code{\link[fs]{file_info}} is used
+instead of \code{\link{file.info}}}
 
 \item{dbg}{if \code{TRUE} (default) progress messages are shown}
 }
