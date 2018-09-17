@@ -2,6 +2,12 @@
 # Very General Functions, Candidates for kwb.utils
 #
 
+# cat_elapsed ------------------------------------------------------------------
+cat_elapsed <- function(time_info)
+{
+  cat("Elapsed:", time_info["elapsed"], "\n")
+}
+
 # getElementLengths ------------------------------------------------------------
 
 #' Get the Lenghts of List Elements
