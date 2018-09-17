@@ -92,6 +92,23 @@ of our cases this is due to German special characters, such as 'ä', 'ö', 'ü'.
 The naming rules are documented in our 
 [FAKIN Best Practices Document](https://kwb-r.github.io/fakin.doc/best-practices.html#data-storage-naming)
 
+## Treemaps
+
+The proportion of folder sizes can be visualised in so called tree-maps.
+We provide a function that uses the `treemaps` package to generate these plots.
+The input to the function is a list of file info data frames as they are 
+returned by `kwb.fakin::read_file_info`:
+
+```{r eval = FALSE}
+example_root <- system.file(package = "kwb.fakin")
+
+file_info <- kwb.fakin::get_recursive_file_info(example_root)
+
+kwb.fakin::plot_all_treemaps(list(kwb_fakin = file_info))
+```
+The plots are saved to png files in the temporary directory. The paths to the
+generated files are returned.
+
 ## Selecting Paths
 
 If you want to investigate a complex folder structure with 

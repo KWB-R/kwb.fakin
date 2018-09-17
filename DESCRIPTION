@@ -14,10 +14,13 @@ Description: This package contains all functions and evaluations related to
 Imports: 
     data.table,
     digest, 
+    dplyr,
     fs,
     kwb.code, 
     kwb.plot, 
     kwb.utils,
+    magrittr,
+    treemap,
     yaml (> 2.1)
 Remotes: 
     github::kwb-r/kwb.code,
@@ -32,7 +35,7 @@ Suggests:
     testthat
 License: MIT + file LICENSE
 LazyData: TRUE
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
 VignetteBuilder: knitr
 URL: https://github.com/kwb-r/kwb.fakin
 BugReports: https://github.com/kwb-r/kwb.fakin/issues
