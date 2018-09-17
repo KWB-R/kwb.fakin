@@ -98,43 +98,32 @@ startsWithParts <- function(parts, elements)
 #' # The extracted root is returned in attribute "root"
 #' attr(relparts, "root")
 #'
-removeCommonRoot <- function(x, keep_root = FALSE, dbg = TRUE)
+removeCommonRoot <- function(x, n_keep = 0, dbg = TRUE)
 {
   if (! (was_list <- is.list(x))) {
 
     x <- splitPaths(as.character(x), dbg = dbg)
   }
 
-  tree_height <- max(sapply(x, length))
-
-  i <- 1
-
-  get_at_index <- function(List, index) {
-
-    result <- sapply(List, "[", i)
-    result[is.na(result)] <- ""
-    result
-  }
-
-  while (i < tree_height && kwb.utils::allAreEqual(get_at_index(x, i))) {
-
-    i <- i + 1
-  }
-
   root <- ""
 
-  if (n_common <- i - 1) {
+  n_common <- get_common_start_segments(x)
 
-    indices <- seq_len(n_common - as.integer(keep_root))
+  if ((n_remove <- n_common - n_keep) > 0) {
 
     # Determine the root path
-    root <- kwb.utils::collapsed(x[[1]][indices], "/")
+    root <- kwb.utils::collapsed(x[[1]][1:n_remove], "/")
 
     # Remove the first n_common parts of each list entry
-    kwb.utils::catAndRun(
-      paste("Removing the first", n_common, "path segments"), dbg = dbg,
-      x <- lapply(x, function(xx) if (length(xx) > i - 1) xx[- indices] else "")
-    )
+    text <- paste("Removing the first", n_remove, "path segments")
+
+    kwb.utils::catAndRun(text, dbg = dbg, {
+
+      x <- lapply(x, function(segments) {
+
+        if (length(segments) > n_remove) segments[- (1:n_remove)] else ""
+      })
+    })
   }
 
   # If the input was not a list, convert the list back to a vector of character
@@ -147,6 +136,29 @@ removeCommonRoot <- function(x, keep_root = FALSE, dbg = TRUE)
 
   # Set attribute "root"
   structure(x, root = root)
+}
+
+# get_common_start_segments ----------------------------------------------------
+get_common_start_segments <- function(list_of_segments)
+{
+  # Define helper function
+  get_segment <- function(depth) {
+
+    result <- sapply(list_of_segments, "[", depth)
+    result[is.na(result)] <- ""
+    result
+  }
+
+  tree_height <- kwb.fakin:::maxdepth(parts = list_of_segments)
+
+  i <- 1
+
+  while (i < tree_height && kwb.utils::allAreEqual(get_segment(i))) {
+
+    i <- i + 1
+  }
+
+  i - 1
 }
 
 # lookup -----------------------------------------------------------------------
