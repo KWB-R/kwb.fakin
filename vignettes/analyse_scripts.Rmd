@@ -77,7 +77,7 @@ function `get_names_of_used_packages`:
 root_dir = "~/Desktop/R-Development/RScripts"
 
 # Get the names of the packages that are loaded in the scripts with "library()"
-packages <- get_names_of_used_packages(root_dir)
+packages <- kwb.fakin::get_names_of_used_packages(root_dir)
 
 # Print the script names
 kwb.utils::catLines(packages)
