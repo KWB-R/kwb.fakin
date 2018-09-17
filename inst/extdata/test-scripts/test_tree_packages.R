@@ -7,6 +7,7 @@
 #install.packages("d3Tree")
 #devtools::install_github("hrbrmstr/wand")
 #install.packages("R.filesets")
+#devtools::install_github("kwb-r/kwb.fakin")
 
 # TODO
 # - Get file list with properties
@@ -17,12 +18,11 @@
 # - Check promising package R.filesets!
 # - Have a look at package RecordLinkage (for similarity of files)
 
-`%>%` <- magrittr::`%>%`
-
 # Get example file list with file properties -----------------------------------
 
 #   user  system elapsed
 # 21.492   2.121  26.741
+
 root_dir <- "/home/hauke/Documents/FAKIN"
 root_dir <- "/home/hsonne/Desktop"
 
@@ -56,48 +56,23 @@ path_data <- data.frame(
 
 # Load full file information from a text file ----------------------------------
 
-file <- "~/Desktop/tmp/pathinfo_2.csv"
+#file <- "~/Desktop/tmp/pathinfo_2.csv"
 
-path_info <- kwb.fakin::read_file_info(file)
+file_info_dir <- "/home/hauke/Desktop/Data/FAKIN/file-info_by-department"
 
-# Prepare data frame for data.tree
-path_data <- kwb.utils::selectColumns(path_info, c("path", "size", "type"))
+files <- dir(file_info_dir, full.names = TRUE)
 
-# Keep only files
-path_data <- path_data[path_data$type == "file", ]
+names(files) <- extract_root_name(files)
 
-# Cut off the first segments of the common root path
-path_data$path <- kwb.fakin::removeCommonRoot(path_data$path, n_keep = 1)
+path_infos <- lapply(files, kwb.fakin::read_file_info)
+
+path_data <- prepare_path_data(path_infos$SUW_Department)
 
 head(path_data)
-
-# Prepare for aggregation ------------------------------------------------------
-
-path_segments <- kwb.fakin:::toSubdirMatrix(path_data$path)
-View(path_segments)
-
-n_levels <- 3
-
-folder_size <- cbind(
-  kwb.utils::asNoFactorDataFrame(path_segments[, 1:n_levels]),
-  size = as.numeric(kwb.utils::selectColumns(path_data, "size"))
-)
-
-View(folder_size)
-
-# Aggregate file numbers and sizes ---------------------------------------------
-total_size <- folder_size %>%
-  dplyr::group_by(V1, V2, V3) %>%
-  dplyr::summarise(
-    n_files = length(size),
-    total_size = sum(size)
-  ) %>%
-  as.data.frame()
-
-# Create a tree with data.tree -------------------------------------------------
-
 View(path_data)
 str(path_data)
+
+# Create a tree with data.tree -------------------------------------------------
 
 test_data <- path_data
 
@@ -139,11 +114,7 @@ ggplot2::ggplot(testdata, ggplot2::aes(
 
 # treemap ----------------------------------------------------------------------
 
-args <- list(total_size, index = c("V2", "V3"))
-
-do.call(treemap::treemap, c(args, vSize = "total_size", vColor = "n_files"))
-
-do.call(treemap::treemap, c(args, vSize = "n_files", vColor = "total_size"))
+png_files <- plot_all_treemaps(path_infos)
 
 # Plot the tree using data.tree methods ----------------------------------------
 
@@ -198,6 +169,8 @@ networkD3::radialNetwork(tree_list)
 path_tree <- kwb.fakin:::to_tree(path_data$pathString)
 
 subtree <- path_tree
+
+`%>%` <- magrittr::`%>%`
 
 folder_structure <- subtree %>%
   kwb.fakin:::flatten_tree() %>%
@@ -270,3 +243,13 @@ system.time(properties <- wand::incant(example_paths[1:30]))
 sort(table(properties$encoding))
 
 View(properties)
+
+# extract_root_name ------------------------------------------------------------
+extract_root_name <- function(file)
+{
+  name <- kwb.utils::removeExtension(basename(file))
+
+  gsub("path-info_\\d{4}-\\d{2}-\\d{2}_\\d{4}_", "", name)
+}
+
+
