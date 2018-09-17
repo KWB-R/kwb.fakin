@@ -29,10 +29,15 @@ get_recursive_file_info <- function(root_dir, pattern = NULL, dbg = TRUE)
   file_info
 }
 
-# add_path_column --------------------------------------------------------------
-add_path_column <- function(file_info)
+# extend_file_info -------------------------------------------------------------
+extend_file_info <- function(file_info, n_keep = 1)
 {
-  paths <- removeCommonRoot(rownames(file_info), keep_root = TRUE)
+  paths <- removeCommonRoot(rownames(file_info), n_keep = n_keep)
 
-  kwb.utils::resetRowNames(kwb.utils::setColumns(file_info, pathString = paths))
+  file_info <- kwb.utils::setColumns(
+    file_info, pathString = paths,
+    id = seq_len(nrow(file_info))
+  )
+
+  kwb.utils::resetRowNames(kwb.utils::moveColumnsToFront(file_info, "id"))
 }
