@@ -4,7 +4,7 @@
 \alias{get_and_save_file_info}
 \title{Get and Save File Information}
 \usage{
-get_and_save_file_info(root_dir, output_dir)
+get_and_save_file_info(root_dir, output_dir, check_dirs = TRUE)
 }
 \arguments{
 \item{root_dir}{path to the directory from which to start searching for
@@ -14,6 +14,10 @@ files}
 "path-info_<date-time>_<parent-folder>.csv" will be generated with
 <date-time> being a date and time string in yyyy-mm-dd_HHMM format and
 <parent-folder> being the last path segment of \code{root_dir}}
+
+\item{check_dirs}{if \code{TRUE} (default) it is checked in advance if both
+\code{root_dir} and \code{output_dir} exist. Switch this off if e.g.
+network paths are wrongly considered to be non-existing.}
 }
 \description{
 Get and Save File Information
