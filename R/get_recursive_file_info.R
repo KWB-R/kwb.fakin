@@ -22,7 +22,14 @@ get_recursive_file_info <- function(
   # properties of these files second
   file_info <- do.call(rbind, lapply(roots, function(root) {
 
-    paths <- list.files(root, full.names = TRUE, recursive = TRUE)
+    paths <- if (use_fs) {
+
+      unclass(unname(fs::dir_ls(root, recursive = TRUE, type = "directory")))
+
+    } else {
+
+      list.files(root, full.names = TRUE, recursive = TRUE)
+    }
 
     kwb.utils::catAndRun(paste("Browsing", root), dbg = dbg, if (use_fs) {
       fs::file_info(paths)
