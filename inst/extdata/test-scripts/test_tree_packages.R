@@ -58,15 +58,16 @@ path_data <- data.frame(
 
 #file <- "~/Desktop/tmp/pathinfo_2.csv"
 
-file_info_dir <- "/home/hauke/Desktop/Data/FAKIN/file-info_by-department"
+#file_info_dir <- "/home/hauke/Desktop/Data/FAKIN/file-info_by-department"
+file_info_dir <- "~/Data/FAKIN"
 
-files <- dir(file_info_dir, full.names = TRUE)
+files <- dir(file_info_dir, "^path-info", full.names = TRUE)
 
 names(files) <- extract_root_name(files)
 
 path_infos <- lapply(files, kwb.fakin::read_file_info)
 
-path_data <- prepare_path_data(path_infos$SUW_Department)
+path_data <- kwb.fakin:::prepare_path_data(path_infos$SUW_Department)
 
 head(path_data)
 View(path_data)
@@ -114,7 +115,25 @@ ggplot2::ggplot(testdata, ggplot2::aes(
 
 # treemap ----------------------------------------------------------------------
 
-png_files <- plot_all_treemaps(path_infos)
+png_files <- kwb.fakin::plot_all_treemaps(path_infos, as_png = FALSE)
+
+png_files <- kwb.fakin::plot_all_treemaps(
+  path_infos["WWT_Department"],
+  pattern = "^Y:/WWT_Department/Projects/POWERSTEP",
+  as_png = TRUE
+)
+
+png_files <- kwb.fakin::plot_all_treemaps(
+  path_infos["WWT_Department"],
+  pattern = "^Y:/WWT_Department/Projects/POWERSTEP/Exchange/03 - Rabea",
+  as_png = TRUE
+)
+
+png_files <- kwb.fakin::plot_all_treemaps(
+  path_infos["WWT_Department"],
+  pattern = "^Y:/WWT_Department/Projects/AquaNES",
+  as_png = TRUE
+)
 
 # Plot the tree using data.tree methods ----------------------------------------
 
@@ -194,7 +213,12 @@ shiny::runApp(system.file("examples/02shiny", package = "collapsibleTree"))
 
 # jsTree (Top!) ----------------------------------------------------------------
 
-jsTree::jsTree(path_data$pathString[1:100])
+path_data <- kwb.fakin:::prepare_path_data(path_infos$processing)
+
+js_tree_processing <- jsTree::jsTree(path_data$path, height = "100%")
+
+save(js_tree_processing, file = file.path(tempdir(), "js_tree.RData"))
+kwb.utils::hsOpenWindowsExplorer(tempdir())
 
 # d3Tree -----------------------------------------------------------------------
 

@@ -4,19 +4,23 @@
 #'
 #' @param path_infos list of data frames containing file path information as
 #'   they are returned by \code{\link{read_file_info}}
+#' @param pattern pattern by which to select a subset of paths or \code{NULL}
+#'   (default) if all paths in \code{path_infos} are to be considered. By
+#'   setting the pattern to "^/path/to/start/directory" you can "zoom into" the
+#'   treeplot, showing the contents of "/path/to/start/directory".
 #' @param as_png if \code{TRUE} (default) the plots are saved to png files in
 #'   \code{tempdir()}. Otherwise they are plotted into the active graphical
 #'   device.
 #'
 #' @export
 #'
-plot_all_treemaps <- function(path_infos, as_png = TRUE)
+plot_all_treemaps <- function(path_infos, pattern = NULL, as_png = TRUE)
 {
   lapply(names(path_infos), function(root_name) {
 
     kwb.utils::catAndRun(paste("Plotting", root_name), {
 
-      path_data <- prepare_path_data(path_infos[[root_name]])
+      path_data <- prepare_path_data(path_infos[[root_name]], pattern)
 
       folder_size <- get_first_path_segments_and_size(path_data, 4)
 
@@ -30,13 +34,22 @@ plot_all_treemaps <- function(path_infos, as_png = TRUE)
 }
 
 # prepare_path_data ------------------------------------------------------------
-prepare_path_data <- function(path_info)
+prepare_path_data <- function(path_info, pattern = NULL)
 {
-  # Prepare data frame for data.tree
-  path_data <- kwb.utils::selectColumns(path_info, c("path", "size", "type"))
+  # Get a vector of path types (directory or file)
+  types <- kwb.utils::selectColumns(path_info, "type")
 
-  # Keep only files
-  path_data <- path_data[path_data$type == "file", ]
+  # Keep only paths to files
+  path_data <- path_info[types == "file", ]
+
+  # Select only required columns
+  path_data <- kwb.utils::selectColumns(path_data, c("path", "size"))
+
+  # Filter for paths matching the pattern if a pattern is given
+  if (! is.null(pattern)) {
+
+    path_data <- path_data[grepl(pattern, path_data$path), ]
+  }
 
   # Cut off the first segments of the common root path
   path_data$path <- kwb.fakin::removeCommonRoot(path_data$path, n_keep = 1)
