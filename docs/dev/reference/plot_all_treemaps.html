@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>All Paths to Parent Folders — all_path_levels • kwb.fakin</title>
+<title>Plot Treemaps for All given Path Infos — plot_all_treemaps • kwb.fakin</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,10 +30,9 @@
 
 
 
-<meta property="og:title" content="All Paths to Parent Folders — all_path_levels" />
+<meta property="og:title" content="Plot Treemaps for All given Path Infos — plot_all_treemaps" />
 
-<meta property="og:description" content="For a given path a/b/c/d, all the parent paths a, a/b,
-a/b/c and the path itself (a/b/c/d) are returned." />
+<meta property="og:description" content="Plot Treemaps for All given Path Infos" />
 <meta name="twitter:card" content="summary" />
 
 <meta name="robots" content="noindex">
@@ -119,54 +118,42 @@ a/b/c and the path itself (a/b/c/d) are returned." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>All Paths to Parent Folders</h1>
-    <small class="dont-index">Source: <a href='https://github.com/kwb-r/kwb.fakin/blob/master/R/tree-jack.R'><code>R/tree-jack.R</code></a></small>
-    <div class="hidden name"><code>all_path_levels.Rd</code></div>
+    <h1>Plot Treemaps for All given Path Infos</h1>
+    <small class="dont-index">Source: <a href='https://github.com/kwb-r/kwb.fakin/blob/master/R/plot_treemaps.R'><code>R/plot_treemaps.R</code></a></small>
+    <div class="hidden name"><code>plot_all_treemaps.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>For a given path <code>a/b/c/d</code>, all the parent paths <code>a</code>, <code>a/b</code>,
-<code>a/b/c</code> and the path itself (<code>a/b/c/d</code>) are returned.</p>
+    <p>Plot Treemaps for All given Path Infos</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>all_path_levels</span>(<span class='no'>path</span>)</pre>
+    <pre class="usage"><span class='fu'>plot_all_treemaps</span>(<span class='no'>path_infos</span>, <span class='kw'>as_png</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>path</th>
-      <td><p>one character string representing a file path</p></td>
+      <th>path_infos</th>
+      <td><p>list of data frames containing file path information as
+they are returned by <code><a href='read_file_info.html'>read_file_info</a></code></p></td>
+    </tr>
+    <tr>
+      <th>as_png</th>
+      <td><p>if <code>TRUE</code> (default) the plots are saved to png files in
+<code>tempdir()</code>. Otherwise they are plotted into the active graphical
+device.</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>vector of character representing all parent paths and the <code>path</code>
-  itself as the last element</p>
-    
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>paths</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>kwb.fakin</span><span class='kw ns'>:::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/kwb.fakin/topics/all_path_levels'>all_path_levels</a></span>(<span class='st'>"this/is/a/long/path"</span>)
-<span class='kw pkg'>kwb.fakin</span><span class='kw ns'>:::</span><span class='fu'>toSubdirMatrix</span>(<span class='no'>paths</span>)</div><div class='output co'>#&gt; Splitting paths ... ok. </div><div class='output co'>#&gt;      [,1]   [,2] [,3] [,4]   [,5]  
-#&gt; [1,] "this" ""   ""   ""     ""    
-#&gt; [2,] "this" "is" ""   ""     ""    
-#&gt; [3,] "this" "is" "a"  ""     ""    
-#&gt; [4,] "this" "is" "a"  "long" ""    
-#&gt; [5,] "this" "is" "a"  "long" "path"</div><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+                </ul>
 
   </div>
 </div>

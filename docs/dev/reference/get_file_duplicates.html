@@ -152,7 +152,7 @@ matching paths are split and analysed for duplicated files</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>paths</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='st'>"/a/b/c.exe"</span>, <span class='st'>"/a/b/d.exe"</span>, <span class='st'>"/A/B/c.exe"</span>, <span class='st'>"/A/B/d.exe"</span>)
-<span class='fu'>get_file_duplicates</span>(<span class='no'>paths</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"\\.exe$"</span>)</div><div class='output co'>#&gt; Splitting paths... ok.</div><div class='output co'>#&gt; $c.exe
+<span class='fu'>get_file_duplicates</span>(<span class='no'>paths</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"\\.exe$"</span>)</div><div class='output co'>#&gt; Splitting paths ... ok. </div><div class='output co'>#&gt; $c.exe
 #&gt; [1] "/a/b/c.exe" "/A/B/c.exe"
 #&gt; 
 #&gt; $d.exe
