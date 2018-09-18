@@ -4,10 +4,13 @@
 #'
 #' @param path_infos list of data frames containing file path information as
 #'   they are returned by \code{\link{read_file_info}}
+#' @param as_png if \code{TRUE} (default) the plots are saved to png files in
+#'   \code{tempdir()}. Otherwise they are plotted into the active graphical
+#'   device.
 #'
 #' @export
 #'
-plot_all_treemaps <- function(path_infos)
+plot_all_treemaps <- function(path_infos, as_png = TRUE)
 {
   lapply(names(path_infos), function(root_name) {
 
@@ -19,7 +22,9 @@ plot_all_treemaps <- function(path_infos)
 
       total_size <- aggregate_by_first_three_levels(folder_size)
 
-      plot_two_treemaps(total_size, png_name = root_name)
+      png_name <- if (as_png) root_name else ""
+
+      plot_two_treemaps(total_size, png_name = png_name)
     })
   })
 }

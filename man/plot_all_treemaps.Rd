@@ -4,11 +4,15 @@
 \alias{plot_all_treemaps}
 \title{Plot Treemaps for All given Path Infos}
 \usage{
-plot_all_treemaps(path_infos)
+plot_all_treemaps(path_infos, as_png = TRUE)
 }
 \arguments{
 \item{path_infos}{list of data frames containing file path information as
 they are returned by \code{\link{read_file_info}}}
+
+\item{as_png}{if \code{TRUE} (default) the plots are saved to png files in
+\code{tempdir()}. Otherwise they are plotted into the active graphical
+device.}
 }
 \description{
 Plot Treemaps for All given Path Infos

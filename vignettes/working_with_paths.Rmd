@@ -97,17 +97,17 @@ The naming rules are documented in our
 The proportion of folder sizes can be visualised in so called tree-maps.
 We provide a function that uses the `treemaps` package to generate these plots.
 The input to the function is a list of file info data frames as they are 
-returned by `kwb.fakin::read_file_info`:
+returned by `kwb.fakin::read_file_info`.
 
-```{r eval = FALSE}
+```{r}
 example_root <- system.file(package = "kwb.fakin")
 
 file_info <- kwb.fakin::get_recursive_file_info(example_root)
 
-kwb.fakin::plot_all_treemaps(list(kwb_fakin = file_info))
+kwb.fakin::plot_all_treemaps(list(kwb_fakin = file_info), as_png = FALSE)
 ```
-The plots are saved to png files in the temporary directory. The paths to the
-generated files are returned.
+By default the plots are saved to png files in the temporary directory. Here,
+we plot into the current graphical device by setting `as_png` to `FALSE`.
 
 ## Selecting Paths
 
