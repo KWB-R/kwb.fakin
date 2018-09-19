@@ -28,7 +28,6 @@ plot_all_treemaps <- function(path_infos, as_png = TRUE, ...)
     ))
   }
 
-  #(name <- names(path_infos)[1]
   lapply(names(path_infos), function(name) {
 
     plot_treemaps_from_path_data(
@@ -59,57 +58,61 @@ plot_all_treemaps <- function(path_infos, as_png = TRUE, ...)
 #' @param output_dir path to output directory if \code{as_png = TRUE}. Default:
 #'   \code{tempdir()}
 #' @param type passed to \code{\link[treemap]{treemap}}
+#' @param args_png list of arguments passed to \code{\link[grDevices]{png}} if
+#'   \code{as_png = TRUE}
 #' @export
 #'
 plot_treemaps_from_path_data <- function(
   path_data, pattern = NULL, name = "root", as_png = FALSE, n_levels = 3,
-  output_dir = tempdir(), type = "value"
+  output_dir = tempdir(), type = "value", args_png = list()
 )
 {
-  kwb.utils::catAndRun(paste0("Plotting tree '", name, "'"), {
-
+  kwb.utils::catAndRun(
+    paste0("Preparing data for '", name, "'"),
+    newLine = 3,
     folder_data <- prepare_for_treemap(path_data, pattern, n_keep = 1)
+  )
 
-    # Convert size to numeric, otherwise we get an overflow when summing up
-    folder_data$size <- as.numeric(folder_data$size)
+  # Convert size to numeric, otherwise we get an overflow when summing up
+  folder_data$size <- as.numeric(folder_data$size)
 
-    group_by <- names(folder_data)[seq_len(n_levels)]
-    #group_by <- "level_2"
+  group_by <- names(folder_data)[seq_len(n_levels)]
 
+  kwb.utils::catAndRun(
+    "Aggregating by first path levels",
     total_size <- aggregate_by_levels(folder_data, group_by)
+  )
 
-    #plot_two_treemaps(total_size, png_name = ifelse(as_png, name, ""))
-    #
-    # plot_two_treemaps <- function(
-    #   total_size, png_name = "", output_dir = tempdir(), type = "value",
-    #   n_levels = 3
-    # )
-    # {
-    index <- names(total_size)[seq_len(n_levels)]
+  index <- names(total_size)[seq_len(n_levels)]
 
-    args <- list(total_size, index = index, type = type)
+  args <- list(total_size, index = index, type = type)
 
-    files <- if (as_png) {
+  files <- if (as_png) {
 
-      filenames <- sprintf("treemap_%s_%s.png", name, c("size", "files"))
+    filenames <- sprintf("treemap_%s_%s.png", name, c("size", "files"))
 
-      file.path(output_dir, filenames)
-    }
+    files <- file.path(output_dir, filenames)
+  }
 
-    plot_one_treemap(file = files[1], args_treemap = c(
+  kwb.utils::catAndRun(
+    "Creating treemap 'size'",
+    plot_one_treemap(file = files[1], args_png = args_png, args_treemap = c(
       args, vSize = "total_size", vColor = "n_files",
       title = "Rectangle size = total size",
       title.legend = "Number of files"
     ))
+  )
 
-    plot_one_treemap(file = files[2], args_treemap = c(
+  kwb.utils::catAndRun(
+    "Creating treemap 'files'",
+    plot_one_treemap(file = files[2], args_png = args_png, args_treemap = c(
       args, vSize = "n_files", vColor = "total_size",
       title = "Rectangle size = total number of files",
       title.legend = "Total size in Bytes"
     ))
+  )
 
-    files
-  })
+  files
 }
 
 # prepare_for_treemap ------------------------------------------------------------

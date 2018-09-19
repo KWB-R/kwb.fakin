@@ -6,7 +6,7 @@
 \usage{
 plot_treemaps_from_path_data(path_data, pattern = NULL, name = "root",
   as_png = FALSE, n_levels = 3, output_dir = tempdir(),
-  type = "value")
+  type = "value", args_png = list())
 }
 \arguments{
 \item{path_data}{data frame containing file path information as returned by
@@ -30,6 +30,9 @@ Otherwise they are plotted into the active graphical device.}
 \code{tempdir()}}
 
 \item{type}{passed to \code{\link[treemap]{treemap}}}
+
+\item{args_png}{list of arguments passed to \code{\link[grDevices]{png}} if
+\code{as_png = TRUE}}
 }
 \description{
 Plot Treemaps Given File Path Data

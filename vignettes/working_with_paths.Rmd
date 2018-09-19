@@ -5,8 +5,10 @@ date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Working with Paths}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 In our FAKIN project we want to improve the (research) data management at KWB. 
@@ -101,10 +103,20 @@ returned by `kwb.fakin::read_file_info`.
 
 ```{r}
 example_root <- system.file(package = "kwb.fakin")
+```
 
+```{r echo = FALSE}
+# Create dummy folders to achieve least folder depth
+dummy_folder <- file.path(example_root, "extdata/dummy/dummy")
+kwb.utils::createDirAndReturnPath(dummy_folder, dbg = FALSE)
+writeLines("dummy", file.path(dummy_folder, "dummy_file.txt"))
+```
+
+```{r eval = FALSE}
 file_info <- kwb.fakin::get_recursive_file_info(example_root)
-
-kwb.fakin::plot_all_treemaps(list(kwb_fakin = file_info), as_png = FALSE)
+info_matrix <- as.matrix(file_info)
+kwb.fakin:::store(info_matrix, "working_with_paths.Rmd")
+kwb.fakin::plot_all_treemaps(path_infos = file_info, as_png = FALSE)
 ```
 By default the plots are saved to png files in the temporary directory. Here,
 we plot into the current graphical device by setting `as_png` to `FALSE`.

@@ -109,29 +109,61 @@ ggplot2::ggplot(testdata, ggplot2::aes(
   treemapify::geom_treemap_subgroup_border(color = "red")
 
 # treemap ----------------------------------------------------------------------
+department_strings <- c("SUW_Department", "GROUNDWATER", "WWT_Department")
+
+path_data_kwb <- kwb.utils::resetRowNames(
+  do.call(rbind, path_infos[department_strings])
+)
+
+args_png_4_3 <- list(
+  width = 0.8 * 25.4,
+  height = 0.8 * 19.05,
+  units = "cm",
+  res = 200
+)
+
+args_png_4_3_half <- list(
+  width = 0.8 * 0.5 * 25.4,
+  height = 0.8 * 19.05,
+  units = "cm",
+  res = 200
+)
+
+args_png_1024_768 <- list(width = 1024, height = 768, units = "px")
 
 png_files <- kwb.fakin::plot_all_treemaps(path_infos, as_png = TRUE)
 
-x <- path_infos$GROUNDWATER
-View(x)
+png_files <- kwb.fakin::plot_treemaps_from_path_data(
+  path_data = path_data_kwb,
+  name = "KWB_half_width",
+  as_png = TRUE,
+  args_png = args_png_4_3_half
+)
+
+#install.packages("magick")
+images <- magick::image_read(png_files)
+image_side_by_side <- magickx::image_matrix(images, nrow = 1)
+magick::image_write(image_side_by_side, file.path(tempdir(), "treemap_KWB_size.png"))
 
 png_files <- kwb.fakin::plot_treemaps_from_path_data(
   path_data = path_infos$GROUNDWATER, name = "GROUNDWATER_tmp",
   pattern = "Y:/GROUNDWATER/PROJECTS/",
-  as_png = TRUE
+  as_png = TRUE,
+  args_png = args_png_4_3
 )
 
 png_files <- kwb.fakin::plot_treemaps_from_path_data(
   path_data = path_infos$WWT_Department,
   pattern = "^Y:/WWT_Department/Projects/POWERSTEP/",
   name = "POWERSTEP",
-  as_png = FALSE
+  as_png = TRUE,
+  args_png = args_png_4_3
 )
 
 png_files <- kwb.fakin::plot_treemaps_from_path_data(
   path_data = path_infos$WWT_Department,
   pattern = "^Y:/WWT_Department/Projects/POWERSTEP/Exchange/",
-  name = "Exchange",
+  name = "Exchange_tmp",
   as_png = FALSE
 )
 
@@ -145,7 +177,9 @@ png_files <- kwb.fakin::plot_treemaps_from_path_data(
 png_files <- kwb.fakin::plot_treemaps_from_path_data(
   path_data = path_infos$WWT_Department,
   pattern = "^Y:/WWT_Department/Projects/AquaNES/",
-  as_png = FALSE
+  name = "AquaNES",
+  as_png = TRUE,
+  args_png = args_png_4_3
 )
 
 # Plot the tree using data.tree methods ----------------------------------------
