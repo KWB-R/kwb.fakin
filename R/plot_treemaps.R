@@ -2,117 +2,173 @@
 
 #' Plot Treemaps for All given Path Infos
 #'
-#' @param path_infos list of data frames containing file path information as
-#'   they are returned by \code{\link{read_file_info}}
-#' @param pattern pattern by which to select a subset of paths or \code{NULL}
-#'   (default) if all paths in \code{path_infos} are to be considered. By
-#'   setting the pattern to "^/path/to/start/directory" you can "zoom into" the
-#'   treeplot, showing the contents of "/path/to/start/directory".
-#' @param as_png if \code{TRUE} (default) the plots are saved to png files in
-#'   \code{tempdir()}. Otherwise they are plotted into the active graphical
-#'   device.
+#' @param path_infos list of data frames each of which contains file path
+#'   information as returned by \code{\link{read_file_info}}
+#' @param as_png if \code{TRUE} the plots are saved to png-files in
+#'   \code{tempdir()}. The name is then taken from the names of the elements in
+#'   \code{path_infos}. Otherwise the plot go into the current graphical device.
+#' @param \dots further arguments passed to
+#'   \code{\link{plot_treemaps_from_path_data}}, such as \code{n_levels}
+#' @return for \code{as_png = TRUE} vector of paths to the created png files.
 #'
 #' @export
 #'
-plot_all_treemaps <- function(path_infos, pattern = NULL, as_png = TRUE)
+plot_all_treemaps <- function(path_infos, as_png = TRUE, ...)
 {
-  lapply(names(path_infos), function(root_name) {
+  if (! is.list(path_infos) || ! all(sapply(path_infos, is.data.frame))) {
 
-    kwb.utils::catAndRun(paste("Plotting", root_name), {
+    stop_("path_data_list must be a list of data frames.")
+  }
 
-      path_data <- prepare_path_data(path_infos[[root_name]], pattern)
+  if (any(kwb.utils::is.unnamed(path_infos))) {
 
-      folder_size <- get_first_path_segments_and_size(path_data, 4)
+    stop_(sprintf(
+      "The list '%s' given to plot_all_treemaps must be named",
+      deparse(substitute(path_infos))
+    ))
+  }
 
-      total_size <- aggregate_by_first_three_levels(folder_size)
+  #(name <- names(path_infos)[1]
+  lapply(names(path_infos), function(name) {
 
-      png_name <- if (as_png) root_name else ""
-
-      plot_two_treemaps(total_size, png_name = png_name)
-    })
+    plot_treemaps_from_path_data(
+      path_data = path_infos[[name]],
+      name = name,
+      as_png = as_png,
+      ...
+    )
   })
 }
 
-# prepare_path_data ------------------------------------------------------------
-prepare_path_data <- function(path_info, pattern = NULL)
+# plot_treemaps_from_path_data -------------------------------------------------
+
+#' Plot Treemaps Given File Path Data
+#'
+#' @param path_data data frame containing file path information as returned by
+#'   \code{\link{read_file_info}}
+#' @param pattern pattern by which to select a subset of paths or \code{NULL}
+#'   (default) if all paths in \code{path_data} are to be considered. By
+#'   setting the pattern to "^/path/to/start/directory" you can "zoom into" the
+#'   treeplot, showing the contents of "/path/to/start/directory".
+#' @param name name to be used in png file name if \code{as_png} is set. If
+#'   \code{path_data} is a list, the names of the list elements are used.
+#' @param as_png if \code{TRUE} (default) the plots are saved to png files in
+#'   the directory given in \code{output_dir} (\code{tempdir()} by default).
+#'   Otherwise they are plotted into the active graphical device.
+#' @param n_levels number of folder depth levels to be shown in the plots
+#' @param output_dir path to output directory if \code{as_png = TRUE}. Default:
+#'   \code{tempdir()}
+#' @param type passed to \code{\link[treemap]{treemap}}
+#' @export
+#'
+plot_treemaps_from_path_data <- function(
+  path_data, pattern = NULL, name = "root", as_png = FALSE, n_levels = 3,
+  output_dir = tempdir(), type = "value"
+)
 {
-  # Get a vector of path types (directory or file)
-  types <- kwb.utils::selectColumns(path_info, "type")
+  kwb.utils::catAndRun(paste0("Plotting tree '", name, "'"), {
 
-  # Keep only paths to files
-  path_data <- path_info[types == "file", ]
+    folder_data <- prepare_for_treemap(path_data, pattern, n_keep = 1)
 
-  # Select only required columns
-  path_data <- kwb.utils::selectColumns(path_data, c("path", "size"))
+    # Convert size to numeric, otherwise we get an overflow when summing up
+    folder_data$size <- as.numeric(folder_data$size)
 
-  # Filter for paths matching the pattern if a pattern is given
-  if (! is.null(pattern)) {
+    group_by <- names(folder_data)[seq_len(n_levels)]
+    #group_by <- "level_2"
 
-    path_data <- path_data[grepl(pattern, path_data$path), ]
-  }
+    total_size <- aggregate_by_levels(folder_data, group_by)
 
-  # Cut off the first segments of the common root path
-  path_data$path <- kwb.fakin::removeCommonRoot(path_data$path, n_keep = 1)
+    #plot_two_treemaps(total_size, png_name = ifelse(as_png, name, ""))
+    #
+    # plot_two_treemaps <- function(
+    #   total_size, png_name = "", output_dir = tempdir(), type = "value",
+    #   n_levels = 3
+    # )
+    # {
+    index <- names(total_size)[seq_len(n_levels)]
 
-  path_data
+    args <- list(total_size, index = index, type = type)
+
+    files <- if (as_png) {
+
+      filenames <- sprintf("treemap_%s_%s.png", name, c("size", "files"))
+
+      file.path(output_dir, filenames)
+    }
+
+    plot_one_treemap(file = files[1], args_treemap = c(
+      args, vSize = "total_size", vColor = "n_files",
+      title = "Rectangle size = total size",
+      title.legend = "Number of files"
+    ))
+
+    plot_one_treemap(file = files[2], args_treemap = c(
+      args, vSize = "n_files", vColor = "total_size",
+      title = "Rectangle size = total number of files",
+      title.legend = "Total size in Bytes"
+    ))
+
+    files
+  })
 }
 
-# get_first_path_segments_and_size ---------------------------------------------
-get_first_path_segments_and_size <- function(path_data, n_levels = 3)
-{
-  path_segments <- toSubdirMatrix(path_data$path)
+# prepare_for_treemap ------------------------------------------------------------
 
-  stopifnot(kwb.utils::inRange(n_levels, 1, ncol(path_segments)))
-
-  cbind(
-    kwb.utils::asNoFactorDataFrame(path_segments[, 1:n_levels]),
-    size = as.numeric(kwb.utils::selectColumns(path_data, "size"))
-  )
-}
-
-# aggregate_by_first_three_levels ----------------------------------------------
-aggregate_by_first_three_levels <- function(folder_size)
+#' Prepare and Filter Path Data for Treemap Plot
+#'
+#' @param path_data data frame as returned by \code{\link{read_file_info}}
+#' @param pattern regular expression by which to filter the paths
+#' @param variable name(s) of variable(s) to be selected. Default: "size"
+#' @param path_type file path_type(s) to filter for. Default: "file"
+#' @param ... further arguments passed to \code{\link{removeCommonRoot}}, such
+#'   as \code{n_keep} (number of last segments to be kept from the common first
+#'   part of all paths)
+#'
+prepare_for_treemap <- function(
+  path_data, pattern = NULL, variable = "size", path_type = "file", ...
+)
 {
   `%>%` <- magrittr::`%>%`
 
-  folder_size %>%
-    dplyr::group_by_("V1", "V2", "V3") %>%
-    dplyr::summarise_(
-      n_files = "length(size)",
-      total_size = "sum(size)"
-    ) %>%
+  # Compare the path types with the requested type(s)
+  has_type <- kwb.utils::selectColumns(path_data, "type") %in% path_type
+
+  # Select only requested variables
+  result <- kwb.utils::selectColumns(path_data, c("path", variable))
+
+  # Keep only paths of the requested type
+  result <- result[has_type, ]
+
+  # If a pattern is given, filter for paths matching the pattern
+  if (! is.null(pattern)) {
+
+    result <- result[grepl(pattern, result$path), ]
+  }
+
+  # Convert paths to path segment matrix ignoring the first common parts
+  path_segment_data <- result$path %>%
+    removeCommonRoot(...) %>%
+    toSubdirMatrix(fill.value = NA) %>%
+    kwb.utils::asNoFactorDataFrame()
+
+  # Set names of path segement columns and combine with value columns
+  path_segment_data %>%
+    stats::setNames(paste0("level_", seq_along(path_segment_data))) %>%
+    cbind(kwb.utils::removeColumns(result, "path"))
+}
+
+# aggregate_by_levels ----------------------------------------------------------
+aggregate_by_levels <- function(folder_data, group_by = names(folder_data)[1:2])
+{
+  `%>%` <- magrittr::`%>%`
+
+  do.call(dplyr::group_by_, c(list(folder_data), as.list(group_by))) %>%
+    dplyr::summarise_(n_files = "length(size)", total_size = "sum(size)") %>%
     as.data.frame()
 }
 
-# plot_two_treemaps ------------------------------------------------------------
-plot_two_treemaps <- function(total_size, png_name = "", output_dir = tempdir())
-{
-  args <- list(total_size, index = c("V2", "V3"), type = "value")
-
-  files <- if (png_name != "") {
-
-    filenames <- sprintf("treemap_%s_%s.png", png_name, c("size", "files"))
-
-    file.path(output_dir, filenames)
-  }
-
-  plot_treemap(file = files[1], args_treemap = c(
-    args, vSize = "total_size", vColor = "n_files",
-    title = "Rectangle size = total size",
-    title.legend = "Number of files"
-  ))
-
-  plot_treemap(file = files[2], args_treemap = c(
-    args, vSize = "n_files", vColor = "total_size",
-    title = "Rectangle size = total number of files",
-    title.legend = "Total size in Bytes"
-  ))
-
-  files
-}
-
-# plot_treemap -----------------------------------------------------------------
-plot_treemap <- function(args_treemap, file = NULL, args_png = list())
+# plot_one_treemap -------------------------------------------------------------
+plot_one_treemap <- function(args_treemap, file = NULL, args_png = list())
 {
   if (! is.null(file)) {
 

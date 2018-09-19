@@ -4,20 +4,21 @@
 \alias{plot_all_treemaps}
 \title{Plot Treemaps for All given Path Infos}
 \usage{
-plot_all_treemaps(path_infos, pattern = NULL, as_png = TRUE)
+plot_all_treemaps(path_infos, as_png = TRUE, ...)
 }
 \arguments{
-\item{path_infos}{list of data frames containing file path information as
-they are returned by \code{\link{read_file_info}}}
+\item{path_infos}{list of data frames each of which contains file path
+information as returned by \code{\link{read_file_info}}}
 
-\item{pattern}{pattern by which to select a subset of paths or \code{NULL}
-(default) if all paths in \code{path_infos} are to be considered. By
-setting the pattern to "^/path/to/start/directory" you can "zoom into" the
-treeplot, showing the contents of "/path/to/start/directory".}
+\item{as_png}{if \code{TRUE} the plots are saved to png-files in
+\code{tempdir()}. The name is then taken from the names of the elements in
+\code{path_infos}. Otherwise the plot go into the current graphical device.}
 
-\item{as_png}{if \code{TRUE} (default) the plots are saved to png files in
-\code{tempdir()}. Otherwise they are plotted into the active graphical
-device.}
+\item{\dots}{further arguments passed to
+\code{\link{plot_treemaps_from_path_data}}, such as \code{n_levels}}
+}
+\value{
+for \code{as_png = TRUE} vector of paths to the created png files.
 }
 \description{
 Plot Treemaps for All given Path Infos

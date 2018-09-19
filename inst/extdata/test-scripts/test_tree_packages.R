@@ -8,6 +8,7 @@
 #devtools::install_github("hrbrmstr/wand")
 #install.packages("R.filesets")
 #devtools::install_github("kwb-r/kwb.fakin")
+Sys.setenv(RSTUDIO_PANDOC = "/usr/bin/pandoc")
 
 # TODO
 # - Get file list with properties
@@ -58,20 +59,14 @@ path_data <- data.frame(
 
 #file <- "~/Desktop/tmp/pathinfo_2.csv"
 
-#file_info_dir <- "/home/hauke/Desktop/Data/FAKIN/file-info_by-department"
-file_info_dir <- "~/Data/FAKIN"
+file_info_dir <- "/home/hauke/Desktop/Data/FAKIN/file-info_by-department"
+#file_info_dir <- "~/Data/FAKIN"
 
 files <- dir(file_info_dir, "^path-info", full.names = TRUE)
 
-names(files) <- extract_root_name(files)
+names(files) <- kwb.fakin:::extract_root_name(files)
 
 path_infos <- lapply(files, kwb.fakin::read_file_info)
-
-path_data <- kwb.fakin:::prepare_path_data(path_infos$SUW_Department)
-
-head(path_data)
-View(path_data)
-str(path_data)
 
 # Create a tree with data.tree -------------------------------------------------
 
@@ -115,24 +110,42 @@ ggplot2::ggplot(testdata, ggplot2::aes(
 
 # treemap ----------------------------------------------------------------------
 
-png_files <- kwb.fakin::plot_all_treemaps(path_infos, as_png = FALSE)
+png_files <- kwb.fakin::plot_all_treemaps(path_infos, as_png = TRUE)
 
-png_files <- kwb.fakin::plot_all_treemaps(
-  path_infos["WWT_Department"],
-  pattern = "^Y:/WWT_Department/Projects/POWERSTEP",
+x <- path_infos$GROUNDWATER
+View(x)
+
+png_files <- kwb.fakin::plot_treemaps_from_path_data(
+  path_data = path_infos$GROUNDWATER, name = "GROUNDWATER_tmp",
+  pattern = "Y:/GROUNDWATER/PROJECTS/",
   as_png = TRUE
 )
 
-png_files <- kwb.fakin::plot_all_treemaps(
-  path_infos["WWT_Department"],
-  pattern = "^Y:/WWT_Department/Projects/POWERSTEP/Exchange/03 - Rabea",
-  as_png = TRUE
+png_files <- kwb.fakin::plot_treemaps_from_path_data(
+  path_data = path_infos$WWT_Department,
+  pattern = "^Y:/WWT_Department/Projects/POWERSTEP/",
+  name = "POWERSTEP",
+  as_png = FALSE
 )
 
-png_files <- kwb.fakin::plot_all_treemaps(
-  path_infos["WWT_Department"],
-  pattern = "^Y:/WWT_Department/Projects/AquaNES",
-  as_png = TRUE
+png_files <- kwb.fakin::plot_treemaps_from_path_data(
+  path_data = path_infos$WWT_Department,
+  pattern = "^Y:/WWT_Department/Projects/POWERSTEP/Exchange/",
+  name = "Exchange",
+  as_png = FALSE
+)
+
+png_files <- kwb.fakin::plot_treemaps_from_path_data(
+  path_data = path_infos$WWT_Department,
+  pattern = "^Y:/WWT_Department/Projects/POWERSTEP/Exchange/03 - Rabea/",
+  name = "Rabea",
+  as_png = FALSE
+)
+
+png_files <- kwb.fakin::plot_treemaps_from_path_data(
+  path_data = path_infos$WWT_Department,
+  pattern = "^Y:/WWT_Department/Projects/AquaNES/",
+  as_png = FALSE
 )
 
 # Plot the tree using data.tree methods ----------------------------------------
@@ -267,13 +280,4 @@ system.time(properties <- wand::incant(example_paths[1:30]))
 sort(table(properties$encoding))
 
 View(properties)
-
-# extract_root_name ------------------------------------------------------------
-extract_root_name <- function(file)
-{
-  name <- kwb.utils::removeExtension(basename(file))
-
-  gsub("path-info_\\d{4}-\\d{2}-\\d{2}_\\d{4}_", "", name)
-}
-
 
