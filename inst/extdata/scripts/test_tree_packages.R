@@ -19,6 +19,13 @@ Sys.setenv(RSTUDIO_PANDOC = "/usr/bin/pandoc")
 # - Check promising package R.filesets!
 # - Have a look at package RecordLinkage (for similarity of files)
 
+# Load full file information from a text file ----------------------------------
+
+file_info_dir <- "/home/hauke/Desktop/Data/FAKIN/file-info_by-department"
+#file_info_dir <- "~/Data/FAKIN"
+
+path_infos <- kwb.fakin:::read_path_information(file_info_dir)
+
 # Get example file list with file properties -----------------------------------
 
 #   user  system elapsed
@@ -54,19 +61,6 @@ path_data <- data.frame(
   pathString = paste0("root/", dirname(paths)),
   leafFolder = basename(paths)
 )
-
-# Load full file information from a text file ----------------------------------
-
-#file <- "~/Desktop/tmp/pathinfo_2.csv"
-
-file_info_dir <- "/home/hauke/Desktop/Data/FAKIN/file-info_by-department"
-#file_info_dir <- "~/Data/FAKIN"
-
-files <- dir(file_info_dir, "^path-info", full.names = TRUE)
-
-names(files) <- kwb.fakin:::extract_root_name(files)
-
-path_infos <- lapply(files, kwb.fakin::read_file_info)
 
 # Create a tree with data.tree -------------------------------------------------
 
@@ -107,80 +101,6 @@ ggplot2::ggplot(testdata, ggplot2::aes(
   treemapify::geom_treemap_text(fontface = "italic", colour = "white", place = "centre",
                   grow = TRUE) +
   treemapify::geom_treemap_subgroup_border(color = "red")
-
-# treemap ----------------------------------------------------------------------
-department_strings <- c("SUW_Department", "GROUNDWATER", "WWT_Department")
-
-path_data_kwb <- kwb.utils::resetRowNames(
-  do.call(rbind, path_infos[department_strings])
-)
-
-args_png_4_3 <- list(
-  width = 0.8 * 25.4,
-  height = 0.8 * 19.05,
-  units = "cm",
-  res = 200
-)
-
-args_png_4_3_half <- list(
-  width = 0.8 * 0.5 * 25.4,
-  height = 0.8 * 19.05,
-  units = "cm",
-  res = 200
-)
-
-args_png_1024_768 <- list(width = 1024, height = 768, units = "px")
-
-png_files <- kwb.fakin::plot_all_treemaps(path_infos, as_png = TRUE)
-
-png_files <- kwb.fakin::plot_treemaps_from_path_data(
-  path_data = path_data_kwb,
-  name = "KWB_half_width",
-  as_png = TRUE,
-  args_png = args_png_4_3_half
-)
-
-#install.packages("magick")
-images <- magick::image_read(png_files)
-image_side_by_side <- magickx::image_matrix(images, nrow = 1)
-magick::image_write(image_side_by_side, file.path(tempdir(), "treemap_KWB_size.png"))
-
-png_files <- kwb.fakin::plot_treemaps_from_path_data(
-  path_data = path_infos$GROUNDWATER, name = "GROUNDWATER_tmp",
-  pattern = "Y:/GROUNDWATER/PROJECTS/",
-  as_png = TRUE,
-  args_png = args_png_4_3
-)
-
-png_files <- kwb.fakin::plot_treemaps_from_path_data(
-  path_data = path_infos$WWT_Department,
-  pattern = "^Y:/WWT_Department/Projects/POWERSTEP/",
-  name = "POWERSTEP",
-  as_png = TRUE,
-  args_png = args_png_4_3
-)
-
-png_files <- kwb.fakin::plot_treemaps_from_path_data(
-  path_data = path_infos$WWT_Department,
-  pattern = "^Y:/WWT_Department/Projects/POWERSTEP/Exchange/",
-  name = "Exchange_tmp",
-  as_png = FALSE
-)
-
-png_files <- kwb.fakin::plot_treemaps_from_path_data(
-  path_data = path_infos$WWT_Department,
-  pattern = "^Y:/WWT_Department/Projects/POWERSTEP/Exchange/03 - Rabea/",
-  name = "Rabea",
-  as_png = FALSE
-)
-
-png_files <- kwb.fakin::plot_treemaps_from_path_data(
-  path_data = path_infos$WWT_Department,
-  pattern = "^Y:/WWT_Department/Projects/AquaNES/",
-  name = "AquaNES",
-  as_png = TRUE,
-  args_png = args_png_4_3
-)
 
 # Plot the tree using data.tree methods ----------------------------------------
 
