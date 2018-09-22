@@ -76,36 +76,38 @@ if (FALSE)
 {
   png_files <- kwb.fakin::plot_treemaps_from_path_data(
     path_data = path_infos$GROUNDWATER, name = "GROUNDWATER_tmp",
-    pattern = "Y:/GROUNDWATER/PROJECTS/",
+    root_path = "Y:/GROUNDWATER/PROJECTS/",
     as_png = TRUE,
     args_png = args_png_4_3
   )
 
-  png_files <- kwb.fakin::plot_treemaps_from_path_data(
+  png_files <- plot_treemaps_from_path_data(
     path_data = path_infos$WWT_Department,
-    pattern = "^Y:/WWT_Department/Projects/POWERSTEP/",
+    root_path = "Y:/WWT_Department/Projects/POWERSTEP/",
     name = "POWERSTEP",
     as_png = TRUE,
+    max_depth = 3,
+    n_biggest = 2,
     args_png = args_png_4_3
   )
 
   png_files <- kwb.fakin::plot_treemaps_from_path_data(
     path_data = path_infos$WWT_Department,
-    pattern = "^Y:/WWT_Department/Projects/POWERSTEP/Exchange/",
+    root_path = "Y:/WWT_Department/Projects/POWERSTEP/Exchange/",
     name = "Exchange_tmp",
     as_png = FALSE
   )
 
   png_files <- kwb.fakin::plot_treemaps_from_path_data(
     path_data = path_infos$WWT_Department,
-    pattern = "^Y:/WWT_Department/Projects/POWERSTEP/Exchange/03 - Rabea/",
+    root_path = "Y:/WWT_Department/Projects/POWERSTEP/Exchange/03 - Rabea/",
     name = "Rabea",
     as_png = FALSE
   )
 
   png_files <- kwb.fakin::plot_treemaps_from_path_data(
     path_data = path_infos$WWT_Department,
-    pattern = "^Y:/WWT_Department/Projects/AquaNES/",
+    root_path = "Y:/WWT_Department/Projects/AquaNES/",
     name = "AquaNES",
     as_png = TRUE,
     args_png = args_png_4_3

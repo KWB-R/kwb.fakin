@@ -4,13 +4,17 @@
 \alias{prepare_for_treemap}
 \title{Prepare and Filter Path Data for Treemap Plot}
 \usage{
-prepare_for_treemap(path_data, pattern = NULL, variable = "size",
+prepare_for_treemap(path_data, root_path = "", variable = "size",
   path_type = "file", ...)
 }
 \arguments{
 \item{path_data}{data frame as returned by \code{\link{read_file_info}}}
 
-\item{pattern}{regular expression by which to filter the paths}
+\item{root_path}{path to the folder that contains all paths to be considered.
+By setting the root path to "/path/to/root" you can "zoom into" the
+treeplot, showing the contents below "/path/to/root" only. If
+\code{root_path} is \code{""} (default) all paths in \code{path_data} are
+considered.}
 
 \item{variable}{name(s) of variable(s) to be selected. Default: "size"}
 

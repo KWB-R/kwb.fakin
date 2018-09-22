@@ -45,10 +45,11 @@ plot_all_treemaps <- function(path_infos, as_png = TRUE, ...)
 #'
 #' @param path_data data frame containing file path information as returned by
 #'   \code{\link{read_file_info}}
-#' @param pattern pattern by which to select a subset of paths or \code{NULL}
-#'   (default) if all paths in \code{path_data} are to be considered. By
-#'   setting the pattern to "^/path/to/start/directory" you can "zoom into" the
-#'   treeplot, showing the contents of "/path/to/start/directory".
+#' @param root_path path to the folder that contains all paths to be considered.
+#'   By setting the root path to "/path/to/root" you can "zoom into" the
+#'   treeplot, showing the contents below "/path/to/root" only. If
+#'   \code{root_path} is \code{""} (default) all paths in \code{path_data} are
+#'   considered.
 #' @param name name to be used in png file name if \code{as_png} is set. If
 #'   \code{path_data} is a list, the names of the list elements are used.
 #' @param as_png if \code{TRUE} (default) the plots are saved to png files in
@@ -60,17 +61,23 @@ plot_all_treemaps <- function(path_infos, as_png = TRUE, ...)
 #' @param type passed to \code{\link[treemap]{treemap}}
 #' @param args_png list of arguments passed to \code{\link[grDevices]{png}} if
 #'   \code{as_png = TRUE}
+#' @param max_depth maximum depth until which to generate sub-treemaps
+#' @param n_biggest number of biggest folders (in terms of size and number of
+#'   files) for which to generate sub-treeplots.
+#' @param depth current depth of recursion
+#'
 #' @export
 #'
 plot_treemaps_from_path_data <- function(
-  path_data, pattern = NULL, name = "root", as_png = FALSE, n_levels = 3,
-  output_dir = tempdir(), type = "value", args_png = list()
+  path_data, root_path = "", name = "root", as_png = FALSE, n_levels = 3,
+  output_dir = tempdir(), type = "value", args_png = list(), max_depth = 1,
+  n_biggest = 1, depth = 1
 )
 {
   kwb.utils::catAndRun(
     paste0("Preparing data for '", name, "'"),
     newLine = 3,
-    folder_data <- prepare_for_treemap(path_data, pattern, n_keep = 1)
+    folder_data <- prepare_for_treemap(path_data, root_path, n_keep = 1)
   )
 
   # Convert size to numeric, otherwise we get an overflow when summing up
@@ -94,23 +101,62 @@ plot_treemaps_from_path_data <- function(
     files <- file.path(output_dir, filenames)
   }
 
+  treemaps <- list()
+
   kwb.utils::catAndRun(
     "Creating treemap 'size'",
-    plot_one_treemap(file = files[1], args_png = args_png, args_treemap = c(
-      args, vSize = "total_size", vColor = "n_files",
-      title = "Rectangle size = total size",
-      title.legend = "Number of files"
-    ))
+    treemaps$size <- plot_one_treemap(
+      file = files[1], args_png = args_png, args_treemap = c(
+        args, vSize = "total_size", vColor = "n_files",
+        title = "Rectangle size = total size",
+        title.legend = "Number of files"
+      )
+    )
   )
 
   kwb.utils::catAndRun(
     "Creating treemap 'files'",
-    plot_one_treemap(file = files[2], args_png = args_png, args_treemap = c(
-      args, vSize = "n_files", vColor = "total_size",
-      title = "Rectangle size = total number of files",
-      title.legend = "Total size in Bytes"
-    ))
+    treemaps$files <- plot_one_treemap(
+      file = files[2],
+      args_png = args_png, args_treemap = c(
+        args, vSize = "n_files", vColor = "total_size",
+        title = "Rectangle size = total number of files",
+        title.legend = "Total size in Bytes"
+      )
+    )
   )
+
+  # If the maximum depth is not reached yet, call this function recursively for
+  # the biggest subfolder in terms of size and number of files
+  if (depth < max_depth) {
+
+    biggest_folders <- lapply(treemaps, function(treemap) {
+
+      rectangles <- treemap$tm
+
+      stopifnot(sum(rectangles$level == 1) == 1)
+
+      rectangles <- rectangles[rectangles$level == 2, ]
+
+      row_order <- order(rectangles$vSize, decreasing = TRUE)
+
+      as.character(rectangles$level_2[row_order[seq_len(n_biggest)]])
+    })
+
+    for (folder in unique(unlist(biggest_folders))) {
+
+      cat("Recursively create plots for subfolder:", folder, "\n")
+
+      plot_treemaps_from_path_data(
+        path_data,
+        root_path = paste0(check_or_set_ending_slash(root_path), folder),
+        name = sprintf("%02d_%s", depth + 1, folder),
+        as_png = as_png, n_levels = n_levels, output_dir = output_dir,
+        type = type, args_png = args_png, max_depth = max_depth,
+        depth = depth + 1
+      )
+    }
+  }
 
   files
 }
@@ -120,7 +166,11 @@ plot_treemaps_from_path_data <- function(
 #' Prepare and Filter Path Data for Treemap Plot
 #'
 #' @param path_data data frame as returned by \code{\link{read_file_info}}
-#' @param pattern regular expression by which to filter the paths
+#' @param root_path path to the folder that contains all paths to be considered.
+#'   By setting the root path to "/path/to/root" you can "zoom into" the
+#'   treeplot, showing the contents below "/path/to/root" only. If
+#'   \code{root_path} is \code{""} (default) all paths in \code{path_data} are
+#'   considered.
 #' @param variable name(s) of variable(s) to be selected. Default: "size"
 #' @param path_type file path_type(s) to filter for. Default: "file"
 #' @param ... further arguments passed to \code{\link{removeCommonRoot}}, such
@@ -128,7 +178,7 @@ plot_treemaps_from_path_data <- function(
 #'   part of all paths)
 #'
 prepare_for_treemap <- function(
-  path_data, pattern = NULL, variable = "size", path_type = "file", ...
+  path_data, root_path = "", variable = "size", path_type = "file", ...
 )
 {
   `%>%` <- magrittr::`%>%`
@@ -142,10 +192,10 @@ prepare_for_treemap <- function(
   # Keep only paths of the requested type
   result <- result[has_type, ]
 
-  # If a pattern is given, filter for paths matching the pattern
-  if (! is.null(pattern)) {
+  # If a root_path is given, filter for paths starting with this path
+  if (root_path != "") {
 
-    result <- result[grepl(pattern, result$path), ]
+    result <- result[substr(result$path, 1, nchar(root_path)) == root_path, ]
   }
 
   # Convert paths to path segment matrix ignoring the first common parts

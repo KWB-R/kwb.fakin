@@ -4,18 +4,20 @@
 \alias{plot_treemaps_from_path_data}
 \title{Plot Treemaps Given File Path Data}
 \usage{
-plot_treemaps_from_path_data(path_data, pattern = NULL, name = "root",
+plot_treemaps_from_path_data(path_data, root_path = "", name = "root",
   as_png = FALSE, n_levels = 3, output_dir = tempdir(),
-  type = "value", args_png = list())
+  type = "value", args_png = list(), max_depth = 1, n_biggest = 1,
+  depth = 1)
 }
 \arguments{
 \item{path_data}{data frame containing file path information as returned by
 \code{\link{read_file_info}}}
 
-\item{pattern}{pattern by which to select a subset of paths or \code{NULL}
-(default) if all paths in \code{path_data} are to be considered. By
-setting the pattern to "^/path/to/start/directory" you can "zoom into" the
-treeplot, showing the contents of "/path/to/start/directory".}
+\item{root_path}{path to the folder that contains all paths to be considered.
+By setting the root path to "/path/to/root" you can "zoom into" the
+treeplot, showing the contents below "/path/to/root" only. If
+\code{root_path} is \code{""} (default) all paths in \code{path_data} are
+considered.}
 
 \item{name}{name to be used in png file name if \code{as_png} is set. If
 \code{path_data} is a list, the names of the list elements are used.}
@@ -33,6 +35,13 @@ Otherwise they are plotted into the active graphical device.}
 
 \item{args_png}{list of arguments passed to \code{\link[grDevices]{png}} if
 \code{as_png = TRUE}}
+
+\item{max_depth}{maximum depth until which to generate sub-treemaps}
+
+\item{n_biggest}{number of biggest folders (in terms of size and number of
+files) for which to generate sub-treeplots.}
+
+\item{depth}{current depth of recursion}
 }
 \description{
 Plot Treemaps Given File Path Data

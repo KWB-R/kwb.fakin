@@ -52,12 +52,14 @@ if (FALSE)
   )
 
   # Get folder frequencies down to a certain folder depth
-  (folder_frequencies <- lapply(department_trees, get_folder_frequency, 3))
+  (folder_frequencies <- lapply(department_trees, get_folder_frequency, 5))
 
   (words <- rownames(folder_frequencies$GRW))
   (words <- sort(unique(unlist(strsplit(words, "\\s+")))))
 
   words[order(RecordLinkage::levenshteinSim("report", words))]
+
+  grep("roh|raw", words, value = TRUE, ignore.case = TRUE)
 
   # Search the frequency tables for relevant patterns
   lapply(folder_frequencies, grep_frequency, "litera")

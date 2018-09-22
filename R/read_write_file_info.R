@@ -3,9 +3,9 @@ read_path_information <- function(file_info_dir)
 {
   files <- dir(file_info_dir, "^path-info", full.names = TRUE)
 
-  names(files) <- kwb.fakin:::extract_root_name(files)
+  names(files) <- extract_root_name(files)
 
-  lapply(files, kwb.fakin::read_file_info)
+  lapply(files, read_file_info)
 }
 
 # get_and_save_file_info -------------------------------------------------------
