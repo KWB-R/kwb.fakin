@@ -1,7 +1,14 @@
 # maxdepth ---------------------------------------------------------------------
 maxdepth <- function(parts = splitPaths(paths), paths = NULL)
 {
-  max(getElementLengths(parts))
+  if (length(parts) == 0) {
+
+    0L
+
+  } else {
+
+    max(getElementLengths(parts))
+  }
 }
 
 # get_file_duplicates ----------------------------------------------------------
