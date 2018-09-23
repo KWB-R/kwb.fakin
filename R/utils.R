@@ -25,7 +25,28 @@ getElementLengths <- function(x)
     ))
   }
 
-  sapply(x, length)
+  if (length(x) == 0) {
+
+    integer()
+
+  } else {
+
+    sapply(x, length)
+  }
+}
+
+# left_substring_equals --------------------------------------------------------
+
+#' Is Left Substring of X Equal To Y?
+#'
+#' @param x String of which the left part is compared with \code{y}
+#' @param y String to be compared with the left part of \code{x}
+#'
+left_substring_equals <- function(x, y)
+{
+  stopifnot(is.character(x), is.character(y))
+
+  substr(x, 1, nchar(y)) == y
 }
 
 # stop_ ------------------------------------------------------------------------
