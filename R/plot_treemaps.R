@@ -103,28 +103,24 @@ plot_treemaps_from_path_data <- function(
 
   treemaps <- list()
 
-  kwb.utils::catAndRun(
-    "Creating treemap 'size'",
-    treemaps$size <- plot_one_treemap(
-      file = files[1], args_png = args_png, args_treemap = c(
-        args, vSize = "total_size", vColor = "n_files",
-        title = "Rectangle size = total size",
-        title.legend = "Number of files"
-      )
-    )
-  )
+  types <- c("size", "files")
+  columns <- c("total_size", "n_files")
+  titles <- paste("Rectangle size = total", c("size", "number of files"))
+  legends <- c("Number of files", "Total size in Bytes")
 
-  kwb.utils::catAndRun(
-    "Creating treemap 'files'",
-    treemaps$files <- plot_one_treemap(
-      file = files[2],
-      args_png = args_png, args_treemap = c(
-        args, vSize = "n_files", vColor = "total_size",
-        title = "Rectangle size = total number of files",
-        title.legend = "Total size in Bytes"
+  for (i in 1:2) {
+
+    kwb.utils::catAndRun(
+      sprintf("Creating treemap '%s'", types[i]),
+      treemaps$size <- plot_one_treemap(
+        file = files[i], args_png = args_png, args_treemap = c(
+          args, vSize = columns[i], vColor = columns[setdiff(1:2, i)],
+          title = titles[i],
+          title.legend = legends[i]
+        )
       )
     )
-  )
+  }
 
   # If the maximum depth is not reached yet, call this function recursively for
   # the biggest subfolder in terms of size and number of files
