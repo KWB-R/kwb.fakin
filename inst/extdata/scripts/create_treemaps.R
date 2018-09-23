@@ -81,28 +81,26 @@ if (FALSE)
     args_png = args_png_4_3
   )
 
+  #kwb.utils::assignPackageObjects("kwb.fakin")
+  #kwb.utils::assignArgumentDefaults(kwb.fakin::plot_treemaps_from_path_data)
+
   png_files <- plot_treemaps_from_path_data(
     path_data = path_infos$WWT_Department,
-    root_path = "Y:/WWT_Department/Projects/POWERSTEP/",
-    name = "POWERSTEP",
+    root_path = "Y:/WWT_Department/Projects",
+    name = "wwt-projects",
     as_png = TRUE,
-    max_depth = 3,
+    n_levels = 1,
+    max_depth = 4,
     n_biggest = 2,
     args_png = args_png_4_3
   )
 
   png_files <- kwb.fakin::plot_treemaps_from_path_data(
     path_data = path_infos$WWT_Department,
-    root_path = "Y:/WWT_Department/Projects/POWERSTEP/Exchange/",
-    name = "Exchange_tmp",
-    as_png = FALSE
-  )
-
-  png_files <- kwb.fakin::plot_treemaps_from_path_data(
-    path_data = path_infos$WWT_Department,
     root_path = "Y:/WWT_Department/Projects/POWERSTEP/Exchange/03 - Rabea/",
     name = "Rabea",
-    as_png = FALSE
+    as_png = FALSE,
+    args_png = args_png_4_3
   )
 
   png_files <- kwb.fakin::plot_treemaps_from_path_data(

@@ -4,8 +4,7 @@
 \alias{prepare_for_treemap}
 \title{Prepare and Filter Path Data for Treemap Plot}
 \usage{
-prepare_for_treemap(path_data, root_path = "", variable = "size",
-  path_type = "file", ...)
+prepare_for_treemap(path_data, root_path = "", variable = "size", ...)
 }
 \arguments{
 \item{path_data}{data frame as returned by \code{\link{read_file_info}}}
@@ -17,8 +16,6 @@ treeplot, showing the contents below "/path/to/root" only. If
 considered.}
 
 \item{variable}{name(s) of variable(s) to be selected. Default: "size"}
-
-\item{path_type}{file path_type(s) to filter for. Default: "file"}
 
 \item{...}{further arguments passed to \code{\link{removeCommonRoot}}, such
 as \code{n_keep} (number of last segments to be kept from the common first
