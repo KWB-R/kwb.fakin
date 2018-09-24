@@ -75,8 +75,11 @@ if (FALSE)
 if (FALSE)
 {
   png_files <- kwb.fakin::plot_treemaps_from_path_data(
-    path_data = path_infos$GROUNDWATER, name = "GROUNDWATER_tmp",
+    path_data = path_infos$GROUNDWATER,
+    name = "GROUNDWATER",
     root_path = "Y:/GROUNDWATER/PROJECTS/",
+    n_levels = 1,
+    n_biggest = c(-1, 2),
     as_png = TRUE,
     args_png = args_png_4_3
   )

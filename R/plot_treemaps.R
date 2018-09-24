@@ -84,22 +84,18 @@ plot_treemaps_from_path_data <- function(
   depth = 1
 )
 {
+  if (! is.data.frame(path_data) || nrow(path_data) == 0) {
+
+    cat("No data frame or nothing to plot.\n")
+
+    return()
+  }
+
   folder_data <- kwb.utils::catAndRun(
     paste0("Preparing data for '", name, "'"),
     newLine = 3,
     prepare_for_treemap(path_data, root_path, n_keep = 0)
   )
-
-  if (is.null(folder_data)) {
-
-    cat("folder_data is NULL. path_data was:\n")
-    utils::str(path_data)
-
-    return (NULL)
-  }
-
-  # Convert size to numeric, otherwise we get an overflow when summing up
-  folder_data$size <- as.numeric(folder_data$size)
 
   group_by <- names(folder_data)[seq_len(n_levels)]
 
@@ -108,7 +104,9 @@ plot_treemaps_from_path_data <- function(
     aggregate_by_levels(folder_data, group_by)
   )
 
-  index <- names(total_size)[seq_len(n_levels)]
+  n_available <- min(c(length(grep("^level", names(total_size))), n_levels))
+
+  index <- names(total_size)[seq_len(n_available)]
 
   args <- list(total_size, index = index, type = type, border.col = c(
     c("darkred", rep("black", n_levels - 1))
@@ -263,6 +261,9 @@ aggregate_by_levels <- function(folder_data, group_by = names(folder_data)[1:2])
 {
   `%>%` <- magrittr::`%>%`
 
+  # Convert size to numeric, otherwise we get an overflow when summing up
+  folder_data$size <- as.numeric(folder_data$size)
+
   do.call(dplyr::group_by_, c(list(folder_data), as.list(group_by))) %>%
     dplyr::summarise_(n_files = "length(size)", total_size = "sum(size)") %>%
     as.data.frame()
@@ -279,7 +280,7 @@ plot_one_treemap <- function(args_treemap, file = NULL, args_png = list(),
     on.exit(grDevices::dev.off())
   }
 
-  map <- do.call(treemap::treemap, args_treemap)
+  map <- try(do.call(treemap::treemap, args_treemap))
 
   if (subtitle != "") {
 
