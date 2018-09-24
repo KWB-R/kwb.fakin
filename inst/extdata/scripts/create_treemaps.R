@@ -90,8 +90,7 @@ if (FALSE)
     name = "wwt-projects",
     as_png = TRUE,
     n_levels = 1,
-    max_depth = 4,
-    n_biggest = 2,
+    n_biggest = c(-1, 2),
     args_png = args_png_4_3
   )
 

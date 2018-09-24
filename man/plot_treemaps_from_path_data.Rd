@@ -6,8 +6,7 @@
 \usage{
 plot_treemaps_from_path_data(path_data, root_path = "", name = "root",
   as_png = FALSE, n_levels = 3, output_dir = tempdir(),
-  type = "value", args_png = list(), max_depth = 1, n_biggest = 1,
-  depth = 1)
+  type = "value", args_png = list(), n_biggest = -1, depth = 1)
 }
 \arguments{
 \item{path_data}{data frame containing file path information as returned by
@@ -36,10 +35,19 @@ Otherwise they are plotted into the active graphical device.}
 \item{args_png}{list of arguments passed to \code{\link[grDevices]{png}} if
 \code{as_png = TRUE}}
 
-\item{max_depth}{maximum depth until which to generate sub-treemaps}
-
-\item{n_biggest}{number of biggest folders (in terms of size and number of
-files) for which to generate sub-treeplots.}
+\item{n_biggest}{vector of integer, specifying the number(s) of biggest
+folders (in terms of size and number of files) in which to "zoom into". The
+position in the vector represents the folder depth. For example, if
+\code{n_biggest = c(2, 1)}, the first element (\code{1}) indicates that
+sub-treemaps are produced for the two biggest subfolders below
+\code{root_path}: for \code{root_path/biggest-1} and for
+\code{root_path/biggest-2}. The second element (\code{1}) indicates that
+further treemaps are generated only for the biggest subfolders below
+\code{root_path/biggest-1} and \code{root_path/biggest-2}, respectively,
+in each case. The length of the vector \code{n_biggest} determines the
+maximal depth until which to generate treemaps. By setting an element
+to \code{-1L} you specify that sub-treemaps are generated for each
+subfolder on the corresponding folder depth.}
 
 \item{depth}{current depth of recursion}
 }

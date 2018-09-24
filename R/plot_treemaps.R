@@ -61,17 +61,27 @@ plot_all_treemaps <- function(path_infos, as_png = TRUE, ...)
 #' @param type passed to \code{\link[treemap]{treemap}}
 #' @param args_png list of arguments passed to \code{\link[grDevices]{png}} if
 #'   \code{as_png = TRUE}
-#' @param max_depth maximum depth until which to generate sub-treemaps
-#' @param n_biggest number of biggest folders (in terms of size and number of
-#'   files) for which to generate sub-treeplots.
+#' @param n_biggest vector of integer, specifying the number(s) of biggest
+#'   folders (in terms of size and number of files) in which to "zoom into". The
+#'   position in the vector represents the folder depth. For example, if
+#'   \code{n_biggest = c(2, 1)}, the first element (\code{1}) indicates that
+#'   sub-treemaps are produced for the two biggest subfolders below
+#'   \code{root_path}: for \code{root_path/biggest-1} and for
+#'   \code{root_path/biggest-2}. The second element (\code{1}) indicates that
+#'   further treemaps are generated only for the biggest subfolders below
+#'   \code{root_path/biggest-1} and \code{root_path/biggest-2}, respectively,
+#'   in each case. The length of the vector \code{n_biggest} determines the
+#'   maximal depth until which to generate treemaps. By setting an element
+#'   to \code{-1L} you specify that sub-treemaps are generated for each
+#'   subfolder on the corresponding folder depth.
 #' @param depth current depth of recursion
 #'
 #' @export
 #'
 plot_treemaps_from_path_data <- function(
   path_data, root_path = "", name = "root", as_png = FALSE, n_levels = 3,
-  output_dir = tempdir(), type = "value", args_png = list(), max_depth = 1,
-  n_biggest = 1, depth = 1
+  output_dir = tempdir(), type = "value", args_png = list(), n_biggest = -1,
+  depth = 1
 )
 {
   folder_data <- kwb.utils::catAndRun(
@@ -83,7 +93,7 @@ plot_treemaps_from_path_data <- function(
   if (is.null(folder_data)) {
 
     cat("folder_data is NULL. path_data was:\n")
-    str(path_data)
+    utils::str(path_data)
 
     return (NULL)
   }
@@ -135,30 +145,30 @@ plot_treemaps_from_path_data <- function(
 
   # If the maximum depth is not reached yet, call this function recursively for
   # the biggest subfolder in terms of size and number of files
-  if (depth < max_depth) {
+  if (depth < length(n_biggest)) {
 
-    biggest_folders <- lapply(maps, function(map) {
+    biggest_folders_list <- lapply(maps, function(map) {
 
       #map <- maps[[1]]
       rectangles <- map$tm
 
       rectangles <- rectangles[rectangles$level == 1, ]
 
-      n_biggest <- if (n_biggest == -1) {
+      n_select <- if (n_biggest[depth] == -1) {
 
         nrow(rectangles)
 
       } else {
 
-        min(n_biggest, nrow(rectangles))
+        min(n_biggest[depth], nrow(rectangles))
       }
 
       row_order <- order(rectangles$vSize, decreasing = TRUE)
 
-      as.character(rectangles$level_1[row_order[seq_len(n_biggest)]])
+      as.character(rectangles$level_1[row_order[seq_len(n_select)]])
     })
 
-    biggest_folders <- unique(unlist(biggest_folders))
+    biggest_folders <- unique(unlist(biggest_folders_list))
 
     for (i in seq_along(biggest_folders)) {
 
@@ -175,8 +185,7 @@ plot_treemaps_from_path_data <- function(
           root_path = paste0(check_or_set_ending_slash(root_path), folder),
           name = sprintf("%02d_%s", depth + 1, folder),
           as_png = as_png, n_levels = n_levels, output_dir = output_dir,
-          type = type, args_png = args_png, max_depth = max_depth,
-          depth = depth + 1
+          type = type, args_png = args_png, depth = depth + 1
         )
       )
     }
@@ -276,9 +285,8 @@ plot_one_treemap <- function(args_treemap, file = NULL, args_png = list(),
 
     grid::grid.text(
       kwb.utils::shorten(subtitle, 100), 0.5, 0.85 * map$vpCoorY[1],
-      gp = grid::gpar(
-        col = "grey4", cex = 0.8 #,xpd = TRUE
-    ))
+      gp = grid::gpar(col = "grey4", cex = 0.8)
+    )
   }
 
   map
