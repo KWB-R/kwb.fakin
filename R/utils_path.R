@@ -1,9 +1,7 @@
 # splitPaths -------------------------------------------------------------------
 splitPaths <- function(paths, dbg = TRUE)
 {
-  kwb.utils::catAndRun("Splitting paths", dbg = dbg, {
-    result <- strsplit(paths, "/")
-  })
+  kwb.utils::catAndRun("Splitting paths", dbg = dbg, strsplit(paths, "/"))
 }
 
 # getSubdirsByFrequence --------------------------------------------------------
