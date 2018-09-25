@@ -115,11 +115,8 @@ write_paths_to_folder_tree <- function(
 # data_frame_to_paths ----------------------------------------------------------
 data_frame_to_paths <- function(df)
 {
-  stopifnot(is.data.frame(df))
-
-  paths_with_trailing_slashes <- kwb.utils::pasteColumns(df, sep = "/")
-
-  remove_empty(gsub("/+$", "", paths_with_trailing_slashes))
+  # Paste columns and remove all trailing slashes
+  gsub("/+$", "", kwb.utils::pasteColumns(df, sep = "/"))
 }
 
 # write_paths_file -------------------------------------------------------------
