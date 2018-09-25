@@ -103,11 +103,15 @@ check_or_set_ending_slash <- function(x)
 #'
 all_path_levels <- function(path)
 {
-  parts <- strsplit(path, "/")[[1]]
+  stopifnot(is.character(path) || is.factor(path))
+
+  stopifnot(length(path) == 1)
+
+  parts <- splitPaths(path)[[1]]
 
   sapply(seq_along(parts), function(i) {
 
-    paste(parts[seq_len(i)], collapse = "/")
+    kwb.utils::collapsed(parts[seq_len(i)], "/")
   })
 }
 
