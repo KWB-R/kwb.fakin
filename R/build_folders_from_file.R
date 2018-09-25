@@ -1,4 +1,36 @@
 # build_folders_from_file ------------------------------------------------------
+
+#' Create a Folder Structure from the Paths in a File
+#'
+#' @param file path to file containing path strings
+#' @param target_dir path to target directory in which to create the folder
+#'   structure
+#' @param pattern regular expression matching the paths from \code{file} to be
+#'   considered
+#' @param max_depth maximum folder depth to be considered
+#' @param encoding encoding used when reading \code{file}
+#'
+#' @export
+#'
+#' @examples
+#' # Create a vector of example paths
+#' paths <- c("a1/b1", "a1/b2", "a2/b1", "a2/b1/c1")
+#'
+#' # Write the example paths to a temporary file
+#' writeLines(paths, file_paths <- tempfile())
+#'
+#' # Create a temporary target directory
+#' target_dir <- kwb.utils::createDirectory(file.path(tempdir(), "test"))
+#'
+#' # Create the folder structure as defined by the paths in the temporary file
+#' kwb.fakin::build_folders_from_file(file_paths, target_dir)
+#'
+#' # List the directory paths below the target directory
+#' paths_reread <- list.dirs(target_dir, recursive = TRUE, full.names = FALSE)
+#'
+#' # Stop if not all paths have been created
+#' stopifnot(all(paths %in% paths_reread))
+#'
 build_folders_from_file <- function(
   file, target_dir, pattern = NULL, max_depth = NULL, encoding = "Latin-1"
 )
@@ -28,9 +60,6 @@ write_paths_to_folder_tree <- function(
   paths, target_dir, max_depth = 2, depth = 0
 )
 {
-  #paths <- paths_aquanes_relative
-  #target_dir <- target_dir
-
   paths <- remove_empty(paths, dbg = TRUE)
 
   if (length(paths) == 0) {
