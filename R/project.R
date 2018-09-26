@@ -17,7 +17,7 @@ createLocalProject <- function(project)
 
   index <- grep(paste0("/", project, "$"), paths)
 
-  projects <- sapply(strsplit(paths, "/"), function(x) x[length(x)])
+  projects <- sapply(splitPaths(paths), kwb.utils::lastElement())
 
   if (length(index) == 0) {
 
@@ -26,13 +26,9 @@ createLocalProject <- function(project)
     stop("No such project: '", project, "'. See above for available projects.")
   }
 
-  paths[index]
+  targetdir <- file.path(kwb.utils::get_homedir(), "Documents/Projekte")
 
-  projects[index]
-
-  targetdir <- file.path(
-    kwb.utils::get_homedir(), "Documents/Projekte", projects[index]
-  )
+  targetdir <- file.path(targetdir, projects[index])
 
   kwb.utils::createDirectory(targetdir)
 
