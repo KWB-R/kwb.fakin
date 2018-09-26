@@ -123,13 +123,38 @@ we plot into the current graphical device by setting `as_png` to `FALSE`.
 
 ## Selecting Paths
 
-If you want to investigate a complex folder structure with 
-hundreds or thousands of files the overview plot will not show up properly.
-It is then useful to select only a subsection of the folder structure for 
-further investigation. To simplify the selection of paths we wrote a function 
-that converts a vector of path strings into a nested list. In that list, the
-folder names appear as the names of the list elements. Let's try this out with
-the example paths defined above:
+If you want to investigate a complex folder structure with hundreds or thousands
+of files the overview plot will not show up properly. It is then useful to
+select only a subsection of the folder structure for further investigation. 
+
+### Selecting Paths from a List or Matrix of Subfolders
+
+Once you have split a vector of paths into its subfolder names you may use
+the function `startsWithParts()` to filter for paths starting with a certain
+sequence of subfolders:
+
+```{r}
+path_parts <- kwb.fakin:::splitPaths(paths)
+start_parts <- c("project-1", "wp-1")
+
+path_parts[kwb.fakin::startsWithParts(path_parts, start_parts)]
+```
+
+The function can also be used on a matrix of subfolders:
+
+```{r}
+folders <- kwb.fakin::toSubdirMatrix(paths)
+
+folders[kwb.fakin::startsWithParts(folders, start_parts), ]
+folders[kwb.fakin::startsWithParts(folders, c(start_parts, "input")), ]
+```
+
+### Selecting Paths from a Path Tree
+
+To simplify the selection of paths we wrote a function that converts a vector of
+path strings into a nested list. In that list, the folder names appear as the
+names of the list elements. Let's try this out with the example paths defined
+above:
 
 ```{r}
 # Convert the vector of paths into a tree structure
