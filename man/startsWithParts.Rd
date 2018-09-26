@@ -2,12 +2,15 @@
 % Please edit documentation in R/utils_path.R
 \name{startsWithParts}
 \alias{startsWithParts}
-\title{Does a strsplit list start with given sequence of elements?}
+\title{Do Subfolder List Elements Start with Given Folder Names?}
 \usage{
 startsWithParts(parts, elements)
 }
 \arguments{
-\item{parts}{list of list of character as returned by \code{strsplit}}
+\item{parts}{list of list of character as returned by
+\code{kwb.fakin:::splitPahts} or a matrix of character representing the
+subfolder names at the different folder depths as returned by
+ \code{\link{toSubdirMatrix}}.}
 
 \item{elements}{vector of character giving the sequence of strings to be
 found in \code{parts}}
@@ -18,11 +21,15 @@ vector of logical as long as \code{parts} containing \code{TRUE} at
   elements)} is \code{TRUE}
 }
 \description{
-Does a strsplit list start with given sequence of elements?
+Do Subfolder List Elements Start with Given Folder Names?
 }
 \examples{
 parts <- strsplit(c("a/b/c", "a/b/d", "b/c"), "/")
-startsWithParts(parts, c("a", "b"))
-startsWithParts(parts, c("b", "c"))
+startsWithParts(parts, elements = c("a", "b"))
+startsWithParts(parts, elements = c("b", "c"))
+
+subdir_matrix <- kwb.fakin::toSubdirMatrix(parts)
+startsWithParts(subdir_matrix, elements = c("a", "b"))
+startsWithParts(subdir_matrix, elements = c("b", "c"))
 
 }
