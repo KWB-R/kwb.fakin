@@ -1,0 +1,57 @@
+---
+title: "How to Track Changes in Folder Structures"
+author: "Hauke Sonnenberg"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{How to Track Changes in Folder Structuers}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Problem
+
+We are modifying files and folders direcly on the file server. With this
+practice there is a risk that changes in our folder structure, such as renaming,
+moving or deleting folders have undesired effects. For example, a link to a
+folder will be broken once the folder has been renamed. Or a script will not
+work any more because an input file or folder has been renamed or moved.
+Therefore, it is important to know what changes have been made to files and
+folders on the server. 
+
+## Permanent Tracking Is Not an Option
+
+According to our IT consultant it would be possible to let the operating system
+track such changes. However, this would slow down the server so much that this
+is not an option.
+
+## Proposal of a Simple Solution
+
+We propose the following "hand-made" and "simple" solution to track changes:
+Once per day (preferably during the night) we run a script. This script gets a
+full list of files and folders that are currently stored on the server. This
+list does not only contain the paths to the files and folders but also
+additional information such as file sizes, times of last access and owners of
+the files. All these information are written to a text file.
+
+These text files allow to
+
+* quickly search for a file or folder by just searching the text file. Even
+though these files have a size of about 50 Megabytes, searching these files
+using a good text editor is much more efficient than searching the whole file
+server.
+
+* compare text files referring to different days. Using the tools provided by
+professional version control software can support the comparison. 
+
+## Supporting Functions
+
+This package contains a set of functions that aim at supporting the approach
+described above.
