@@ -1,6 +1,6 @@
 # build_folders_from_file ------------------------------------------------------
 
-#' Create a Folder Structure from the Paths in a File
+#' Create Folder Structure from Paths in File
 #'
 #' @param file path to file containing path strings
 #' @param target_dir path to target directory in which to create the folder

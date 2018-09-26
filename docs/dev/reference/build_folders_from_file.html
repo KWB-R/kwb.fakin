@@ -171,26 +171,26 @@ considered</p></td>
 <span class='fu'>writeLines</span>(<span class='no'>paths</span>, <span class='no'>file_paths</span> <span class='kw'>&lt;-</span> <span class='fu'>tempfile</span>())
 
 <span class='co'># Create a temporary target directory</span>
-<span class='no'>target_dir</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>kwb.utils</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/kwb.utils/topics/createDirectory'>createDirectory</a></span>(<span class='fu'>file.path</span>(<span class='fu'>tempdir</span>(), <span class='st'>"test"</span>))</div><div class='output co'>#&gt; The directory "/tmp/RtmpJPXgil/test" was created.</div><div class='input'>
+<span class='no'>target_dir</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>kwb.utils</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/kwb.utils/topics/createDirectory'>createDirectory</a></span>(<span class='fu'>file.path</span>(<span class='fu'>tempdir</span>(), <span class='st'>"test"</span>))</div><div class='output co'>#&gt; The directory "/tmp/Rtmpo1kyb2/test" was created.</div><div class='input'>
 <span class='co'># Create the folder structure as defined by the paths in the temporary file</span>
 <span class='kw pkg'>kwb.fakin</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/kwb.fakin/topics/build_folders_from_file'>build_folders_from_file</a></span>(<span class='no'>file_paths</span>, <span class='no'>target_dir</span>)</div><div class='output co'>#&gt; Selected encoding: 'Latin-1'
-#&gt; Reading paths from '/tmp/RtmpJPXgil/filee9d2774558d' ... ok. 
+#&gt; Reading paths from '/tmp/Rtmpo1kyb2/fileccb6153c016' ... ok. 
 #&gt; 4 lines have been read.
 #&gt; Checking for (back-)slashes ... ok. 
 #&gt; Splitting paths ... ok. 
 #&gt; Putting path segments together ... ok. 
 #&gt; Splitting paths ... ok. 
-#&gt; The directory "/tmp/RtmpJPXgil/test" already exists.
+#&gt; The directory "/tmp/Rtmpo1kyb2/test" already exists.
 #&gt; Splitting paths ... ok. 
-#&gt; The directory "/tmp/RtmpJPXgil/test/a1" was created.
+#&gt; The directory "/tmp/Rtmpo1kyb2/test/a1" was created.
 #&gt; Splitting paths ... ok. 
-#&gt; The directory "/tmp/RtmpJPXgil/test/a1/b1" was created.
-#&gt; The directory "/tmp/RtmpJPXgil/test/a1/b2" was created.
-#&gt; The directory "/tmp/RtmpJPXgil/test/a2" was created.
+#&gt; The directory "/tmp/Rtmpo1kyb2/test/a1/b1" was created.
+#&gt; The directory "/tmp/Rtmpo1kyb2/test/a1/b2" was created.
+#&gt; The directory "/tmp/Rtmpo1kyb2/test/a2" was created.
 #&gt; Splitting paths ... ok. 
-#&gt; The directory "/tmp/RtmpJPXgil/test/a2/b1" was created.
+#&gt; The directory "/tmp/Rtmpo1kyb2/test/a2/b1" was created.
 #&gt; Splitting paths ... ok. 
-#&gt; The directory "/tmp/RtmpJPXgil/test/a2/b1/c1" was created.</div><div class='input'>
+#&gt; The directory "/tmp/Rtmpo1kyb2/test/a2/b1/c1" was created.</div><div class='input'>
 <span class='co'># List the directory paths below the target directory</span>
 <span class='no'>paths_reread</span> <span class='kw'>&lt;-</span> <span class='fu'>list.dirs</span>(<span class='no'>target_dir</span>, <span class='kw'>recursive</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 

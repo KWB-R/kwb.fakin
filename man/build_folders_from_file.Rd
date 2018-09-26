@@ -2,7 +2,7 @@
 % Please edit documentation in R/build_folders_from_file.R
 \name{build_folders_from_file}
 \alias{build_folders_from_file}
-\title{Create a Folder Structure from the Paths in a File}
+\title{Create Folder Structure from Paths in File}
 \usage{
 build_folders_from_file(file, target_dir, pattern = NULL,
   max_depth = NULL, encoding = "Latin-1")
@@ -21,7 +21,7 @@ considered}
 \item{encoding}{encoding used when reading \code{file}}
 }
 \description{
-Create a Folder Structure from the Paths in a File
+Create Folder Structure from Paths in File
 }
 \examples{
 # Create a vector of example paths
