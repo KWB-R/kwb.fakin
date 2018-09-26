@@ -70,14 +70,16 @@ kwb.fakin:::report_about_github_package("tidyverse/dplyr")
 ## What packages are used by our scripts?
 
 To find out what R-packages are used in our R-scripts, you may use the 
-function `get_names_of_used_packages`:
+function `get_names_of_used_packages` of our `kwb.code` package:
 
 ```{r eval = FALSE}
+#devtools::install_github("kwb-r/kwb.code")
+
 # Define the top level directory in which to look recursively for R-scripts
 root_dir = "~/Desktop/R-Development/RScripts"
 
 # Get the names of the packages that are loaded in the scripts with "library()"
-packages <- kwb.fakin::get_names_of_used_packages(root_dir)
+packages <- kwb.code::get_names_of_used_packages(root_dir)
 
 # Print the script names
 kwb.utils::catLines(packages)

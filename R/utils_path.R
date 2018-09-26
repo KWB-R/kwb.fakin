@@ -132,6 +132,7 @@ removeCommonRoot <- function(x, n_keep = 0, dbg = TRUE)
   if (! was_list) {
 
     kwb.utils::catAndRun("Putting path segments together", dbg = dbg, {
+
       x <- sapply(x, function(xx) do.call(paste, c(as.list(xx), sep = "/")))
     })
   }
