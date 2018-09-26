@@ -108,7 +108,7 @@ example_root <- system.file(package = "kwb.fakin")
 ```{r echo = FALSE}
 # Create dummy folders to achieve least folder depth
 dummy_folder <- file.path(example_root, "extdata/dummy/dummy")
-kwb.utils::createDirAndReturnPath(dummy_folder, dbg = FALSE)
+kwb.utils::createDirectory(dummy_folder, dbg = FALSE)
 writeLines("dummy", file.path(dummy_folder, "dummy_file.txt"))
 ```
 
