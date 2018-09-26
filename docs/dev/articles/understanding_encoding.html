@@ -89,7 +89,7 @@
       <h1>Understanding Encoding</h1>
                         <h4 class="author">Hauke Sonnenberg</h4>
             
-            <h4 class="date">2018-09-18</h4>
+            <h4 class="date">2018-09-26</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/kwb-r/kwb.fakin/blob/master/vignettes/understanding_encoding.Rmd"><code>vignettes/understanding_encoding.Rmd</code></a></small>
       <div class="hidden name"><code>understanding_encoding.Rmd</code></div>
@@ -140,7 +140,7 @@ xx <span class="co"># will be encoded in hex</span>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">text &lt;-<span class="st"> "Schöne Grüße"</span>
 
 test_file &lt;-<span class="st"> </span>kwb.utils<span class="op">::</span><span class="kw">writeText</span>(text, <span class="kw">tempfile</span>(<span class="dt">fileext =</span> <span class="st">".txt"</span>))
-<span class="co">#&gt; Writing '/tmp/Rtmpi9WNmI/file29ad4a635184.txt' ... ok.</span></code></pre></div>
+<span class="co">#&gt; Writing '/tmp/RtmpWRRBkQ/file193728129254.txt' ... ok.</span></code></pre></div>
 <p>And now read the line back with <code>readLines()</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">readLines</span>(test_file)
 <span class="co">#&gt; [1] "Schöne Grüße"</span></code></pre></div>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Do Subfolder List Elements Start with Given Folder Names? — startsWithParts • kwb.fakin</title>
+<title>Prepare and Filter Path Data for Treemap Plot — prepare_for_treemap • kwb.fakin</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Do Subfolder List Elements Start with Given Folder Names? — startsWithParts" />
+<meta property="og:title" content="Prepare and Filter Path Data for Treemap Plot — prepare_for_treemap" />
 
-<meta property="og:description" content="Do Subfolder List Elements Start with Given Folder Names?" />
+<meta property="og:description" content="Prepare and Filter Path Data for Treemap Plot" />
 <meta name="twitter:card" content="summary" />
 
 <meta name="robots" content="noindex">
@@ -118,59 +118,53 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Do Subfolder List Elements Start with Given Folder Names?</h1>
-    <small class="dont-index">Source: <a href='https://github.com/kwb-r/kwb.fakin/blob/master/R/utils_path.R'><code>R/utils_path.R</code></a></small>
-    <div class="hidden name"><code>startsWithParts.Rd</code></div>
+    <h1>Prepare and Filter Path Data for Treemap Plot</h1>
+    <small class="dont-index">Source: <a href='https://github.com/kwb-r/kwb.fakin/blob/master/R/plot_treemaps.R'><code>R/plot_treemaps.R</code></a></small>
+    <div class="hidden name"><code>prepare_for_treemap.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Do Subfolder List Elements Start with Given Folder Names?</p>
+    <p>Prepare and Filter Path Data for Treemap Plot</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>startsWithParts</span>(<span class='no'>parts</span>, <span class='no'>elements</span>)</pre>
+    <pre class="usage"><span class='fu'>prepare_for_treemap</span>(<span class='no'>path_data</span>, <span class='kw'>root_path</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>variable</span> <span class='kw'>=</span> <span class='st'>"size"</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>parts</th>
-      <td><p>list of list of character as returned by
-<code>kwb.fakin:::splitPahts</code> or a matrix of character representing the
-subfolder names at the different folder depths as returned by
- <code><a href='toSubdirMatrix.html'>toSubdirMatrix</a></code>.</p></td>
+      <th>path_data</th>
+      <td><p>data frame as returned by <code><a href='read_file_info.html'>read_file_info</a></code></p></td>
     </tr>
     <tr>
-      <th>elements</th>
-      <td><p>vector of character giving the sequence of strings to be
-found in <code>parts</code></p></td>
+      <th>root_path</th>
+      <td><p>path to the folder that contains all paths to be considered.
+By setting the root path to "/path/to/root" you can "zoom into" the
+treeplot, showing the contents below "/path/to/root" only. If
+<code>root_path</code> is <code>""</code> (default) all paths in <code>path_data</code> are
+considered.</p></td>
+    </tr>
+    <tr>
+      <th>variable</th>
+      <td><p>name(s) of variable(s) to be selected. Default: "size"</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>further arguments passed to <code><a href='removeCommonRoot.html'>removeCommonRoot</a></code>, such
+as <code>n_keep</code> (number of last segments to be kept from the common first
+part of all paths)</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>vector of logical as long as <code>parts</code> containing <code>TRUE</code> at
-  positions <code>i</code> for which <code>all(parts[[i]][seq_along(elements)] ==
-  elements)</code> is <code>TRUE</code></p>
-    
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>parts</span> <span class='kw'>&lt;-</span> <span class='fu'>strsplit</span>(<span class='fu'>c</span>(<span class='st'>"a/b/c"</span>, <span class='st'>"a/b/d"</span>, <span class='st'>"b/c"</span>), <span class='st'>"/"</span>)
-<span class='fu'>startsWithParts</span>(<span class='no'>parts</span>, <span class='kw'>elements</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>))</div><div class='output co'>#&gt; [1]  TRUE  TRUE FALSE</div><div class='input'><span class='fu'>startsWithParts</span>(<span class='no'>parts</span>, <span class='kw'>elements</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"b"</span>, <span class='st'>"c"</span>))</div><div class='output co'>#&gt; [1] FALSE FALSE  TRUE</div><div class='input'>
-<span class='no'>subdir_matrix</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>kwb.fakin</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/kwb.fakin/topics/toSubdirMatrix'>toSubdirMatrix</a></span>(<span class='no'>parts</span>)
-<span class='fu'>startsWithParts</span>(<span class='no'>subdir_matrix</span>, <span class='kw'>elements</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>))</div><div class='output co'>#&gt; [1]  TRUE  TRUE FALSE</div><div class='input'><span class='fu'>startsWithParts</span>(<span class='no'>subdir_matrix</span>, <span class='kw'>elements</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"b"</span>, <span class='st'>"c"</span>))</div><div class='output co'>#&gt; [1] FALSE FALSE  TRUE</div><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+                </ul>
 
   </div>
 </div>

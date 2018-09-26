@@ -89,7 +89,7 @@
       <h1>Analysing R Scripts</h1>
                         <h4 class="author">Hauke Sonnenberg</h4>
             
-            <h4 class="date">2018-09-18</h4>
+            <h4 class="date">2018-09-26</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/kwb-r/kwb.fakin/blob/master/vignettes/analyse_scripts.Rmd"><code>vignettes/analyse_scripts.Rmd</code></a></small>
       <div class="hidden name"><code>analyse_scripts.Rmd</code></div>
@@ -117,12 +117,14 @@ kwb.fakin<span class="op">::</span><span class="kw">report_about_r_scripts</span
 <div id="what-packages-are-used-by-our-scripts" class="section level2">
 <h2 class="hasAnchor">
 <a href="#what-packages-are-used-by-our-scripts" class="anchor"></a>What packages are used by our scripts?</h2>
-<p>To find out what R-packages are used in our R-scripts, you may use the function <code>get_names_of_used_packages</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Define the top level directory in which to look recursively for R-scripts</span>
+<p>To find out what R-packages are used in our R-scripts, you may use the function <code>get_names_of_used_packages</code> of our <code>kwb.code</code> package:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#devtools::install_github("kwb-r/kwb.code")</span>
+
+<span class="co"># Define the top level directory in which to look recursively for R-scripts</span>
 root_dir =<span class="st"> "~/Desktop/R-Development/RScripts"</span>
 
 <span class="co"># Get the names of the packages that are loaded in the scripts with "library()"</span>
-packages &lt;-<span class="st"> </span>kwb.fakin<span class="op">::</span><span class="kw">get_names_of_used_packages</span>(root_dir)
+packages &lt;-<span class="st"> </span>kwb.code<span class="op">::</span><span class="kw">get_names_of_used_packages</span>(root_dir)
 
 <span class="co"># Print the script names</span>
 kwb.utils<span class="op">::</span><span class="kw">catLines</span>(packages)</code></pre></div>
@@ -144,25 +146,25 @@ file_info_scripts &lt;-<span class="st"> </span>kwb.fakin<span class="op">::</sp
 
 <span class="co"># Show the structure of the result</span>
 <span class="kw">str</span>(file_info_scripts)
-<span class="co">#&gt; Classes 'tbl', 'tbl_df' and 'data.frame':    4 obs. of  18 variables:</span>
-<span class="co">#&gt;  $ path             :Classes 'fs_path', 'character'  chr [1:4] "/home/hauke/R/i686-pc-linux-gnu-library/3.4/kwb.fakin/extdata/test-scripts/extract_properties.R" "/home/hauke/R/i686-pc-linux-gnu-library/3.4/kwb.fakin/extdata/test-scripts/test_package.R" "/home/hauke/R/i686-pc-linux-gnu-library/3.4/kwb.fakin/extdata/test-scripts/test_tree_packages.R" "/home/hauke/R/i686-pc-linux-gnu-library/3.4/kwb.fakin/extdata/test-scripts/write_paths_to_folder_tree.R"</span>
-<span class="co">#&gt;  $ type             : Factor w/ 8 levels "any","block_device",..: 7 7 7 7</span>
-<span class="co">#&gt;  $ size             :Class 'fs_bytes'  num [1:4] 6306 1314 7023 1678</span>
-<span class="co">#&gt;  $ permissions      :Class 'fs_perms'  int [1:4] 33204 33204 33204 33204</span>
-<span class="co">#&gt;  $ modification_time: POSIXct, format: "2018-09-18 01:59:50" "2018-09-18 01:59:50" ...</span>
-<span class="co">#&gt;  $ user             : chr  "hauke" "hauke" "hauke" "hauke"</span>
-<span class="co">#&gt;  $ group            : chr  "hauke" "hauke" "hauke" "hauke"</span>
-<span class="co">#&gt;  $ device_id        : num  2049 2049 2049 2049</span>
-<span class="co">#&gt;  $ hard_links       : num  1 1 1 1</span>
-<span class="co">#&gt;  $ special_device_id: num  0 0 0 0</span>
-<span class="co">#&gt;  $ inode            : num  9306335 9306336 9306337 9306338</span>
-<span class="co">#&gt;  $ block_size       : num  4096 4096 4096 4096</span>
-<span class="co">#&gt;  $ blocks           : num  16 8 16 8</span>
-<span class="co">#&gt;  $ flags            : int  0 0 0 0</span>
-<span class="co">#&gt;  $ generation       : num  0 0 0 0</span>
-<span class="co">#&gt;  $ access_time      : POSIXct, format: "2018-09-18 01:59:50" "2018-09-18 01:59:50" ...</span>
-<span class="co">#&gt;  $ change_time      : POSIXct, format: "2018-09-18 01:59:52" "2018-09-18 01:59:52" ...</span>
-<span class="co">#&gt;  $ birth_time       : POSIXct, format: "2018-09-18 01:59:52" "2018-09-18 01:59:52" ...</span></code></pre></div>
+<span class="co">#&gt; Classes 'tbl', 'tbl_df' and 'data.frame':    8 obs. of  18 variables:</span>
+<span class="co">#&gt;  $ path             :Classes 'fs_path', 'character'  chr [1:8] "/home/hauke/R/i686-pc-linux-gnu-library/3.4/kwb.fakin/extdata/scripts/create_treemaps.R" "/home/hauke/R/i686-pc-linux-gnu-library/3.4/kwb.fakin/extdata/scripts/extract_properties.R" "/home/hauke/R/i686-pc-linux-gnu-library/3.4/kwb.fakin/extdata/scripts/test_networkD3.R" "/home/hauke/R/i686-pc-linux-gnu-library/3.4/kwb.fakin/extdata/scripts/test_package.R" ...</span>
+<span class="co">#&gt;  $ type             : Factor w/ 8 levels "any","block_device",..: 7 7 7 7 7 7 7 7</span>
+<span class="co">#&gt;  $ size             :Class 'fs_bytes'  num [1:8] 3443 6366 2117 1314 1255 ...</span>
+<span class="co">#&gt;  $ permissions      :Class 'fs_perms'  int [1:8] 33204 33204 33204 33204 33204 33204 33204 33204</span>
+<span class="co">#&gt;  $ modification_time: POSIXct, format: "2018-09-26 09:02:56" "2018-09-26 09:02:56" ...</span>
+<span class="co">#&gt;  $ user             : chr  "hauke" "hauke" "hauke" "hauke" ...</span>
+<span class="co">#&gt;  $ group            : chr  "hauke" "hauke" "hauke" "hauke" ...</span>
+<span class="co">#&gt;  $ device_id        : num  2049 2049 2049 2049 2049 ...</span>
+<span class="co">#&gt;  $ hard_links       : num  1 1 1 1 1 1 1 1</span>
+<span class="co">#&gt;  $ special_device_id: num  0 0 0 0 0 0 0 0</span>
+<span class="co">#&gt;  $ inode            : num  9309022 9309023 9309024 9309025 9309026 ...</span>
+<span class="co">#&gt;  $ block_size       : num  4096 4096 4096 4096 4096 ...</span>
+<span class="co">#&gt;  $ blocks           : num  8 16 8 8 8 16 8 8</span>
+<span class="co">#&gt;  $ flags            : int  0 0 0 0 0 0 0 0</span>
+<span class="co">#&gt;  $ generation       : num  0 0 0 0 0 0 0 0</span>
+<span class="co">#&gt;  $ access_time      : POSIXct, format: "2018-09-26 09:02:56" "2018-09-26 09:02:56" ...</span>
+<span class="co">#&gt;  $ change_time      : POSIXct, format: "2018-09-26 09:02:57" "2018-09-26 09:02:57" ...</span>
+<span class="co">#&gt;  $ birth_time       : POSIXct, format: "2018-09-26 09:02:57" "2018-09-26 09:02:57" ...</span></code></pre></div>
 </div>
   </div>
 
