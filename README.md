@@ -14,7 +14,7 @@ options are considered.
 
 ```r
 #install.packages("devtools", repos = "https://cloud.r-project.org")
-devtools::install_github("KWB-R/kwb.fakin)
+devtools::install_github("KWB-R/kwb.fakin")
 ```
 
 ## Documentation
