@@ -132,8 +132,8 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>build_folders_from_file</span>(<span class='no'>file</span>, <span class='no'>target_dir</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>max_depth</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>encoding</span> <span class='kw'>=</span> <span class='st'>"Latin-1"</span>)</pre>
+    <pre class="usage"><span class='fu'>build_folders_from_file</span>(<span class='no'>file</span>, <span class='no'>target_dir</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>max_depth</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>encoding</span> <span class='kw'>=</span> <span class='st'>"Latin-1"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -171,26 +171,26 @@ considered</p></td>
 <span class='fu'>writeLines</span>(<span class='no'>paths</span>, <span class='no'>file_paths</span> <span class='kw'>&lt;-</span> <span class='fu'>tempfile</span>())
 
 <span class='co'># Create a temporary target directory</span>
-<span class='no'>target_dir</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>kwb.utils</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/kwb.utils/topics/createDirectory'>createDirectory</a></span>(<span class='fu'>file.path</span>(<span class='fu'>tempdir</span>(), <span class='st'>"test"</span>))</div><div class='output co'>#&gt; The directory "/tmp/RtmpnEwnMo/test" was created.</div><div class='input'>
+<span class='no'>target_dir</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>kwb.utils</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/kwb.utils/topics/createDirectory'>createDirectory</a></span>(<span class='fu'>file.path</span>(<span class='fu'>tempdir</span>(), <span class='st'>"test"</span>))</div><div class='output co'>#&gt; The directory "C:\Users\mrustl.KWB\AppData\Local\Temp\Rtmpw7ZvuW/test" was created.</div><div class='input'>
 <span class='co'># Create the folder structure as defined by the paths in the temporary file</span>
 <span class='kw pkg'>kwb.fakin</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/kwb.fakin/topics/build_folders_from_file'>build_folders_from_file</a></span>(<span class='no'>file_paths</span>, <span class='no'>target_dir</span>)</div><div class='output co'>#&gt; Selected encoding: 'Latin-1'
-#&gt; Reading paths from '/tmp/RtmpnEwnMo/file10e871cec7b1' ... ok. 
+#&gt; Reading paths from 'C:\Users\mrustl.KWB\AppData\Local\Temp\Rtmpw7ZvuW\filef5843e817de3' ... ok. 
 #&gt; 4 lines have been read.
 #&gt; Checking for (back-)slashes ... ok. 
 #&gt; Splitting paths ... ok. 
 #&gt; Putting path segments together ... ok. 
 #&gt; Splitting paths ... ok. 
-#&gt; The directory "/tmp/RtmpnEwnMo/test" already exists.
+#&gt; The directory "C:\Users\mrustl.KWB\AppData\Local\Temp\Rtmpw7ZvuW/test" already exists.
 #&gt; Splitting paths ... ok. 
-#&gt; The directory "/tmp/RtmpnEwnMo/test/a1" was created.
+#&gt; The directory "C:\Users\mrustl.KWB\AppData\Local\Temp\Rtmpw7ZvuW/test/a1" was created.
 #&gt; Splitting paths ... ok. 
-#&gt; The directory "/tmp/RtmpnEwnMo/test/a1/b1" was created.
-#&gt; The directory "/tmp/RtmpnEwnMo/test/a1/b2" was created.
-#&gt; The directory "/tmp/RtmpnEwnMo/test/a2" was created.
+#&gt; The directory "C:\Users\mrustl.KWB\AppData\Local\Temp\Rtmpw7ZvuW/test/a1/b1" was created.
+#&gt; The directory "C:\Users\mrustl.KWB\AppData\Local\Temp\Rtmpw7ZvuW/test/a1/b2" was created.
+#&gt; The directory "C:\Users\mrustl.KWB\AppData\Local\Temp\Rtmpw7ZvuW/test/a2" was created.
 #&gt; Splitting paths ... ok. 
-#&gt; The directory "/tmp/RtmpnEwnMo/test/a2/b1" was created.
+#&gt; The directory "C:\Users\mrustl.KWB\AppData\Local\Temp\Rtmpw7ZvuW/test/a2/b1" was created.
 #&gt; Splitting paths ... ok. 
-#&gt; The directory "/tmp/RtmpnEwnMo/test/a2/b1/c1" was created.</div><div class='input'>
+#&gt; The directory "C:\Users\mrustl.KWB\AppData\Local\Temp\Rtmpw7ZvuW/test/a2/b1/c1" was created.</div><div class='input'>
 <span class='co'># List the directory paths below the target directory</span>
 <span class='no'>paths_reread</span> <span class='kw'>&lt;-</span> <span class='fu'>list.dirs</span>(<span class='no'>target_dir</span>, <span class='kw'>recursive</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
