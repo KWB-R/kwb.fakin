@@ -1,4 +1,36 @@
 # build_folders_from_file ------------------------------------------------------
+
+#' Create Folder Structure from Paths in File
+#'
+#' @param file path to file containing path strings
+#' @param target_dir path to target directory in which to create the folder
+#'   structure
+#' @param pattern regular expression matching the paths from \code{file} to be
+#'   considered
+#' @param max_depth maximum folder depth to be considered
+#' @param encoding encoding used when reading \code{file}
+#'
+#' @export
+#'
+#' @examples
+#' # Create a vector of example paths
+#' paths <- c("a1/b1", "a1/b2", "a2/b1", "a2/b1/c1")
+#'
+#' # Write the example paths to a temporary file
+#' writeLines(paths, file_paths <- tempfile())
+#'
+#' # Create a temporary target directory
+#' target_dir <- kwb.utils::createDirectory(file.path(tempdir(), "test"))
+#'
+#' # Create the folder structure as defined by the paths in the temporary file
+#' kwb.fakin::build_folders_from_file(file_paths, target_dir)
+#'
+#' # List the directory paths below the target directory
+#' paths_reread <- list.dirs(target_dir, recursive = TRUE, full.names = FALSE)
+#'
+#' # Stop if not all paths have been created
+#' stopifnot(all(paths %in% paths_reread))
+#'
 build_folders_from_file <- function(
   file, target_dir, pattern = NULL, max_depth = NULL, encoding = "Latin-1"
 )
@@ -28,9 +60,6 @@ write_paths_to_folder_tree <- function(
   paths, target_dir, max_depth = 2, depth = 0
 )
 {
-  #paths <- paths_aquanes_relative
-  #target_dir <- target_dir
-
   paths <- remove_empty(paths, dbg = TRUE)
 
   if (length(paths) == 0) {
@@ -38,22 +67,18 @@ write_paths_to_folder_tree <- function(
     return()
   }
 
-  folder_matrix <- toSubdirMatrix(paths)
-
-  (top_level_folders <- folder_matrix[, 1])
+  folder_data <- toSubdirMatrix(paths, result_type = "data.frame")
 
   # Split the folder matrix into sub-matrices each of which refers to one
   # first-level folder
-  subsets <- split(
-    kwb.utils::asNoFactorDataFrame(folder_matrix), top_level_folders
-  )
+  subsets <- split(folder_data, folder_data[, 1])
 
-  # Remove the first level folders and convert the folder data frames back to
-  # path vectors
-  path_vectors <- lapply(subsets, function(x) {
+  # Define helper function that drops the first column of a data frame and
+  # converts the data frame to a vector of paths
+  to_child_paths <- function(x) data_frame_to_paths(x[, -1, drop = FALSE])
 
-    data_frame_to_paths(x[, -1, drop = FALSE])
-  })
+  # Get a list of path vectors with the first level folders removed
+  path_vectors <- lapply(subsets, function(x) remove_empty(to_child_paths(x)))
 
   # Loop through the top level folders
   for (top_level_folder in names(path_vectors)) {
@@ -86,11 +111,8 @@ write_paths_to_folder_tree <- function(
 # data_frame_to_paths ----------------------------------------------------------
 data_frame_to_paths <- function(df)
 {
-  stopifnot(is.data.frame(df))
-
-  paths_with_trailing_slashes <- kwb.utils::pasteColumns(df, sep = "/")
-
-  remove_empty(gsub("/+$", "", paths_with_trailing_slashes))
+  # Paste columns and remove all trailing slashes
+  gsub("/+$", "", kwb.utils::pasteColumns(df, sep = "/"))
 }
 
 # write_paths_file -------------------------------------------------------------

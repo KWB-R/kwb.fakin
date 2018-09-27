@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Do Strings Consist only of ASCII Characters? â€” isASCII â€¢ kwb.fakin</title>
+<title>Convert a Vector of Paths to a Matrix of Subfolders â€” toSubdirMatrix â€¢ kwb.fakin</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Do Strings Consist only of ASCII Characters? â€” isASCII" />
+<meta property="og:title" content="Convert a Vector of Paths to a Matrix of Subfolders â€” toSubdirMatrix" />
 
-<meta property="og:description" content="The code has been &quot;stolen&quot; from showNonASCII" />
+<meta property="og:description" content="Convert a Vector of Paths to a Matrix of Subfolders" />
 <meta name="twitter:card" content="summary" />
 
 <meta name="robots" content="noindex">
@@ -121,39 +121,58 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Do Strings Consist only of ASCII Characters?</h1>
-    <small class="dont-index">Source: <a href='https://github.com/kwb-r/kwb.fakin/blob/master/R/logical.R'><code>R/logical.R</code></a></small>
-    <div class="hidden name"><code>isASCII.Rd</code></div>
+    <h1>Convert a Vector of Paths to a Matrix of Subfolders</h1>
+    <small class="dont-index">Source: <a href='https://github.com/kwb-r/kwb.fakin/blob/master/R/convert.R'><code>R/convert.R</code></a></small>
+    <div class="hidden name"><code>toSubdirMatrix.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>The code has been "stolen" from <code><a href='http://www.rdocumentation.org/packages/tools/topics/showNonASCII'>showNonASCII</a></code></p>
+    <p>Convert a Vector of Paths to a Matrix of Subfolders</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>isASCII</span>(<span class='no'>x</span>)</pre>
+    <pre class="usage"><span class='fu'>toSubdirMatrix</span>(<span class='no'>paths</span>, <span class='kw'>fill.value</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>result_type</span> <span class='kw'>=</span> <span class='st'>"matrix"</span>,
+  <span class='kw'>dbg</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>vector of character</p></td>
+      <th>paths</th>
+      <td><p>vector of path strings</p></td>
+    </tr>
+    <tr>
+      <th>fill.value</th>
+      <td><p>value used to fill empty cells of the result matrix</p></td>
+    </tr>
+    <tr>
+      <th>result_type</th>
+      <td><p>one of <code>c("matrix", "data.frame")</code>, specifying the
+type of object to be returned</p></td>
+    </tr>
+    <tr>
+      <th>dbg</th>
+      <td><p>if <code>TRUE</code> debug messages are shown</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>vector of logical with <code>TRUE</code> at positions <code>i</code> where
-<code>x[i]</code> contains only ASCII characters</p>
+    <p>matrix or data frame, depending on <code>result_type</code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>months</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='st'>"Januar"</span>, <span class='st'>"Februar"</span>, <span class='st'>"M\xe4rz"</span>)
-
-<span class='fu'>cat</span>(<span class='no'>months</span>, <span class='st'>"\n"</span>)</div><div class='output co'>#&gt; Januar Februar Mü¾†”¼rz </div><div class='input'>
-<span class='fu'>isASCII</span>(<span class='no'>months</span>)</div><div class='output co'>#&gt; [1]  TRUE  TRUE FALSE</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>folder_matrix</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>kwb.fakin</span><span class='kw ns'>:::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/kwb.fakin/topics/toSubdirMatrix'>toSubdirMatrix</a></span>(<span class='fu'>c</span>(<span class='st'>"a1/b1/c1"</span>, <span class='st'>"a1/b2"</span>, <span class='st'>"a2"</span>))</div><div class='output co'>#&gt; Splitting paths ... ok. </div><div class='input'>
+<span class='no'>folder_matrix</span></div><div class='output co'>#&gt;      [,1] [,2] [,3]
+#&gt; [1,] "a1" "b1" "c1"
+#&gt; [2,] "a1" "b2" ""  
+#&gt; [3,] "a2" ""   ""  </div><div class='input'>
+<span class='fu'>dim</span>(<span class='no'>folder_matrix</span>)</div><div class='output co'>#&gt; [1] 3 3</div><div class='input'>
+<span class='no'>folder_matrix</span>[<span class='no'>folder_matrix</span>[, <span class='fl'>1</span>] <span class='kw'>==</span> <span class='st'>"a1"</span>, ]</div><div class='output co'>#&gt;      [,1] [,2] [,3]
+#&gt; [1,] "a1" "b1" "c1"
+#&gt; [2,] "a1" "b2" ""  </div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

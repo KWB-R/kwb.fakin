@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Do Strings Consist only of ASCII Characters? â€” isASCII â€¢ kwb.fakin</title>
+<title>Create Folder Structure from Paths in File â€” build_folders_from_file â€¢ kwb.fakin</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Do Strings Consist only of ASCII Characters? â€” isASCII" />
+<meta property="og:title" content="Create Folder Structure from Paths in File â€” build_folders_from_file" />
 
-<meta property="og:description" content="The code has been &quot;stolen&quot; from showNonASCII" />
+<meta property="og:description" content="Create Folder Structure from Paths in File" />
 <meta name="twitter:card" content="summary" />
 
 <meta name="robots" content="noindex">
@@ -121,47 +121,87 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Do Strings Consist only of ASCII Characters?</h1>
-    <small class="dont-index">Source: <a href='https://github.com/kwb-r/kwb.fakin/blob/master/R/logical.R'><code>R/logical.R</code></a></small>
-    <div class="hidden name"><code>isASCII.Rd</code></div>
+    <h1>Create Folder Structure from Paths in File</h1>
+    <small class="dont-index">Source: <a href='https://github.com/kwb-r/kwb.fakin/blob/master/R/build_folders_from_file.R'><code>R/build_folders_from_file.R</code></a></small>
+    <div class="hidden name"><code>build_folders_from_file.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>The code has been "stolen" from <code><a href='http://www.rdocumentation.org/packages/tools/topics/showNonASCII'>showNonASCII</a></code></p>
+    <p>Create Folder Structure from Paths in File</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>isASCII</span>(<span class='no'>x</span>)</pre>
+    <pre class="usage"><span class='fu'>build_folders_from_file</span>(<span class='no'>file</span>, <span class='no'>target_dir</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>max_depth</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>encoding</span> <span class='kw'>=</span> <span class='st'>"Latin-1"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>vector of character</p></td>
+      <th>file</th>
+      <td><p>path to file containing path strings</p></td>
+    </tr>
+    <tr>
+      <th>target_dir</th>
+      <td><p>path to target directory in which to create the folder
+structure</p></td>
+    </tr>
+    <tr>
+      <th>pattern</th>
+      <td><p>regular expression matching the paths from <code>file</code> to be
+considered</p></td>
+    </tr>
+    <tr>
+      <th>max_depth</th>
+      <td><p>maximum folder depth to be considered</p></td>
+    </tr>
+    <tr>
+      <th>encoding</th>
+      <td><p>encoding used when reading <code>file</code></p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>vector of logical with <code>TRUE</code> at positions <code>i</code> where
-<code>x[i]</code> contains only ASCII characters</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>months</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='st'>"Januar"</span>, <span class='st'>"Februar"</span>, <span class='st'>"M\xe4rz"</span>)
+    <pre class="examples"><div class='input'><span class='co'># Create a vector of example paths</span>
+<span class='no'>paths</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='st'>"a1/b1"</span>, <span class='st'>"a1/b2"</span>, <span class='st'>"a2/b1"</span>, <span class='st'>"a2/b1/c1"</span>)
 
-<span class='fu'>cat</span>(<span class='no'>months</span>, <span class='st'>"\n"</span>)</div><div class='output co'>#&gt; Januar Februar Mü¾†”¼rz </div><div class='input'>
-<span class='fu'>isASCII</span>(<span class='no'>months</span>)</div><div class='output co'>#&gt; [1]  TRUE  TRUE FALSE</div></pre>
+<span class='co'># Write the example paths to a temporary file</span>
+<span class='fu'>writeLines</span>(<span class='no'>paths</span>, <span class='no'>file_paths</span> <span class='kw'>&lt;-</span> <span class='fu'>tempfile</span>())
+
+<span class='co'># Create a temporary target directory</span>
+<span class='no'>target_dir</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>kwb.utils</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/kwb.utils/topics/createDirectory'>createDirectory</a></span>(<span class='fu'>file.path</span>(<span class='fu'>tempdir</span>(), <span class='st'>"test"</span>))</div><div class='output co'>#&gt; The directory "/tmp/RtmpnEwnMo/test" was created.</div><div class='input'>
+<span class='co'># Create the folder structure as defined by the paths in the temporary file</span>
+<span class='kw pkg'>kwb.fakin</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/kwb.fakin/topics/build_folders_from_file'>build_folders_from_file</a></span>(<span class='no'>file_paths</span>, <span class='no'>target_dir</span>)</div><div class='output co'>#&gt; Selected encoding: 'Latin-1'
+#&gt; Reading paths from '/tmp/RtmpnEwnMo/file10e871cec7b1' ... ok. 
+#&gt; 4 lines have been read.
+#&gt; Checking for (back-)slashes ... ok. 
+#&gt; Splitting paths ... ok. 
+#&gt; Putting path segments together ... ok. 
+#&gt; Splitting paths ... ok. 
+#&gt; The directory "/tmp/RtmpnEwnMo/test" already exists.
+#&gt; Splitting paths ... ok. 
+#&gt; The directory "/tmp/RtmpnEwnMo/test/a1" was created.
+#&gt; Splitting paths ... ok. 
+#&gt; The directory "/tmp/RtmpnEwnMo/test/a1/b1" was created.
+#&gt; The directory "/tmp/RtmpnEwnMo/test/a1/b2" was created.
+#&gt; The directory "/tmp/RtmpnEwnMo/test/a2" was created.
+#&gt; Splitting paths ... ok. 
+#&gt; The directory "/tmp/RtmpnEwnMo/test/a2/b1" was created.
+#&gt; Splitting paths ... ok. 
+#&gt; The directory "/tmp/RtmpnEwnMo/test/a2/b1/c1" was created.</div><div class='input'>
+<span class='co'># List the directory paths below the target directory</span>
+<span class='no'>paths_reread</span> <span class='kw'>&lt;-</span> <span class='fu'>list.dirs</span>(<span class='no'>target_dir</span>, <span class='kw'>recursive</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+
+<span class='co'># Stop if not all paths have been created</span>
+<span class='fu'>stopifnot</span>(<span class='fu'>all</span>(<span class='no'>paths</span> <span class='kw'>%in%</span> <span class='no'>paths_reread</span>))</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-      
+            
       <li><a href="#examples">Examples</a></li>
     </ul>
 

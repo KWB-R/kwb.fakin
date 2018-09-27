@@ -87,6 +87,9 @@
       <a href="../articles/analyse_scripts.html">Analysing R Scripts</a>
     </li>
     <li>
+      <a href="../articles/track_folder_changes.html">Tracking Changes in Folder Structures</a>
+    </li>
+    <li>
       <a href="../articles/understanding_encoding.html">Understanding Encoding</a>
     </li>
     <li>
@@ -129,23 +132,32 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>plot_all_treemaps</span>(<span class='no'>path_infos</span>, <span class='kw'>as_png</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>plot_all_treemaps</span>(<span class='no'>path_infos</span>, <span class='kw'>as_png</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>path_infos</th>
-      <td><p>list of data frames containing file path information as
-they are returned by <code><a href='read_file_info.html'>read_file_info</a></code></p></td>
+      <td><p>list of data frames each of which contains file path
+information as returned by <code><a href='read_file_info.html'>read_file_info</a></code></p></td>
     </tr>
     <tr>
       <th>as_png</th>
-      <td><p>if <code>TRUE</code> (default) the plots are saved to png files in
-<code>tempdir()</code>. Otherwise they are plotted into the active graphical
-device.</p></td>
+      <td><p>if <code>TRUE</code> the plots are saved to png-files in
+<code>tempdir()</code>. The name is then taken from the names of the elements in
+<code>path_infos</code>. Otherwise the plot go into the current graphical device.</p></td>
+    </tr>
+    <tr>
+      <th>&#8230;</th>
+      <td><p>further arguments passed to
+<code><a href='plot_treemaps_from_path_data.html'>plot_treemaps_from_path_data</a></code>, such as <code>n_levels</code></p></td>
     </tr>
     </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>for <code>as_png = TRUE</code> vector of paths to the created png files.</p>
     
 
   </div>
@@ -153,7 +165,9 @@ device.</p></td>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#value">Value</a></li>
+          </ul>
 
   </div>
 </div>

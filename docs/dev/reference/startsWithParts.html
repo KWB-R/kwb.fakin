@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Does a strsplit list start with given sequence of elements? — startsWithParts • kwb.fakin</title>
+<title>Do Subfolder List Elements Start with Given Folder Names? — startsWithParts • kwb.fakin</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Does a strsplit list start with given sequence of elements? — startsWithParts" />
+<meta property="og:title" content="Do Subfolder List Elements Start with Given Folder Names? — startsWithParts" />
 
-<meta property="og:description" content="Does a strsplit list start with given sequence of elements?" />
+<meta property="og:description" content="Do Subfolder List Elements Start with Given Folder Names?" />
 <meta name="twitter:card" content="summary" />
 
 <meta name="robots" content="noindex">
@@ -87,6 +87,9 @@
       <a href="../articles/analyse_scripts.html">Analysing R Scripts</a>
     </li>
     <li>
+      <a href="../articles/track_folder_changes.html">Tracking Changes in Folder Structures</a>
+    </li>
+    <li>
       <a href="../articles/understanding_encoding.html">Understanding Encoding</a>
     </li>
     <li>
@@ -118,14 +121,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Does a strsplit list start with given sequence of elements?</h1>
+    <h1>Do Subfolder List Elements Start with Given Folder Names?</h1>
     <small class="dont-index">Source: <a href='https://github.com/kwb-r/kwb.fakin/blob/master/R/utils_path.R'><code>R/utils_path.R</code></a></small>
     <div class="hidden name"><code>startsWithParts.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Does a strsplit list start with given sequence of elements?</p>
+    <p>Do Subfolder List Elements Start with Given Folder Names?</p>
     
     </div>
 
@@ -136,7 +139,10 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>parts</th>
-      <td><p>list of list of character as returned by <code>strsplit</code></p></td>
+      <td><p>list of list of character as returned by
+<code>kwb.fakin:::splitPahts</code> or a matrix of character representing the
+subfolder names at the different folder depths as returned by
+ <code><a href='toSubdirMatrix.html'>toSubdirMatrix</a></code>.</p></td>
     </tr>
     <tr>
       <th>elements</th>
@@ -154,7 +160,9 @@ found in <code>parts</code></p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>parts</span> <span class='kw'>&lt;-</span> <span class='fu'>strsplit</span>(<span class='fu'>c</span>(<span class='st'>"a/b/c"</span>, <span class='st'>"a/b/d"</span>, <span class='st'>"b/c"</span>), <span class='st'>"/"</span>)
-<span class='fu'>startsWithParts</span>(<span class='no'>parts</span>, <span class='fu'>c</span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>))</div><div class='output co'>#&gt; [1]  TRUE  TRUE FALSE</div><div class='input'><span class='fu'>startsWithParts</span>(<span class='no'>parts</span>, <span class='fu'>c</span>(<span class='st'>"b"</span>, <span class='st'>"c"</span>))</div><div class='output co'>#&gt; [1] FALSE FALSE  TRUE</div><div class='input'>
+<span class='fu'>startsWithParts</span>(<span class='no'>parts</span>, <span class='kw'>elements</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>))</div><div class='output co'>#&gt; [1]  TRUE  TRUE FALSE</div><div class='input'><span class='fu'>startsWithParts</span>(<span class='no'>parts</span>, <span class='kw'>elements</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"b"</span>, <span class='st'>"c"</span>))</div><div class='output co'>#&gt; [1] FALSE FALSE  TRUE</div><div class='input'>
+<span class='no'>subdir_matrix</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>kwb.fakin</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/kwb.fakin/topics/toSubdirMatrix'>toSubdirMatrix</a></span>(<span class='no'>parts</span>)
+<span class='fu'>startsWithParts</span>(<span class='no'>subdir_matrix</span>, <span class='kw'>elements</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>))</div><div class='output co'>#&gt; [1]  TRUE  TRUE FALSE</div><div class='input'><span class='fu'>startsWithParts</span>(<span class='no'>subdir_matrix</span>, <span class='kw'>elements</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"b"</span>, <span class='st'>"c"</span>))</div><div class='output co'>#&gt; [1] FALSE FALSE  TRUE</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

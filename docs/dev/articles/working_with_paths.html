@@ -56,6 +56,9 @@
       <a href="../articles/analyse_scripts.html">Analysing R Scripts</a>
     </li>
     <li>
+      <a href="../articles/track_folder_changes.html">Tracking Changes in Folder Structures</a>
+    </li>
+    <li>
       <a href="../articles/understanding_encoding.html">Understanding Encoding</a>
     </li>
     <li>
@@ -89,7 +92,7 @@
       <h1>Working with Paths</h1>
                         <h4 class="author">Hauke Sonnenberg</h4>
             
-            <h4 class="date">2018-09-18</h4>
+            <h4 class="date">2018-09-26</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/kwb-r/kwb.fakin/blob/master/vignettes/working_with_paths.Rmd"><code>vignettes/working_with_paths.Rmd</code></a></small>
       <div class="hidden name"><code>working_with_paths.Rmd</code></div>
@@ -130,22 +133,22 @@
 <pre><code>## Splitting paths ... ok. 
 ## Putting path segments together ... ok. 
 ## Splitting paths ... ok.</code></pre>
-<div id="htmlwidget-dffed181fbe03f76b6b1" style="width:700px;height:162px;" class="sankeyNetwork html-widget"></div>
-<script type="application/json" data-for="htmlwidget-dffed181fbe03f76b6b1">{"x":{"links":{"source":[0,0,0,1,1,2,3,3,4,5,6,2,6],"target":[3,5,4,6,2,7,8,9,10,11,12,13,14],"value":[2,1,1,2,3,1,1,1,1,1,1,2,1]},"nodes":{"name":["project-2","project-1","wp-1","Berichte","Grafiken","Daten","wp 2","analysis","bericht-1.doc","bericht-2.doc","file 1.png","file-1.csv","input","input","output"],"group":["green","green","green","green","green","green","yellow","green","green","green","yellow","green","green","green","green"]},"options":{"NodeID":"name","NodeGroup":"colour","LinkGroup":null,"colourScale":"d3.scaleOrdinal() .domain(['green', 'yellow']) .range(['green', 'yellow'])","fontSize":7,"fontFamily":null,"nodeWidth":15,"nodePadding":8,"units":"","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":false}},"evals":[],"jsHooks":[]}</script><p>The function accepts all arguments provided by <code><a href="http://www.rdocumentation.org/packages/networkD3/topics/sankeyNetwork">networkD3::sankeyNetwork()</a></code>. You may e.g. use the argument <code>fontSize</code> to increase the node labels:</p>
+<div id="htmlwidget-7a76186264f762c943dc" style="width:700px;height:162px;" class="sankeyNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-7a76186264f762c943dc">{"x":{"links":{"source":[0,0,0,1,1,2,3,3,4,5,6,2,6],"target":[3,5,4,6,2,7,8,9,10,11,12,13,14],"value":[2,1,1,2,3,1,1,1,1,1,1,2,1]},"nodes":{"name":["project-2","project-1","wp-1","Berichte","Grafiken","Daten","wp 2","analysis","bericht-1.doc","bericht-2.doc","file 1.png","file-1.csv","input","input","output"],"group":["green","green","green","green","green","green","yellow","green","green","green","yellow","green","green","green","green"]},"options":{"NodeID":"name","NodeGroup":"colour","LinkGroup":null,"colourScale":"d3.scaleOrdinal() .domain(['green', 'yellow']) .range(['green', 'yellow'])","fontSize":7,"fontFamily":null,"nodeWidth":15,"nodePadding":8,"units":"","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":false}},"evals":[],"jsHooks":[]}</script><p>The function accepts all arguments provided by <code><a href="http://www.rdocumentation.org/packages/networkD3/topics/sankeyNetwork">networkD3::sankeyNetwork()</a></code>. You may e.g. use the argument <code>fontSize</code> to increase the node labels:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kwb.fakin<span class="op">::</span><span class="kw">plot_path_network</span>(paths, <span class="dt">fontSize =</span> <span class="dv">16</span>)</code></pre></div>
 <pre><code>## Splitting paths ... ok. 
 ## Putting path segments together ... ok. 
 ## Splitting paths ... ok.</code></pre>
-<div id="htmlwidget-d7ee44100f1703287036" style="width:700px;height:162px;" class="sankeyNetwork html-widget"></div>
-<script type="application/json" data-for="htmlwidget-d7ee44100f1703287036">{"x":{"links":{"source":[0,0,0,1,1,2,3,3,4,5,6,2,6],"target":[3,5,4,6,2,7,8,9,10,11,12,13,14],"value":[2,1,1,2,3,1,1,1,1,1,1,2,1]},"nodes":{"name":["project-2","project-1","wp-1","Berichte","Grafiken","Daten","wp 2","analysis","bericht-1.doc","bericht-2.doc","file 1.png","file-1.csv","input","input","output"],"group":["green","green","green","green","green","green","yellow","green","green","green","yellow","green","green","green","green"]},"options":{"NodeID":"name","NodeGroup":"colour","LinkGroup":null,"colourScale":"d3.scaleOrdinal() .domain(['green', 'yellow']) .range(['green', 'yellow'])","fontSize":16,"fontFamily":null,"nodeWidth":15,"nodePadding":8,"units":"","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":false}},"evals":[],"jsHooks":[]}</script><p>Let’s always use this font size by defining a short helper function:</p>
+<div id="htmlwidget-979bab450b981b7dee3d" style="width:700px;height:162px;" class="sankeyNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-979bab450b981b7dee3d">{"x":{"links":{"source":[0,0,0,1,1,2,3,3,4,5,6,2,6],"target":[3,5,4,6,2,7,8,9,10,11,12,13,14],"value":[2,1,1,2,3,1,1,1,1,1,1,2,1]},"nodes":{"name":["project-2","project-1","wp-1","Berichte","Grafiken","Daten","wp 2","analysis","bericht-1.doc","bericht-2.doc","file 1.png","file-1.csv","input","input","output"],"group":["green","green","green","green","green","green","yellow","green","green","green","yellow","green","green","green","green"]},"options":{"NodeID":"name","NodeGroup":"colour","LinkGroup":null,"colourScale":"d3.scaleOrdinal() .domain(['green', 'yellow']) .range(['green', 'yellow'])","fontSize":16,"fontFamily":null,"nodeWidth":15,"nodePadding":8,"units":"","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":false}},"evals":[],"jsHooks":[]}</script><p>Let’s always use this font size by defining a short helper function:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">plot_16pt &lt;-<span class="st"> </span><span class="cf">function</span>(...) kwb.fakin<span class="op">::</span><span class="kw">plot_path_network</span>(..., <span class="dt">fontSize =</span> <span class="dv">16</span>)</code></pre></div>
 <p>By default only the first three levels of folders or files are shown. You can increase (or decrease) the number of shown levels by setting the <code>max_depth</code> argument:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot_16pt</span>(paths, <span class="dt">max_depth =</span> <span class="dv">4</span>)</code></pre></div>
 <pre><code>## Splitting paths ... ok. 
 ## Putting path segments together ... ok. 
 ## Splitting paths ... ok.</code></pre>
-<div id="htmlwidget-b5d588a411738b58ddbf" style="width:700px;height:162px;" class="sankeyNetwork html-widget"></div>
-<script type="application/json" data-for="htmlwidget-b5d588a411738b58ddbf">{"x":{"links":{"source":[0,0,0,1,1,2,3,3,4,5,6,2,6,7,7,8,9,10],"target":[3,5,4,6,2,10,11,12,13,14,9,7,8,15,16,17,18,19],"value":[2,1,1,2,3,1,1,1,1,1,1,2,1,1,1,1,1,1]},"nodes":{"name":["project-2","project-1","wp-1","Berichte","Grafiken","Daten","wp 2","input","output","input","analysis","bericht-1.doc","bericht-2.doc","file 1.png","file-1.csv","file 1.csv","file-2.csv","koepenick_clean.csv","köpenick_dirty.csv","summary.pdf"],"group":["green","green","green","green","green","green","yellow","green","green","green","green","green","green","yellow","green","yellow","green","green","red","green"]},"options":{"NodeID":"name","NodeGroup":"colour","LinkGroup":null,"colourScale":"d3.scaleOrdinal() .domain(['green', 'yellow', 'red']) .range(['green', 'yellow', 'red'])","fontSize":16,"fontFamily":null,"nodeWidth":15,"nodePadding":8,"units":"","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":false}},"evals":[],"jsHooks":[]}</script><p>Now, that all three traffic light colours (green, yellow, red) appear in the plot, we want to explain what these colours are intended to indicate:</p>
+<div id="htmlwidget-5fd0a1a3f8736dc50e3b" style="width:700px;height:162px;" class="sankeyNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5fd0a1a3f8736dc50e3b">{"x":{"links":{"source":[0,0,0,1,1,2,3,3,4,5,6,2,6,7,7,8,9,10],"target":[3,5,4,6,2,10,11,12,13,14,9,7,8,15,16,17,18,19],"value":[2,1,1,2,3,1,1,1,1,1,1,2,1,1,1,1,1,1]},"nodes":{"name":["project-2","project-1","wp-1","Berichte","Grafiken","Daten","wp 2","input","output","input","analysis","bericht-1.doc","bericht-2.doc","file 1.png","file-1.csv","file 1.csv","file-2.csv","koepenick_clean.csv","köpenick_dirty.csv","summary.pdf"],"group":["green","green","green","green","green","green","yellow","green","green","green","green","green","green","yellow","green","yellow","green","green","red","green"]},"options":{"NodeID":"name","NodeGroup":"colour","LinkGroup":null,"colourScale":"d3.scaleOrdinal() .domain(['green', 'yellow', 'red']) .range(['green', 'yellow', 'red'])","fontSize":16,"fontFamily":null,"nodeWidth":15,"nodePadding":8,"units":"","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":false}},"evals":[],"jsHooks":[]}</script><p>Now, that all three traffic light colours (green, yellow, red) appear in the plot, we want to explain what these colours are intended to indicate:</p>
 <ul>
 <li><p>Green: name is fully compliant with our naming rules. It consists only of alphanumeric letters, underscore, hyphen or dot.</p></li>
 <li><p>Yellow: name is almost compliant with our naming rules. It constists only of alphanumeric letters, underscore, hyphen, dot or space.</p></li>
@@ -156,26 +159,69 @@
 <div id="treemaps" class="section level2">
 <h2 class="hasAnchor">
 <a href="#treemaps" class="anchor"></a>Treemaps</h2>
-<p>The proportion of folder sizes can be visualised in so called tree-maps. We provide a function that uses the <code>treemaps</code> package to generate these plots. The input to the function is a list of file info data frames as they are returned by <code><a href="../reference/read_file_info.html">kwb.fakin::read_file_info</a></code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">example_root &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="dt">package =</span> <span class="st">"kwb.fakin"</span>)
-
-file_info &lt;-<span class="st"> </span>kwb.fakin<span class="op">::</span><span class="kw">get_recursive_file_info</span>(example_root)</code></pre></div>
-<pre><code>## Getting file information on files below /home/hauke/R/i686-pc-linux-gnu-library/3.4/kwb.fakin ... ok.</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kwb.fakin<span class="op">::</span><span class="kw">plot_all_treemaps</span>(<span class="kw">list</span>(<span class="dt">kwb_fakin =</span> file_info), <span class="dt">as_png =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<pre><code>## Plotting kwb_fakin ... Splitting paths ... ok. 
-## Removing the first 6 path segments ... ok. 
-## Putting path segments together ... ok. 
-## Splitting paths ... ok.</code></pre>
-<p><img src="working_with_paths_files/figure-html/unnamed-chunk-7-1.png" width="700"><img src="working_with_paths_files/figure-html/unnamed-chunk-7-2.png" width="700"></p>
+<p>The proportion of folder sizes can be visualised in so called tree-maps. We provide a function that uses the <code>treemaps</code> package to generate these plots.</p>
+<p>The input to the function is a data frame with columns <code>path</code>, <code>type</code> and <code>size</code>, representing the file or folder paths, the type of path (<code>"file"</code> or <code>"directory"</code>) and file size, respectively. Such a data frame can e.g. be retrieved by means of the function <code><a href="../reference/get_recursive_file_info.html">get_recursive_file_info()</a></code>. Here, we provide some fake data:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">file_info &lt;-<span class="st"> </span>kwb.utils<span class="op">::</span><span class="kw">noFactorDataFrame</span>(
+  <span class="dt">path =</span> paths,
+  <span class="dt">type =</span> <span class="st">"file"</span>,
+  <span class="dt">size =</span> <span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">1000</span>, <span class="kw">length</span>(paths), <span class="dt">replace =</span> <span class="ot">TRUE</span>)
+) </code></pre></div>
+<p>From these file information, generate the treeplot with <code><a href="../reference/plot_treemaps_from_path_data.html">plot_treemaps_from_path_data()</a></code>. Two plots are generated:</p>
+<ul>
+<li><p>In the first plot, the rectangle sizes represent the total size of files that are contained in the corresponding folder and all of its subfolders. The colour indicates the total number of files that are contained in the folders.</p></li>
+<li><p>In the second plot, the rectangle sizes represent the total number of files that are contained in the corresponding folder and all of its subfolders. The colour indicates the total size of files that are contained in the folders.</p></li>
+</ul>
+<pre><code>## Preparing data for 'root' ... 
+## Splitting paths ... ok. 
+## ok. 
+## Aggregating by first 3 path levels ... ok. 
+## Creating treemap 'size' ...</code></pre>
+<p><img src="working_with_paths_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
+<pre><code>## ok. 
+## Creating treemap 'files' ...</code></pre>
+<p><img src="working_with_paths_files/figure-html/unnamed-chunk-8-2.png" width="700"></p>
 <pre><code>## ok.</code></pre>
-<pre><code>## [[1]]
-## NULL</code></pre>
-<p>By default the plots are saved to png files in the temporary directory. Here, we plot into the current graphical device by setting <code>as_png</code> to <code>FALSE</code>.</p>
+<pre><code>## NULL</code></pre>
+<p>By default the plots are saved to png files in the temporary directory. To let the plots show up here we set <code>as_png</code> to <code>FALSE</code> in the above call.</p>
 </div>
 <div id="selecting-paths" class="section level2">
 <h2 class="hasAnchor">
 <a href="#selecting-paths" class="anchor"></a>Selecting Paths</h2>
-<p>If you want to investigate a complex folder structure with hundreds or thousands of files the overview plot will not show up properly. It is then useful to select only a subsection of the folder structure for further investigation. To simplify the selection of paths we wrote a function that converts a vector of path strings into a nested list. In that list, the folder names appear as the names of the list elements. Let’s try this out with the example paths defined above:</p>
+<p>If you want to investigate a complex folder structure with hundreds or thousands of files the overview plot will not show up properly. It is then useful to select only a subsection of the folder structure for further investigation.</p>
+<div id="selecting-paths-from-a-list-or-matrix-of-subfolders" class="section level3">
+<h3 class="hasAnchor">
+<a href="#selecting-paths-from-a-list-or-matrix-of-subfolders" class="anchor"></a>Selecting Paths from a List or Matrix of Subfolders</h3>
+<p>Once you have split a vector of paths into its subfolder names you may use the function <code><a href="../reference/startsWithParts.html">startsWithParts()</a></code> to filter for paths starting with a certain sequence of subfolders:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">path_parts &lt;-<span class="st"> </span>kwb.fakin<span class="op">:::</span><span class="kw">splitPaths</span>(paths)</code></pre></div>
+<pre><code>## Splitting paths ... ok.</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">start_parts &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"project-1"</span>, <span class="st">"wp-1"</span>)
+
+path_parts[kwb.fakin<span class="op">::</span><span class="kw">startsWithParts</span>(path_parts, start_parts)]</code></pre></div>
+<pre><code>## [[1]]
+## [1] "project-1"  "wp-1"       "input"      "file 1.csv"
+## 
+## [[2]]
+## [1] "project-1"  "wp-1"       "input"      "file-2.csv"
+## 
+## [[3]]
+## [1] "project-1"   "wp-1"        "analysis"    "summary.pdf"</code></pre>
+<p>The function can also be used on a matrix of subfolders:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">folders &lt;-<span class="st"> </span>kwb.fakin<span class="op">::</span><span class="kw">toSubdirMatrix</span>(paths)</code></pre></div>
+<pre><code>## Splitting paths ... ok.</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">folders[kwb.fakin<span class="op">::</span><span class="kw">startsWithParts</span>(folders, start_parts), ]</code></pre></div>
+<pre><code>##      [,1]        [,2]   [,3]       [,4]         
+## [1,] "project-1" "wp-1" "input"    "file 1.csv" 
+## [2,] "project-1" "wp-1" "input"    "file-2.csv" 
+## [3,] "project-1" "wp-1" "analysis" "summary.pdf"</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">folders[kwb.fakin<span class="op">::</span><span class="kw">startsWithParts</span>(folders, <span class="kw">c</span>(start_parts, <span class="st">"input"</span>)), ]</code></pre></div>
+<pre><code>##      [,1]        [,2]   [,3]    [,4]        
+## [1,] "project-1" "wp-1" "input" "file 1.csv"
+## [2,] "project-1" "wp-1" "input" "file-2.csv"</code></pre>
+</div>
+<div id="selecting-paths-from-a-path-tree" class="section level3">
+<h3 class="hasAnchor">
+<a href="#selecting-paths-from-a-path-tree" class="anchor"></a>Selecting Paths from a Path Tree</h3>
+<p>To simplify the selection of paths we wrote a function that converts a vector of path strings into a nested list. In that list, the folder names appear as the names of the list elements. Let’s try this out with the example paths defined above:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Convert the vector of paths into a tree structure</span>
 path_tree &lt;-<span class="st"> </span>kwb.fakin<span class="op">:::</span><span class="kw"><a href="../reference/to_tree.html">to_tree</a></span>(paths)
 
@@ -248,8 +294,9 @@ subtree &lt;-<span class="st"> </span>path_tree<span class="op">$</span><span cl
 <p>You can plot the sub-tree by passing it directly to <code>plot_path_network</code>, or here to our helper function, without prior conversion:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot_16pt</span>(subtree)</code></pre></div>
 <pre><code>## Splitting paths ... ok.</code></pre>
-<div id="htmlwidget-79b35b1ddb777e3c2459" style="width:700px;height:90px;" class="sankeyNetwork html-widget"></div>
-<script type="application/json" data-for="htmlwidget-79b35b1ddb777e3c2459">{"x":{"links":{"source":[0,1,0,1,2,2,3,4,5],"target":[5,4,2,3,6,7,8,9,10],"value":[1,1,2,1,1,1,1,1,1]},"nodes":{"name":["wp-1","wp 2","input","output","input","analysis","file 1.csv","file-2.csv","koepenick_clean.csv","köpenick_dirty.csv","summary.pdf"],"group":["green","yellow","green","green","green","green","yellow","green","green","red","green"]},"options":{"NodeID":"name","NodeGroup":"colour","LinkGroup":null,"colourScale":"d3.scaleOrdinal() .domain(['green', 'yellow', 'red']) .range(['green', 'yellow', 'red'])","fontSize":16,"fontFamily":null,"nodeWidth":15,"nodePadding":8,"units":"","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-59bf273aa5cc1ce5123b" style="width:700px;height:90px;" class="sankeyNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-59bf273aa5cc1ce5123b">{"x":{"links":{"source":[0,1,0,1,2,2,3,4,5],"target":[5,4,2,3,6,7,8,9,10],"value":[1,1,2,1,1,1,1,1,1]},"nodes":{"name":["wp-1","wp 2","input","output","input","analysis","file 1.csv","file-2.csv","koepenick_clean.csv","köpenick_dirty.csv","summary.pdf"],"group":["green","yellow","green","green","green","green","yellow","green","green","red","green"]},"options":{"NodeID":"name","NodeGroup":"colour","LinkGroup":null,"colourScale":"d3.scaleOrdinal() .domain(['green', 'yellow', 'red']) .range(['green', 'yellow', 'red'])","fontSize":16,"fontFamily":null,"nodeWidth":15,"nodePadding":8,"units":"","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":false}},"evals":[],"jsHooks":[]}</script>
+</div>
 </div>
 <div id="quality-of-file-and-folder-names" class="section level2">
 <h2 class="hasAnchor">
@@ -272,6 +319,10 @@ subtree &lt;-<span class="st"> </span>path_tree<span class="op">$</span><span cl
 <pre><code>## Filter for paths starting with project-1/ ...
 ##   ok. Remaining paths: 5 
 ## Convert to relative paths ... ok.
+## Splitting paths ... ok. 
+## Splitting paths ... ok. 
+## Splitting paths ... ok. 
+## Splitting paths ... ok. 
 ## Splitting paths ... ok. 
 ## 
 ## ================================================================
@@ -304,7 +355,7 @@ subtree &lt;-<span class="st"> </span>path_tree<span class="op">$</span><span cl
 ## [[3]]
 ## [1] "project-1"   "wp-1"        "analysis"    "summary.pdf"</code></pre>
 <p>It may be useful to convert the list that is returned by <code>splitPaths</code> into a matrix:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">subdirs &lt;-<span class="st"> </span>kwb.fakin<span class="op">:::</span><span class="kw">toSubdirMatrix</span>(parts)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">subdirs &lt;-<span class="st"> </span>kwb.fakin<span class="op">:::</span><span class="kw"><a href="../reference/toSubdirMatrix.html">toSubdirMatrix</a></span>(parts)</code></pre></div>
 <table class="table">
 <caption>Content of the subdirs matrix</caption>
 <tbody>
@@ -367,9 +418,10 @@ subtree &lt;-<span class="st"> </span>path_tree<span class="op">$</span><span cl
 <p>In the matrix, each row represents a path and each column represents a depth level.</p>
 <p>If you have only one path, you may create the paths to all direct parent directories using the function <code>all_path_levels</code>. This is how <code>subtree_for_treejack</code> creates the text for the bulk import to Treejack (see above).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(parent_paths &lt;-<span class="st"> </span>kwb.fakin<span class="op">:::</span><span class="kw"><a href="../reference/all_path_levels.html">all_path_levels</a></span>(paths[<span class="dv">1</span>]))</code></pre></div>
+<pre><code>## Splitting paths ... ok.</code></pre>
 <pre><code>## [1] "project-1"                       "project-1/wp-1"                 
 ## [3] "project-1/wp-1/input"            "project-1/wp-1/input/file 1.csv"</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">parents &lt;-<span class="st"> </span>kwb.fakin<span class="op">:::</span><span class="kw">toSubdirMatrix</span>(parent_paths)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">parents &lt;-<span class="st"> </span>kwb.fakin<span class="op">:::</span><span class="kw"><a href="../reference/toSubdirMatrix.html">toSubdirMatrix</a></span>(parent_paths)</code></pre></div>
 <pre><code>## Splitting paths ... ok.</code></pre>
 <table class="table">
 <caption>Content of the parents matrix</caption>

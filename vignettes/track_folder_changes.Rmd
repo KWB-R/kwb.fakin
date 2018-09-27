@@ -1,0 +1,78 @@
+---
+title: "Tracking Changes in Folder Structures"
+author: "Hauke Sonnenberg"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Tracking Changes in Folder Structuers}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Problem
+
+We are modifying files and folders direcly on the file server. With this
+practice there is a risk that changes in our folder structure, such as renaming,
+moving or deleting folders have undesired effects. For example, a link to a
+folder will be broken once the folder has been renamed. Or a script will not
+work any more because an input file or folder has been renamed or moved.
+Therefore, it is important to know what changes have been made to files and
+folders on the server. 
+
+## Permanent Tracking Is Not an Option
+
+According to our IT consultant it would be possible to let the operating system
+track such changes. However, this would slow down the server so much that this
+is not an option.
+
+## Proposal of a Simple Solution
+
+We propose the following "hand-made" and "simple" solution to track changes:
+Once per day (preferably during the night) we run a script. This script gets a
+full list of files and folders that are currently stored on the server. This
+list does not only contain the paths to the files and folders but also
+additional information such as file sizes, times of last access and owners of
+the files. All these information are written to a text file.
+
+These text files allow to
+
+* quickly search for a file or folder by just searching the text file. Even
+though these files have a size of about 50 Megabytes, searching these files
+using a good text editor is much more efficient than searching the whole file
+server.
+
+* compare text files referring to different days. Using the tools provided by
+professional version control software can support the comparison. 
+
+## Supporting Functions
+
+This package contains a set of functions that aim at supporting the approach
+described above.
+
+### Read and Save File Path Information
+
+* `read_paths()`: Read paths from a text file that contains exactly one path per 
+line.
+
+### Recreate Folder Structure From Paths
+
+* `write_paths_to_folder_tree()`: Create a folder structure up to a certain
+folder depth in a given target directory. The folder structure is defined by a
+vector of paths. The idea of this function is to restore an old folder structure
+of which the paths have been saved. When two folder structures are restored from
+two path vectors that represent an original folder structrue at two different
+points in time, version control software can be used to compare these folder
+structures. In Tortoise SVN, for example, changes are marked with a red
+exclamation mark.
+
+* `build_folders_from_file()`: Restore a folder structure of which the paths
+were stored in a text file. This function first reads a vector of paths from a
+text file and then calls `write_paths_to_folder_tree()` to restore the so
+defined folder structure.

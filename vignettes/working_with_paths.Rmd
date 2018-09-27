@@ -98,38 +98,73 @@ The naming rules are documented in our
 
 The proportion of folder sizes can be visualised in so called tree-maps.
 We provide a function that uses the `treemaps` package to generate these plots.
-The input to the function is a list of file info data frames as they are 
-returned by `kwb.fakin::read_file_info`.
+
+The input to the function is a data frame with columns `path`, `type` and
+`size`, representing the file or folder paths, the type of path (`"file"` or
+`"directory"`) and file size, respectively. Such a data frame can e.g. be
+retrieved by means of the function `get_recursive_file_info()`. Here, we provide
+some fake data:
 
 ```{r}
-example_root <- system.file(package = "kwb.fakin")
+file_info <- kwb.utils::noFactorDataFrame(
+  path = paths,
+  type = "file",
+  size = sample(1:1000, length(paths), replace = TRUE)
+) 
 ```
+
+From these file information, generate the treeplot with 
+`plot_treemaps_from_path_data()`. Two plots are generated: 
+
+* In the first plot, the rectangle sizes represent the total size of files that 
+are contained in the corresponding folder and all of its subfolders. The colour
+indicates the total number of files that are contained in the folders.
+
+* In the second plot, the rectangle sizes represent the total number of files
+that are contained in the corresponding folder and all of its subfolders. The 
+colour indicates the total size of files that are contained in the folders.
 
 ```{r echo = FALSE}
-# Create dummy folders to achieve least folder depth
-dummy_folder <- file.path(example_root, "extdata/dummy/dummy")
-kwb.utils::createDirAndReturnPath(dummy_folder, dbg = FALSE)
-writeLines("dummy", file.path(dummy_folder, "dummy_file.txt"))
+kwb.fakin::plot_treemaps_from_path_data(file_info, as_png = FALSE)
 ```
 
-```{r eval = FALSE}
-file_info <- kwb.fakin::get_recursive_file_info(example_root)
-info_matrix <- as.matrix(file_info)
-kwb.fakin:::store(info_matrix, "working_with_paths.Rmd")
-kwb.fakin::plot_all_treemaps(path_infos = file_info, as_png = FALSE)
-```
-By default the plots are saved to png files in the temporary directory. Here,
-we plot into the current graphical device by setting `as_png` to `FALSE`.
+By default the plots are saved to png files in the temporary directory. To let
+the plots show up here we set `as_png` to `FALSE` in the above call.
 
 ## Selecting Paths
 
-If you want to investigate a complex folder structure with 
-hundreds or thousands of files the overview plot will not show up properly.
-It is then useful to select only a subsection of the folder structure for 
-further investigation. To simplify the selection of paths we wrote a function 
-that converts a vector of path strings into a nested list. In that list, the
-folder names appear as the names of the list elements. Let's try this out with
-the example paths defined above:
+If you want to investigate a complex folder structure with hundreds or thousands
+of files the overview plot will not show up properly. It is then useful to
+select only a subsection of the folder structure for further investigation. 
+
+### Selecting Paths from a List or Matrix of Subfolders
+
+Once you have split a vector of paths into its subfolder names you may use
+the function `startsWithParts()` to filter for paths starting with a certain
+sequence of subfolders:
+
+```{r}
+path_parts <- kwb.fakin:::splitPaths(paths)
+start_parts <- c("project-1", "wp-1")
+
+path_parts[kwb.fakin::startsWithParts(path_parts, start_parts)]
+```
+
+The function can also be used on a matrix of subfolders:
+
+```{r}
+folders <- kwb.fakin::toSubdirMatrix(paths)
+
+folders[kwb.fakin::startsWithParts(folders, start_parts), ]
+folders[kwb.fakin::startsWithParts(folders, c(start_parts, "input")), ]
+```
+
+### Selecting Paths from a Path Tree
+
+To simplify the selection of paths we wrote a function that converts a vector of
+path strings into a nested list. In that list, the folder names appear as the
+names of the list elements. Let's try this out with the example paths defined
+above:
 
 ```{r}
 # Convert the vector of paths into a tree structure

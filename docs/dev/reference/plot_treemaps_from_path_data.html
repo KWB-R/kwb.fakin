@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Do Strings Consist only of ASCII Characters? â€” isASCII â€¢ kwb.fakin</title>
+<title>Plot Treemaps Given File Path Data â€” plot_treemaps_from_path_data â€¢ kwb.fakin</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Do Strings Consist only of ASCII Characters? â€” isASCII" />
+<meta property="og:title" content="Plot Treemaps Given File Path Data â€” plot_treemaps_from_path_data" />
 
-<meta property="og:description" content="The code has been &quot;stolen&quot; from showNonASCII" />
+<meta property="og:description" content="Plot Treemaps Given File Path Data" />
 <meta name="twitter:card" content="summary" />
 
 <meta name="robots" content="noindex">
@@ -121,49 +121,95 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Do Strings Consist only of ASCII Characters?</h1>
-    <small class="dont-index">Source: <a href='https://github.com/kwb-r/kwb.fakin/blob/master/R/logical.R'><code>R/logical.R</code></a></small>
-    <div class="hidden name"><code>isASCII.Rd</code></div>
+    <h1>Plot Treemaps Given File Path Data</h1>
+    <small class="dont-index">Source: <a href='https://github.com/kwb-r/kwb.fakin/blob/master/R/plot_treemaps.R'><code>R/plot_treemaps.R</code></a></small>
+    <div class="hidden name"><code>plot_treemaps_from_path_data.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>The code has been "stolen" from <code><a href='http://www.rdocumentation.org/packages/tools/topics/showNonASCII'>showNonASCII</a></code></p>
+    <p>Plot Treemaps Given File Path Data</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>isASCII</span>(<span class='no'>x</span>)</pre>
+    <pre class="usage"><span class='fu'>plot_treemaps_from_path_data</span>(<span class='no'>path_data</span>, <span class='kw'>root_path</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"root"</span>,
+  <span class='kw'>as_png</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>n_levels</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>output_dir</span> <span class='kw'>=</span> <span class='fu'>tempdir</span>(),
+  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"value"</span>, <span class='kw'>args_png</span> <span class='kw'>=</span> <span class='fu'>list</span>(), <span class='kw'>n_biggest</span> <span class='kw'>=</span> -<span class='fl'>1</span>, <span class='kw'>depth</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>vector of character</p></td>
+      <th>path_data</th>
+      <td><p>data frame containing file path information as returned by
+<code><a href='read_file_info.html'>read_file_info</a></code></p></td>
+    </tr>
+    <tr>
+      <th>root_path</th>
+      <td><p>path to the folder that contains all paths to be considered.
+By setting the root path to "/path/to/root" you can "zoom into" the
+treeplot, showing the contents below "/path/to/root" only. If
+<code>root_path</code> is <code>""</code> (default) all paths in <code>path_data</code> are
+considered.</p></td>
+    </tr>
+    <tr>
+      <th>name</th>
+      <td><p>name to be used in png file name if <code>as_png</code> is set. If
+<code>path_data</code> is a list, the names of the list elements are used.</p></td>
+    </tr>
+    <tr>
+      <th>as_png</th>
+      <td><p>if <code>TRUE</code> (default) the plots are saved to png files in
+the directory given in <code>output_dir</code> (<code>tempdir()</code> by default).
+Otherwise they are plotted into the active graphical device.</p></td>
+    </tr>
+    <tr>
+      <th>n_levels</th>
+      <td><p>number of folder depth levels to be shown in the plots</p></td>
+    </tr>
+    <tr>
+      <th>output_dir</th>
+      <td><p>path to output directory if <code>as_png = TRUE</code>. Default:
+<code>tempdir()</code></p></td>
+    </tr>
+    <tr>
+      <th>type</th>
+      <td><p>passed to <code><a href='http://www.rdocumentation.org/packages/treemap/topics/treemap'>treemap</a></code></p></td>
+    </tr>
+    <tr>
+      <th>args_png</th>
+      <td><p>list of arguments passed to <code><a href='http://www.rdocumentation.org/packages/grDevices/topics/png'>png</a></code> if
+<code>as_png = TRUE</code></p></td>
+    </tr>
+    <tr>
+      <th>n_biggest</th>
+      <td><p>vector of integer, specifying the number(s) of biggest
+folders (in terms of size and number of files) in which to "zoom into". The
+position in the vector represents the folder depth. For example, if
+<code>n_biggest = c(2, 1)</code>, the first element (<code>1</code>) indicates that
+sub-treemaps are produced for the two biggest subfolders below
+<code>root_path</code>: for <code>root_path/biggest-1</code> and for
+<code>root_path/biggest-2</code>. The second element (<code>1</code>) indicates that
+further treemaps are generated only for the biggest subfolders below
+<code>root_path/biggest-1</code> and <code>root_path/biggest-2</code>, respectively,
+in each case. The length of the vector <code>n_biggest</code> determines the
+maximal depth until which to generate treemaps. By setting an element
+to <code>-1L</code> you specify that sub-treemaps are generated for each
+subfolder on the corresponding folder depth.</p></td>
+    </tr>
+    <tr>
+      <th>depth</th>
+      <td><p>current depth of recursion</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>vector of logical with <code>TRUE</code> at positions <code>i</code> where
-<code>x[i]</code> contains only ASCII characters</p>
-    
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>months</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='st'>"Januar"</span>, <span class='st'>"Februar"</span>, <span class='st'>"M\xe4rz"</span>)
-
-<span class='fu'>cat</span>(<span class='no'>months</span>, <span class='st'>"\n"</span>)</div><div class='output co'>#&gt; Januar Februar Mü¾†”¼rz </div><div class='input'>
-<span class='fu'>isASCII</span>(<span class='no'>months</span>)</div><div class='output co'>#&gt; [1]  TRUE  TRUE FALSE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+                </ul>
 
   </div>
 </div>

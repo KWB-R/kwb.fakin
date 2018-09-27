@@ -1,9 +1,7 @@
 # splitPaths -------------------------------------------------------------------
 splitPaths <- function(paths, dbg = TRUE)
 {
-  kwb.utils::catAndRun("Splitting paths", dbg = dbg, {
-    result <- strsplit(paths, "/")
-  })
+  kwb.utils::catAndRun("Splitting paths", dbg = dbg, strsplit(paths, "/"))
 }
 
 # getSubdirsByFrequence --------------------------------------------------------
@@ -35,9 +33,12 @@ replaceSubdirs <- function(s, r, p)
 
 # startsWithParts --------------------------------------------------------------
 
-#' Does a strsplit list start with given sequence of elements?
+#' Do Subfolder List Elements Start with Given Folder Names?
 #'
-#' @param parts list of list of character as returned by \code{strsplit}
+#' @param parts list of list of character as returned by
+#'   \code{kwb.fakin:::splitPahts} or a matrix of character representing the
+#'   subfolder names at the different folder depths as returned by
+#'    \code{\link{toSubdirMatrix}}.
 #' @param elements vector of character giving the sequence of strings to be
 #'   found in \code{parts}
 #' @return vector of logical as long as \code{parts} containing \code{TRUE} at
@@ -48,36 +49,34 @@ replaceSubdirs <- function(s, r, p)
 #'
 #' @examples
 #' parts <- strsplit(c("a/b/c", "a/b/d", "b/c"), "/")
-#' startsWithParts(parts, c("a", "b"))
-#' startsWithParts(parts, c("b", "c"))
+#' startsWithParts(parts, elements = c("a", "b"))
+#' startsWithParts(parts, elements = c("b", "c"))
+#'
+#' subdir_matrix <- kwb.fakin::toSubdirMatrix(parts)
+#' startsWithParts(subdir_matrix, elements = c("a", "b"))
+#' startsWithParts(subdir_matrix, elements = c("b", "c"))
 #'
 startsWithParts <- function(parts, elements)
 {
   stopifnot(is.list(parts) || is.matrix(parts))
+
   stopifnot(all(! is.na(elements)))
 
-  indices <- seq_along(elements)
+  length_out <- if (is.list(parts)) length(parts) else nrow(parts)
 
-  if (is.list(parts)) {
+  selected_at_level <- lapply(seq_along(elements), function(i) {
 
-    selected <- rep(TRUE, length(parts))
+    if (is.list(parts)) {
 
-    for (i in indices) {
+      sapply(parts, "[", i) == elements[i]
 
-      selected <- selected & sapply(parts, "[", i) == elements[i]
+    } else {
+
+      ! is.na(parts[, i]) & (parts[, i] == elements[i])
     }
+  })
 
-  } else {
-
-    selected <- rep(TRUE, nrow(parts))
-
-    for (i in seq_along(elements)) {
-
-      selected <- selected & ! is.na(parts[, i]) & (parts[, i] == elements[i])
-    }
-  }
-
-  selected
+  Reduce(`&`, selected_at_level, init = rep(TRUE, length_out))
 }
 
 # removeCommonRoot -------------------------------------------------------------
@@ -134,6 +133,7 @@ removeCommonRoot <- function(x, n_keep = 0, dbg = TRUE)
   if (! was_list) {
 
     kwb.utils::catAndRun("Putting path segments together", dbg = dbg, {
+
       x <- sapply(x, function(xx) do.call(paste, c(as.list(xx), sep = "/")))
     })
   }
