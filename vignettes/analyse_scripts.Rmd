@@ -99,7 +99,9 @@ file_info <- kwb.fakin::get_recursive_file_info(root_dir)
 # Get information on R scripts only...
 file_info_scripts <- kwb.fakin::get_recursive_file_info(root_dir, "[.]R$")
 
+print(session.info())
+
 # Show the structure of the result
-str(file_info_scripts)
+str(structure(file_info_scripts, class = "data.frame"))
 ```
 
