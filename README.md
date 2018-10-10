@@ -10,7 +10,7 @@ This package contains all functions and evaluations related to KWB project "FAKI
 Set the Subversion setting 'enable-auto-props' to 'yes' so that the 'auto-probs' 
 options are considered.
 
-# Installation
+## Installation
 
 ```r
 #install.packages("devtools", repos = "https://cloud.r-project.org")
@@ -22,3 +22,9 @@ devtools::install_github("KWB-R/kwb.fakin")
 Release: [https://kwb-r.github.io/kwb.fakin](https://kwb-r.github.io/kwb.fakin)
 
 Development: [https://kwb-r.github.io/kwb.fakin/dev](https://kwb-r.github.io/kwb.fakin/dev)
+
+
+## Contributing to kwb.fakin
+
+For contributing to the development of kwb.fakin please check the 
+[contribution guideline](.github/CONTRIBUTING.md).

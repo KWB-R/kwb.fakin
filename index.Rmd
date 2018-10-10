@@ -8,9 +8,16 @@ This package contains all functions and evaluations related to KWB project
 "FAKIN". Set the Subversion setting 'enable-auto-props' to 'yes' so that the 
 'auto-probs' options are considered.
 
-# Installation
+## Installation
 
 ```{r echo = TRUE, eval = FALSE}
 #install.packages("devtools", repos = "https://cloud.r-project.org")
 devtools::install_github("KWB-R/kwb.fakin")
 ```
+
+
+## Contributing to kwb.fakin
+
+For contributing to the development of kwb.fakin please check the 
+[contribution guideline](CONTRIBUTING.html).
+
