@@ -1,7 +1,7 @@
 [![Appveyor build Status](https://ci.appveyor.com/api/projects/status/18p0ui3jcdm5lqw9/branch/master?svg=true)](https://ci.appveyor.com/project/KWB-R/kwb-fakin/branch/master)
 [![Travis build Status](https://travis-ci.org/KWB-R/kwb.fakin.svg?branch=master)](https://travis-ci.org/KWB-R/kwb.fakin)
 [![codecov](https://codecov.io/github/KWB-R/kwb.fakin/branch/master/graphs/badge.svg)](https://codecov.io/github/KWB-R/kwb.fakin)
-[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![Project Status](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/kwb.fakin)]()
 
 This package contains all functions and evaluations related to KWB project 
