@@ -4,7 +4,7 @@
 
 * Added a `NEWS.md` file to track changes to the package.
 
-* see http://style.tidyverse.org/news.html for writing a good `NEWS.md`
+* see https://style.tidyverse.org/news.html for writing a good `NEWS.md`
 
 
 # [kwb.fakin 0.3.0](https://github.com/KWB-R/kwb.fakin/releases/tag/v0.3.0) <small>2018-07-11</small>
