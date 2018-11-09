@@ -1,0 +1,10 @@
+<sql_definition>
+
+$provider = "provider=search.collatordso;extended properties='application=windows';"
+$connector = new-object system.data.oledb.oledbdataadapter -argument $sql, $provider
+$dataset = new-object system.data.dataset
+
+if ($connector.fill($dataset)) {
+
+  $dataset.tables[0] | ConvertTo-Csv -NoTypeInformation
+}
