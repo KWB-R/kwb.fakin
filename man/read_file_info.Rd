@@ -4,7 +4,7 @@
 \alias{read_file_info}
 \title{Read File Information from CSV File}
 \usage{
-read_file_info(file, version = 2)
+read_file_info(file, version = 2, ...)
 }
 \arguments{
 \item{file}{path to CSV file containing file information as stored with
@@ -12,6 +12,9 @@ read_file_info(file, version = 2)
 
 \item{version}{determines which function to use for reading the CSV file
 1: \code{\link[utils]{read.table}}, 2: \code{\link[data.table]{fread}}}
+
+\item{\dots}{arguments passed to \code{read_file_info_v1} or
+\code{read_file_info_v2}}
 }
 \description{
 Read File Information from CSV File
