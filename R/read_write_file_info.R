@@ -1,3 +1,25 @@
+#' Read CSV File Created Directly With libuv
+#'
+#' @param file file containing the output of my own fast version of
+#'   \code{fs::dir_info}
+#'
+#' @return data frame with time columns converted to \code{POSIXct}
+#'
+read_file_info_libuv <- function(file)
+{
+  #file <- "~/CProgramming/fs/files_hauke.csv"
+
+  file_info <- utils::read.csv(file, stringsAsFactors = FALSE)
+
+  time_columns <- grep("tim$", names(file_info), value = TRUE)
+
+  file_info[time_columns] <- lapply(
+    file_info[time_columns], as.POSIXct, origin = "1970-01-01"
+  )
+
+  file_info
+}
+
 # read_path_information --------------------------------------------------------
 read_path_information <- function(file_info_dir)
 {
