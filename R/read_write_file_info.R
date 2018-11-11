@@ -110,22 +110,24 @@ write_file_info_v2 <- function(file_info, file)
 #'   \code{\link{write_file_info}}
 #' @param version determines which function to use for reading the CSV file
 #'   1: \code{\link[utils]{read.table}}, 2: \code{\link[data.table]{fread}}
+#' @param \dots arguments passed to \code{read_file_info_v1} or
+#'   \code{read_file_info_v2}
 #'
 #' @export
 #'
-read_file_info <- function(file, version = 2)
+read_file_info <- function(file, version = 2, ...)
 {
-  kwb.utils::catAndRun(paste("Reading file information from", file), {
+  kwb.utils::catAndRun(sprintf("Reading file information from '%s'", file), {
 
     time_info <- system.time(
 
       file_info <- if (version == 1) {
 
-        read_file_info_v1(file)
+        read_file_info_v1(file, ...)
 
       } else if (version == 2) {
 
-        read_file_info_v2(file)
+        read_file_info_v2(file, ...)
 
       } else {
 
@@ -140,13 +142,13 @@ read_file_info <- function(file, version = 2)
 }
 
 # read_file_info_v1 ------------------------------------------------------------
-read_file_info_v1 <- function(file)
+read_file_info_v1 <- function(file, sep = ";")
 {
-  utils::read.table(file, sep = ";", header = TRUE, stringsAsFactors = FALSE)
+  utils::read.table(file, sep = sep, header = TRUE, stringsAsFactors = FALSE)
 }
 
 # read_file_info_v2 ------------------------------------------------------------
-read_file_info_v2 <- function(file)
+read_file_info_v2 <- function(file, sep = ";")
 {
-  as.data.frame(data.table::fread(file = file, sep = ";"))
+  as.data.frame(data.table::fread(file = file, sep = sep))
 }
