@@ -10,7 +10,7 @@ get_file_info_powershell <- function(root_dir, top_n = 10)
     kwb.utils::windowsPath(root_dir)
   ))
 
-  read.table(
+  utils::read.table(
     text = file_info_text, sep = ",", header = TRUE, stringsAsFactors = FALSE
   )
 }
@@ -18,7 +18,7 @@ get_file_info_powershell <- function(root_dir, top_n = 10)
 # get_file_property_names ------------------------------------------------------
 get_file_property_names <- function(groups = 1)
 {
-  property_info <- read.table(
+  property_info <- utils::read.table(
     file = system.file("extdata", "property_names.txt", package = "kwb.fakin"),
     sep = ",", header = TRUE, stringsAsFactors = FALSE
   )
