@@ -85,12 +85,12 @@
 "System.ItemNamePrefix",0
 "System.ItemNameSortOverride",-1
 "System.ItemParticipants",0
-"System.ItemPathDisplay",1
+"System.ItemPathDisplay",0
 "System.ItemPathDisplayNarrow",0
 "System.ItemSubType",0
 "System.ItemType",1
 "System.ItemTypeText",0
-"System.ItemUrl",0
+"System.ItemUrl",1
 "System.Keywords",0
 "System.Kind",0
 "System.KindText",0
