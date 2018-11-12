@@ -1,3 +1,22 @@
+#' Read CSV File Created With Powershell From Search Index
+#'
+#' @param file file containing the output of a Windows powershell script that
+#'   reads file paths from the search index database and writes them to a CSV
+#'   file
+#'
+#' @return data frame
+#'
+read_file_info_search_index <- function(file)
+{
+  file_info <- kwb.fakin:::read_file_info_v2(file, sep = ",")
+
+  names(file_info) <- gsub("^SYSTEM[.]", "", names(file_info))
+
+  file_info$ITEMURL <- gsub("^file:", "", file_info$ITEMURL)
+
+  file_info
+}
+
 #' Read CSV File Created Directly With libuv
 #'
 #' @param file file containing the output of my own fast version of
