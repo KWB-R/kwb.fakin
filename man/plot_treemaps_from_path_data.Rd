@@ -38,7 +38,7 @@ Otherwise they are plotted into the active graphical device.}
 \item{n_biggest}{vector of integer, specifying the number(s) of biggest
 folders (in terms of size and number of files) in which to "zoom into". The
 position in the vector represents the folder depth. For example, if
-\code{n_biggest = c(2, 1)}, the first element (\code{1}) indicates that
+\code{n_biggest = c(2, 1)}, the first element (\code{2}) indicates that
 sub-treemaps are produced for the two biggest subfolders below
 \code{root_path}: for \code{root_path/biggest-1} and for
 \code{root_path/biggest-2}. The second element (\code{1}) indicates that
