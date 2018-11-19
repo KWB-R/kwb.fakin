@@ -31,12 +31,13 @@ Suggests:
     covr,
     jsonlite,
     knitr,
+    lubridate,
     networkD3,
     rmarkdown,
     testthat
 License: MIT + file LICENSE
 LazyData: TRUE
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 VignetteBuilder: knitr
 URL: https://github.com/kwb-r/kwb.fakin
 BugReports: https://github.com/kwb-r/kwb.fakin/issues
