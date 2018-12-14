@@ -52,7 +52,7 @@ if (FALSE)
 
   dept <- c("GROUNDWATER", "WWT_Department", "SUW_Department")[choice]
 
-  files <- file.path(path, sprintf("path-info-ps-%d_20181112_%s.csv", 1:2, dept))
+  files <- file.path(path, sprintf("path-info-ps-%d_20181116_%s.csv", 1:2, dept))
 
   file_info_1 <- kwb.fakin:::read_file_info_v2(safePath(files[1]), sep = ",")
   file_info_2 <- kwb.fakin:::read_file_info_search_index(safePath(files[2]))
@@ -85,6 +85,10 @@ if (FALSE)
 
   # What are the extensions of the files that are not in the index?
   sort(table(kwb.utils::fileExtension(paths_1[not_in_index])))
+
+  # Write the files that are not in the index to a text file
+  output_file <- file.path(dirname(files[1]), "non_indexed_files.txt")
+  writeLines(paths_1[not_in_index], output_file)
 
   # What different attribute sets occur and are the corresponding files missing
   # in the index or not?
