@@ -21,6 +21,8 @@ Imports:
     kwb.plot, 
     kwb.utils,
     magrittr,
+    stringr,
+    tidyr,
     treemap,
     yaml (> 2.1)
 Remotes: 
