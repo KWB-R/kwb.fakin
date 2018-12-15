@@ -2,7 +2,10 @@ if (FALSE)
 {
   library(dplyr)
 
-  tree <- kwb.code::parse_scripts(root = "C:/Users/hsonne/Documents/R-Development")
+  Sys.setlocale(locale = "C")
+
+  #tree <- kwb.code::parse_scripts(root = "C:/Users/hsonne/Documents/R-Development")
+  tree <- kwb.code::parse_scripts(root = "~/Desktop/R-Development")
 
   function_call_frequency <- get_function_call_frequency(tree)
 
@@ -58,14 +61,14 @@ get_package_function_usage <- function(tree, package)
 
   function_frequency$uses_prefix <- uses_prefix
 
-  function_frequency$Var1[uses_prefix] <- sapply(parts[uses_prefix], "[", 2)
+  function_frequency$name[uses_prefix] <- sapply(parts[uses_prefix], "[", 2)
 
   function_frequency %>%
     tidyr::spread(uses_prefix, count, fill = 0) %>%
     dplyr::mutate(total = `FALSE` + `TRUE`) %>%
     dplyr::arrange(desc(total)) %>%
     dplyr::select(
-      name = "Var1", prefixed = `FALSE`, non_prefixed = `TRUE`, "total"
+      "name", prefixed = `FALSE`, non_prefixed = `TRUE`, "total"
     )
 }
 
@@ -91,4 +94,3 @@ get_function_call_frequency <- function(root)
     c("name", "count")
   )
 }
-
