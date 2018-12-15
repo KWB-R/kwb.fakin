@@ -77,7 +77,7 @@ get_package_function_usage <- function(tree, package)
 #' @param tree parse tree as returned by \code{\link{parse_scripts}}
 #' @return data frame with columns \code{name} (name of function), \code{count}
 #'   (number of times the function is called)
-get_function_call_frequency <- function(root)
+get_function_call_frequency <- function(tree)
 {
   raw_lines <- deparse(tree)
 

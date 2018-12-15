@@ -4,7 +4,7 @@
 \alias{get_function_call_frequency}
 \title{Which Function is Called How Often?}
 \usage{
-get_function_call_frequency(root)
+get_function_call_frequency(tree)
 }
 \arguments{
 \item{tree}{parse tree as returned by \code{\link{parse_scripts}}}
