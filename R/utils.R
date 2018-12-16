@@ -8,6 +8,12 @@ cat_elapsed <- function(time_info)
   cat("Elapsed:", time_info["elapsed"], "\n")
 }
 
+# catTime ----------------------------------------------------------------------
+catTime <- function(tag)
+{
+  cat(paste0("\n", tag, ":"), as.character(Sys.time()), "\n\n")
+}
+
 # getElementLengths ------------------------------------------------------------
 
 #' Get the Lenghts of List Elements
@@ -68,8 +74,10 @@ toDataFrame <- function(x)
   }
 }
 
-# catTime ----------------------------------------------------------------------
-catTime <- function(tag)
+# vector_to_count_table --------------------------------------------------------
+vector_to_count_table <- function(x)
 {
-  cat(paste0("\n", tag, ":"), as.character(Sys.time()), "\n\n")
+  frequency <- sort(table(x), decreasing = TRUE)
+
+  stats::setNames(kwb.utils::asNoFactorDataFrame(frequency), c("name", "count"))
 }

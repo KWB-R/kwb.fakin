@@ -8,7 +8,7 @@
 #'
 read_file_info_search_index <- function(file)
 {
-  file_info <- kwb.fakin:::read_file_info_v2(file, sep = ",")
+  file_info <- read_file_info_v2(file, sep = ",")
 
   names(file_info) <- gsub("^SYSTEM[.]", "", names(file_info))
 

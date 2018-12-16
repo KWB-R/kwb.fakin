@@ -1,21 +1,3 @@
-if (FALSE)
-{
-  library(dplyr)
-
-  Sys.setlocale(locale = "C")
-
-  #tree <- kwb.code::parse_scripts(root = "C:/Users/hsonne/Documents/R-Development")
-  tree <- kwb.code::parse_scripts(root = "~/Desktop/R-Development")
-
-  function_call_frequency <- get_function_call_frequency(tree)
-
-  View(function_call_frequency)
-
-  package_function_usage <- get_package_function_usage(tree, package = "kwb.utils")
-
-  View(package_function_usage)
-}
-
 # get_package_function_usage ---------------------------------------------------
 
 #' How Often Are the Functions of a Package Used?
@@ -28,6 +10,9 @@ if (FALSE)
 #'    or \code{<package>:::}), \code{non_prefixed} (number of function calls
 #'    that are not prefixed with the package name) and \code{total} (total
 #'    number of function calls)
+#'
+#' @export
+#'
 #' @examples
 #' # Read all scripts that are provided in the kwb.fakin package
 #' tree <- kwb.code::parse_scripts(root = system.file(package = "kwb.fakin"))
@@ -57,19 +42,16 @@ get_package_function_usage <- function(tree, package)
 
   parts <- strsplit(function_frequency$name, ":::?")
 
-  uses_prefix <- lengths(parts) > 1
+  full_spec <- lengths(parts) > 1
 
-  function_frequency$uses_prefix <- uses_prefix
+  function_frequency$full_spec <- ifelse(full_spec, "full_spec", "no_full_spec")
 
-  function_frequency$name[uses_prefix] <- sapply(parts[uses_prefix], "[", 2)
+  function_frequency$name[full_spec] <- sapply(parts[full_spec], "[", 2)
 
   function_frequency %>%
-    tidyr::spread(uses_prefix, count, fill = 0) %>%
-    dplyr::mutate(total = `FALSE` + `TRUE`) %>%
-    dplyr::arrange(desc(total)) %>%
-    dplyr::select(
-      "name", prefixed = `FALSE`, non_prefixed = `TRUE`, "total"
-    )
+    tidyr::spread("full_spec", "count", fill = 0) %>%
+    dplyr::mutate(total = full_spec + no_full_spec) %>%
+    dplyr::arrange(dplyr::desc(total))
 }
 
 #' Which Function is Called How Often?
@@ -85,12 +67,15 @@ get_function_call_frequency <- function(tree)
     raw_lines, "[A-Za-z][A-Za-z0-9.]*(::)?[A-Za-z][A-Za-z0-9._]*\\("
   )))
 
-  function_frequency <- sort(table(function_calls), decreasing = TRUE)
+  function_calls <- gsub("\\($", "", function_calls)
 
-  names(function_frequency) <- gsub("\\($", "", names(function_frequency))
+  vector_to_count_table(function_calls)
+}
 
-  stats::setNames(
-    as.data.frame(function_frequency, stringsAsFactors = FALSE),
-    c("name", "count")
-  )
+# get_function_call_frequency_2 ------------------------------------------------
+get_function_call_frequency_2 <- function(tree)
+{
+  result <- kwb.code:::extract_from_parse_tree(tree, dbg = TRUE)
+
+  vector_to_count_table(unlist(result))
 }
