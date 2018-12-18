@@ -21,7 +21,9 @@
 #' get_package_function_usage(tree, package = "kwb.utils")
 #'
 #' # Hm, this does not seem to be the whole truth...
-get_package_function_usage <- function(tree, package, simple = FALSE)
+get_package_function_usage <- function(
+  tree, package, simple = FALSE, by_script = FALSE
+)
 {
   package_functions <- ls(getNamespace(package), all.names = TRUE)
 
@@ -39,7 +41,16 @@ get_package_function_usage <- function(tree, package, simple = FALSE)
 
   ff <- digest_package_specifier(ff)
 
-  kwb.utils::resetRowNames(ff[order(ff$script, ff$name), ])
+  if (by_script) {
+
+    kwb.utils::resetRowNames(ff[order(ff$script, ff$name), ])
+
+  } else {
+
+    ff <- aggregate(. ~ name, kwb.utils::removeColumns(ff, "script"), sum)
+
+    kwb.utils::resetRowNames(ff[order(- ff$count, ff$name), ])
+  }
 }
 
 # digest_package_specifier -----------------------------------------------------
