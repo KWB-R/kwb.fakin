@@ -4,10 +4,17 @@
 \alias{get_function_call_frequency}
 \title{Which Function is Called How Often?}
 \usage{
-get_function_call_frequency(tree)
+get_function_call_frequency(tree, simple = FALSE)
 }
 \arguments{
 \item{tree}{parse tree as returned by \code{\link{parse_scripts}}}
+
+\item{simple}{if \code{TRUE}, a simple approach using a simple regular
+expression is used. This approach is fast but not correct as it e.g. counts
+function calls that are commented out or even string expressions that just
+look like function calls. Leaving this argument to its default,
+\code{FALSE}, will return only real function calls by evaluating the full
+structure of parse tree.}
 }
 \value{
 data frame with columns \code{name} (name of function), \code{count}
