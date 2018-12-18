@@ -4,12 +4,19 @@
 \alias{get_package_function_usage}
 \title{How Often Are the Functions of a Package Used?}
 \usage{
-get_package_function_usage(tree, package)
+get_package_function_usage(tree, package, simple = FALSE)
 }
 \arguments{
 \item{tree}{parse tree as returned by \code{\link{parse_scripts}}}
 
 \item{package}{name of the package (must be installed)}
+
+\item{simple}{if \code{TRUE}, a simple approach using a simple regular
+expression is used. This approach is fast but not correct as it e.g. counts
+function calls that are commented out or even string expressions that just
+look like function calls. Leaving this argument to its default,
+\code{FALSE}, will return only real function calls by evaluating the full
+structure of parse tree.}
 }
 \value{
 data frame with columns \code{name} (name of the function),
@@ -26,7 +33,7 @@ How Often Are the Functions of a Package Used?
 tree <- kwb.code::parse_scripts(root = system.file(package = "kwb.fakin"))
 
 # Check which functions from kwb.utils are used and how often
-get_package_function_usage(tree, "kwb.utils")
+get_package_function_usage(tree, package = "kwb.utils")
 
 # Hm, this does not seem to be the whole truth...
 }

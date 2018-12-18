@@ -4,7 +4,7 @@
 #'
 #' @param tree parse tree as returned by \code{\link{parse_scripts}}
 #' @param package name of the package (must be installed)
-#'
+#' @inheritParams get_function_call_frequency
 #' @return data frame with columns \code{name} (name of the function),
 #'   \code{prefixed} (number of function calls prefixed with \code{<package>::}
 #'    or \code{<package>:::}), \code{non_prefixed} (number of function calls
@@ -18,64 +18,84 @@
 #' tree <- kwb.code::parse_scripts(root = system.file(package = "kwb.fakin"))
 #'
 #' # Check which functions from kwb.utils are used and how often
-#' get_package_function_usage(tree, "kwb.utils")
+#' get_package_function_usage(tree, package = "kwb.utils")
 #'
 #' # Hm, this does not seem to be the whole truth...
-get_package_function_usage <- function(tree, package)
+get_package_function_usage <- function(tree, package, simple = FALSE)
 {
-  `%>%` <- magrittr::`%>%`
+  package_functions <- ls(getNamespace(package), all.names = TRUE)
 
-  package_functions <- ls(getNamespace(package))
-
-  patterns <- sprintf("^%s$", sort(c(
+  functions <- sort(c(
     package_functions,
     paste0(package, "::", package_functions),
     paste0(package, ":::", package_functions)
-  )))
+  ))
 
-  x <- get_function_call_frequency(tree)
+  frequency_list <- get_function_call_frequency(tree, simple = simple)
 
-  function_frequency <- do.call(rbind, lapply(patterns, function(pattern) {
+  frequency_data <- dplyr::bind_rows(frequency_list, .id = "script")
 
-    x[grepl(pattern, x$name), ]
-  }))
+  ff <- frequency_data[frequency_data$name %in% functions, ]
 
-  parts <- strsplit(function_frequency$name, ":::?")
+  ff <- digest_package_specifier(ff)
 
-  full_spec <- lengths(parts) > 1
-
-  function_frequency$full_spec <- ifelse(full_spec, "full_spec", "no_full_spec")
-
-  function_frequency$name[full_spec] <- sapply(parts[full_spec], "[", 2)
-
-  function_frequency %>%
-    tidyr::spread("full_spec", "count", fill = 0) %>%
-    dplyr::mutate(total = full_spec + no_full_spec) %>%
-    dplyr::arrange(dplyr::desc(total))
+  kwb.utils::resetRowNames(ff[order(ff$script, ff$name), ])
 }
+
+# digest_package_specifier -----------------------------------------------------
+digest_package_specifier <- function(ff)
+{
+  kwb.utils::checkForMissingColumns(ff, c("script", "name", "count"))
+
+  parts <- strsplit(ff$name, ":::?")
+
+  is_explicit <- lengths(parts) > 1
+
+  ff$explicit <- ifelse(is_explicit, ff$count, 0)
+
+  ff$implicit <- ifelse(is_explicit, 0, ff$count)
+
+  ff$name[is_explicit] <- sapply(parts[is_explicit], "[", 2)
+
+  stats::aggregate(. ~ script + name, data = ff, FUN = sum)
+}
+
+# get_function_call_frequency --------------------------------------------------
 
 #' Which Function is Called How Often?
 #'
 #' @param tree parse tree as returned by \code{\link{parse_scripts}}
+#' @param simple if \code{TRUE}, a simple approach using a simple regular
+#'   expression is used. This approach is fast but not correct as it e.g. counts
+#'   function calls that are commented out or even string expressions that just
+#'   look like function calls. Leaving this argument to its default,
+#'   \code{FALSE}, will return only real function calls by evaluating the full
+#'   structure of parse tree.
 #' @return data frame with columns \code{name} (name of function), \code{count}
 #'   (number of times the function is called)
-get_function_call_frequency <- function(tree)
+get_function_call_frequency <- function(tree, simple = FALSE)
 {
-  raw_lines <- deparse(tree)
+  stopifnot(is.list(tree), all(sapply(tree, is.expression)))
 
-  function_calls <- sort(unlist(stringr::str_extract_all(
-    raw_lines, "[A-Za-z][A-Za-z0-9.]*(::)?[A-Za-z][A-Za-z0-9._]*\\("
-  )))
+  lapply(tree, function(subtree) {
 
-  function_calls <- gsub("\\($", "", function_calls)
+    #subtree <- tree[[1]]
+    result <- if (simple) {
 
-  vector_to_count_table(function_calls)
-}
+      pattern <- "[A-Za-z][A-Za-z0-9.]*(::)?[A-Za-z][A-Za-z0-9._]*\\("
 
-# get_function_call_frequency_2 ------------------------------------------------
-get_function_call_frequency_2 <- function(tree)
-{
-  result <- kwb.code:::extract_from_parse_tree(tree, dbg = TRUE)
+      function_names_list <- lapply(subtree, function(expr) {
 
-  vector_to_count_table(unlist(result))
+        unlist(stringr::str_extract_all(deparse(expr), pattern))
+      })
+
+      gsub("\\($", "", unlist(function_names_list))
+
+    } else {
+
+      kwb.code:::extract_from_parse_tree(subtree)
+    }
+
+    vector_to_count_table(result) # may return NULL
+  })
 }
