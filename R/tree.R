@@ -35,7 +35,7 @@ to_tree <- function(x, dbg = FALSE)
 {
   if (! is.list(x)) {
 
-    x <- splitPaths(as.character(x), dbg = dbg)
+    x <- kwb.file:::split_paths(as.character(x), dbg = dbg)
   }
 
   # Get path depths

@@ -18,6 +18,9 @@ function calls that are commented out or even string expressions that just
 look like function calls. Leaving this argument to its default,
 \code{FALSE}, will return only real function calls by evaluating the full
 structure of parse tree.}
+
+\item{by_script}{if \code{TRUE} the functions are counted and returned by
+script, otherwise they are counted over all scripts}
 }
 \value{
 data frame with columns \code{name} (name of the function),

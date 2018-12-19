@@ -15,7 +15,7 @@ simpleNetwork(network$links)
 
 kwb.utils::assignPackageObjects("kwb.fakin")
 folder_data <- kwb.utils::asNoFactorDataFrame(
-  toSubdirMatrix(splitPaths(paths, dbg = FALSE))
+  toSubdirMatrix(kwb.file:::split_paths(paths, dbg = FALSE))
 )
 
 nodes <- data.frame(id = 1:7, label = paste("Node", 1:7))

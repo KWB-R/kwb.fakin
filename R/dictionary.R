@@ -50,10 +50,10 @@ getDictOneByOne <- function(paths, n = 10)
 
 # getFrequencies ---------------------------------------------------------------
 getFrequencies <- function(
-  subdirs = splitPaths(paths), paths = NULL, first.only = TRUE, dbg = TRUE
+  subdirs = kwb.file:::split_paths(paths), paths = NULL, first.only = TRUE, dbg = TRUE
 )
 {
-  n_levels <- getElementLengths(subdirs)
+  n_levels <- kwb.utils::getElementLengths(subdirs)
 
   if (dbg) {
 
