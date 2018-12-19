@@ -4,7 +4,7 @@ cache: packages
 r_packages:
 - covr
 r_github_packages:
-- remotes
+- r-lib/remotes
 matrix:
   include:
   - r: devel
