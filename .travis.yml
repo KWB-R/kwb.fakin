@@ -2,8 +2,9 @@ language: r
 sudo: required
 cache: packages
 r_packages:
-- remotes
 - covr
+r_github_packages:
+- remotes
 matrix:
   include:
   - r: devel
