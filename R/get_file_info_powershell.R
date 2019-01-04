@@ -54,25 +54,6 @@ to_multirow_assignment <- function(x, variable_name = deparse(substitute(x)))
   kwb.utils::collapsed(c(first_assignment, next_assignments), "\n")
 }
 
-# split_string_into_parts ------------------------------------------------------
-split_string_into_parts <- function(x, size = 80)
-{
-  n <- nchar(x)
-
-  if (n > size) {
-
-    starts <- size * (seq_len((n - 1) %/% size + 1) - 1)
-
-    bounds <- kwb.utils::startsToRanges(starts, n, 1, 0)
-
-    apply(bounds, MARGIN = 1, function(ii) substr(x, ii[1], ii[2]))
-
-  } else {
-
-    x
-  }
-}
-
 # run_powershell ---------------------------------------------------------------
 run_powershell <- function(script_text)
 {

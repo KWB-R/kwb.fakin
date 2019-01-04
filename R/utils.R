@@ -34,6 +34,25 @@ left_substring_equals <- function(x, y)
   substr(x, 1, nchar(y)) == y
 }
 
+# split_string_into_parts ------------------------------------------------------
+split_string_into_parts <- function(x, size = 80)
+{
+  n <- nchar(x)
+
+  if (n > size) {
+
+    starts <- size * (seq_len((n - 1) %/% size + 1) - 1)
+
+    bounds <- kwb.utils::startsToRanges(starts, n, 1, 0)
+
+    apply(bounds, MARGIN = 1, function(ii) substr(x, ii[1], ii[2]))
+
+  } else {
+
+    x
+  }
+}
+
 # stop_ ------------------------------------------------------------------------
 stop_ <- function(...)
 {
