@@ -1,4 +1,4 @@
-# M A I N ----------------------------------------------------------------------
+# M A I N  1: Summarise files that contain only paths --------------------------
 if (FALSE)
 {
   content_dir <- Sys.getenv("FAKIN_CONTENTS")
@@ -51,13 +51,34 @@ if (FALSE)
   }
 }
 
+# M A I N  2: Replace directory and file names with codes ----------------------
+if (FALSE)
+{
+  file_info_dir <- kwb.utils::safePath(Sys.getenv("FAKIN_CONTENTS"), "2019-01")
+
+  # Load full file information from a text file
+  path_infos <- kwb.fakin:::read_path_information(file_info_dir)
+
+  path_infos_encoded <- lapply(path_infos, encode_path_info, n_levels = 3)
+
+  View(path_infos_encoded[[1]])
+
+  kwb.fakin:::store(path_infos_encoded, "summarise_file_info.R")
+}
+
 # read_paths_from_file ---------------------------------------------------------
 read_paths_from_file <- function(file)
 {
   full_paths <- readLines(file)
-  full_paths <- gsub("^\\\\\\\\medusa", "SERVER", full_paths)
+  full_paths <- replace_server(full_paths)
   full_paths <- kwb.utils::rStylePath(full_paths)
   full_paths
+}
+
+# replace_server ---------------------------------------------------------------
+replace_server <- function(full_paths)
+{
+  gsub("^(\\\\\\\\|//)medusa", "SERVER", full_paths)
 }
 
 # split_into_dir_and_basename --------------------------------------------------
@@ -108,4 +129,41 @@ get_folder_summary <- function(full_paths, n_levels = 3)
   )
 
   as.data.frame(dplyr::count(file_info, folder))
+}
+
+# encode_path_info -------------------------------------------------------------
+encode_path_info <- function(path_info, n_levels = 3)
+{
+  # Insert a column containing the file extension (if any)
+  path_info <- kwb.utils::insertColumns(
+    path_info, after = "type", extension = kwb.utils::fileExtension(
+      split_into_dir_and_basename(path_info$path)$basename
+    )
+  )
+
+  # Replace the first part of the path with "SERVER"
+  paths <- replace_server(path_info$path)
+
+  # Split the path into subdirectory names
+  subdirs <- kwb.fakin:::toSubdirMatrix(paths)
+
+  # Encode the subdirectory names starting with level n_levels + 1
+  indices <- - seq_len(n_levels)
+
+  encoded <- kwb.utils::encode(as.character(subdirs[, indices]))
+
+  empty_code <- names(which(kwb.utils::getAttribute(encoded, "codes") == ""))
+
+  if (length(empty_code)) {
+
+    encoded[encoded == empty_code] <- NA
+  }
+
+  subdirs[, indices] <- encoded
+
+  path_info$path <- apply(subdirs, 1, function(x) {
+    paste(x[! is.na(x)], collapse = "/")
+  })
+
+  path_info
 }
