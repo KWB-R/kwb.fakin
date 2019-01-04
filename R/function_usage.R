@@ -82,11 +82,27 @@ digest_package_specifier <- function(ff)
 #'   look like function calls. Leaving this argument to its default,
 #'   \code{FALSE}, will return only real function calls by evaluating the full
 #'   structure of parse tree.
+#' @param dbg if \code{TRUE}, debug messages are shown
 #' @return data frame with columns \code{name} (name of function), \code{count}
 #'   (number of times the function is called)
-get_function_call_frequency <- function(tree, simple = FALSE)
+get_function_call_frequency <- function(tree, simple = FALSE, dbg = TRUE)
 {
-  stopifnot(is.list(tree), all(sapply(tree, is.expression)))
+  stopifnot(is.list(tree))
+
+  is_expression <- sapply(tree, is.expression)
+
+  if (! all(is_expression)) {
+
+    tree <- kwb.utils::catAndRun(
+      messageText = sprintf(
+        "Removing %d top level elements from the tree that are not expressions",
+        sum(! is_expression)
+      ),
+      expr = tree[is_expression],
+      dbg = dbg
+    )
+
+  }
 
   lapply(tree, function(subtree) {
 

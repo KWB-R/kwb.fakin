@@ -4,7 +4,7 @@
 \alias{get_function_call_frequency}
 \title{Which Function is Called How Often?}
 \usage{
-get_function_call_frequency(tree, simple = FALSE)
+get_function_call_frequency(tree, simple = FALSE, dbg = TRUE)
 }
 \arguments{
 \item{tree}{parse tree as returned by \code{\link{parse_scripts}}}
@@ -15,6 +15,8 @@ function calls that are commented out or even string expressions that just
 look like function calls. Leaving this argument to its default,
 \code{FALSE}, will return only real function calls by evaluating the full
 structure of parse tree.}
+
+\item{dbg}{if \code{TRUE}, debug messages are shown}
 }
 \value{
 data frame with columns \code{name} (name of function), \code{count}
