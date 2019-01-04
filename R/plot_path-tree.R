@@ -46,7 +46,8 @@ plot_path_network <- function(
 
   # Remove the common root in order to "save" depth levels
   if (remove_common_root) {
-    paths <- removeCommonRoot(paths)
+
+    paths <- kwb.file::remove_common_root(paths)
   }
 
   # If a path tree is given, flatten the tree into a vector of character

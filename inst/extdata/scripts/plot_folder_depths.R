@@ -29,7 +29,7 @@ contents <- lapply(latest_content_paths, kwb.fakin:::read_file_info, sep = ",")
 
 grobs <- lapply(contents, function(content) {
 
-  file_tree <- kwb.fakin:::to_tree(kwb.fakin::removeCommonRoot(content$path))
+  file_tree <- kwb.fakin:::to_tree(kwb.file::remove_common_root(content$path))
 
   names_in_depth <- elements_per_depth(file_tree)
 

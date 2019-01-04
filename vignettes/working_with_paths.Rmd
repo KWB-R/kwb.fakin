@@ -144,7 +144,7 @@ the function `startsWithParts()` to filter for paths starting with a certain
 sequence of subfolders:
 
 ```{r}
-path_parts <- kwb.fakin:::splitPaths(paths)
+path_parts <- kwb.file:::split_paths(paths)
 start_parts <- c("project-1", "wp-1")
 
 path_parts[kwb.fakin::startsWithParts(path_parts, start_parts)]
@@ -238,14 +238,15 @@ kwb.fakin:::subtree_for_treejack(root = "project-1", paths)
 
 ## Analysis of Paths
 
-We can split the paths into their parts using `splitPaths`:
+We can split the paths into their parts using the `split_paths` function from
+the kwb.file package:
 
 ```{r}
-parts <- kwb.fakin:::splitPaths(paths)
+parts <- kwb.file:::split_paths(paths)
 parts[1:3]
 ```
 
-It may be useful to convert the list that is returned by `splitPaths` into a
+It may be useful to convert the list that is returned by `split_paths` into a
 matrix:
 
 ```{r}

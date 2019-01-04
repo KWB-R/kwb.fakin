@@ -46,7 +46,7 @@ build_folders_from_file <- function(
     paths_raw
   }
 
-  paths <- kwb.fakin::removeCommonRoot(x = paths)
+  paths <- kwb.file::remove_common_root(x = paths)
 
   max_depth <- kwb.utils::defaultIfNULL(
     max_depth, kwb.file:::get_max_path_depth(paths = paths)

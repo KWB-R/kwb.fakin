@@ -17,9 +17,9 @@ considered.}
 
 \item{variable}{name(s) of variable(s) to be selected. Default: "size"}
 
-\item{...}{further arguments passed to \code{\link{removeCommonRoot}}, such
-as \code{n_keep} (number of last segments to be kept from the common first
-part of all paths)}
+\item{...}{further arguments passed to
+\code{\link[kwb.file]{remove_common_root}}, such as \code{n_keep} (number
+of last segments to be kept from the common first part of all paths)}
 }
 \description{
 Prepare and Filter Path Data for Treemap Plot

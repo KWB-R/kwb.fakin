@@ -52,7 +52,7 @@ path_data <- kwb.fakin:::extend_file_info(file_info, n_keep = 2)
 
 file <- "~/Desktop/Data/FAKIN/folders_projects/folders_projects_2018-09-11.txt"
 
-paths <- kwb.fakin:::removeCommonRoot(kwb.fakin::read_paths(
+paths <- kwb.file::remove_common_root(kwb.fakin::read_paths(
   file, encoding = "UTF-8"
 ))
 

@@ -206,9 +206,9 @@ plot_treemaps_from_path_data <- function(
 #'   \code{root_path} is \code{""} (default) all paths in \code{path_data} are
 #'   considered.
 #' @param variable name(s) of variable(s) to be selected. Default: "size"
-#' @param ... further arguments passed to \code{\link{removeCommonRoot}}, such
-#'   as \code{n_keep} (number of last segments to be kept from the common first
-#'   part of all paths)
+#' @param ... further arguments passed to
+#'   \code{\link[kwb.file]{remove_common_root}}, such as \code{n_keep} (number
+#'   of last segments to be kept from the common first part of all paths)
 #'
 prepare_for_treemap <- function(
   path_data, root_path = "", variable = "size", ...
@@ -227,7 +227,7 @@ prepare_for_treemap <- function(
   # segments and create a data frame with the path segments in columns
   subdir_data <- result$path %>%
     kwb.file:::split_paths() %>%
-    removeCommonRoot(...) %>%
+    kwb.file::remove_common_root(...) %>%
     toSubdirMatrix(fill.value = NA) %>%
     kwb.utils::asNoFactorDataFrame()
 

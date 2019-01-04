@@ -65,8 +65,8 @@ if (FALSE)
   # removing the first common part of all paths
   #============================================================================#
 
-  paths_1 <- kwb.fakin::removeCommonRoot(kwb.utils::rStylePath(file_info_1$FullName))
-  paths_2 <- kwb.fakin::removeCommonRoot(file_info_2$ITEMURL)
+  paths_1 <- kwb.file::remove_common_root(kwb.utils::rStylePath(file_info_1$FullName))
+  paths_2 <- kwb.file::remove_common_root(file_info_2$ITEMURL)
 
   length(paths_1)
   length(paths_2)

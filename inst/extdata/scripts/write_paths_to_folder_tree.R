@@ -45,7 +45,7 @@ if (FALSE)
   paths_reread <- dir(target_dir, include.dirs = TRUE, recursive = TRUE, full.names = TRUE, all.files = TRUE)
 
   # Make the paths comparable to the source paths
-  paths_reread <- sort(kwb.fakin::removeCommonRoot(paths_reread))
+  paths_reread <- sort(kwb.file::remove_common_root(paths_reread))
 
   # Compare the original and the created paths
   head(paths_reread)

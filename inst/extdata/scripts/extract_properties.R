@@ -36,7 +36,7 @@ if (FALSE)
     if (fails(paths <- kwb.fakin:::restore("paths"))) {
 
       paths_raw <- kwb.fakin::read_paths(file, encoding = "UTF-8")
-      paths <- kwb.fakin::removeCommonRoot(paths_raw)
+      paths <- kwb.file::remove_common_root(paths_raw)
       kwb.fakin:::store(paths, THIS_SCRIPT)
     }
 
