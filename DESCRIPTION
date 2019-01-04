@@ -18,6 +18,7 @@ Imports:
     dplyr,
     fs,
     kwb.code, 
+    kwb.file,
     kwb.plot, 
     kwb.utils,
     magrittr,
@@ -27,6 +28,7 @@ Imports:
     yaml (> 2.1)
 Remotes: 
     github::kwb-r/kwb.code,
+    github::kwb-r/kwb.file,
     github::kwb-r/kwb.plot,
     github::kwb-r/kwb.utils
 Suggests: 

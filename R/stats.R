@@ -1,16 +1,3 @@
-# maxdepth ---------------------------------------------------------------------
-maxdepth <- function(parts = splitPaths(paths), paths = NULL)
-{
-  if (length(parts) == 0) {
-
-    0L
-
-  } else {
-
-    max(getElementLengths(parts))
-  }
-}
-
 # get_file_duplicates ----------------------------------------------------------
 
 #' Get list of paths containing files of the same name
@@ -30,7 +17,7 @@ get_file_duplicates <- function(paths, pattern, ...)
 {
   paths_exe <- kwb.utils::rStylePath(grep(pattern, paths, value = TRUE, ...))
 
-  files_exe <- sapply(splitPaths(paths_exe), kwb.utils::lastElement)
+  files_exe <- sapply(kwb.file:::split_paths(paths_exe), kwb.utils::lastElement)
 
   duplicates_exe <- unique(files_exe[duplicated(files_exe)])
 

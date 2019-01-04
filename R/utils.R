@@ -14,33 +14,6 @@ catTime <- function(tag)
   cat(paste0("\n", tag, ":"), as.character(Sys.time()), "\n\n")
 }
 
-# getElementLengths ------------------------------------------------------------
-
-#' Get the Lenghts of List Elements
-#'
-#' @param x a list
-#' @return vector of integer
-#'
-getElementLengths <- function(x)
-{
-  if (! is.list(x)) {
-
-    stop_(sprintf(
-      "The object '%s' given to getElementLengths() is not a list but: '%s'",
-      deparse(substitute(x)), mode(x)
-    ))
-  }
-
-  if (length(x) == 0) {
-
-    integer()
-
-  } else {
-
-    sapply(x, length)
-  }
-}
-
 # left_substring_equals --------------------------------------------------------
 
 #' Is Left Substring of X Equal To Y?
@@ -72,6 +45,15 @@ toDataFrame <- function(x)
 
     data.frame(x = x, stringsAsFactors = FALSE)
   }
+}
+
+# use_function_instead ---------------------------------------------------------
+use_function_instead <- function(function_new, function_old)
+{
+  warning(call. = FALSE, sprintf(
+    "Please use %s() instead of %s()",
+    deparse(substitute(function_new)), deparse(substitute(function_old))
+  ))
 }
 
 # vector_to_count_table --------------------------------------------------------

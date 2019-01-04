@@ -5,6 +5,8 @@
 #' @param tree parse tree as returned by \code{\link{parse_scripts}}
 #' @param package name of the package (must be installed)
 #' @inheritParams get_function_call_frequency
+#' @param by_script if \code{TRUE} the functions are counted and returned by
+#'   script, otherwise they are counted over all scripts
 #' @return data frame with columns \code{name} (name of the function),
 #'   \code{prefixed} (number of function calls prefixed with \code{<package>::}
 #'    or \code{<package>:::}), \code{non_prefixed} (number of function calls
@@ -47,7 +49,7 @@ get_package_function_usage <- function(
 
   } else {
 
-    ff <- aggregate(. ~ name, kwb.utils::removeColumns(ff, "script"), sum)
+    ff <- stats::aggregate(. ~ name, kwb.utils::removeColumns(ff, "script"), sum)
 
     kwb.utils::resetRowNames(ff[order(- ff$count, ff$name), ])
   }

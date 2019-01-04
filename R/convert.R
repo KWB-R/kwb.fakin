@@ -39,7 +39,7 @@ toSubdirMatrix <- function(
 
   if (! is.list(paths)) {
 
-    paths <- splitPaths(paths, dbg = dbg)
+    paths <- kwb.file:::split_paths(paths, dbg = dbg)
   }
 
   if (! is.list(paths) || ! all(sapply(paths, mode) == "character")) {
@@ -51,7 +51,7 @@ toSubdirMatrix <- function(
   }
 
   # Get the maximum path depth
-  max_depth <- maxdepth(paths)
+  max_depth <- kwb.file:::get_max_path_depth(paths)
 
   # Extend all list entries to a length of <max_depth>, filling with <fill.with>
   paths <- lapply(paths, kwb.utils::enlargeVector, max_depth, fill.value)
