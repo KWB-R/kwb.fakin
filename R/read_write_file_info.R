@@ -40,13 +40,15 @@ read_file_info_libuv <- function(file)
 }
 
 # read_path_information --------------------------------------------------------
-read_path_information <- function(file_info_dir)
+read_path_information <- function(
+  file_info_dir, pattern = "^path-info", sep = ",", ...
+)
 {
-  files <- dir(file_info_dir, "^path-info", full.names = TRUE)
+  files <- kwb.file::dir_full(file_info_dir, pattern)
 
   names(files) <- extract_root_name(files)
 
-  lapply(files, read_file_info)
+  lapply(files, read_file_info, sep = sep, ...)
 }
 
 # get_and_save_file_info -------------------------------------------------------
