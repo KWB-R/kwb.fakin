@@ -55,24 +55,6 @@ get_package_function_usage <- function(
   }
 }
 
-# digest_package_specifier -----------------------------------------------------
-digest_package_specifier <- function(ff)
-{
-  kwb.utils::checkForMissingColumns(ff, c("script", "name", "count"))
-
-  parts <- strsplit(ff$name, ":::?")
-
-  is_explicit <- lengths(parts) > 1
-
-  ff$explicit <- ifelse(is_explicit, ff$count, 0)
-
-  ff$implicit <- ifelse(is_explicit, 0, ff$count)
-
-  ff$name[is_explicit] <- sapply(parts[is_explicit], "[", 2)
-
-  stats::aggregate(. ~ script + name, data = ff, FUN = sum)
-}
-
 # get_function_call_frequency --------------------------------------------------
 
 #' Which Function is Called How Often?
@@ -127,4 +109,22 @@ get_function_call_frequency <- function(tree, simple = FALSE, dbg = TRUE)
 
     vector_to_count_table(result) # may return NULL
   })
+}
+
+# digest_package_specifier -----------------------------------------------------
+digest_package_specifier <- function(ff)
+{
+  kwb.utils::checkForMissingColumns(ff, c("script", "name", "count"))
+
+  parts <- strsplit(ff$name, ":::?")
+
+  is_explicit <- lengths(parts) > 1
+
+  ff$explicit <- ifelse(is_explicit, ff$count, 0)
+
+  ff$implicit <- ifelse(is_explicit, 0, ff$count)
+
+  ff$name[is_explicit] <- sapply(parts[is_explicit], "[", 2)
+
+  stats::aggregate(. ~ script + name, data = ff, FUN = sum)
 }
