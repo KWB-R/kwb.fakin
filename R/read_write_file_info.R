@@ -51,6 +51,14 @@ read_path_information <- function(
   lapply(files, read_file_info, sep = sep, ...)
 }
 
+# extract_root_name ------------------------------------------------------------
+extract_root_name <- function(file)
+{
+  name <- kwb.utils::removeExtension(basename(file))
+
+  gsub("path-info_\\d{4}-\\d{2}-\\d{2}_\\d{4}_", "", name)
+}
+
 # get_and_save_file_info -------------------------------------------------------
 
 #' Get and Save File Information

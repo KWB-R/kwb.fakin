@@ -1,11 +1,3 @@
-# extract_root_name ------------------------------------------------------------
-extract_root_name <- function(file)
-{
-  name <- kwb.utils::removeExtension(basename(file))
-
-  gsub("path-info_\\d{4}-\\d{2}-\\d{2}_\\d{4}_", "", name)
-}
-
 # get_recursive_file_info ------------------------------------------------------
 
 #' Call file.info recursively on files below a root folder
