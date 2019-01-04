@@ -2,7 +2,7 @@
 # Update info on property availablility in file "property_names.txt"
 #
 
-file <- system.file("extdata", "property_names.txt", package = "kwb.fakin")
+file <- kwb.fakin:::extdata_file("property_names.txt")
 
 property_info <- read.table(
   file, sep = ",", header = TRUE, stringsAsFactors = FALSE

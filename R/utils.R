@@ -14,6 +14,12 @@ catTime <- function(tag)
   cat(paste0("\n", tag, ":"), as.character(Sys.time()), "\n\n")
 }
 
+# extdata_file -----------------------------------------------------------------
+extdata_file <- function(file)
+{
+  system.file("extdata", file, package = "kwb.fakin")
+}
+
 # left_substring_equals --------------------------------------------------------
 
 #' Is Left Substring of X Equal To Y?

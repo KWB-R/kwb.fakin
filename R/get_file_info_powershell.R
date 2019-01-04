@@ -19,7 +19,7 @@ get_file_info_powershell <- function(root_dir, top_n = 10)
 get_file_property_names <- function(groups = 1)
 {
   property_info <- utils::read.table(
-    file = system.file("extdata", "property_names.txt", package = "kwb.fakin"),
+    file = extdata_file("property_names.txt"),
     sep = ",", header = TRUE, stringsAsFactors = FALSE
   )
 
@@ -31,7 +31,7 @@ run_windows_search_query <- function(sql)
 {
   file <- "powershell_template_search_query.txt"
 
-  file <- system.file("extdata", file, package = "kwb.fakin")
+  file <- extdata_file(file)
 
   template <- kwb.utils::collapsed(readLines(file), "\n")
 

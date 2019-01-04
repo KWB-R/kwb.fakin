@@ -17,7 +17,7 @@ THIS_SCRIPT <- "extract_properties"
 file <- safePath("~/Desktop/Data/FAKIN/folders_projects/folders_projects_2018-09-11.txt")
 #file <- "~/Desktop/Data/FAKIN/paths_poseidon_projekte_2016_05_16.txt"
 
-pkg_file <- function(name) system.file("extdata", name, package = "kwb.fakin")
+pkg_file <- kwb.fakin:::extdata_file
 file_composed <- pkg_file("replacements_composed-words.csv")
 file_unify <- pkg_file("replacements_unify.csv")
 #file_attribute_words <- pkg_file("words-to-attributes.csv")
