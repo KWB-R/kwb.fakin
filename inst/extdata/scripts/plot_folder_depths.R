@@ -1,18 +1,6 @@
 library(dplyr)
 library(ggplot2)
 
-# get_paths_to_latest_content_files --------------------------------------------
-get_paths_to_latest_content_files <- function(month_string = "2018-12")
-{
-  content_files <- dir(full.names = TRUE, file.path(
-    Sys.getenv("FAKIN_CONTENTS"), month_string
-  ))
-
-  last_date <- sort(unique(stringr::str_extract(content_files, "\\d{8}")))[1]
-
-  content_files[grepl(last_date, content_files)]
-}
-
 # elements_per_depth -----------------------------------------------------------
 elements_per_depth <- function(x, max_depth = NULL, depth = 1L)
 {
@@ -35,7 +23,7 @@ elements_per_depth <- function(x, max_depth = NULL, depth = 1L)
   }
 }
 
-latest_content_paths <- get_paths_to_latest_content_files("2018-12")
+latest_content_paths <- kwb.fakin:::get_paths_to_latest_content_files("2018-12")
 
 contents <- lapply(latest_content_paths, kwb.fakin:::read_file_info, sep = ",")
 

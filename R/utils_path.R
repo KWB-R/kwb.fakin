@@ -1,3 +1,23 @@
+# get_paths_to_latest_content_files --------------------------------------------
+get_paths_to_latest_content_files <- function(month_string = "2018-12")
+{
+  content_dir <- Sys.getenv("FAKIN_CONTENTS")
+
+  if (content_dir == "") {
+
+    stop_(
+      "Please use Sys.setenv() to set the environment variable ",
+      "'FAKIN_CONTENTS' to the path to the folder containing the content files."
+    )
+  }
+
+  content_files <- dir(full.names = TRUE, file.path(content_dir, month_string))
+
+  last_date <- sort(unique(stringr::str_extract(content_files, "\\d{8}")))[1]
+
+  content_files[grepl(last_date, content_files)]
+}
+
 # splitPaths -------------------------------------------------------------------
 splitPaths <- function(paths, dbg = TRUE)
 {
