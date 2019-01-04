@@ -1,3 +1,10 @@
+# data_frame_to_paths ----------------------------------------------------------
+data_frame_to_paths <- function(df)
+{
+  # Paste columns and remove all trailing slashes
+  gsub("/+$", "", kwb.utils::pasteColumns(df, sep = "/"))
+}
+
 # get_paths_to_latest_content_files --------------------------------------------
 get_paths_to_latest_content_files <- function(month_string = "2018-12")
 {

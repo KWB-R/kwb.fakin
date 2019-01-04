@@ -110,13 +110,6 @@ write_paths_to_folder_tree <- function(
   }
 }
 
-# data_frame_to_paths ----------------------------------------------------------
-data_frame_to_paths <- function(df)
-{
-  # Paste columns and remove all trailing slashes
-  gsub("/+$", "", kwb.utils::pasteColumns(df, sep = "/"))
-}
-
 # write_paths_file -------------------------------------------------------------
 write_paths_file <- function(path_list, element, output_dir = "")
 {
