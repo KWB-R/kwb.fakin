@@ -51,6 +51,7 @@ subtree_for_treejack <- function(
   leafs <- to_leaf_matrix(subdirs)
 
   textlines <- apply(leafs, 1, function(x) {
+
     kwb.utils::collapsed(kwb.utils::defaultIfNA(x, ""), collapse = "\t")
   })
 
