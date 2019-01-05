@@ -69,6 +69,12 @@ left_substring_equals <- function(x, y)
   substr(x, 1, nchar(y)) == y
 }
 
+# read_csv_de ------------------------------------------------------------------
+read_csv_de <- function(file, ...)
+{
+  utils::read.csv2(file, stringsAsFactors = FALSE, ...)
+}
+
 # sort_unique ------------------------------------------------------------------
 sort_unique <- function(x)
 {

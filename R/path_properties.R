@@ -47,7 +47,7 @@ apply_substitutions_from_file <- function(x, file, dbg = TRUE)
 # read_substitutions_from_file -------------------------------------------------
 read_substitutions_from_file <- function(file)
 {
-  substitution_data <- utils::read.csv2(file, stringsAsFactors = FALSE)
+  substitution_data <- read_csv_de(file)
 
   kwb.utils::toLookupList(data = substitution_data)
 }
@@ -55,7 +55,7 @@ read_substitutions_from_file <- function(file)
 # get_words_to_attribute_list --------------------------------------------------
 get_words_to_attribute_list <- function(file)
 {
-  df <- utils::read.csv2(file, stringsAsFactors = FALSE)
+  df <- read_csv_de(file)
 
   df <- df[df$attributes != "", ]
 
