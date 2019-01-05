@@ -96,16 +96,14 @@ plot_path_network <- function(
     nodePadding = nodePadding, height = height, ...
   )
 
-  if (is.null(colourScale)) {
+  do.call(networkD3::sankeyNetwork, if (is.null(colourScale)) {
 
-    arguments <- c(arguments, NodeGroup = "name")
+    c(arguments, NodeGroup = "name")
 
   } else {
 
-    arguments <- c(arguments, NodeGroup = "colour", colourScale = colourScale)
-  }
-
-  do.call(networkD3::sankeyNetwork, arguments)
+    c(arguments, NodeGroup = "colour", colourScale = colourScale)
+  })
 }
 
 # get_max_path_width -----------------------------------------------------------
