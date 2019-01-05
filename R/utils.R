@@ -8,8 +8,8 @@ cat_elapsed <- function(time_info)
   cat("Elapsed:", time_info["elapsed"], "\n")
 }
 
-# catTime ----------------------------------------------------------------------
-catTime <- function(tag)
+# cat_time ---------------------------------------------------------------------
+cat_time <- function(tag)
 {
   cat(paste0("\n", tag, ":"), as.character(Sys.time()), "\n\n")
 }
