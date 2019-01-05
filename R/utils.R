@@ -8,6 +8,23 @@ cat_elapsed <- function(time_info)
   cat("Elapsed:", time_info["elapsed"], "\n")
 }
 
+# cat_changes_if ---------------------------------------------------------------
+cat_changes_if <- function(dbg, x, y)
+{
+  if (dbg) {
+
+    cat_changes(x, y)
+  }
+}
+
+# cat_changes ------------------------------------------------------------------
+cat_changes <- function(x, y)
+{
+  is_modified <- x != y
+
+  kwb.utils::catLines(sprintf("%s -> %s", x[is_modified], y[is_modified]))
+}
+
 # cat_time ---------------------------------------------------------------------
 cat_time <- function(tag)
 {

@@ -39,7 +39,7 @@ apply_substitutions_from_file <- function(x, file, dbg = TRUE)
 {
   y <- kwb.utils::multiSubstitute(x, read_substitutions_from_file(file))
 
-  catChangesIf(dbg, x, y)
+  cat_changes_if(dbg, x, y)
 
   y
 }
@@ -50,23 +50,6 @@ read_substitutions_from_file <- function(file)
   substitution_data <- utils::read.csv2(file, stringsAsFactors = FALSE)
 
   kwb.utils::toLookupList(data = substitution_data)
-}
-
-# catChangesIf -----------------------------------------------------------------
-catChangesIf <- function(dbg, x, y)
-{
-  if (dbg) {
-
-    catChanges(x, y)
-  }
-}
-
-# catChanges -------------------------------------------------------------------
-catChanges <- function(x, y)
-{
-  is_modified <- x != y
-
-  kwb.utils::catLines(sprintf("%s -> %s", x[is_modified], y[is_modified]))
 }
 
 # get_words_to_attribute_list --------------------------------------------------
