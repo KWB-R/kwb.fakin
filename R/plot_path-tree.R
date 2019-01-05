@@ -106,12 +106,6 @@ plot_path_network <- function(
   })
 }
 
-# get_max_path_width -----------------------------------------------------------
-get_max_path_width <- function(paths)
-{
-  max(colSums(toSubdirMatrix(paths) != ""))
-}
-
 # name_to_traffic_light --------------------------------------------------------
 
 #' Get Traffic Light Colours for Names

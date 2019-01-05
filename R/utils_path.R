@@ -5,6 +5,12 @@ data_frame_to_paths <- function(df)
   gsub("/+$", "", kwb.utils::pasteColumns(df, sep = "/"))
 }
 
+# get_max_path_width -----------------------------------------------------------
+get_max_path_width <- function(paths)
+{
+  max(colSums(toSubdirMatrix(paths) != ""))
+}
+
 # get_paths_to_latest_content_files --------------------------------------------
 get_paths_to_latest_content_files <- function(month_string = "2018-12")
 {
