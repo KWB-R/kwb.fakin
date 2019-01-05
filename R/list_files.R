@@ -44,13 +44,9 @@ list_files <- function(root, file, use_batch = TRUE)
       Sys.setlocale(parts[1], parts[2])
     })
 
-    cat("Scanning all files in", root, "... ")
-
-    paths <- dir(
+    paths <- kwb.utils::catAndRun(paste("Scanning all files in", root), dir(
       root, all.files = TRUE, full.names = TRUE, recursive = TRUE, no.. = TRUE
-    )
-
-    cat("ok.\n")
+    ))
 
     kwb.utils::writeText(paths, file, "paths to")
   }
