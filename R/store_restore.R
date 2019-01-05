@@ -40,10 +40,7 @@ store <- function(x, script_name, dbg = TRUE)
 
   name <- deparse(substitute(x))
 
-  kwb.utils::catAndRun("Calculating sha1", dbg = dbg, {
-
-    sha1 <- digest::sha1(x)
-  })
+  sha1 <- kwb.utils::catAndRun("Calculating sha1", digest::sha1(x), dbg = dbg)
 
   metadata_list <- find_metadata(name, sha1)
 
@@ -100,10 +97,11 @@ find_metadata <- function(name, sha1 = NULL)
 # write_object -----------------------------------------------------------------
 write_object <- function(x, name, file, dbg = TRUE)
 {
-  kwb.utils::catAndRun(dbg = dbg, paste("Writing", name, "to", file), {
-
-    save(x, file = file)
-  })
+  kwb.utils::catAndRun(
+    paste("Writing", name, "to", file),
+    save(x, file = file),
+    dbg = dbg
+  )
 }
 
 # write_metadata ---------------------------------------------------------------
@@ -118,10 +116,10 @@ write_metadata <- function(sha1, folder, file, script_name, dbg = TRUE, ...)
     ...
   )
 
-  kwb.utils::catAndRun(paste("Writing metadata to" , file), {
-
+  kwb.utils::catAndRun(
+    paste("Writing metadata to" , file),
     yaml::write_yaml(metadata, file)
-  })
+  )
 }
 
 # restore ----------------------------------------------------------------------
