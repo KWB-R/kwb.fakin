@@ -105,19 +105,22 @@ extract_and_substitute <- function(pattern, replacement, x)
 property_strings_to_data_frame <- function(property_strings, values = NULL)
 {
   df <- kwb.utils::safeRowBindAll(lapply(property_strings, function(x) {
+
     key_value <- kwb.utils::toKeysAndValues(x, c("[+]", ":"))
+
     key_value$keys <- kwb.utils::makeUnique(key_value$keys, warn = FALSE)
+
     do.call(kwb.utils::toLookupTable, key_value)
   }))
 
   df <- df[, sort(names(df))]
 
-  if (! is.null(values)) {
+  if (is.null(values)) {
 
-    cbind(kwb.utils::noFactorDataFrame(name = values), df)
+    df
 
   } else {
 
-    df
+    cbind(kwb.utils::noFactorDataFrame(name = values), df)
   }
 }
