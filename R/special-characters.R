@@ -74,23 +74,27 @@ example_string_with_specials <- function(language_code)
 # replaceSpecial ---------------------------------------------------------------
 replaceSpecial <- function(x, all = TRUE, dbg = TRUE) {
 
-  catIf <- kwb.utils::catIf
-
   if (all) {
 
-    catIf(dbg, "Replacing special characters in", length(x), "strings ... ")
-    kwb.utils::multiSubstitute(x, replacements(), useBytes = TRUE)
-    catIf(dbg, "ok.\n")
+    kwb.utils::catAndRun(
+      paste("Replacing special characters in", length(x), "strings"),
+      expr = kwb.utils::multiSubstitute(x, replacements(), useBytes = TRUE),
+      dbg = dbg
+    )
 
   } else {
 
-    catIf(dbg, "Replacing 2 Byte chars in", length(x), "strings ... ")
-    x <- kwb.utils::multiSubstitute(x, replacements2(), useBytes = TRUE)
-    catIf(dbg, "ok.\n")
+    x <- kwb.utils::catAndRun(
+      paste("Replacing 2 Byte chars in", length(x), "strings"),
+      kwb.utils::multiSubstitute(x, replacements2(), useBytes = TRUE),
+      dbg = dbg
+    )
 
-    catIf(dbg, "Replacing 1 Byte chars in", length(x), "strings ... ")
-    x <- kwb.utils::multiSubstitute(x, replacements1())
-    catIf(dbg, "ok.\n")
+    x <- kwb.utils::catAndRun(
+      paste("Replacing 1 Byte chars in", length(x), "strings"),
+      kwb.utils::multiSubstitute(x, replacements1()),
+      dbg = dbg
+    )
   }
 
   x
