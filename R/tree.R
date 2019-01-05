@@ -1,27 +1,25 @@
 # flatten_tree -----------------------------------------------------------------
 flatten_tree <- function(x)
 {
-  if (is.list(x)) {
+  if (! is.list(x)) {
 
-    keys <- names(x)
-
-    do.call(c, lapply(seq_along(x), function(i) {
-
-      sub_paths <- flatten_tree(x[[i]])
-
-      available <- sub_paths != ""
-
-      paths <- rep(keys[i], length(sub_paths))
-
-      paths[available] <- paste0(paths[available], "/", sub_paths[available])
-
-      paths
-    }))
-
-  } else {
-
-    x
+    return(x)
   }
+
+  keys <- names(x)
+
+  do.call(c, lapply(seq_along(x), function(i) {
+
+    sub_paths <- flatten_tree(x[[i]])
+
+    available <- sub_paths != ""
+
+    paths <- rep(keys[i], length(sub_paths))
+
+    paths[available] <- paste0(paths[available], "/", sub_paths[available])
+
+    paths
+  }))
 }
 
 # to_tree ----------------------------------------------------------------------
@@ -75,7 +73,6 @@ to_tree <- function(x, dbg = FALSE)
   if (length(leafs) > 0) {
 
     trees <- c(structure(as.list(rep("", length(leafs))), names = leafs), trees)
-    #trees <- c(list("[files]" = leafs), trees)
   }
 
   kwb.utils::addClass(trees, "path_tree")
