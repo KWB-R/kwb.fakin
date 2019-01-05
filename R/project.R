@@ -21,7 +21,9 @@ createLocalProject <- function(project)
 
   if (length(index) == 0) {
 
-    cat("Available projects:\n ", kwb.utils::stringList(projects, collapse = "\n  "))
+    project_list <- kwb.utils::stringList(projects, collapse = "\n  ")
+
+    cat("Available projects:\n ", project_list)
 
     stop("No such project: '", project, "'. See above for available projects.")
   }
