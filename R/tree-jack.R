@@ -11,9 +11,10 @@ subtree_for_treejack <- function(
   # If no file is given, read paths based on root
   if (is.null(paths) && is.null(file)) {
 
-    cat("Getting paths based on root path", root, "... ")
-    filepaths <- dir(root, recursive = TRUE, no.. = TRUE)
-    cat("ok.\n")
+    filepaths <- kwb.utils::catAndRun(
+      paste("Getting paths based on root path", root),
+      dir(root, recursive = TRUE, no.. = TRUE)
+    )
 
   } else {
 
