@@ -93,9 +93,3 @@ remove_unwanted <- function(x)
 
   x
 }
-
-# ncharTable -------------------------------------------------------------------
-ncharTable <- function(x) table(nchar(x))
-
-# ncharHist --------------------------------------------------------------------
-ncharHist <- function(x) graphics::hist(nchar(x))

@@ -69,6 +69,18 @@ left_substring_equals <- function(x, y)
   substr(x, 1, nchar(y)) == y
 }
 
+# ncharTable -------------------------------------------------------------------
+ncharTable <- function(x)
+{
+  table(nchar(x))
+}
+
+# ncharHist --------------------------------------------------------------------
+ncharHist <- function(x)
+{
+  graphics::hist(nchar(x))
+}
+
 # read_csv_de ------------------------------------------------------------------
 read_csv_de <- function(file, ...)
 {
