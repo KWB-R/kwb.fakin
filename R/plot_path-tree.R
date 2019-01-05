@@ -193,9 +193,10 @@ get_links_at_depth <- function(i, folder_data)
   n_files <- stats::aggregate(source_data[, 1], by = source_data, length)
 
   # Define helper function
-  n_columns_to_path <- function(data, n) kwb.utils::pasteColumns(
-    data[, seq_len(n), drop = FALSE], sep = "/"
-  )
+  n_columns_to_path <- function(data, n) {
+
+    kwb.utils::pasteColumns(data[, seq_len(n), drop = FALSE], sep = "/")
+  }
 
   # Create the data frame linking source to target nodes with value as weight
   kwb.utils::noFactorDataFrame(
