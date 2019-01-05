@@ -1,7 +1,7 @@
 # report_about_github_package --------------------------------------------------
 report_about_github_package <- function(repo, ...)
 {
-  kwb.fakin::report_about_r_scripts(
+  report_about_r_scripts(
     root = github_package_path(repo, "R"),
     scripts = github_package_files(repo, "R"),
     ...
