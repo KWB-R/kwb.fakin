@@ -248,15 +248,13 @@ filter_for_start_path <- function(path_data, start_path = "")
 {
   if (start_path == "") {
 
-    path_data
-
-  } else {
-
-    paths <- kwb.utils::selectColumns(path_data, "path")
-
-    # Filter for paths starting with start_path
-    path_data[left_substring_equals(paths, start_path), ]
+    return(path_data)
   }
+
+  paths <- kwb.utils::selectColumns(path_data, "path")
+
+  # Filter for paths starting with start_path
+  path_data[left_substring_equals(paths, start_path), ]
 }
 
 # aggregate_by_levels ----------------------------------------------------------
