@@ -80,13 +80,6 @@ subtree_for_treejack <- function(
   }
 }
 
-# check_or_set_ending_slash ----------------------------------------------------
-check_or_set_ending_slash <- function(x)
-{
-  # Add slash to the end and replace multiple occurrences of slash at the end
-  gsub("/+$", "/", paste0(x, "/"))
-}
-
 # all_path_levels --------------------------------------------------------------
 
 #' All Paths to Parent Folders
@@ -131,12 +124,6 @@ get_example_leafs <- function(size = 10, depth = 5)
 
     sapply(seq_len(depth), folderInDepth, prefix = prefix)
   }))
-}
-
-# indentation ------------------------------------------------------------------
-indentation <- function(depth, space = "\t")
-{
-  paste(rep(space, depth), collapse = "")
 }
 
 # to_leaf_matrix ---------------------------------------------------------------

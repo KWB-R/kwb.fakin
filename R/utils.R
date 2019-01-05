@@ -31,6 +31,13 @@ cat_time <- function(tag)
   cat(paste0("\n", tag, ":"), as.character(Sys.time()), "\n\n")
 }
 
+# check_or_set_ending_slash ----------------------------------------------------
+check_or_set_ending_slash <- function(x)
+{
+  # Add slash to the end and replace multiple occurrences of slash at the end
+  gsub("/+$", "/", paste0(x, "/"))
+}
+
 # cut_left ---------------------------------------------------------------------
 cut_left <- function(x, start_string)
 {
@@ -53,6 +60,12 @@ cut_left <- function(x, start_string)
 extdata_file <- function(file)
 {
   system.file("extdata", file, package = "kwb.fakin")
+}
+
+# indentation ------------------------------------------------------------------
+indentation <- function(depth, space = "\t")
+{
+  paste(rep(space, depth), collapse = "")
 }
 
 # left_substring_equals --------------------------------------------------------
