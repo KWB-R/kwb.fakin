@@ -26,7 +26,7 @@ get_paths_to_latest_content_files <- function(month_string = "2018-12")
 
   content_files <- dir(full.names = TRUE, file.path(content_dir, month_string))
 
-  last_date <- sort(unique(stringr::str_extract(content_files, "\\d{8}")))[1]
+  last_date <- sort_unique(stringr::str_extract(content_files, "\\d{8}"))[1]
 
   content_files[grepl(last_date, content_files)]
 }

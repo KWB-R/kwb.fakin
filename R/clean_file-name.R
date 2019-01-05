@@ -33,7 +33,7 @@ if (FALSE)
 
   length(file_names)
 
-  kwb.utils::catLines(sort(unique(file_names[non_standard])))
+  kwb.utils::catLines(sort_unique(file_names[non_standard]))
 
   file_names <- standardise_file_names(file_names)
 }

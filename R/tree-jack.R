@@ -43,7 +43,7 @@ subtree_for_treejack <- function(
   dirpaths <- dirpaths[! isDotOrDoubleDot(dirpaths)]
 
   # We need all levels to a "leaf" subdirectory
-  dirpaths <- sort(unique(unlist(lapply(dirpaths, all_path_levels))))
+  dirpaths <- sort_unique(unlist(lapply(dirpaths, all_path_levels)))
 
   subdirs <- toSubdirMatrix(sort(dirpaths))
 
