@@ -75,6 +75,21 @@ read_csv_de <- function(file, ...)
   utils::read.csv2(file, stringsAsFactors = FALSE, ...)
 }
 
+# remove_empty -----------------------------------------------------------------
+remove_empty <- function(x, dbg = FALSE)
+{
+  is_empty <- (x == "")
+
+  if (! any(is_empty)) {
+
+    return(x)
+  }
+
+  kwb.utils::catIf(dbg, sum(is_empty), "elements removed.\n")
+
+  x[! is_empty]
+}
+
 # sort_unique ------------------------------------------------------------------
 sort_unique <- function(x)
 {

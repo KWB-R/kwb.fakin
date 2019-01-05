@@ -101,24 +101,6 @@ extract_and_substitute <- function(pattern, replacement, x)
   result
 }
 
-# remove_empty -----------------------------------------------------------------
-remove_empty <- function(x, dbg = FALSE)
-{
-  is_empty <- x == ""
-
-  if (any(is_empty)) {
-
-    kwb.utils::catIf(dbg, sum(is_empty), "elements removed.\n")
-
-    x[x != ""]
-
-  } else {
-
-    x
-  }
-
-}
-
 # property_strings_to_data_frame -----------------------------------------------
 property_strings_to_data_frame <- function(property_strings, values = NULL)
 {
