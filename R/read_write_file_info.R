@@ -114,10 +114,10 @@ get_and_save_file_info <- function(root_dir, output_dir, check_dirs = TRUE)
 #'
 #' @export
 #'
-
 write_file_info <- function(file_info, file, version = 2)
 {
   kwb.utils::catAndRun(paste("Writing", file), {
+
     time_info <- system.time(
 
       file_info <- if (version == 1) {
