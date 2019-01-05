@@ -28,12 +28,6 @@ cut.path_tree <- function(x, n_levels = 2, depth = 0, ...)
   }
 }
 
-# sort_unique ------------------------------------------------------------------
-sort_unique <- function(x)
-{
-  sort(unique(x))
-}
-
 # print_replacement_template ---------------------------------------------------
 print_replacement_template <- function(x)
 {

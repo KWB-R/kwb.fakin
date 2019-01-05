@@ -52,6 +52,12 @@ left_substring_equals <- function(x, y)
   substr(x, 1, nchar(y)) == y
 }
 
+# sort_unique ------------------------------------------------------------------
+sort_unique <- function(x)
+{
+  sort(unique(x))
+}
+
 # split_string_into_parts ------------------------------------------------------
 split_string_into_parts <- function(x, size = 80)
 {
