@@ -94,6 +94,49 @@ ncharHist <- function(x)
   graphics::hist(nchar(x))
 }
 
+# read_csv ---------------------------------------------------------------------
+
+#' Read Data from CSV File
+#'
+#' @param file path to CSV file
+#' @param sep column separator
+#' @param version determines which function to use for reading the CSV file
+#'   1: \code{\link[utils]{read.table}}, 2: \code{\link[data.table]{fread}}
+#' @param \dots further arguments passed to \code{\link[utils]{read.table}} or
+#'   \code{\link[data.table]{fread}}
+#'
+#' @export
+#'
+read_csv <- function(file, sep = ";", version = 2, ...)
+{
+  message_string <- function(fun) sprintf("Reading '%s' with %s", file, fun)
+
+  result <- if (version == 1) {
+
+    kwb.utils::catAndRun(
+      message_string("read.table"),
+      utils::read.table(
+        file, header = TRUE, sep = sep, stringsAsFactors = FALSE, ...
+      )
+    )
+
+  } else if (version == 2) {
+
+    kwb.utils::catAndRun(
+      message_string("fread"),
+      as.data.frame(data.table::fread(file = file, sep = sep, ...))
+    )
+
+  } else {
+
+    stop_(
+      "Invalid version (", version, "). Possible values are:\n",
+      "  1 - use read.table() or\n",
+      "  2 - use data.table::fread().\n"
+    )
+  }
+}
+
 # read_csv_de ------------------------------------------------------------------
 read_csv_de <- function(file, ...)
 {
