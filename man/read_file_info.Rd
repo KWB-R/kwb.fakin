@@ -10,11 +10,9 @@ read_file_info(file, version = 2, ...)
 \item{file}{path to CSV file containing file information as stored with
 \code{\link{write_file_info}}}
 
-\item{version}{determines which function to use for reading the CSV file
-1: \code{\link[utils]{read.table}}, 2: \code{\link[data.table]{fread}}}
+\item{version}{passed to \code{\link{read_csv}}}
 
-\item{\dots}{arguments passed to \code{read_file_info_v1} or
-\code{read_file_info_v2}}
+\item{\dots}{further arguments passed to \code{\link{read_csv}})}
 }
 \description{
 Read File Information from CSV File

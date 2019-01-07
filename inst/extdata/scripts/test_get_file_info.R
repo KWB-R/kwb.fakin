@@ -54,7 +54,8 @@ if (FALSE)
 
   files <- file.path(path, sprintf("path-info-ps-%d_20181116_%s.csv", 1:2, dept))
 
-  file_info_1 <- kwb.fakin:::read_file_info_v2(safePath(files[1]), sep = ",")
+  file_info_1 <- kwb.fakin::read_csv(safePath(files[1]), sep = ",", version = 2)
+
   file_info_2 <- kwb.fakin:::read_file_info_search_index(safePath(files[2]))
 
   View(file_info_1)

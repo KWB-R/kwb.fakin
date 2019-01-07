@@ -8,7 +8,7 @@
 #'
 read_file_info_search_index <- function(file)
 {
-  file_info <- read_file_info_v2(file, sep = ",")
+  file_info <- read_csv(file, sep = ",", version = 2)
 
   names(file_info) <- gsub("^SYSTEM[.]", "", names(file_info))
 
@@ -159,33 +159,14 @@ write_file_info_v2 <- function(file_info, file)
 #'
 #' @param file path to CSV file containing file information as stored with
 #'   \code{\link{write_file_info}}
-#' @param version determines which function to use for reading the CSV file
-#'   1: \code{\link[utils]{read.table}}, 2: \code{\link[data.table]{fread}}
-#' @param \dots arguments passed to \code{read_file_info_v1} or
-#'   \code{read_file_info_v2}
+#' @param version passed to \code{\link{read_csv}}
+#' @param \dots further arguments passed to \code{\link{read_csv}})
 #'
 #' @export
 #'
 read_file_info <- function(file, version = 2, ...)
 {
-  kwb.utils::catAndRun(sprintf("Reading file information from '%s'", file), {
-
-    time_info <- system.time(
-
-      file_info <- if (version == 1) {
-
-        read_file_info_v1(file, ...)
-
-      } else if (version == 2) {
-
-        read_file_info_v2(file, ...)
-
-      } else {
-
-        stop("Not implemented: version = ", version)
-      }
-    )
-  })
+  time_info <- system.time(file_info <- read_csv(file, version = version, ...))
 
   cat_elapsed(time_info)
 
@@ -201,18 +182,6 @@ read_file_info <- function(file, version = 2, ...)
 
     file_info
   }
-}
-
-# read_file_info_v1 ------------------------------------------------------------
-read_file_info_v1 <- function(file, sep = ";")
-{
-  utils::read.table(file, sep = sep, header = TRUE, stringsAsFactors = FALSE)
-}
-
-# read_file_info_v2 ------------------------------------------------------------
-read_file_info_v2 <- function(file, sep = ";")
-{
-  as.data.frame(data.table::fread(file = file, sep = sep))
 }
 
 # reformat_file_info -----------------------------------------------------------
