@@ -114,7 +114,7 @@ read_csv <- function(file, sep = ";", version = 2, ...)
   result <- if (version == 1) {
 
     kwb.utils::catAndRun(
-      message_string("read.table"),
+      message_string("utils::read.table()"),
       utils::read.table(
         file, header = TRUE, sep = sep, stringsAsFactors = FALSE, ...
       )
@@ -123,7 +123,7 @@ read_csv <- function(file, sep = ";", version = 2, ...)
   } else if (version == 2) {
 
     kwb.utils::catAndRun(
-      message_string("fread"),
+      message_string("data.table::fread()"),
       as.data.frame(data.table::fread(file = file, sep = sep, ...))
     )
 
@@ -230,4 +230,47 @@ vector_to_count_table <- function(x)
   kwb.utils::printIf(unexpected, frequency_data)
 
   stats::setNames(frequency_data, c("name", "count"))
+}
+
+# write_csv --------------------------------------------------------------------
+
+#' Write Data Frame to CSV File
+#'
+#' @param data data frame
+#' @param file path to CSV file to be written
+#' @param version determines which function to use for writing the CSV file
+#'   1: \code{\link[utils]{write.table}}, 2: \code{\link[data.table]{fwrite}}
+#' @param \dots further arguments passed to \code{\link[utils]{write.table}} or
+#'   \code{\link[data.table]{fwrite}}
+#' @export
+#'
+write_csv <- function(data, file, sep = ";", version = 2, ...)
+{
+  message_string <- function(fun) sprintf("Writing to '%s' with %s", file, fun)
+
+  if (version == 1) {
+
+    kwb.utils::catAndRun(
+      message_string("utils::write.table()"),
+      utils::write.table(
+        data, file, row.names = FALSE, col.names = TRUE, sep = sep, na = "",
+        ...
+      )
+    )
+
+  } else if (version == 2) {
+
+    kwb.utils::catAndRun(
+      message_string("data.table::fwrite()"),
+      data.table::fwrite(file_info, file, sep = sep, ...)
+    )
+
+  } else {
+
+    stop_(
+      "Invalid version (", version, "). Possible values are:\n",
+      "  1 - use write.table() or\n",
+      "  2 - use data.table::fwrite().\n"
+    )
+  }
 }
