@@ -116,41 +116,11 @@ get_and_save_file_info <- function(root_dir, output_dir, check_dirs = TRUE)
 #'
 write_file_info <- function(file_info, file, version = 2)
 {
-  kwb.utils::catAndRun(paste("Writing", file), {
-
-    time_info <- system.time(
-
-      file_info <- if (version == 1) {
-
-        write_file_info_v1(file_info, file)
-
-      } else if (version == 2) {
-
-        write_file_info_v2(file_info, file)
-
-      } else if (version == 3) {
-
-        stop("Not implemented: version = ", version)
-      }
-    )
-  })
+  time_info <- system.time(
+    kwb.fakin::write_csv(file_info, file, sep = ";", version = version)
+  )
 
   cat_elapsed(time_info)
-}
-
-# write_file_info_v1 -----------------------------------------------------------
-write_file_info_v1 <- function(file_info, file)
-{
-  utils::write.table(
-    file_info, file, row.names = FALSE, col.names = TRUE, sep = ";",
-    na = ""
-  )
-}
-
-# write_file_info_v2 -----------------------------------------------------------
-write_file_info_v2 <- function(file_info, file)
-{
-  data.table::fwrite(file_info, file, sep = ";")
 }
 
 # read_file_info ---------------------------------------------------------------
