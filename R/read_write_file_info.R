@@ -117,7 +117,7 @@ get_and_save_file_info <- function(root_dir, output_dir, check_dirs = TRUE)
 write_file_info <- function(file_info, file, version = 2)
 {
   time_info <- system.time(
-    kwb.fakin::write_csv(file_info, file, sep = ";", version = version)
+    write_csv(file_info, file, sep = ";", version = version)
   )
 
   cat_elapsed(time_info)
