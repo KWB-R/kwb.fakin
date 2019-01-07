@@ -11,6 +11,8 @@ write_csv(data, file, sep = ";", version = 2, ...)
 
 \item{file}{path to CSV file to be written}
 
+\item{sep}{column separator}
+
 \item{version}{determines which function to use for writing the CSV file
 1: \code{\link[utils]{write.table}}, 2: \code{\link[data.table]{fwrite}}}
 

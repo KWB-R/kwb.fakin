@@ -238,6 +238,7 @@ vector_to_count_table <- function(x)
 #'
 #' @param data data frame
 #' @param file path to CSV file to be written
+#' @param sep column separator
 #' @param version determines which function to use for writing the CSV file
 #'   1: \code{\link[utils]{write.table}}, 2: \code{\link[data.table]{fwrite}}
 #' @param \dots further arguments passed to \code{\link[utils]{write.table}} or
@@ -262,7 +263,7 @@ write_csv <- function(data, file, sep = ";", version = 2, ...)
 
     kwb.utils::catAndRun(
       message_string("data.table::fwrite()"),
-      data.table::fwrite(file_info, file, sep = sep, ...)
+      data.table::fwrite(data, file, sep = sep, ...)
     )
 
   } else {
