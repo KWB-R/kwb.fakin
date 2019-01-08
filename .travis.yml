@@ -3,8 +3,8 @@ sudo: required
 cache: packages
 before_install:
   - sudo apt-get install libgit2-dev
-r_github_packages:
-- r-lib/remotes
+r_packages:
+- remotes
 matrix:
   include:
   - r: devel
