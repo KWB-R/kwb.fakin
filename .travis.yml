@@ -1,10 +1,10 @@
 language: r
 sudo: required
 cache: packages
+before_install:
+  - sudo apt-get install libgit2-dev
 r_packages:
-- covr
-r_github_packages:
-- r-lib/remotes
+- remotes
 matrix:
   include:
   - r: devel
