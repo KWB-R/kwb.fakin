@@ -111,7 +111,7 @@ read_csv <- function(file, sep = ";", version = 2, ...)
 {
   message_string <- function(fun) sprintf("Reading '%s' with %s", file, fun)
 
-  result <- if (version == 1) {
+  if (version == 1) {
 
     kwb.utils::catAndRun(
       message_string("utils::read.table()"),
