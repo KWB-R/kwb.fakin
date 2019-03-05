@@ -101,7 +101,7 @@
       <h1>Working with Paths</h1>
                         <h4 class="author">Hauke Sonnenberg</h4>
             
-            <h4 class="date">2019-01-09</h4>
+            <h4 class="date">2019-03-05</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/kwb-r/kwb.fakin/blob/master/vignettes/working_with_paths.Rmd"><code>vignettes/working_with_paths.Rmd</code></a></small>
       <div class="hidden name"><code>working_with_paths.Rmd</code></div>
@@ -139,25 +139,25 @@
 <pre><code>## Loading required package: networkD3</code></pre>
 <p>You can then use the <code><a href="../reference/plot_path_network.html">plot_path_network()</a></code> function from the kwb.fakin package to plot the example paths defined above:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">kwb.fakin<span class="op">::</span><span class="kw">plot_path_network</span>(paths)</a></code></pre></div>
-<pre><code>## Splitting paths ... ok. 
-## Putting path segments together ... ok. 
-## Splitting paths ... ok.</code></pre>
-<div id="htmlwidget-ca97e0e1e85867bda0d2" style="width:700px;height:162px;" class="sankeyNetwork html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ca97e0e1e85867bda0d2">{"x":{"links":{"source":[0,0,0,1,1,2,3,3,4,5,6,2,6],"target":[3,5,4,6,2,7,8,9,10,11,12,13,14],"value":[2,1,1,2,3,1,1,1,1,1,1,2,1]},"nodes":{"name":["project-2","project-1","wp-1","Berichte","Grafiken","Daten","wp 2","analysis","bericht-1.doc","bericht-2.doc","file 1.png","file-1.csv","input","input","output"],"group":["green","green","green","green","green","green","yellow","green","green","green","yellow","green","green","green","green"]},"options":{"NodeID":"name","NodeGroup":"colour","LinkGroup":null,"colourScale":"d3.scaleOrdinal() .domain(['green', 'yellow']) .range(['green', 'yellow'])","fontSize":7,"fontFamily":null,"nodeWidth":15,"nodePadding":8,"units":"","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":false}},"evals":[],"jsHooks":[]}</script><p>The function accepts all arguments provided by <code><a href="https://www.rdocumentation.org/packages/networkD3/topics/sankeyNetwork">networkD3::sankeyNetwork()</a></code>. You may e.g. use the argument <code>fontSize</code> to increase the node labels:</p>
+<pre><code>## Splitting paths ... ok. (0.00s) 
+## Putting path segments together ... ok. (0.00s) 
+## Splitting paths ... ok. (0.00s)</code></pre>
+<div id="htmlwidget-29927bf1aeb9461ac5a7" style="width:700px;height:162px;" class="sankeyNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-29927bf1aeb9461ac5a7">{"x":{"links":{"source":[0,0,0,1,1,2,3,3,4,5,6,2,6],"target":[3,5,4,6,2,7,8,9,10,11,12,13,14],"value":[2,1,1,2,3,1,1,1,1,1,1,2,1]},"nodes":{"name":["project-2","project-1","wp-1","Berichte","Grafiken","Daten","wp 2","analysis","bericht-1.doc","bericht-2.doc","file 1.png","file-1.csv","input","input","output"],"group":["green","green","green","green","green","green","yellow","green","green","green","yellow","green","green","green","green"]},"options":{"NodeID":"name","NodeGroup":"colour","LinkGroup":null,"colourScale":"d3.scaleOrdinal() .domain(['green', 'yellow']) .range(['green', 'yellow'])","fontSize":7,"fontFamily":null,"nodeWidth":15,"nodePadding":8,"units":"","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":false}},"evals":[],"jsHooks":[]}</script><p>The function accepts all arguments provided by <code><a href="https://www.rdocumentation.org/packages/networkD3/topics/sankeyNetwork">networkD3::sankeyNetwork()</a></code>. You may e.g. use the argument <code>fontSize</code> to increase the node labels:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">kwb.fakin<span class="op">::</span><span class="kw">plot_path_network</span>(paths, <span class="dt">fontSize =</span> <span class="dv">16</span>)</a></code></pre></div>
-<pre><code>## Splitting paths ... ok. 
-## Putting path segments together ... ok. 
-## Splitting paths ... ok.</code></pre>
-<div id="htmlwidget-1ee0155d13cd22e4a289" style="width:700px;height:162px;" class="sankeyNetwork html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1ee0155d13cd22e4a289">{"x":{"links":{"source":[0,0,0,1,1,2,3,3,4,5,6,2,6],"target":[3,5,4,6,2,7,8,9,10,11,12,13,14],"value":[2,1,1,2,3,1,1,1,1,1,1,2,1]},"nodes":{"name":["project-2","project-1","wp-1","Berichte","Grafiken","Daten","wp 2","analysis","bericht-1.doc","bericht-2.doc","file 1.png","file-1.csv","input","input","output"],"group":["green","green","green","green","green","green","yellow","green","green","green","yellow","green","green","green","green"]},"options":{"NodeID":"name","NodeGroup":"colour","LinkGroup":null,"colourScale":"d3.scaleOrdinal() .domain(['green', 'yellow']) .range(['green', 'yellow'])","fontSize":16,"fontFamily":null,"nodeWidth":15,"nodePadding":8,"units":"","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":false}},"evals":[],"jsHooks":[]}</script><p>Let’s always use this font size by defining a short helper function:</p>
+<pre><code>## Splitting paths ... ok. (0.00s) 
+## Putting path segments together ... ok. (0.00s) 
+## Splitting paths ... ok. (0.00s)</code></pre>
+<div id="htmlwidget-8f515205594fe508ebd7" style="width:700px;height:162px;" class="sankeyNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8f515205594fe508ebd7">{"x":{"links":{"source":[0,0,0,1,1,2,3,3,4,5,6,2,6],"target":[3,5,4,6,2,7,8,9,10,11,12,13,14],"value":[2,1,1,2,3,1,1,1,1,1,1,2,1]},"nodes":{"name":["project-2","project-1","wp-1","Berichte","Grafiken","Daten","wp 2","analysis","bericht-1.doc","bericht-2.doc","file 1.png","file-1.csv","input","input","output"],"group":["green","green","green","green","green","green","yellow","green","green","green","yellow","green","green","green","green"]},"options":{"NodeID":"name","NodeGroup":"colour","LinkGroup":null,"colourScale":"d3.scaleOrdinal() .domain(['green', 'yellow']) .range(['green', 'yellow'])","fontSize":16,"fontFamily":null,"nodeWidth":15,"nodePadding":8,"units":"","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":false}},"evals":[],"jsHooks":[]}</script><p>Let’s always use this font size by defining a short helper function:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">plot_16pt &lt;-<span class="st"> </span><span class="cf">function</span>(...) kwb.fakin<span class="op">::</span><span class="kw">plot_path_network</span>(..., <span class="dt">fontSize =</span> <span class="dv">16</span>)</a></code></pre></div>
 <p>By default only the first three levels of folders or files are shown. You can increase (or decrease) the number of shown levels by setting the <code>max_depth</code> argument:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">plot_16pt</span>(paths, <span class="dt">max_depth =</span> <span class="dv">4</span>)</a></code></pre></div>
-<pre><code>## Splitting paths ... ok. 
-## Putting path segments together ... ok. 
-## Splitting paths ... ok.</code></pre>
-<div id="htmlwidget-eeb7c143f8840587d93d" style="width:700px;height:162px;" class="sankeyNetwork html-widget"></div>
-<script type="application/json" data-for="htmlwidget-eeb7c143f8840587d93d">{"x":{"links":{"source":[0,0,0,1,1,2,3,3,4,5,6,2,6,7,7,8,9,10],"target":[3,5,4,6,2,10,11,12,13,14,9,7,8,15,16,17,18,19],"value":[2,1,1,2,3,1,1,1,1,1,1,2,1,1,1,1,1,1]},"nodes":{"name":["project-2","project-1","wp-1","Berichte","Grafiken","Daten","wp 2","input","output","input","analysis","bericht-1.doc","bericht-2.doc","file 1.png","file-1.csv","file 1.csv","file-2.csv","koepenick_clean.csv","köpenick_dirty.csv","summary.pdf"],"group":["green","green","green","green","green","green","yellow","green","green","green","green","green","green","yellow","green","yellow","green","green","red","green"]},"options":{"NodeID":"name","NodeGroup":"colour","LinkGroup":null,"colourScale":"d3.scaleOrdinal() .domain(['green', 'yellow', 'red']) .range(['green', 'yellow', 'red'])","fontSize":16,"fontFamily":null,"nodeWidth":15,"nodePadding":8,"units":"","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":false}},"evals":[],"jsHooks":[]}</script><p>Now, that all three traffic light colours (green, yellow, red) appear in the plot, we want to explain what these colours are intended to indicate:</p>
+<pre><code>## Splitting paths ... ok. (0.00s) 
+## Putting path segments together ... ok. (0.00s) 
+## Splitting paths ... ok. (0.00s)</code></pre>
+<div id="htmlwidget-315ffaa4d5874fa0bb9c" style="width:700px;height:162px;" class="sankeyNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-315ffaa4d5874fa0bb9c">{"x":{"links":{"source":[0,0,0,1,1,2,3,3,4,5,6,2,6,7,7,8,9,10],"target":[3,5,4,6,2,10,11,12,13,14,9,7,8,15,16,17,18,19],"value":[2,1,1,2,3,1,1,1,1,1,1,2,1,1,1,1,1,1]},"nodes":{"name":["project-2","project-1","wp-1","Berichte","Grafiken","Daten","wp 2","input","output","input","analysis","bericht-1.doc","bericht-2.doc","file 1.png","file-1.csv","file 1.csv","file-2.csv","koepenick_clean.csv","köpenick_dirty.csv","summary.pdf"],"group":["green","green","green","green","green","green","yellow","green","green","green","green","green","green","yellow","green","yellow","green","green","red","green"]},"options":{"NodeID":"name","NodeGroup":"colour","LinkGroup":null,"colourScale":"d3.scaleOrdinal() .domain(['green', 'yellow', 'red']) .range(['green', 'yellow', 'red'])","fontSize":16,"fontFamily":null,"nodeWidth":15,"nodePadding":8,"units":"","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":false}},"evals":[],"jsHooks":[]}</script><p>Now, that all three traffic light colours (green, yellow, red) appear in the plot, we want to explain what these colours are intended to indicate:</p>
 <ul>
 <li><p>Green: name is fully compliant with our naming rules. It consists only of alphanumeric letters, underscore, hyphen or dot.</p></li>
 <li><p>Yellow: name is almost compliant with our naming rules. It constists only of alphanumeric letters, underscore, hyphen, dot or space.</p></li>
@@ -181,15 +181,15 @@
 <li><p>In the second plot, the rectangle sizes represent the total number of files that are contained in the corresponding folder and all of its subfolders. The colour indicates the total size of files that are contained in the folders.</p></li>
 </ul>
 <pre><code>## Preparing data for 'root' ... 
-## Splitting paths ... ok. 
-## ok. 
-## Aggregating by first 3 path levels ... ok. 
+## Splitting paths ... ok. (0.00s) 
+## ok. (0.00s) 
+## Aggregating by first 3 path levels ... ok. (0.17s) 
 ## Creating treemap 'size' ...</code></pre>
 <p><img src="working_with_paths_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
-<pre><code>## ok. 
+<pre><code>## ok. (0.39s) 
 ## Creating treemap 'files' ...</code></pre>
 <p><img src="working_with_paths_files/figure-html/unnamed-chunk-8-2.png" width="700"></p>
-<pre><code>## ok.</code></pre>
+<pre><code>## ok. (0.19s)</code></pre>
 <pre><code>## NULL</code></pre>
 <p>By default the plots are saved to png files in the temporary directory. To let the plots show up here we set <code>as_png</code> to <code>FALSE</code> in the above call.</p>
 </div>
@@ -202,7 +202,7 @@
 <a href="#selecting-paths-from-a-list-or-matrix-of-subfolders" class="anchor"></a>Selecting Paths from a List or Matrix of Subfolders</h3>
 <p>Once you have split a vector of paths into its subfolder names you may use the function <code><a href="../reference/startsWithParts.html">startsWithParts()</a></code> to filter for paths starting with a certain sequence of subfolders:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">path_parts &lt;-<span class="st"> </span>kwb.file<span class="op">:::</span><span class="kw">split_paths</span>(paths)</a></code></pre></div>
-<pre><code>## Splitting paths ... ok.</code></pre>
+<pre><code>## Splitting paths ... ok. (0.00s)</code></pre>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">start_parts &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"project-1"</span>, <span class="st">"wp-1"</span>)</a>
 <a class="sourceLine" id="cb18-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb18-3" data-line-number="3">path_parts[kwb.fakin<span class="op">::</span><span class="kw">startsWithParts</span>(path_parts, start_parts)]</a></code></pre></div>
@@ -216,7 +216,7 @@
 ## [1] "project-1"   "wp-1"        "analysis"    "summary.pdf"</code></pre>
 <p>The function can also be used on a matrix of subfolders:</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">folders &lt;-<span class="st"> </span>kwb.fakin<span class="op">::</span><span class="kw">toSubdirMatrix</span>(paths)</a></code></pre></div>
-<pre><code>## Splitting paths ... ok.</code></pre>
+<pre><code>## Splitting paths ... ok. (0.00s)</code></pre>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">folders[kwb.fakin<span class="op">::</span><span class="kw">startsWithParts</span>(folders, start_parts), ]</a></code></pre></div>
 <pre><code>##      [,1]        [,2]   [,3]       [,4]         
 ## [1,] "project-1" "wp-1" "input"    "file 1.csv" 
@@ -302,9 +302,9 @@
 ## [5] "wp-1/input/file-2.csv"</code></pre>
 <p>You can plot the sub-tree by passing it directly to <code>plot_path_network</code>, or here to our helper function, without prior conversion:</p>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="kw">plot_16pt</span>(subtree)</a></code></pre></div>
-<pre><code>## Splitting paths ... ok.</code></pre>
-<div id="htmlwidget-2420ebf658819ddd33b4" style="width:700px;height:90px;" class="sankeyNetwork html-widget"></div>
-<script type="application/json" data-for="htmlwidget-2420ebf658819ddd33b4">{"x":{"links":{"source":[0,1,0,1,2,2,3,4,5],"target":[5,4,2,3,6,7,8,9,10],"value":[1,1,2,1,1,1,1,1,1]},"nodes":{"name":["wp-1","wp 2","input","output","input","analysis","file 1.csv","file-2.csv","koepenick_clean.csv","köpenick_dirty.csv","summary.pdf"],"group":["green","yellow","green","green","green","green","yellow","green","green","red","green"]},"options":{"NodeID":"name","NodeGroup":"colour","LinkGroup":null,"colourScale":"d3.scaleOrdinal() .domain(['green', 'yellow', 'red']) .range(['green', 'yellow', 'red'])","fontSize":16,"fontFamily":null,"nodeWidth":15,"nodePadding":8,"units":"","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":false}},"evals":[],"jsHooks":[]}</script>
+<pre><code>## Splitting paths ... ok. (0.00s)</code></pre>
+<div id="htmlwidget-2c80e2eb432905b21e24" style="width:700px;height:90px;" class="sankeyNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2c80e2eb432905b21e24">{"x":{"links":{"source":[0,1,0,1,2,2,3,4,5],"target":[5,4,2,3,6,7,8,9,10],"value":[1,1,2,1,1,1,1,1,1]},"nodes":{"name":["wp-1","wp 2","input","output","input","analysis","file 1.csv","file-2.csv","koepenick_clean.csv","köpenick_dirty.csv","summary.pdf"],"group":["green","yellow","green","green","green","green","yellow","green","green","red","green"]},"options":{"NodeID":"name","NodeGroup":"colour","LinkGroup":null,"colourScale":"d3.scaleOrdinal() .domain(['green', 'yellow', 'red']) .range(['green', 'yellow', 'red'])","fontSize":16,"fontFamily":null,"nodeWidth":15,"nodePadding":8,"units":"","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <div id="quality-of-file-and-folder-names" class="section level2">
@@ -328,11 +328,11 @@
 <pre><code>## Filter for paths starting with project-1/ ...
 ##   ok. Remaining paths: 5 
 ## Convert to relative paths ... ok.
-## Splitting paths ... ok. 
-## Splitting paths ... ok. 
-## Splitting paths ... ok. 
-## Splitting paths ... ok. 
-## Splitting paths ... ok. 
+## Splitting paths ... ok. (0.00s) 
+## Splitting paths ... ok. (0.00s) 
+## Splitting paths ... ok. (0.00s) 
+## Splitting paths ... ok. (0.00s) 
+## Splitting paths ... ok. (0.00s) 
 ## 
 ## ================================================================
 ## 
@@ -353,7 +353,7 @@
 <a href="#analysis-of-paths" class="anchor"></a>Analysis of Paths</h2>
 <p>We can split the paths into their parts using the <code>split_paths</code> function from the kwb.file package:</p>
 <div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1">parts &lt;-<span class="st"> </span>kwb.file<span class="op">:::</span><span class="kw">split_paths</span>(paths)</a></code></pre></div>
-<pre><code>## Splitting paths ... ok.</code></pre>
+<pre><code>## Splitting paths ... ok. (0.00s)</code></pre>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1">parts[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]</a></code></pre></div>
 <pre><code>## [[1]]
 ## [1] "project-1"  "wp-1"       "input"      "file 1.csv"
@@ -427,11 +427,11 @@
 <p>In the matrix, each row represents a path and each column represents a depth level.</p>
 <p>If you have only one path, you may create the paths to all direct parent directories using the function <code>all_path_levels</code>. This is how <code>subtree_for_treejack</code> creates the text for the bulk import to Treejack (see above).</p>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">(parent_paths &lt;-<span class="st"> </span>kwb.fakin<span class="op">:::</span><span class="kw"><a href="../reference/all_path_levels.html">all_path_levels</a></span>(paths[<span class="dv">1</span>]))</a></code></pre></div>
-<pre><code>## Splitting paths ... ok.</code></pre>
+<pre><code>## Splitting paths ... ok. (0.00s)</code></pre>
 <pre><code>## [1] "project-1"                       "project-1/wp-1"                 
 ## [3] "project-1/wp-1/input"            "project-1/wp-1/input/file 1.csv"</code></pre>
 <div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">parents &lt;-<span class="st"> </span>kwb.fakin<span class="op">:::</span><span class="kw"><a href="../reference/toSubdirMatrix.html">toSubdirMatrix</a></span>(parent_paths)</a></code></pre></div>
-<pre><code>## Splitting paths ... ok.</code></pre>
+<pre><code>## Splitting paths ... ok. (0.00s)</code></pre>
 <table class="table">
 <caption>Content of the parents matrix</caption>
 <tbody>
@@ -501,11 +501,11 @@
 <a class="sourceLine" id="cb53-5" data-line-number="5">## [1] TRUE</a></code></pre></div>
 <p>There is another function <code>compressOneByOne</code>, what does it do?</p>
 <div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/attributes">attributes</a></span>(kwb.fakin<span class="op">:::</span><span class="kw">compressOneByOne</span>(paths, <span class="dt">n =</span> <span class="dv">3</span>))</a></code></pre></div>
-<pre><code>## Splitting paths ... ok. 
+<pre><code>## Splitting paths ... ok. (0.00s) 
 ## Elapsed: 0.0 s
-## Splitting paths ... ok. 
+## Splitting paths ... ok. (0.00s) 
 ## Elapsed: 0.0 s
-## Splitting paths ... ok. 
+## Splitting paths ... ok. (0.00s) 
 ## Elapsed: 0.0 s</code></pre>
 <pre><code>## NULL</code></pre>
 </div>

@@ -101,7 +101,7 @@
       <h1>Understanding Encoding</h1>
                         <h4 class="author">Hauke Sonnenberg</h4>
             
-            <h4 class="date">2019-01-09</h4>
+            <h4 class="date">2019-03-05</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/kwb-r/kwb.fakin/blob/master/vignettes/understanding_encoding.Rmd"><code>vignettes/understanding_encoding.Rmd</code></a></small>
       <div class="hidden name"><code>understanding_encoding.Rmd</code></div>
@@ -139,11 +139,13 @@
 <a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; [1] "latin1" "UTF-8"</span></a>
 <a class="sourceLine" id="cb2-11" data-line-number="11"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(x, xx)</a>
 <a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; [1] "façile" "façile"</span></a>
-<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Encoding">Encoding</a></span>(xx) &lt;-<span class="st"> "bytes"</span></a>
-<a class="sourceLine" id="cb2-14" data-line-number="14">xx <span class="co"># will be encoded in hex</span></a>
-<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt; [1] "fa\\xc3\\xa7ile"</span></a>
-<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"xx = "</span>, xx, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>, <span class="dt">sep =</span> <span class="st">""</span>)</a>
-<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt; xx = fa\xc3\xa7ile</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb2-14" data-line-number="14">### The following now gives an error</a>
+<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Encoding">Encoding</a></span>(xx) &lt;-<span class="st"> "bytes"</span></a>
+<a class="sourceLine" id="cb2-16" data-line-number="16">xx <span class="co"># will be encoded in hex</span></a>
+<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt; [1] "fa\\xc3\\xa7ile"</span></a>
+<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"xx = "</span>, xx, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>, <span class="dt">sep =</span> <span class="st">""</span>)</a>
+<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co">#&gt; xx = fa\xc3\xa7ile</span></a></code></pre></div>
 </div>
 <div id="writing-to-and-reading-from-files" class="section level2">
 <h2 class="hasAnchor">
@@ -152,7 +154,7 @@
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">text &lt;-<span class="st"> "Schöne Grüße"</span></a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb3-3" data-line-number="3">test_file &lt;-<span class="st"> </span>kwb.utils<span class="op">::</span><span class="kw">writeText</span>(text, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempfile</a></span>(<span class="dt">fileext =</span> <span class="st">".txt"</span>))</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; Writing '/tmp/RtmpXU8zkk/file433a6a6f8f64.txt' ... ok.</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; Writing '/tmp/RtmpPKtJiX/file2c396ca84b5.txt' ... ok.</span></a></code></pre></div>
 <p>And now read the line back with <code><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines()</a></code>:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines</a></span>(test_file)</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; [1] "Schöne Grüße"</span></a></code></pre></div>
@@ -226,14 +228,15 @@
 <a class="sourceLine" id="cb15-10" data-line-number="10"><span class="co">#&gt; [1] "Schoene Grüße\n"</span></a></code></pre></div>
 <p>Ok, it seems that we can replace special characters if we know their byte codes (here: <code>c3</code> and <code>b6</code> for letter <code>ö</code>).</p>
 <p>It will be helpful to have a function that shows the special characters and the corresponding byte codes</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">kwb.fakin<span class="op">::</span><span class="kw">get_special_character_info</span>(text)</a>
-<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="co">#&gt;   special bytes          context</span></a>
-<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="co">#&gt; 1    \xc3    c3 Sch [ ö ] ne Grü</span></a>
-<a class="sourceLine" id="cb16-4" data-line-number="4"><span class="co">#&gt; 2    \xb6    b6  öne Gr [ ü ] ße</span></a>
-<a class="sourceLine" id="cb16-5" data-line-number="5"><span class="co">#&gt; 3    \xc3    c3   ne Grü [ ß ] e</span></a>
-<a class="sourceLine" id="cb16-6" data-line-number="6"><span class="co">#&gt; 4    \xbc    bc Sch [ ö ] ne Grü</span></a>
-<a class="sourceLine" id="cb16-7" data-line-number="7"><span class="co">#&gt; 5    \xc3    c3  öne Gr [ ü ] ße</span></a>
-<a class="sourceLine" id="cb16-8" data-line-number="8"><span class="co">#&gt; 6    \x9f    9f   ne Grü [ ß ] e</span></a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">### This function needs to be checked!</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2">kwb.fakin<span class="op">::</span><span class="kw">get_special_character_info</span>(text)</a>
+<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="co">#&gt;   special bytes          context</span></a>
+<a class="sourceLine" id="cb16-4" data-line-number="4"><span class="co">#&gt; 1    \xc3    c3 Sch [ ö ] ne Grü</span></a>
+<a class="sourceLine" id="cb16-5" data-line-number="5"><span class="co">#&gt; 2    \xb6    b6  öne Gr [ ü ] ße</span></a>
+<a class="sourceLine" id="cb16-6" data-line-number="6"><span class="co">#&gt; 3    \xc3    c3   ne Grü [ ß ] e</span></a>
+<a class="sourceLine" id="cb16-7" data-line-number="7"><span class="co">#&gt; 4    \xbc    bc Sch [ ö ] ne Grü</span></a>
+<a class="sourceLine" id="cb16-8" data-line-number="8"><span class="co">#&gt; 5    \xc3    c3  öne Gr [ ü ] ße</span></a>
+<a class="sourceLine" id="cb16-9" data-line-number="9"><span class="co">#&gt; 6    \x9f    9f   ne Grü [ ß ] e</span></a></code></pre></div>
 </div>
   </div>
 
