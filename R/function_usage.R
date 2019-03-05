@@ -41,7 +41,9 @@ get_package_function_usage <- function(
 
   ff <- frequency_data[frequency_data$name %in% functions, ]
 
-  ff <- digest_package_specifier(ff)
+  if (nrow(ff) > 0) {
+    ff <- digest_package_specifier(ff)
+  }
 
   if (by_script) {
 
@@ -49,7 +51,9 @@ get_package_function_usage <- function(
 
   } else {
 
-    ff <- stats::aggregate(. ~ name, kwb.utils::removeColumns(ff, "script"), sum)
+    if (nrow(ff) < 0) {
+      ff <- stats::aggregate(. ~ name, kwb.utils::removeColumns(ff, "script"), sum)
+    }
 
     kwb.utils::resetRowNames(ff[order(- ff$count, ff$name), ])
   }
