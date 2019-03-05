@@ -35,7 +35,7 @@ English vs. French vs. Bulgarian),
 
 What does R tell us about Encoding?
 
-```{r}
+```{r eval = FALSE}
 ?Encoding
 ```
 
@@ -44,7 +44,7 @@ We learn, that R offers a function `Encoding()` as well as the functions
 
 Let's have a look at the Examples given in the R documentation:
 
-```{r}
+```{r error = TRUE}
 ## x is intended to be in latin1
 x <- "fa\xE7ile"
 Encoding(x)
@@ -53,6 +53,8 @@ x
 xx <- iconv(x, "latin1", "UTF-8")
 Encoding(c(x, xx))
 c(x, xx)
+
+### The following now gives an error
 Encoding(xx) <- "bytes"
 xx # will be encoded in hex
 cat("xx = ", xx, "\n", sep = "")
@@ -186,7 +188,7 @@ Ok, it seems that we can replace special characters if we know their byte codes
 It will be helpful to have a function that shows the special characters and the
 corresponding byte codes
 
-```{r}
+```{r error = TRUE}
+### This function needs to be checked!
 kwb.fakin::get_special_character_info(text)
 ```
-
