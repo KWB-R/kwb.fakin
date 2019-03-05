@@ -104,7 +104,7 @@ get_function_call_frequency <- function(tree, simple = FALSE, dbg = TRUE)
 
     } else {
 
-      kwb.code:::extract_from_parse_tree(subtree)
+      kwb.code:::extract_from_parse_tree(x = subtree)
     }
 
     vector_to_count_table(result) # may return NULL
@@ -124,7 +124,11 @@ digest_package_specifier <- function(ff)
 
   ff$implicit <- ifelse(is_explicit, 0, ff$count)
 
-  ff$name[is_explicit] <- sapply(parts[is_explicit], "[", 2)
+  # Remove <package::[:]> if function is called with this package specifier
+  if (any(is_explicit)) {
+
+    ff$name[is_explicit] <- sapply(parts[is_explicit], "[", 2)
+  }
 
   stats::aggregate(. ~ script + name, data = ff, FUN = sum)
 }
