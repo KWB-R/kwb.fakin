@@ -27,36 +27,59 @@ get_package_function_usage <- function(
   tree, package, simple = FALSE, by_script = FALSE
 )
 {
-  package_functions <- ls(getNamespace(package), all.names = TRUE)
-
-  functions <- sort(c(
-    package_functions,
-    paste0(package, "::", package_functions),
-    paste0(package, ":::", package_functions)
-  ))
-
+  # Walk through the tree and collect all names of called functions
   frequency_list <- get_function_call_frequency(tree, simple = simple)
-
   frequency_data <- dplyr::bind_rows(frequency_list, .id = "script")
 
-  ff <- frequency_data[frequency_data$name %in% functions, ]
+  packages <- remove_non_installed_packages(package)
 
-  if (nrow(ff) > 0) {
-    ff <- digest_package_specifier(ff)
+  # For each package, filter for functions that are contained in the package
+  result <- dplyr::bind_rows(.id = "package", lapply(
+    X = stats::setNames(nm = packages),
+    FUN = filter_for_package_functions,
+    frequency_data = frequency_data
+  ))
+
+  if (nrow(result) == 0) {
+
+    return(result)
   }
 
   if (by_script) {
 
-    kwb.utils::resetRowNames(ff[order(ff$script, ff$name), ])
+    row_order <- order(result$package, result$script, result$name)
 
   } else {
 
-    if (nrow(ff) < 0) {
-      ff <- stats::aggregate(. ~ name, kwb.utils::removeColumns(ff, "script"), sum)
-    }
+    result <- stats::aggregate(
+      . ~ package + name,
+      kwb.utils::removeColumns(result, "script"),
+      sum
+    )
 
-    kwb.utils::resetRowNames(ff[order(- ff$count, ff$name), ])
+    row_order <- order(result$package, - result$count, result$name)
   }
+
+  kwb.utils::resetRowNames(result[row_order, ])
+}
+
+# remove_non_installed_packages ------------------------------------------------
+remove_non_installed_packages <- function(packages)
+{
+  # Are packages as named in vector package installed?
+  available <- packages %in% unname(utils::installed.packages()[, "Package"])
+
+  if (all(available)) {
+
+    return(packages)
+  }
+
+  message(
+    "Skipping ", sum(! available), " package(s) that are not installed:\n",
+    kwb.utils::stringList(packages[! available])
+  )
+
+  packages[available]
 }
 
 # get_function_call_frequency --------------------------------------------------
@@ -113,6 +136,29 @@ get_function_call_frequency <- function(tree, simple = FALSE, dbg = TRUE)
 
     vector_to_count_table(result) # may return NULL
   })
+}
+
+# filter_for_package_functions -------------------------------------------------
+filter_for_package_functions <- function(frequency_data, package)
+{
+  package_functions <- ls(getNamespace(package), all.names = TRUE)
+
+  functions <- sort(c(
+    package_functions,
+    paste0(package, "::", package_functions),
+    paste0(package, ":::", package_functions)
+  ))
+
+  result <- frequency_data[frequency_data$name %in% functions, ]
+
+  if (nrow(result) > 0) {
+
+    digest_package_specifier(result)
+
+  } else {
+
+    result
+  }
 }
 
 # digest_package_specifier -----------------------------------------------------
