@@ -181,10 +181,21 @@ shiny::runApp(system.file("examples/02shiny", package = "collapsibleTree"))
 # jsTree (Top!) ----------------------------------------------------------------
 
 path_data <- kwb.fakin:::prepare_path_data(path_infos$processing)
+tmp_paths <- path_data$path
 
-js_tree_processing <- jsTree::jsTree(path_data$path, height = "100%")
+paths_processing <- fs::dir_info("//medusa/processing", type = "file", recursive = TRUE, all = FALSE)
+
+paths_processing <- fs::dir_info("//medusa/processing", recursive = TRUE, all = FALSE)
+paths_rawdata <- dir("//medusa/rawdata", recursive = TRUE)
+
+p1 <- kwb.file::remove_common_root(paths_processing$path)
+p1 <- p1[!grepl("^CONTENTS/", p1)]
+
+js_tree_processing <- jsTree::jsTree(p1, height = "100%")
+js_tree_rawdata <- jsTree::jsTree(paths_rawdata, height = "100%")
 
 save(js_tree_processing, file = file.path(tempdir(), "js_tree.RData"))
+save(js_tree_rawdata, file = file.path(tempdir(), "js_tree_rawdata.RData"))
 kwb.utils::hsOpenWindowsExplorer(tempdir())
 
 # d3Tree -----------------------------------------------------------------------
