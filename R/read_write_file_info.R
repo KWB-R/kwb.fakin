@@ -39,25 +39,6 @@ read_file_info_libuv <- function(file)
   file_info
 }
 
-# read_path_information --------------------------------------------------------
-read_path_information <- function(
-  file_info_dir, pattern = "^path-info", sep = ",", ...
-)
-{
-  files <- kwb.file::dir_full(file_info_dir, pattern)
-
-  names(files) <- extract_root_name(files)
-
-  lapply(files, read_file_info, sep = sep, ...)
-}
-
-# extract_root_name ------------------------------------------------------------
-extract_root_name <- function(file)
-{
-  name <- kwb.utils::removeExtension(basename(file))
-
-  gsub("path-info_\\d{4}-\\d{2}-\\d{2}_\\d{4}_", "", name)
-}
 
 # get_and_save_file_info -------------------------------------------------------
 

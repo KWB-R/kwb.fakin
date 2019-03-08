@@ -16,7 +16,7 @@ setting the pattern to "^/path/to/start/directory" you can "zoom into" the
 path tree, returning only the contents of "/path/to/start/directory".}
 }
 \value{
-data frame with columns \code{path} and \code{size}. See Details.
+data frame with columns \code{path} and \code{size}. See Description.
 }
 \description{
 This function gets a data frame containing path information as input. It
