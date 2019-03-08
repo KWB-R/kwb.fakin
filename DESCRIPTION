@@ -21,6 +21,7 @@ Imports:
     kwb.file,
     kwb.plot, 
     kwb.utils,
+    lubridate,
     magrittr,
     stringr,
     tidyr,
@@ -35,7 +36,6 @@ Suggests:
     covr,
     jsonlite,
     knitr,
-    lubridate,
     networkD3,
     rmarkdown,
     testthat
