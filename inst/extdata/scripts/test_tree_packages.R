@@ -21,10 +21,14 @@ Sys.setenv(RSTUDIO_PANDOC = "/usr/bin/pandoc")
 
 # Load full file information from a text file ----------------------------------
 
-file_info_dir <- "/home/hauke/Desktop/Data/FAKIN/file-info_by-department"
-#file_info_dir <- "~/Data/FAKIN"
+#file_info_dir <- "/home/hauke/Desktop/Data/FAKIN/file-info_by-department"
+#sep <- ","
 
-path_infos <- kwb.fakin:::read_path_information(file_info_dir)
+file_info_dir <- "~/Desktop/Data/FAKIN/file-info_by-department"
+sep <- ";"
+
+path_infos <- kwb.fakin:::read_path_information(file_info_dir, sep = sep)
+#head(path_infos$SUW_Department)
 
 # Get example file list with file properties -----------------------------------
 
@@ -180,8 +184,8 @@ shiny::runApp(system.file("examples/02shiny", package = "collapsibleTree"))
 
 # jsTree (Top!) ----------------------------------------------------------------
 
-path_data <- kwb.fakin:::prepare_path_data(path_infos$processing)
-tmp_paths <- path_data$path
+path_data <- prepare_path_data(path_infos$processing)
+jsTree::jsTree(path_data$path, height = "100%")
 
 paths_processing <- fs::dir_info("//medusa/processing", type = "file", recursive = TRUE, all = FALSE)
 
