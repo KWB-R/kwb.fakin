@@ -13,7 +13,7 @@
 #'
 createLocalProject <- function(project)
 {
-  paths <- getProjectPaths(start_directory = "//medusa/projekte$")
+  paths <- getProjectPaths(start_directory = options()$kwb.fakin.paths$projects)
 
   index <- grep(paste0("/", project, "$"), paths)
 

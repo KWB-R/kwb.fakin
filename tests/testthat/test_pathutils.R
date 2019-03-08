@@ -62,20 +62,20 @@ if (FALSE)
   x; as.character(y); getAttribute(y, "dict")
 
   old_dict <- list(
-    p1 = "<p4>/ARCHIV PROJECTS",
-    p2 = "<a1>/HTC-Berlin",
-    p3 = "<a1>/MIME",
-    p4 = "<a2>/projekte$",
-    a1 = "<b1>/_Auftraege_abgeschlossen",
-    a2 = "//medusa",
-    b1 = "//medusa/projekte$/AUFTRAEGE"
+    p1 = "<p4>/project-archive",
+    p2 = "<a1>/project-1",
+    p3 = "<a1>/project-2",
+    p4 = "<a2>/hidden",
+    a1 = "<b1>/closed_contracts",
+    a2 = "//my_server",
+    b1 = "//my_server/hidden/contracts"
   )
 
-  compress(x = unique(dirname(as.character(old_dict))), old_dict)
+  kwb.fakin:::compress(x = unique(dirname(as.character(old_dict))), old_dict)
 
   x <- c("longPath/a", "longPath/b", "longPath/other/xyz/abc")
   x <- c("abc/longPath/a", "b/longPath/c")
-  y <- compressPaths(x, maxdepth = 14, dbg = FALSE)
+  y <- kwb.fakin:::compressPaths(x, maxdepth = 14, dbg = FALSE)
 
   logResultIf(TRUE, x, y)
 }
