@@ -10,6 +10,22 @@
 #' @param \dots further arguments passed to \code{\link{read_file_info}}
 #'
 #' @importFrom kwb.file dir_full
+#'
+#' @export
+#'
+#' @examples
+#' # Set root directory (here: package installation directory of kwb.fakin)
+#' root_dir <- system.file(package = "kwb.fakin")
+#'
+#' # Set output directory
+#' output_dir <- tempdir()
+#'
+#' # Write all paths below root_dir into a "path-info"-file
+#' kwb.fakin::get_and_save_file_info(root_dir, output_dir)
+#'
+#' # Read the "path-info"-files that are (now) found in output_dir
+#' path_info <- kwb.fakin:::read_path_information(output_dir, sep = ";")
+#'
 read_path_information <- function(
   file_info_dir, pattern = "^path-info", sep = ",", ...
 )
