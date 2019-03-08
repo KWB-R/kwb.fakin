@@ -13,22 +13,17 @@
 #'
 read_file_info <- function(file, version = 2, ...)
 {
-  time_info <- system.time(file_info <- read_csv(file, version = version, ...))
-
-  cat_elapsed(time_info)
+  file_info <- read_csv(file, version = version, ...)
 
   # If the file has been created with PowerShell, adapt the format
-  if ("FullName" %in% names(file_info)) {
+  if (! "FullName" %in% names(file_info)) {
 
-    kwb.utils::catAndRun(
-      "Reformatting the file info table",
-      reformat_file_info(file_info)
-    )
-
-  } else {
-
-    file_info
+    return(file_info)
   }
+
+  kwb.utils::catAndRun("Reformatting the file info table", {
+    reformat_file_info(file_info)
+  })
 }
 
 # reformat_file_info -----------------------------------------------------------
