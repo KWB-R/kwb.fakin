@@ -143,6 +143,21 @@ read_csv_de <- function(file, ...)
   utils::read.csv2(file, stringsAsFactors = FALSE, ...)
 }
 
+# remove_duplicates ------------------------------------------------------------
+remove_duplicates <- function(x)
+{
+  is_duplicate <- duplicated(x)
+
+  if (! any(is_duplicate)) {
+    return(x)
+  }
+
+  kwb.utils::catAndRun(
+    messageText = paste("Removing", sum(is_duplicate), "duplicate(s)"),
+    expr = x[! is_duplicate]
+  )
+}
+
 # remove_empty -----------------------------------------------------------------
 remove_empty <- function(x, dbg = FALSE)
 {
