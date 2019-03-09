@@ -144,7 +144,7 @@ the function `startsWithParts()` to filter for paths starting with a certain
 sequence of subfolders:
 
 ```{r}
-path_parts <- kwb.file:::split_paths(paths)
+path_parts <- kwb.file::split_paths(paths)
 start_parts <- c("project-1", "wp-1")
 
 path_parts[kwb.fakin::startsWithParts(path_parts, start_parts)]
@@ -242,7 +242,7 @@ We can split the paths into their parts using the `split_paths` function from
 the kwb.file package:
 
 ```{r}
-parts <- kwb.file:::split_paths(paths)
+parts <- kwb.file::split_paths(paths)
 parts[1:3]
 ```
 

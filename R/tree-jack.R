@@ -102,7 +102,7 @@ all_path_levels <- function(path)
 
   stopifnot(length(path) == 1)
 
-  parts <- kwb.file:::split_paths(path)[[1]]
+  parts <- kwb.file::split_paths(path)[[1]]
 
   sapply(seq_along(parts), function(i) {
 

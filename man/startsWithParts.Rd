@@ -8,9 +8,9 @@ startsWithParts(parts, elements)
 }
 \arguments{
 \item{parts}{list of list of character as returned by
-\code{kwb.fakin:::splitPahts} or a matrix of character representing the
-subfolder names at the different folder depths as returned by
- \code{\link{toSubdirMatrix}}.}
+\code{\link[kwb.file]{split_paths}} or a matrix of character representing
+the subfolder names at the different folder depths as returned by
+\code{\link{toSubdirMatrix}}.}
 
 \item{elements}{vector of character giving the sequence of strings to be
 found in \code{parts}}

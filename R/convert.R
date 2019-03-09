@@ -39,7 +39,7 @@ toSubdirMatrix <- function(
 
   if (! is.list(paths)) {
 
-    paths <- kwb.file:::split_paths(paths, dbg = dbg)
+    paths <- kwb.file::split_paths(paths, dbg = dbg)
   }
 
   if (! is.list(paths) || ! all(sapply(paths, mode) == "character")) {

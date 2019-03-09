@@ -179,7 +179,7 @@ get_path_properties <- function(paths, folder_properties)
     paths <- kwb.fakin:::flatten_tree(paths)
   }
 
-  subdir_list <- kwb.file:::split_paths(paths)
+  subdir_list <- kwb.file::split_paths(paths)
 
   stats::setNames(nm = paths, lapply(subdir_list, function(subdirs) {
 

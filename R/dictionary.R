@@ -50,7 +50,7 @@ getDictOneByOne <- function(paths, n = 10)
 
 # getFrequencies ---------------------------------------------------------------
 getFrequencies <- function(
-  subdirs = kwb.file:::split_paths(paths), paths = NULL, first.only = TRUE,
+  subdirs = kwb.file::split_paths(paths), paths = NULL, first.only = TRUE,
   dbg = TRUE
 )
 {

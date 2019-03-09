@@ -103,8 +103,8 @@ replaceSubdirs <- function(s, r, p)
 # splitPaths -------------------------------------------------------------------
 splitPaths <- function(paths, dbg = TRUE)
 {
-  use_function_instead(kwb.file:::split_paths, splitPaths)
-  kwb.file:::split_paths(paths)
+  use_function_instead(kwb.file::split_paths, splitPaths)
+  kwb.file::split_paths(paths)
 }
 
 # startsWithParts --------------------------------------------------------------
@@ -112,9 +112,9 @@ splitPaths <- function(paths, dbg = TRUE)
 #' Do Subfolder List Elements Start with Given Folder Names?
 #'
 #' @param parts list of list of character as returned by
-#'   \code{kwb.fakin:::splitPahts} or a matrix of character representing the
-#'   subfolder names at the different folder depths as returned by
-#'    \code{\link{toSubdirMatrix}}.
+#'   \code{\link[kwb.file]{split_paths}} or a matrix of character representing
+#'   the subfolder names at the different folder depths as returned by
+#'   \code{\link{toSubdirMatrix}}.
 #' @param elements vector of character giving the sequence of strings to be
 #'   found in \code{parts}
 #' @return vector of logical as long as \code{parts} containing \code{TRUE} at

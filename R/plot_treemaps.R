@@ -226,7 +226,7 @@ prepare_for_treemap <- function(
   # Split the paths into path segments (folder names), remove the first common
   # segments and create a data frame with the path segments in columns
   subdir_data <- result$path %>%
-    kwb.file:::split_paths() %>%
+    kwb.file::split_paths() %>%
     kwb.file::remove_common_root(...) %>%
     toSubdirMatrix(fill.value = NA) %>%
     kwb.utils::asNoFactorDataFrame()

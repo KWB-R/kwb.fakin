@@ -17,7 +17,7 @@ get_file_duplicates <- function(paths, pattern, ...)
 {
   paths_exe <- kwb.utils::rStylePath(grep(pattern, paths, value = TRUE, ...))
 
-  files_exe <- sapply(kwb.file:::split_paths(paths_exe), kwb.utils::lastElement)
+  files_exe <- sapply(kwb.file::split_paths(paths_exe), kwb.utils::lastElement)
 
   duplicates_exe <- unique(files_exe[duplicated(files_exe)])
 
