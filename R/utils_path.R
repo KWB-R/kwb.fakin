@@ -155,3 +155,9 @@ startsWithParts <- function(parts, elements)
   Reduce(`&`, selected_at_level, init = rep(TRUE, length_out))
 }
 
+
+# toPlaceholder ----------------------------------------------------------------
+toPlaceholder <- function(x)
+{
+  paste0("<", x, ">")
+}

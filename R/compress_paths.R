@@ -60,14 +60,14 @@ compress <- function(x, dict = NULL, prefix = "a", extend.dict = FALSE)
   # If there is a dictionary replace element that are in there
   if (length(dict)) {
 
-    x <- usedict(x, dict)
+    x <- use_dictionary(x, dict)
   }
 
   # Create a new dictionary if there are any duplicates in x but do not
   # consider elements that are already placeholders
   dict_new <- toDictionary(x[! isPlaceholder(x)], prefix)
 
-  x <- usedict(x, dict_new)
+  x <- use_dictionary(x, dict_new)
 
   stopifnot(length(intersect(names(dict_new), names(dict))) == 0)
 
@@ -125,7 +125,7 @@ getNextLevel <- function(x, key, set.attributes = FALSE, dbg = FALSE)
 
   dict <- structure(list(names(allfreqs[1])), names = key)
 
-  result <- usedict(x, dict, method = "part")
+  result <- use_dictionary(x, dict, method = "part")
 
   if (set.attributes) {
 
