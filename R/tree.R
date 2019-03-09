@@ -24,16 +24,19 @@ flatten_tree <- function(x)
 
 # to_tree ----------------------------------------------------------------------
 
-#' Convert List of Path Parts to Tree Structure
+#' Convert Paths to Tree List
 #'
 #' @param x list as returned by \code{\link[base]{strsplit}}
 #' @param dbg if \code{TRUE}, debug messages are shown
+#'
+#' @importFrom kwb.file split_paths
+#' @importFrom kwb.utils addClass
 #'
 to_tree <- function(x, dbg = FALSE)
 {
   if (! is.list(x)) {
 
-    x <- kwb.file:::split_paths(remove_duplicates(as.character(x)), dbg = dbg)
+    x <- kwb.file::split_paths(remove_duplicates(as.character(x)), dbg = dbg)
   }
 
   # Get path depths

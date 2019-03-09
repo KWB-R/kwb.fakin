@@ -52,5 +52,5 @@ if (FALSE)
   plot_path_network(paths, max_depth = 2, fontSize = 12)
 
   # Can we use functions for plotting trees?
-  kwb.fakin:::to_tree(kwb.file:::split_paths(x))
+  kwb.fakin:::to_tree(x)
 }

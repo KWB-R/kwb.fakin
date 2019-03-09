@@ -2,7 +2,7 @@
 % Please edit documentation in R/tree.R
 \name{to_tree}
 \alias{to_tree}
-\title{Convert List of Path Parts to Tree Structure}
+\title{Convert Paths to Tree List}
 \usage{
 to_tree(x, dbg = FALSE)
 }
@@ -12,5 +12,5 @@ to_tree(x, dbg = FALSE)
 \item{dbg}{if \code{TRUE}, debug messages are shown}
 }
 \description{
-Convert List of Path Parts to Tree Structure
+Convert Paths to Tree List
 }
