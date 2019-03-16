@@ -24,7 +24,6 @@ Imports:
     lubridate,
     magrittr,
     stringr,
-    tidyr,
     treemap,
     yaml (> 2.1)
 Remotes: 
