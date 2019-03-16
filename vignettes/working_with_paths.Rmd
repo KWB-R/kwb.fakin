@@ -153,7 +153,7 @@ path_parts[kwb.pathdict::startsWithParts(path_parts, start_parts)]
 The function can also be used on a matrix of subfolders:
 
 ```{r}
-folders <- kwb.fakin::toSubdirMatrix(paths)
+folders <- kwb.file::to_subdir_matrix(paths)
 
 folders[kwb.pathdict::startsWithParts(folders, start_parts), ]
 folders[kwb.pathdict::startsWithParts(folders, c(start_parts, "input")), ]
@@ -250,7 +250,7 @@ It may be useful to convert the list that is returned by `split_paths` into a
 matrix:
 
 ```{r}
-subdirs <- kwb.fakin:::toSubdirMatrix(parts)
+subdirs <- kwb.file::to_subdir_matrix(parts)
 ```
 
 ```{r results = "asis", echo = FALSE}
@@ -268,7 +268,7 @@ above).
 ```{r}
 (parent_paths <- kwb.fakin:::all_path_levels(paths[1]))
 
-parents <- kwb.fakin:::toSubdirMatrix(parent_paths)
+parents <- kwb.file::to_subdir_matrix(parent_paths)
 ```
 
 ```{r results = "asis", echo = FALSE}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/convert.R
 \name{toSubdirMatrix}
 \alias{toSubdirMatrix}
-\title{Convert a Vector of Paths to a Matrix of Subfolders}
+\title{Deprecated.}
 \usage{
 toSubdirMatrix(paths, fill.value = "", result_type = "matrix",
   dbg = TRUE)
@@ -21,15 +21,5 @@ type of object to be returned}
 matrix or data frame, depending on \code{result_type}
 }
 \description{
-Convert a Vector of Paths to a Matrix of Subfolders
-}
-\examples{
-folder_matrix <- kwb.fakin:::toSubdirMatrix(c("a1/b1/c1", "a1/b2", "a2"))
-
-folder_matrix
-
-dim(folder_matrix)
-
-folder_matrix[folder_matrix[, 1] == "a1", ]
-
+This function is deprecated. Please use kwb.file::to_subdir_matrix() instead.
 }

@@ -228,7 +228,7 @@ prepare_for_treemap <- function(
   subdir_data <- result$path %>%
     kwb.file::split_paths() %>%
     kwb.file::remove_common_root(...) %>%
-    toSubdirMatrix(fill.value = NA) %>%
+    kwb.file::to_subdir_matrix(fill.value = NA) %>%
     kwb.utils::asNoFactorDataFrame()
 
   # Set names of path segement columns and combine with value columns

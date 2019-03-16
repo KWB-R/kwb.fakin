@@ -45,7 +45,7 @@ subtree_for_treejack <- function(
   # We need all levels to a "leaf" subdirectory
   dirpaths <- sort_unique(unlist(lapply(dirpaths, all_path_levels)))
 
-  subdirs <- toSubdirMatrix(sort(dirpaths))
+  subdirs <- kwb.file::to_subdir_matrix(sort(dirpaths))
 
   # Keep only the last entry of each directory (required for import to Treejack)
   leafs <- to_leaf_matrix(subdirs)
@@ -94,7 +94,7 @@ subtree_for_treejack <- function(
 #'
 #' @examples
 #' paths <- kwb.fakin:::all_path_levels("this/is/a/long/path")
-#' kwb.fakin:::toSubdirMatrix(paths)
+#' kwb.file:::to_subdir_matrix(paths)
 #'
 all_path_levels <- function(path)
 {

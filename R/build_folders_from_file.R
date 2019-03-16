@@ -69,7 +69,7 @@ write_paths_to_folder_tree <- function(
     return()
   }
 
-  folder_data <- toSubdirMatrix(paths, result_type = "data.frame")
+  folder_data <- kwb.file::to_subdir_matrix(paths, result_type = "data.frame")
 
   # Split the folder matrix into sub-matrices each of which refers to one
   # first-level folder
