@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Convert a Vector of Paths to a Matrix of Subfolders — toSubdirMatrix • kwb.fakin</title>
+<title>Deprecated. — toSubdirMatrix • kwb.fakin</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -36,9 +36,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Convert a Vector of Paths to a Matrix of Subfolders — toSubdirMatrix" />
+<meta property="og:title" content="Deprecated. — toSubdirMatrix" />
 
-<meta property="og:description" content="Convert a Vector of Paths to a Matrix of Subfolders" />
+<meta property="og:description" content="This function is deprecated. Please use kwb.file::to_subdir_matrix() instead." />
 <meta name="twitter:card" content="summary" />
 
 <meta name="robots" content="noindex">
@@ -135,14 +135,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Convert a Vector of Paths to a Matrix of Subfolders</h1>
+    <h1>Deprecated.</h1>
     <small class="dont-index">Source: <a href='https://github.com/kwb-r/kwb.fakin/blob/master/R/convert.R'><code>R/convert.R</code></a></small>
     <div class="hidden name"><code>toSubdirMatrix.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Convert a Vector of Paths to a Matrix of Subfolders</p>
+    <p>This function is deprecated. Please use kwb.file::to_subdir_matrix() instead.</p>
     
     </div>
 
@@ -176,17 +176,6 @@ type of object to be returned</p></td>
     <p>matrix or data frame, depending on <code>result_type</code></p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>folder_matrix</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>kwb.fakin</span><span class='kw ns'>:::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/kwb.fakin/topics/toSubdirMatrix'>toSubdirMatrix</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"a1/b1/c1"</span>, <span class='st'>"a1/b2"</span>, <span class='st'>"a2"</span>))</div><div class='output co'>#&gt; Splitting paths ... ok. (0.00s) </div><div class='input'>
-<span class='no'>folder_matrix</span></div><div class='output co'>#&gt;      [,1] [,2] [,3]
-#&gt; [1,] "a1" "b1" "c1"
-#&gt; [2,] "a1" "b2" ""  
-#&gt; [3,] "a2" ""   ""  </div><div class='input'>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/dim'>dim</a></span>(<span class='no'>folder_matrix</span>)</div><div class='output co'>#&gt; [1] 3 3</div><div class='input'>
-<span class='no'>folder_matrix</span>[<span class='no'>folder_matrix</span>[, <span class='fl'>1</span>] <span class='kw'>==</span> <span class='st'>"a1"</span>, ]</div><div class='output co'>#&gt;      [,1] [,2] [,3]
-#&gt; [1,] "a1" "b1" "c1"
-#&gt; [2,] "a1" "b2" ""  </div><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -194,9 +183,7 @@ type of object to be returned</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+          </ul>
 
   </div>
 </div>
