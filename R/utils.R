@@ -217,15 +217,6 @@ toDataFrame <- function(x)
   }
 }
 
-# use_function_instead ---------------------------------------------------------
-use_function_instead <- function(function_new, function_old)
-{
-  warning(call. = FALSE, sprintf(
-    "Please use %s() instead of %s()",
-    deparse(substitute(function_new)), deparse(substitute(function_old))
-  ))
-}
-
 # vector_to_count_table --------------------------------------------------------
 vector_to_count_table <- function(x)
 {

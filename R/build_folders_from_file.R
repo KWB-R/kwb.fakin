@@ -77,7 +77,9 @@ write_paths_to_folder_tree <- function(
 
   # Define helper function that drops the first column of a data frame and
   # converts the data frame to a vector of paths
-  to_child_paths <- function(x) data_frame_to_paths(x[, -1, drop = FALSE])
+  to_child_paths <- function(x) kwb.pathdict:::data_frame_to_paths(
+    x[, -1, drop = FALSE]
+  )
 
   # Get a list of path vectors with the first level folders removed
   path_vectors <- lapply(subsets, function(x) remove_empty(to_child_paths(x)))

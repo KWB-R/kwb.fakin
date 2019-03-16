@@ -15,29 +15,29 @@ d3 <- list(a1 = "monday", a2 = "tuesday", a3 = "sunday")
 test_that("placeholders are recognised correctly", {
 
   expect_identical(
-    kwb.fakin:::isPlaceholder(c("a", "<a", "<a>", "<>", "<ab<cd>ef>")),
+    kwb.pathdict:::isPlaceholder(c("a", "<a", "<a>", "<>", "<ab<cd>ef>")),
     c(F, F, T, F, F)
   )
 })
 
 test_that("simple dictionaries are created correctly", {
 
-  expect_identical(kwb.fakin:::toDictionary(x1), d1)
-  expect_identical(kwb.fakin:::toDictionary(x2), d2)
-  expect_identical(kwb.fakin:::toDictionary(x3), d3)
+  expect_identical(kwb.pathdict:::toDictionary(x1), d1)
+  expect_identical(kwb.pathdict:::toDictionary(x2), d2)
+  expect_identical(kwb.pathdict:::toDictionary(x3), d3)
 })
 
 test_that("compress works for simple path vectors", {
 
-  expect_identical(as.character(kwb.fakin:::compress(x1)), c1)
+  expect_identical(as.character(kwb.pathdict:::compress(x1)), c1)
 
   dict <- list("p1" = "hallo")
-  expect_identical(as.character(kwb.fakin:::compress(x1, dict = dict)), c21)
+  expect_identical(as.character(kwb.pathdict:::compress(x1, dict = dict)), c21)
 
-  expect_identical(as.character(kwb.fakin:::compress(x2)), c22)
+  expect_identical(as.character(kwb.pathdict:::compress(x2)), c22)
 
-  #kwb.fakin:::compress(x3)
-  #kwb.fakin:::compress(x3, dict = list(tag = "monday"))
+  #kwb.pathdict:::compress(x3)
+  #kwb.pathdict:::compress(x3, dict = list(tag = "monday"))
 })
 
 # Further tests (to be implemented...) -----------------------------------------
@@ -71,11 +71,11 @@ if (FALSE)
     b1 = "//my_server/hidden/contracts"
   )
 
-  kwb.fakin:::compress(x = unique(dirname(as.character(old_dict))), old_dict)
+  kwb.pathdict:::compress(x = unique(dirname(as.character(old_dict))), old_dict)
 
   x <- c("longPath/a", "longPath/b", "longPath/other/xyz/abc")
   x <- c("abc/longPath/a", "b/longPath/c")
-  y <- kwb.fakin:::compressPaths(x, maxdepth = 14, dbg = FALSE)
+  y <- kwb.pathdict:::compressPaths(x, maxdepth = 14, dbg = FALSE)
 
   logResultIf(TRUE, x, y)
 }

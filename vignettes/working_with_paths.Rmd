@@ -139,15 +139,15 @@ select only a subsection of the folder structure for further investigation.
 
 ### Selecting Paths from a List or Matrix of Subfolders
 
-Once you have split a vector of paths into its subfolder names you may use
-the function `startsWithParts()` to filter for paths starting with a certain
-sequence of subfolders:
+Once you have split a vector of paths into its subfolder names you may use the
+function `kwb.pathdict::startsWithParts()` to filter for paths starting with a
+certain sequence of subfolders:
 
 ```{r}
 path_parts <- kwb.file::split_paths(paths)
 start_parts <- c("project-1", "wp-1")
 
-path_parts[kwb.fakin::startsWithParts(path_parts, start_parts)]
+path_parts[kwb.pathdict::startsWithParts(path_parts, start_parts)]
 ```
 
 The function can also be used on a matrix of subfolders:
@@ -155,8 +155,8 @@ The function can also be used on a matrix of subfolders:
 ```{r}
 folders <- kwb.fakin::toSubdirMatrix(paths)
 
-folders[kwb.fakin::startsWithParts(folders, start_parts), ]
-folders[kwb.fakin::startsWithParts(folders, c(start_parts, "input")), ]
+folders[kwb.pathdict::startsWithParts(folders, start_parts), ]
+folders[kwb.pathdict::startsWithParts(folders, c(start_parts, "input")), ]
 ```
 
 ### Selecting Paths from a Path Tree
@@ -278,23 +278,23 @@ knitr::kable(parents, caption = "Content of the parents matrix")
 ## Importance of Directories
 
 In order to find the most important folder paths in terms of frequency and
-length you may use the function `sortedImportance`:
+length you may use the function `kwb.pathdict::sortedImportance`:
 
 ```{r}
-kwb.fakin:::sortedImportance(dirname(paths))
+kwb.pathdict:::sortedImportance(dirname(paths))
 ```
 
 ## Compression of Folder Paths
 
 Assume you have a folder with a long path (either due to a lot of levels or due
 to long folder names). This long path is repeated for each file in the folder. 
-The package provides a `compress` function that may be used to introduce short 
-names for directory paths.
+The package kwb.pathdict provides a `compress` function that may be used to
+introduce short names for directory paths.
 
 ```{r}
 directories <- c("short", "short", "short", "longer/path", "longer/path")
 
-short_dirs <- kwb.fakin:::compress(directories)
+short_dirs <- kwb.pathdict:::compress(directories)
 
 as.character(short_dirs)
 ```
@@ -323,6 +323,6 @@ identical(long_dirs, directories)
 There is another function `compressOneByOne`, what does it do?
 
 ```{r}
-attributes(kwb.fakin:::compressOneByOne(paths, n = 3))
+attributes(kwb.pathdict:::compressOneByOne(paths, n = 3))
 ```
 

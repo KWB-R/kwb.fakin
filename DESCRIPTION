@@ -19,6 +19,7 @@ Imports:
     fs,
     kwb.code, 
     kwb.file,
+    kwb.pathdict, 
     kwb.plot, 
     kwb.utils,
     lubridate,
@@ -29,6 +30,7 @@ Imports:
 Remotes: 
     github::kwb-r/kwb.code,
     github::kwb-r/kwb.file,
+    github::kwb-r/kwb.pathdict,
     github::kwb-r/kwb.plot,
     github::kwb-r/kwb.utils
 Suggests: 

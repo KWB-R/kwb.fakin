@@ -205,3 +205,9 @@ get_links_at_depth <- function(i, folder_data)
     value = n_files$x
   )
 }
+
+# get_max_path_width -----------------------------------------------------------
+get_max_path_width <- function(paths)
+{
+  max(colSums(toSubdirMatrix(paths) != ""))
+}
