@@ -140,14 +140,14 @@ select only a subsection of the folder structure for further investigation.
 ### Selecting Paths from a List or Matrix of Subfolders
 
 Once you have split a vector of paths into its subfolder names you may use the
-function `kwb.pathdict::startsWithParts()` to filter for paths starting with a
+function `kwb.pathdict::starts_with_parts()` to filter for paths starting with a
 certain sequence of subfolders:
 
 ```{r}
 path_parts <- kwb.file::split_paths(paths)
 start_parts <- c("project-1", "wp-1")
 
-path_parts[kwb.pathdict::startsWithParts(path_parts, start_parts)]
+path_parts[kwb.pathdict::starts_with_parts(path_parts, start_parts)]
 ```
 
 The function can also be used on a matrix of subfolders:
@@ -155,8 +155,8 @@ The function can also be used on a matrix of subfolders:
 ```{r}
 folders <- kwb.file::to_subdir_matrix(paths)
 
-folders[kwb.pathdict::startsWithParts(folders, start_parts), ]
-folders[kwb.pathdict::startsWithParts(folders, c(start_parts, "input")), ]
+folders[kwb.pathdict::starts_with_parts(folders, start_parts), ]
+folders[kwb.pathdict::starts_with_parts(folders, c(start_parts, "input")), ]
 ```
 
 ### Selecting Paths from a Path Tree
