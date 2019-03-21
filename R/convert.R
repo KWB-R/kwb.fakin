@@ -32,35 +32,3 @@ toSubdirMatrix <- function(
 
   kwb.file::to_subdir_matrix(paths, fill.value, result_type, dbg)
 }
-
-# toCumulativeID ---------------------------------------------------------------
-toCumulativeID <- function(subdirs)
-{
-  cumpaths <- matrix(nrow = nrow(subdirs), ncol = ncol(subdirs))
-
-  cumids <- cumpaths
-
-  cat("depth: 00")
-
-  for (depth in seq_len(ncol(subdirs))) {
-
-    cat(sprintf("\b\b%2d", depth))
-
-    reached <- ! is.na(subdirs[, depth])
-
-    cumpaths[reached, depth] <- if (depth > 1) {
-
-      paste0(cumpaths[reached, depth - 1], subdirs[reached, depth])
-
-    } else {
-
-      subdirs[reached, depth]
-    }
-
-    cumids[, depth] <- as.integer(as.factor(cumpaths[, depth]))
-  }
-
-  cat("\n")
-
-  cumids
-}
