@@ -185,22 +185,22 @@ considered</p></td>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/writeLines'>writeLines</a></span>(<span class='no'>paths</span>, <span class='no'>file_paths</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempfile</a></span>())
 
 <span class='co'># Create a temporary target directory</span>
-<span class='no'>target_dir</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>kwb.utils</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/kwb.utils/topics/createDirectory'>createDirectory</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/file.path'>file.path</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>(), <span class='st'>"test"</span>))</div><div class='output co'>#&gt; The directory "/tmp/Rtmpf5ohR3/test" was created.</div><div class='input'>
+<span class='no'>target_dir</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>kwb.utils</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/kwb.utils/topics/createDirectory'>createDirectory</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/file.path'>file.path</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>(), <span class='st'>"test"</span>))</div><div class='output co'>#&gt; The directory "/tmp/RtmpdpHtRy/test" was created.</div><div class='input'>
 <span class='co'># Create the folder structure as defined by the paths in the temporary file</span>
 <span class='kw pkg'>kwb.fakin</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/kwb.fakin/topics/build_folders_from_file'>build_folders_from_file</a></span>(<span class='no'>file_paths</span>, <span class='no'>target_dir</span>)</div><div class='output co'>#&gt; Selected encoding: 'Latin-1'
-#&gt; Reading paths from '/tmp/Rtmpf5ohR3/file25de315b7d77' ... ok. (0.00s) 
+#&gt; Reading paths from '/tmp/RtmpdpHtRy/file2598e00bbdc' ... ok. (0.00s) 
 #&gt; 4 lines have been read.
 #&gt; Checking for (back-)slashes ... ok. (0.00s) 
 #&gt; Splitting paths ... ok. (0.00s) 
 #&gt; Putting path segments together ... ok. (0.00s) 
 #&gt; Splitting paths ... ok. (0.00s) 
-#&gt; The directory "/tmp/Rtmpf5ohR3/test" already exists.
-#&gt; The directory "/tmp/Rtmpf5ohR3/test/a1" was created.
-#&gt; The directory "/tmp/Rtmpf5ohR3/test/a1/b1" was created.
-#&gt; The directory "/tmp/Rtmpf5ohR3/test/a1/b2" was created.
-#&gt; The directory "/tmp/Rtmpf5ohR3/test/a2" was created.
-#&gt; The directory "/tmp/Rtmpf5ohR3/test/a2/b1" was created.
-#&gt; The directory "/tmp/Rtmpf5ohR3/test/a2/b1/c1" was created.</div><div class='input'>
+#&gt; The directory "/tmp/RtmpdpHtRy/test" already exists.
+#&gt; The directory "/tmp/RtmpdpHtRy/test/a1" was created.
+#&gt; The directory "/tmp/RtmpdpHtRy/test/a1/b1" was created.
+#&gt; The directory "/tmp/RtmpdpHtRy/test/a1/b2" was created.
+#&gt; The directory "/tmp/RtmpdpHtRy/test/a2" was created.
+#&gt; The directory "/tmp/RtmpdpHtRy/test/a2/b1" was created.
+#&gt; The directory "/tmp/RtmpdpHtRy/test/a2/b1/c1" was created.</div><div class='input'>
 <span class='co'># List the directory paths below the target directory</span>
 <span class='no'>paths_reread</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list.files'>list.dirs</a></span>(<span class='no'>target_dir</span>, <span class='kw'>recursive</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
