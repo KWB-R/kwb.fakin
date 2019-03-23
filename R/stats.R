@@ -30,7 +30,7 @@ get_file_duplicates <- function(paths, pattern, ...)
 # ascii_stats ------------------------------------------------------------------
 ascii_stats <- function(x)
 {
-  nonAscii <- ! isASCII(x)
+  nonAscii <- ! kwb.utils::isASCII(x)
 
   100 * prop.table(table(nonAscii))
 }

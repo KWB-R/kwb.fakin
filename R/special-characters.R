@@ -28,7 +28,7 @@ get_special_character_info <- function(
 
   characters <- strsplit(text, "", useBytes = TRUE)[[1]]
 
-  is_special <- ! isASCII(characters)
+  is_special <- ! kwb.utils::isASCII(characters)
 
   special_characters <- characters[is_special]
 

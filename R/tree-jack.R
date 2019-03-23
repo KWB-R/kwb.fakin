@@ -40,7 +40,7 @@ subtree_for_treejack <- function(
   dirpaths <- unique(dirname(paths))
 
   # Remove "." or ".."
-  dirpaths <- dirpaths[! isDotOrDoubleDot(dirpaths)]
+  dirpaths <- dirpaths[! kwb.utils::isDotOrDoubleDot(dirpaths)]
 
   # We need all levels to a "leaf" subdirectory
   dirpaths <- sort_unique(unlist(lapply(dirpaths, all_path_levels)))
