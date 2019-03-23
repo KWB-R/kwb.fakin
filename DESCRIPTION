@@ -13,19 +13,19 @@ Description: This package contains all functions and evaluations related to
     so that the 'auto-probs' options are considered.
 Encoding: UTF-8
 Imports: 
-    data.table,
-    digest, 
-    dplyr,
-    fs,
-    kwb.code, 
-    kwb.file,
-    kwb.pathdict, 
-    kwb.plot, 
-    kwb.utils,
-    lubridate,
-    magrittr,
-    stringr,
-    treemap,
+    data.table (>= 1.11.8),
+    digest (>= 0.6.18),
+    dplyr (>= 0.7.8),
+    fs (>= 1.2.6),
+    kwb.code (>= 0.0.0.9000),
+    kwb.file (>= 0.0.0.9000),
+    kwb.pathdict (>= 0.0.0.9000),
+    kwb.plot (>= 0.2.0.9000),
+    kwb.utils (>= 0.4.1),
+    lubridate (>= 1.7.4),
+    magrittr (>= 1.5),
+    stringr (>= 1.3.1),
+    treemap (>= 2.4.2),
     yaml (> 2.1)
 Remotes: 
     github::kwb-r/kwb.code,
@@ -34,12 +34,12 @@ Remotes:
     github::kwb-r/kwb.plot,
     github::kwb-r/kwb.utils
 Suggests: 
-    covr,
-    jsonlite,
-    knitr,
-    networkD3,
-    rmarkdown,
-    testthat
+    covr (>= 3.2.1),
+    jsonlite (>= 1.6),
+    knitr (>= 1.20),
+    networkD3 (>= 0.4),
+    rmarkdown (>= 1.10),
+    testthat (>= 2.0.1)
 License: MIT + file LICENSE
 LazyData: TRUE
 RoxygenNote: 6.1.1
