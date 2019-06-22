@@ -19,12 +19,14 @@ read_file_info <- function(file, version = 2, ...)
   if ("FullName" %in% names(file_info)) {
 
     file_info <- kwb.utils::catAndRun("Reformatting the file info table", {
-      kwb.fakin:::reformat_file_info(file_info)
+      reformat_file_info(file_info)
     })
   }
 
   # Convert size in bytes to size in MB (to avoid integer64)
-  file_info$size <- file_info$size / 1024^2
+  file_info$size <- kwb.utils::catAndRun("Converting file size to MiB", {
+    file_info$size / 1024^2
+  })
 
   structure(file_info, units = list(size = "MiB (2^20 Bytes)"))
 }
