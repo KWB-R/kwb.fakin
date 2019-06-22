@@ -204,6 +204,12 @@ stop_ <- function(...)
   stop(..., call. = FALSE)
 }
 
+# bytes_to_mib -----------------------------------------------------------------
+bytes_to_mib <- function(x)
+{
+  x / 2^20
+}
+
 # toDataFrame ------------------------------------------------------------------
 toDataFrame <- function(x)
 {
