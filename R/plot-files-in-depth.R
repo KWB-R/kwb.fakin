@@ -31,10 +31,12 @@ plot_files_in_depth <- function(depth_summaries, project)
 filter_for_project <- function(level_data, project)
 {
   is_project <- kwb.utils::selectColumns(level_data, "level_1") == project
-  if (! any(is_project)) {
-    stop("No project folder '", project, "' found. Available projects:\n",
-         kwb.utils::stringList(unique(level_data$level_1)), call. = FALSE)
-  }
+
+  if (! any(is_project)) stop(
+    "No project folder '", project, "' found. Available projects:\n",
+    kwb.utils::stringList(unique(level_data$level_1)), call. = FALSE
+  )
+
   kwb.utils::resetRowNames(level_data[is_project, , drop = FALSE])
 }
 
@@ -47,6 +49,7 @@ check_depth_summaries <- function(depth_summaries)
       total_size = sum(kwb.utils::selectColumns(df, "total_size"))
     )
   }))
+
   stopifnot(kwb.utils::allAreEqual(depth_summary$n_files))
   stopifnot(kwb.utils::allAreEqual(depth_summary$n_files))
   invisible(depth_summary)
