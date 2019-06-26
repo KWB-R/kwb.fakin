@@ -11,17 +11,15 @@ Sys.setenv(RSTUDIO_PANDOC = "/usr/bin/pandoc")
 
 library("kwb.utils")
 
-THIS_SCRIPT <- "extract_properties"
-
 #file <- safePath("~/Desktop/tmp/folders_projects_2018-09-11.txt")
 file <- safePath("~/Desktop/Data/FAKIN/folders_projects/folders_projects_2018-09-11.txt")
 #file <- "~/Desktop/Data/FAKIN/paths_poseidon_projekte_2016_05_16.txt"
 
 pkg_file <- kwb.fakin:::extdata_file
-file_composed <- pkg_file("replacements_composed-words.csv")
-file_unify <- pkg_file("replacements_unify.csv")
-#file_attribute_words <- pkg_file("words-to-attributes.csv")
-file_attribute_words <- pkg_file("words-to-attributes_aquanes.csv")
+file_composed <- pkg_file("config/replacements_composed-words.csv")
+file_unify <- pkg_file("config/replacements_unify.csv")
+file_attribute_words <- pkg_file("config/words-to-attributes.csv")
+#file_attribute_words <- pkg_file("words-to-attributes_aquanes.csv")
 
 #Sys.setlocale(locale = "de_DE.utf-8")
 Sys.setlocale(locale = "german")
@@ -29,20 +27,15 @@ Sys.setlocale(locale = "german")
 # MAIN -------------------------------------------------------------------------
 if (FALSE)
 {
-  # Try to restore a path tree or reread, recreate and store the tree
-  if (fails(path_tree <- kwb.fakin:::restore("path_tree"))) {
+  # Clear storage
+  #kwb.fakin:::clear_storage("path_tree")
+  #kwb.fakin:::clear_storage("paths")
 
-    # Try to restore a vector of folder paths or recreate and store it
-    if (fails(paths <- kwb.fakin:::restore("paths"))) {
-
-      paths_raw <- kwb.fakin::read_paths(file, encoding = "UTF-8")
-      paths <- kwb.file::remove_common_root(paths_raw)
-      kwb.fakin:::store(paths, THIS_SCRIPT)
-    }
-
-    path_tree <- kwb.fakin:::to_tree(paths)
-    kwb.fakin:::store(path_tree, THIS_SCRIPT)
-  }
+  # Read folder paths from a file and convert them to a tree structure. This
+  # takes some time. Therefore, store() intermediate results and restore() if
+  # stored objects are available. So, running the following for the second time
+  # is much faster than running it the first time.
+  path_tree <- provide_path_tree(file)
 
   # Select path trees by department
   department_trees <- list(
@@ -67,6 +60,7 @@ if (FALSE)
   print(department_trees$SUW, 2)
 
   # Get all unique folder names
+  folder_frequency <- folder_frequencies$SUW
   (folder_names <- rownames(folder_frequency))
 
   # Prepare file for replacements for composed words
@@ -136,6 +130,30 @@ if (FALSE)
 {
   kwb.fakin:::clear_storage("paths")
   kwb.fakin:::clear_storage("path_tree")
+}
+
+
+# provide_path_tree ------------------------------------------------------------
+provide_path_tree <- function(file)
+{
+  THIS_SCRIPT <- "extract_properties"
+
+  # Try to restore a path tree or reread, recreate and store the tree
+  if (! fails(path_tree <- kwb.fakin:::restore("path_tree"))) {
+    return(path_tree)
+  }
+
+  # Try to restore a vector of folder paths or recreate and store it
+  if (fails(paths <- kwb.fakin:::restore("paths"))) {
+
+    paths_raw <- kwb.fakin::read_paths(file, fileEncoding = "Windows-1252")
+    # encoding = "UTF-8"
+    paths <- kwb.file::remove_common_root(paths_raw)
+    kwb.fakin:::store(paths, THIS_SCRIPT)
+  }
+
+  path_tree <- kwb.fakin:::to_tree(paths)
+  kwb.fakin:::store(path_tree, THIS_SCRIPT)
 }
 
 # fails ------------------------------------------------------------------------
