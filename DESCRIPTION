@@ -13,6 +13,7 @@ Description: This package contains all functions and evaluations related to
     so that the 'auto-probs' options are considered.
 Encoding: UTF-8
 Imports: 
+    cowplot,
     data.table (>= 1.11.8),
     digest (>= 0.6.18),
     dplyr (>= 0.7.8),
@@ -25,6 +26,7 @@ Imports:
     kwb.utils (>= 0.4.1),
     lubridate (>= 1.7.4),
     magrittr (>= 1.5),
+    rlang,
     stringr (>= 1.3.1),
     treemap (>= 2.4.2),
     yaml (> 2.1)
