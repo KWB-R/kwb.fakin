@@ -156,12 +156,12 @@ provide_path_tree <- function(file, fileEncoding)
   THIS_SCRIPT <- "extract_properties"
 
   # Try to restore a path tree or reread, recreate and store the tree
-  if (! fails(path_tree <- kwb.fakin:::restore("path_tree"))) {
+  if (kwb.fakin:::succeeds(path_tree <- kwb.fakin:::restore("path_tree"))) {
     return(path_tree)
   }
 
   # Try to restore a vector of folder paths or recreate and store it
-  if (fails(paths <- kwb.fakin:::restore("paths"))) {
+  if (kwb.fakin:::fails(paths <- kwb.fakin:::restore("paths"))) {
 
     paths <- kwb.file::remove_common_root(kwb.fakin::read_paths(
       file, encoding = "UTF-8", fileEncoding = fileEncoding
@@ -175,18 +175,6 @@ provide_path_tree <- function(file, fileEncoding)
   kwb.fakin:::store(path_tree, THIS_SCRIPT)
 
   path_tree
-}
-
-# fails ------------------------------------------------------------------------
-fails <- function(expr)
-{
-  inherits(try(expr), "try-error")
-}
-
-# succeeds ---------------------------------------------------------------------
-succeeds <- function(expr)
-{
-  ! fails(expr)
 }
 
 # get_folder_frequency ---------------------------------------------------------

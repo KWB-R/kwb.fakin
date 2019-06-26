@@ -2,6 +2,12 @@
 # Very General Functions, Candidates for kwb.utils
 #
 
+# bytes_to_mib -----------------------------------------------------------------
+bytes_to_mib <- function(x)
+{
+  x / 2^20
+}
+
 # cat_elapsed ------------------------------------------------------------------
 cat_elapsed <- function(time_info)
 {
@@ -60,6 +66,12 @@ cut_left <- function(x, start_string)
 extdata_file <- function(file)
 {
   system.file("extdata", file, package = "kwb.fakin")
+}
+
+# fails ------------------------------------------------------------------------
+fails <- function(expr)
+{
+  inherits(try(expr), "try-error")
 }
 
 # indentation ------------------------------------------------------------------
@@ -204,10 +216,10 @@ stop_ <- function(...)
   stop(..., call. = FALSE)
 }
 
-# bytes_to_mib -----------------------------------------------------------------
-bytes_to_mib <- function(x)
+# succeeds ---------------------------------------------------------------------
+succeeds <- function(expr)
 {
-  x / 2^20
+  ! fails(expr)
 }
 
 # toDataFrame ------------------------------------------------------------------
