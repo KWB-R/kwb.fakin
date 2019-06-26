@@ -2,11 +2,12 @@
 
 #' Read Paths From File
 #'
-#' Read paths from file, convert backslashes to slashes and sort the paths
-#' (by default)
+#' Read paths from a file that contains one path per line. Convert backslashes
+#' to slashes and sort the paths (by default)
 #'
 #' @param file full path to the text file containing paths
 #' @param encoding passed to \code{\link[base]{readLines}}
+#' @param fileEncoding passed to \code{\link{file}}
 #' @param do_sort if \code{TRUE} (default), the vector of paths is sorted
 #'   alphanumerically.
 #'
@@ -18,7 +19,7 @@
 #'
 #' @export
 #'
-read_paths <- function(file, encoding = NULL, do_sort = TRUE)
+read_paths <- function(file, encoding = NULL, fileEncoding = "", do_sort = TRUE)
 {
   #kwb.utils::assignArgumentDefaults(kwb.fakin::read_paths)
 
@@ -30,15 +31,26 @@ read_paths <- function(file, encoding = NULL, do_sort = TRUE)
       "Suggested encodings: %s\n", stringList(encodings)
     ))
 
-    encoding <- encodings[1]
+    encoding <- kwb.utils::defaultIfNA(encodings[1], "unknown")
   }
 
   cat(sprintf("Selected encoding: '%s'\n", encoding))
 
-  catAndRun(sprintf("Reading paths from '%s'", file), {
+  # This part is copied from the implementation of read.table
+  if (is.character(file)) {
+    con <- if (nzchar(fileEncoding))
+      file(file, "rt", encoding = fileEncoding)
+    else
+      file(file, "rt")
+    on.exit(close(con))
+  } else {
+    con <- file
+  }
 
-    paths <- readLines(file, encoding = encoding)
-  })
+  paths <- catAndRun(
+    messageText = sprintf("Reading paths from '%s'", file),
+    expr = readLines(con, encoding = encoding)
+  )
 
   cat(length(paths), "lines have been read.\n")
 

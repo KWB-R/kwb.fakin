@@ -4,12 +4,14 @@
 \alias{read_paths}
 \title{Read Paths From File}
 \usage{
-read_paths(file, encoding = NULL, do_sort = TRUE)
+read_paths(file, encoding = NULL, fileEncoding = "", do_sort = TRUE)
 }
 \arguments{
 \item{file}{full path to the text file containing paths}
 
 \item{encoding}{passed to \code{\link[base]{readLines}}}
+
+\item{fileEncoding}{passed to \code{\link{file}}}
 
 \item{do_sort}{if \code{TRUE} (default), the vector of paths is sorted
 alphanumerically.}
@@ -18,6 +20,6 @@ alphanumerically.}
 vector of character
 }
 \description{
-Read paths from file, convert backslashes to slashes and sort the paths
-(by default)
+Read paths from a file that contains one path per line. Convert backslashes
+to slashes and sort the paths (by default)
 }
