@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Read Files Containing File Path Information from Folder — read_path_information • kwb.fakin</title>
+<title>Plot Distributions of Files in Folder Depths and Name Summaries — plot_file_distribution • kwb.fakin</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -36,9 +36,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Read Files Containing File Path Information from Folder — read_path_information" />
+<meta property="og:title" content="Plot Distributions of Files in Folder Depths and Name Summaries — plot_file_distribution" />
 
-<meta property="og:description" content="Read Files Containing File Path Information from Folder" />
+<meta property="og:description" content="Plot Distributions of Files in Folder Depths and Name Summaries" />
 <meta name="twitter:card" content="summary" />
 
 <meta name="robots" content="noindex">
@@ -135,59 +135,74 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Read Files Containing File Path Information from Folder</h1>
-    <small class="dont-index">Source: <a href='https://github.com/kwb-r/kwb.fakin/blob/master/R/read_path_information.R'><code>R/read_path_information.R</code></a></small>
-    <div class="hidden name"><code>read_path_information.Rd</code></div>
+    <h1>Plot Distributions of Files in Folder Depths and Name Summaries</h1>
+    <small class="dont-index">Source: <a href='https://github.com/kwb-r/kwb.fakin/blob/master/R/plot_file_distribution.R'><code>R/plot_file_distribution.R</code></a></small>
+    <div class="hidden name"><code>plot_file_distribution.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Read Files Containing File Path Information from Folder</p>
+    <p>Plot Distributions of Files in Folder Depths and Name Summaries</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>read_path_information</span>(<span class='no'>file_info_dir</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"^path-info"</span>, <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>","</span>,
-  <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>plot_file_distribution</span>(<span class='no'>file_data</span>, <span class='no'>start_path</span>, <span class='no'>n_root_parts</span>, <span class='no'>...</span>,
+  <span class='kw'>to_pdf</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>file_info_dir</th>
-      <td><p>path to folder in which to look for files matching
-<code>pattern</code></p></td>
+      <th>file_data</th>
+      <td><p>data frame with columns <code>path</code>, <code>type</code>,
+<code>size</code></p></td>
     </tr>
     <tr>
-      <th>pattern</th>
-      <td><p>pattern to match against the file names to be read. Default:
-"^path-info"</p></td>
+      <th>start_path</th>
+      <td><p>only paths from <code>file_data</code> are considered that start
+with this path</p></td>
     </tr>
     <tr>
-      <th>sep</th>
-      <td><p>column separator passed to <code><a href='read_file_info.html'>read_file_info</a></code></p></td>
+      <th>n_root_parts</th>
+      <td><p>number of first path segments to be considered as "root"</p></td>
     </tr>
     <tr>
       <th>&#8230;</th>
-      <td><p>further arguments passed to <code><a href='read_file_info.html'>read_file_info</a></code></p></td>
+      <td><p>further arguments passed to
+<code>kwb.fakin:::plot_file_size_in_depth</code></p></td>
+    </tr>
+    <tr>
+      <th>to_pdf</th>
+      <td><p>if <code>TRUE</code> (default) the results are plotted into a
+temporary pdf file that is opened in a pdf viewer</p></td>
     </tr>
     </table>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Set root directory (here: package installation directory of kwb.fakin)</span>
-<span class='no'>root_dir</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"kwb.fakin"</span>)
+    <pre class="examples"><div class='input'><span class='co'># Set a seed for the random number generator</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>20190625</span>)
 
-<span class='co'># Set output directory</span>
-<span class='no'>output_dir</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>()
+<span class='co'># Create random paths</span>
+<span class='no'>paths</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>kwb.pathdict</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/kwb.pathdict/topics/random_paths'>random_paths</a></span>()
 
-<span class='co'># Write all paths below root_dir into a "path-info"-file</span>
-<span class='kw pkg'>kwb.fakin</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/kwb.fakin/topics/get_and_save_file_info'>get_and_save_file_info</a></span>(<span class='no'>root_dir</span>, <span class='no'>output_dir</span>)</div><div class='output co'>#&gt; Getting file information on files below /home/travis/build/KWB-R/kwb.fakin/inst ... </div><div class='output co'>#&gt; <span class='warning'>Warning: `recursive` is deprecated, please use `recurse` instead</span></div><div class='output co'>#&gt; ok. (0.00s) 
-#&gt; Elapsed: 0.003 
-#&gt; Writing to '/tmp/RtmpLIgZKL/path-info_2019-06-26_1445_inst.csv' with data.table::fwrite() ... ok. (0.00s) 
-#&gt; Elapsed: 0.001 </div><div class='input'>
-<span class='co'># Read the "path-info"-files that are (now) found in output_dir</span>
-<span class='no'>path_info</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>kwb.fakin</span><span class='kw ns'>:::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/kwb.fakin/topics/read_path_information'>read_path_information</a></span>(<span class='no'>output_dir</span>, <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>";"</span>)</div><div class='output co'>#&gt; Reading '/tmp/RtmpLIgZKL/path-info_2019-06-26_1445_inst.csv' with data.table::fread() ... ok. (0.00s) 
-#&gt; Converting file size to MiB ... ok. (0.00s) </div><div class='input'>
+<span class='co'># Number of paths</span>
+<span class='no'>n</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>paths</span>)
+
+<span class='co'># Create artificial file data (invent sizes)</span>
+<span class='no'>file_data</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>kwb.utils</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/kwb.utils/topics/noFactorDataFrame'>noFactorDataFrame</a></span>(
+  <span class='kw'>path</span> <span class='kw'>=</span> <span class='no'>paths</span>,
+  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"file"</span>,
+  <span class='kw'>size</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>abs</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Normal'>rnorm</a></span>(<span class='no'>n</span>)) * <span class='kw pkg'>kwb.fakin</span><span class='kw ns'>:::</span><span class='fu'>bytes_to_mib</span>(
+    <span class='fl'>2</span>^<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='fl'>30</span>, <span class='no'>n</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+  )
+)
+
+<span class='kw pkg'>kwb.fakin</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/kwb.fakin/topics/plot_file_distribution'>plot_file_distribution</a></span>(
+  <span class='no'>file_data</span>, <span class='kw'>start_path</span> <span class='kw'>=</span> <span class='st'>"reason"</span>, <span class='kw'>n_root_parts</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>to_pdf</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)</div><div class='output co'>#&gt; Splitting paths ... ok. (0.00s) 
+#&gt; Splitting paths ... ok. (0.00s) 
+#&gt; Putting path segments together ... ok. (0.00s) </div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to max; returning -Inf</span></div><div class='output co'>#&gt; list()</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
