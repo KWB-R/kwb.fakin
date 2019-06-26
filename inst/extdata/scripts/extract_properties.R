@@ -150,6 +150,14 @@ if (FALSE)
   attributes[grep("@", attributes, invert = TRUE)]
 }
 
+# TEST AREA --------------------------------------------------------------------
+if (FALSE)
+{
+  x <- c("noch viel mehr key_abc", "key_abd", "abe")
+
+  extract_and_substitute("key_(ab(c|d))", "alphabet:true+full:\\1+char2:\\2", x)
+}
+
 # provide_path_tree ------------------------------------------------------------
 provide_path_tree <- function(file, fileEncoding)
 {
@@ -190,32 +198,6 @@ grep_frequency <- function(f, p)
   f[grepl(p, names, ignore.case = TRUE), , drop = FALSE]
 }
 
-
-# plot_top_properties_distribution ---------------------------------------------
-plot_top_properties_distribution <- function(result)
-{
-  # Restore current graphic parameters on exit
-  old_par <- par(no.readonly = TRUE)
-  on.exit(par(old_par))
-
-  # Generate property strings and show the most frequent properties
-  frequencies <- sort(table(sapply(result, to_property_strings)))
-
-  # Set margins for a barplot of the frequencies
-  kwb.plot::setMargins(left = 14, top = 0, bottom = 2)
-
-  # Plot the frequencies
-  barplot(tail(frequencies, 30), horiz = TRUE, cex.names = 0.6, las = 1)
-}
-
-# TEST AREA --------------------------------------------------------------------
-if (FALSE)
-{
-  x <- c("noch viel mehr key_abc", "key_abd", "abe")
-
-  extract_and_substitute("key_(ab(c|d))", "alphabet:true+full:\\1+char2:\\2", x)
-}
-
 # get_path_properties (rewritten, where is the original?) ----------------------
 get_path_properties <- function(paths, folder_properties)
 {
@@ -237,6 +219,23 @@ get_path_properties <- function(paths, folder_properties)
     key_values$keys <- kwb.utils::makeUnique(key_values$keys)
     do.call(kwb.utils::toLookupList, key_values)
   }))
+}
+
+# plot_top_properties_distribution ---------------------------------------------
+plot_top_properties_distribution <- function(result)
+{
+  # Restore current graphic parameters on exit
+  old_par <- par(no.readonly = TRUE)
+  on.exit(par(old_par))
+
+  # Generate property strings and show the most frequent properties
+  frequencies <- sort(table(sapply(result, to_property_strings)))
+
+  # Set margins for a barplot of the frequencies
+  kwb.plot::setMargins(left = 14, top = 0, bottom = 2)
+
+  # Plot the frequencies
+  barplot(tail(frequencies, 30), horiz = TRUE, cex.names = 0.6, las = 1)
 }
 
 # to_property_strings ----------------------------------------------------------
