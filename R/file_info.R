@@ -18,7 +18,7 @@ get_recursive_file_info <- function(
   kwb.utils::catAndRun(
     paste("Getting file information on files below", root_dir),
     dbg = dbg,
-    fs::dir_info(root_dir, all = all, recursive = TRUE, regexp = pattern)
+    fs::dir_info(root_dir, all = all, recurse = TRUE, regexp = pattern)
   )
 }
 
