@@ -38,8 +38,8 @@
 
 <meta property="og:title" content="Read Paths From File — read_paths" />
 
-<meta property="og:description" content="Read paths from file, convert backslashes to slashes and sort the paths
-(by default)" />
+<meta property="og:description" content="Read paths from a file that contains one path per line. Convert backslashes
+to slashes and sort the paths (by default)" />
 <meta name="twitter:card" content="summary" />
 
 <meta name="robots" content="noindex">
@@ -143,12 +143,12 @@
 
     <div class="ref-description">
     
-    <p>Read paths from file, convert backslashes to slashes and sort the paths
-(by default)</p>
+    <p>Read paths from a file that contains one path per line. Convert backslashes
+to slashes and sort the paths (by default)</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>read_paths</span>(<span class='no'>file</span>, <span class='kw'>encoding</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>do_sort</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>read_paths</span>(<span class='no'>file</span>, <span class='kw'>encoding</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>fileEncoding</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>do_sort</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -160,6 +160,10 @@
     <tr>
       <th>encoding</th>
       <td><p>passed to <code><a href='https://www.rdocumentation.org/packages/base/topics/readLines'>readLines</a></code></p></td>
+    </tr>
+    <tr>
+      <th>fileEncoding</th>
+      <td><p>passed to <code><a href='https://www.rdocumentation.org/packages/base/topics/connections'>file</a></code></p></td>
     </tr>
     <tr>
       <th>do_sort</th>
