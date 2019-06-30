@@ -19,12 +19,12 @@ knitr::opts_chunk$set(
 ## Example files
 
 This package provides example files containing artificial path data. The files 
-are located in the `extdata` folder of the package. The private function
-`extdata_file()` returns the full path to a file in this folder when being given 
-the filename:
+are located in the `extdata` folder of the package. The function 
+`extdata_file()` returns the full path to a file in this folder when being 
+given the filename:
 
 ```{r}
-example_file <- kwb.fakin::extdata_file("example_file_info_1.csv")
+(example_file <- kwb.fakin::extdata_file("example_file_info_1.csv"))
 ```
 
 ## Read Functions
@@ -66,16 +66,16 @@ head(file_info)
 
 ### read_path_information()
 
-This function reads file information files from a folder by giving a pattern
-matching the names of the files to be read. It calls `read_file_info()` in a 
-loop over the files and returns a list with the list elements named according
-to the file names. List elements read from files matching the name pattern
-`path-info_<yyyy-mm-dd_HHMM>_<name>.csv` are simply named `<name>`.
+This function reads file information files specified by a name pattern matching
+the files to be read. It calls `read_file_info()` in a loop over the files and
+returns a list with the list elements named according to the file names. The
+content of a file matching `path-info_<yyyy-mm-dd_HHMM>_<name>.csv` appears in
+the list as element `<name>`.
 
 ```{r error = TRUE}
 file_infos <- kwb.fakin::read_path_information(
-  file_info_dir = kwb.fakin:::extdata_file(""), 
-  pattern = "^example.*\\.csv$", 
+  file_info_dir = kwb.fakin::extdata_file(""), 
+  pattern = "^example_file_info.*\\.csv$", 
   sep = ";"
 )
 ```
@@ -86,12 +86,19 @@ This function reads files that contain one file path per line. You can specify
 the `fileEncoding` assumed for the file. When being set to `NULL` the function
 uses `utils::localeToCharset()` to guess an encoding. The encoding is passed to
 the function `file()` that is used to open an explicit connection. This 
-connection is then given to `readLines()`. The lines read are assumed to be
-full file paths. It is checked for backslashes that are converted to slashes.
-Finally, by default, all paths are sorted. 
+connection is then given to `readLines()`. The lines read are assumed to be full
+file paths. Backslashes are converted to slashes. By default, all paths are 
+sorted. 
 
 ```{r}
-#kwb.fakin::read_paths(kwb.fakin:::extdata_file("paths"))
+# Helper function
+read_example <- function(x) kwb.fakin::read_paths(kwb.fakin::extdata_file(x))
+
+file_paths <- read_example("example_file_paths.csv")
+folder_paths <- read_example("example_folder_paths.csv")
+
+head(file_paths)
+head(folder_paths)
 ```
 
 ## File Listing Functions

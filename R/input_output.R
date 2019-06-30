@@ -21,14 +21,12 @@
 #'
 read_paths <- function(file, encoding = NULL, fileEncoding = "", do_sort = TRUE)
 {
-  #kwb.utils::assignArgumentDefaults(kwb.fakin::read_paths)
-
   if (is.null(encoding)) {
 
     encodings <- utils::localeToCharset()
 
-    catIf(length(encodings) > 1, sprintf(
-      "Suggested encodings: %s\n", stringList(encodings)
+    kwb.utils::catIf(length(encodings) > 1, sprintf(
+      "Suggested encodings: %s\n", kwb.utils::stringList(encodings)
     ))
 
     encoding <- kwb.utils::defaultIfNA(encodings[1], "unknown")
@@ -47,41 +45,22 @@ read_paths <- function(file, encoding = NULL, fileEncoding = "", do_sort = TRUE)
     con <- file
   }
 
-  paths <- catAndRun(
+  paths <- kwb.utils::catAndRun(
     messageText = sprintf("Reading paths from '%s'", file),
     expr = readLines(con, encoding = encoding)
   )
 
   cat(length(paths), "lines have been read.\n")
 
-  catAndRun("Checking for (back-)slashes", {
+  has_backslash <- grepl("[\\]", paths)
 
-    has_slash <- grepl("/", paths)
-    has_backslash <- grepl("[\\]", paths)
-    all_slash <- all(has_slash)
-    all_backslash <- all(has_backslash)
-  })
-
-  if (! all_slash) {
-
-    if (all_backslash) {
-
-      catAndRun("Converting backslashes to slashes", {
-
-        paths <- gsub("[\\]", "/", paths)
-      })
-
-    } else {
-
-      print(table(has_slash))
-      print(table(has_backslash))
-
-      stop("There are paths with backslash but not all paths have a backslash!")
-    }
+  if (any(has_backslash)) {
+    kwb.utils::catAndRun("Converting backslashes to slashes", {
+      paths[has_backslash] <- gsub("[\\]", "/", paths[has_backslash])
+    })
   }
 
   if (do_sort) {
-
     catAndRun("Sorting paths", paths <- sort(paths))
   }
 
