@@ -33,4 +33,19 @@ View(full_info)
 
 stopifnot(basename(getwd()) == "kwb.fakin")
 
-kwb.fakin::write_csv(full_info, "inst/extdata/example_file_info_1.csv")
+# Helper function
+path <- function(x) file.path("inst/extdata", x)
+
+kwb.fakin::write_csv(full_info, path("example_file_info_1.csv"))
+
+file_info <- kwb.fakin::read_file_info(path("example_file_info_1.csv"))
+
+file_info %>%
+  dplyr::filter(type == "file") %>%
+  dplyr::pull(path) %>%
+  writeLines(path("example_file_paths.csv"))
+
+file_info %>%
+  dplyr::filter(type == "directory") %>%
+  dplyr::pull(path) %>%
+  writeLines(path("example_folder_paths.csv"))
