@@ -1,0 +1,84 @@
+---
+title: "What is in the package?"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{what_is_there}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Example files
+
+This package contains some example files containing artificial data. They are
+contained in the `extdata` folder of the package. The private function `extdata_file()` returns the full path when being given the filename.
+
+```{r}
+example_file <- kwb.fakin:::extdata_file("example_file_info_1.csv")
+```
+
+## Read Functions
+
+The package contains functions starting with `read_`. These functions are 
+described in the following.
+
+### read_csv()
+
+This function reads a csv file either with `read.table()` (version = 1) or 
+with `data.table::fread()` (version = 2). It reports about what it does and how
+long it takes.
+
+```{r}
+data_1 <- kwb.fakin::read_csv(example_file, version = 1) 
+
+data_2 <- kwb.fakin::read_csv(example_file, version = 2)
+
+head(data_1, 3)
+
+head(data_2, 3)
+
+identical(data_1, data_2)
+```
+
+### read_file_info()
+
+This function reads a text file that contains file information, such as file 
+path, file size, creation time or last modification time. The file is read with
+`read_csv()`, see above. File sizes are assumed to be given in bytes and are
+converted to Mebibytes (MiB = 2^20 bytes) in order to avoid very large numbers
+that require a non-standard data type.
+
+```{r}
+file_info <- kwb.fakin::read_file_info(example_file)
+
+head(file_info)
+```
+
+### read_path_information()
+
+This function reads file information files from a folder by giving a pattern
+matching the names of the files to be read. It calls `read_file_info()` in a 
+loop over the files and returns a list with the list elements named according
+to the file names.
+
+```{r error = TRUE}
+file_infos <- kwb.fakin::read_path_information(
+  file_info_dir = kwb.fakin:::extdata_file(""), 
+  pattern = "^example.*\\.csv$", 
+  sep = ";"
+)
+```
+
+### read_paths()
+
+```{r}
+kwb.fakin::read_paths
+```
