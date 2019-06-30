@@ -63,9 +63,24 @@ cut_left <- function(x, start_string)
 }
 
 # extdata_file -----------------------------------------------------------------
+
+#' Path to File in extdata Folder of this Package
+#'
+#' @param file filename or path to the file, relative to extdata/
+#' @export
+#'
 extdata_file <- function(file)
 {
-  system.file("extdata", file, package = "kwb.fakin")
+  paths <- system.file("extdata", file, package = "kwb.fakin")
+
+  if (all(paths == "") || length(paths) != length(file)) stop_(
+    "Not all files could be found in the extdata folder. Available files:\n  ",
+    kwb.utils::stringList(collapse = "\n  ", dir(
+      system.file("extdata", package = "kwb.fakin")
+    ))
+  )
+
+  paths
 }
 
 # fails ------------------------------------------------------------------------
