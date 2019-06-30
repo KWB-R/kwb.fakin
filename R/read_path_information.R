@@ -8,11 +8,9 @@
 #'   "^path-info"
 #' @param sep column separator passed to \code{\link{read_file_info}}
 #' @param \dots further arguments passed to \code{\link{read_file_info}}
-#'
 #' @importFrom kwb.file dir_full
-#'
+#' @importFrom fs dir_ls
 #' @export
-#'
 #' @examples
 #' # Set root directory (here: package installation directory of kwb.fakin)
 #' root_dir <- system.file(package = "kwb.fakin")
@@ -32,18 +30,22 @@ read_path_information <- function(
 {
   files <- kwb.file::dir_full(file_info_dir, pattern)
 
-  names(files) <- extract_root_name(files)
+  if (length(files) == 0) {
+
+    message(sprintf(
+      "No files matching '%s' in\n  '%s'\nAvailable files:\n  %s",
+      pattern, file_info_dir, kwb.utils::stringList(
+        basename(fs::dir_ls(file_info_dir, type = "file")), collapse = "\n  "
+      )
+    ))
+
+    return (list())
+  }
+
+  names <- kwb.utils::removeExtension(basename(files))
+  names <- gsub("path-info_\\d{4}-\\d{2}-\\d{2}_\\d{4}_", "", names)
+
+  names(files) <- names
 
   lapply(files, read_file_info, sep = sep, ...)
-}
-
-# extract_root_name ------------------------------------------------------------
-
-#' @importFrom kwb.utils removeExtension
-#' @keywords internal
-extract_root_name <- function(file)
-{
-  name <- kwb.utils::removeExtension(basename(file))
-
-  gsub("path-info_\\d{4}-\\d{2}-\\d{2}_\\d{4}_", "", name)
 }
