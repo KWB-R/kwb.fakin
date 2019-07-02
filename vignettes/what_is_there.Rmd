@@ -115,6 +115,11 @@ kwb.fakin::list_files
 
 ### get_recursive_file_info
 
+This is just a wrapper around `fs::dir_info()` with `recurse = TRUE`. The 
+function is run inside a call to `kwb.utils::catAndRun()`.
+
 ```{r}
-kwb.fakin::get_recursive_file_info
+root <- system.file(package = "kwb.fakin")
+file_info <- kwb.fakin::get_recursive_file_info(root)
+head(file_info[, 1:3])
 ```
