@@ -43,7 +43,7 @@ read_path_information <- function(
   }
 
   names <- kwb.utils::removeExtension(basename(files))
-  names <- gsub("path-info_\\d{4}-\\d{2}-\\d{2}_\\d{4}_", "", names)
+  names <- gsub("path-info_(\\d{4}-\\d{2}-\\d{2})_\\d{4}_", "d\\1_", names)
 
   names(files) <- names
 
