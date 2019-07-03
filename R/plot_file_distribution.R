@@ -42,7 +42,6 @@ plot_file_distribution <- function(
   data_scatter <- prepare_for_scatter_plot(
     file_data, n_root_parts, start_path, min_depth = 1
   )
-  # depth, root, size
 
   max_depth <- max(data_scatter$depth)
 
@@ -52,15 +51,7 @@ plot_file_distribution <- function(
     df = data_by_root, max_depth, point_size = 1.5, ...
   )
 
-  summary_data <- data_scatter %>%
-    dplyr::group_by(.data$root, .data$depth) %>%
-    dplyr::summarise(n_files = dplyr::n(), total_size = sum(.data$size))
-
-  summaries <- lapply(
-    X = split(summary_data, summary_data$root),
-    FUN = add_percentage_of_sum_columns,
-    columns = c("n_files", "total_size")
-  )
+  summaries <- summarise_file_depth_data(data_scatter)
 
   plots_perc <- lapply(summaries, plot_percentage_in_depth, max_depth)
 
