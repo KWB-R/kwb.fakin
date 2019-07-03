@@ -2,6 +2,18 @@
 # Very General Functions, Candidates for kwb.utils
 #
 
+# add_percentage_of_sum_columns ------------------------------------------------
+add_percentage_of_sum_columns <- function(df, columns)
+{
+  for (column in columns) {
+    df[[paste0("perc_", column)]] <- kwb.utils::percentageOfSum(
+      kwb.utils::selectColumns(df, column)
+    )
+  }
+
+  df
+}
+
 # bytes_to_mib -----------------------------------------------------------------
 bytes_to_mib <- function(x)
 {
@@ -235,6 +247,24 @@ stop_ <- function(...)
 succeeds <- function(expr)
 {
   ! fails(expr)
+}
+
+# to_top_n ---------------------------------------------------------------------
+to_top_n <- function(x, n = 5, other = "<other>")
+{
+  x <- tolower(x)
+
+  decreasingly_sorted_table <- function(xx) sort(table(xx), decreasing = TRUE)
+
+  top_n <- names(decreasingly_sorted_table(x)[seq_len(n)])
+
+  x[! x %in% top_n] <- other
+
+  freqs <- decreasingly_sorted_table(x)
+
+  labels <- sprintf("%s (%d)", names(freqs), as.integer(freqs))
+
+  factor(x, levels = names(freqs), labels = labels)
 }
 
 # toDataFrame ------------------------------------------------------------------
