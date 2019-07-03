@@ -75,28 +75,25 @@ plot_all_treemaps <- function(path_infos, as_png = TRUE, ...)
 #'   to \code{-1L} you specify that sub-treemaps are generated for each
 #'   subfolder on the corresponding folder depth.
 #' @param depth current depth of recursion
-#'
+#' @param types type(s) of treeplots: one or both of \code{c("size", "files")}
+#'   (the default).
 #' @export
 #'
 plot_treemaps_from_path_data <- function(
   path_data, root_path = "", name = "root", as_png = FALSE, n_levels = 3,
   output_dir = tempdir(), type = "value", args_png = list(), n_biggest = -1,
-  depth = 1
+  depth = 1, types = c("size", "files")
 )
 {
   #kwb.utils::assignArgumentDefaults(kwb.fakin:::plot_treemaps_from_path_data)
   #kwb.utils::assignPackageObjects("kwb.fakin")
 
-  if (! is.data.frame(path_data) || nrow(path_data) == 0) {
-
-    cat("No data frame or nothing to plot.\n")
-
+  if (! check_path_data(path_data)) {
     return()
   }
 
   folder_data <- kwb.utils::catAndRun(
-    paste0("Preparing data for '", name, "'"),
-    newLine = 3,
+    sprintf("Preparing data for '%s'", name), newLine = 3,
     prepare_for_treemap(path_data, root_path, n_keep = 0)
   )
 
@@ -111,33 +108,24 @@ plot_treemaps_from_path_data <- function(
 
   index <- names(total_size)[seq_len(n_available)]
 
-  args <- list(total_size, index = index, type = type, border.col = c(
-    c("darkred", rep("black", n_levels - 1))
-  ))
+  args <- list(
+    total_size, index = index, type = type,
+    border.col = c("darkred", rep("black", n_levels - 1))
+  )
 
-  files <- if (as_png) {
+  settings <- default_treeplot_settings()
 
-    file.path(output_dir, sprintf(
-      "treemap_%02d_%s_%s.png", depth, name, c("size", "files")
-    ))
-  }
+  files <- default_treemap_files(as_png, settings, output_dir, depth, name)
 
-  types <- c("size", "files")
-  columns <- c("total_size", "n_files")
-  titles <- paste("Rectangle size = total", c("size", "number of files"))
-  legends <- c("Number of files", "Total size in Bytes")
-
-  maps <- lapply(1:2, function(i) {
-    #i <- 2
+  maps <- lapply(types, function(type) {
+    #type <- "files"
     map <- kwb.utils::catAndRun(
-      sprintf("Creating treemap '%s'", types[i]),
+      sprintf("Creating treemap '%s'", type),
       plot_one_treemap(
-        file = files[i], args_png = args_png, subtitle = root_path,
-        args_treemap = c(
-          args, vSize = columns[i], vColor = columns[setdiff(1:2, i)],
-          title = titles[i],
-          title.legend = legends[i]
-        )
+        file = unname(files[type]),
+        args_png = args_png,
+        subtitle = root_path,
+        args_treemap = c(args, args_treemap(settings, type))
       )
     )
 
@@ -186,13 +174,71 @@ plot_treemaps_from_path_data <- function(
           root_path = paste0(check_or_set_ending_slash(root_path), folder),
           name = sprintf("%02d_%s", depth + 1, folder),
           as_png = as_png, n_levels = n_levels, output_dir = output_dir,
-          type = type, args_png = args_png, depth = depth + 1
+          type = type, args_png = args_png, depth = depth + 1,
+          types = types
         )
       )
     }
   }
 
   files
+}
+
+# check_path_data --------------------------------------------------------------
+check_path_data <- function(path_data)
+{
+  if (! is.data.frame(path_data) || nrow(path_data) == 0) {
+    cat("No data frame or nothing to plot.\n")
+    FALSE
+  } else {
+    TRUE
+  }
+}
+
+# args_treemap -----------------------------------------------------------------
+args_treemap <- function(settings, type)
+{
+  anti_type <- setdiff(names(settings), type)
+
+  setting <- kwb.utils::selectElements(settings, type)
+  anti_setting <- kwb.utils::selectElements(settings, anti_type)
+
+  list(
+    vSize = setting$column,
+    vColor = anti_setting$column,
+    title = setting$title,
+    title.legend = setting$legend
+  )
+}
+
+# default_treemap_files --------------------------------------------------------
+default_treemap_files <- function(as_png, settings, output_dir, depth, name)
+{
+  if (as_png) {
+
+    sapply(stats::setNames(nm = names(settings)), function(type) {
+      file.path(output_dir, sprintf(settings[[type]]$filename, depth, name))
+    })
+  }
+}
+
+# default_treeplot_settings ----------------------------------------------------
+default_treeplot_settings <- function()
+{
+  list(
+    size = list(
+      column = "total_size",
+      title = "Rectangle size = total size",
+      legend = "Number of files",
+      filename = "treemap_%02d_%s_size.png"
+    ),
+    files = list(
+      column = "n_files",
+      title = "Rectangle size = total number of files",
+      legend = "Total size in Bytes",
+      filename = "treemap_%02d_%s_files.png"
+    )
+  )
 }
 
 # prepare_for_treemap ----------------------------------------------------------

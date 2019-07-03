@@ -6,7 +6,8 @@
 \usage{
 plot_treemaps_from_path_data(path_data, root_path = "", name = "root",
   as_png = FALSE, n_levels = 3, output_dir = tempdir(),
-  type = "value", args_png = list(), n_biggest = -1, depth = 1)
+  type = "value", args_png = list(), n_biggest = -1, depth = 1,
+  types = c("size", "files"))
 }
 \arguments{
 \item{path_data}{data frame containing file path information as returned by
@@ -50,6 +51,9 @@ to \code{-1L} you specify that sub-treemaps are generated for each
 subfolder on the corresponding folder depth.}
 
 \item{depth}{current depth of recursion}
+
+\item{types}{type(s) of treeplots: one or both of \code{c("size", "files")}
+(the default).}
 }
 \description{
 Plot Treemaps Given File Path Data
