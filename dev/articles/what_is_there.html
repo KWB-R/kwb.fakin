@@ -242,21 +242,31 @@
 <a class="sourceLine" id="cb6-21" data-line-number="21"><span class="co">#&gt;     }</span></a>
 <a class="sourceLine" id="cb6-22" data-line-number="22"><span class="co">#&gt;     cat_time("End")</span></a>
 <a class="sourceLine" id="cb6-23" data-line-number="23"><span class="co">#&gt; }</span></a>
-<a class="sourceLine" id="cb6-24" data-line-number="24"><span class="co">#&gt; &lt;bytecode: 0x5fff2d8&gt;</span></a>
+<a class="sourceLine" id="cb6-24" data-line-number="24"><span class="co">#&gt; &lt;bytecode: 0x5cf3f48&gt;</span></a>
 <a class="sourceLine" id="cb6-25" data-line-number="25"><span class="co">#&gt; &lt;environment: namespace:kwb.fakin&gt;</span></a></code></pre></div>
 </div>
 <div id="get_recursive_file_info" class="section level3">
 <h3 class="hasAnchor">
 <a href="#get_recursive_file_info" class="anchor"></a>get_recursive_file_info</h3>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">kwb.fakin<span class="op">::</span>get_recursive_file_info</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; function (root_dir, pattern = NULL, all = TRUE, dbg = TRUE) </span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt; {</span></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt;     kwb.utils::catAndRun(paste("Getting file information on files below", </span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt;         root_dir), dbg = dbg, fs::dir_info(root_dir, all = all, </span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt;         recurse = TRUE, regexp = pattern))</span></a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; }</span></a>
-<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt; &lt;bytecode: 0x612e7c8&gt;</span></a>
-<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt; &lt;environment: namespace:kwb.fakin&gt;</span></a></code></pre></div>
+<p>This is just a wrapper around <code><a href="http://fs.r-lib.org/reference/dir_ls.html">fs::dir_info()</a></code> with <code>recurse = TRUE</code>. The function is run inside a call to <code><a href="https://www.rdocumentation.org/packages/kwb.utils/topics/catAndRun">kwb.utils::catAndRun()</a></code>.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">root &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="dt">package =</span> <span class="st">"kwb.fakin"</span>)</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">file_info &lt;-<span class="st"> </span>kwb.fakin<span class="op">::</span><span class="kw">get_recursive_file_info</span>(root)</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt; Getting file information on files below /usr/local/lib/R/site-library/kwb.fakin ... ok. (0.00s)</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(file_info[, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>])</a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt;                                                        path      type</span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; 1       /usr/local/lib/R/site-library/kwb.fakin/DESCRIPTION      file</span></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; 2             /usr/local/lib/R/site-library/kwb.fakin/INDEX      file</span></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt; 3           /usr/local/lib/R/site-library/kwb.fakin/LICENSE      file</span></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt; 4              /usr/local/lib/R/site-library/kwb.fakin/Meta directory</span></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt; 5       /usr/local/lib/R/site-library/kwb.fakin/Meta/Rd.rds      file</span></a>
+<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt; 6 /usr/local/lib/R/site-library/kwb.fakin/Meta/features.rds      file</span></a>
+<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">#&gt;      size</span></a>
+<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">#&gt; 1   1.87K</span></a>
+<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co">#&gt; 2   3.14K</span></a>
+<a class="sourceLine" id="cb7-15" data-line-number="15"><span class="co">#&gt; 3   1.08K</span></a>
+<a class="sourceLine" id="cb7-16" data-line-number="16"><span class="co">#&gt; 4      4K</span></a>
+<a class="sourceLine" id="cb7-17" data-line-number="17"><span class="co">#&gt; 5   1.91K</span></a>
+<a class="sourceLine" id="cb7-18" data-line-number="18"><span class="co">#&gt; 6     131</span></a></code></pre></div>
 </div>
 </div>
   </div>
