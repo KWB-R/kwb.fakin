@@ -92,40 +92,32 @@ plot_treemaps_from_path_data <- function(
     return()
   }
 
-  folder_data <- kwb.utils::catAndRun(
-    sprintf("Preparing data for '%s'", name), newLine = 3,
-    prepare_for_treemap(path_data, root_path, n_keep = 0)
-  )
-
-  group_by <- names(folder_data)[seq_len(n_levels)]
-
-  total_size <- kwb.utils::catAndRun(
-    sprintf("Aggregating by first %d path levels", length(group_by)),
-    aggregate_by_levels(folder_data, group_by)
+  total_size <- prepare_for_n_level_treemap(
+    path_data, root_path, name, n_levels
   )
 
   n_available <- min(c(length(grep("^level", names(total_size))), n_levels))
 
   index <- names(total_size)[seq_len(n_available)]
 
-  args <- list(
-    total_size, index = index, type = type,
-    border.col = c("darkred", rep("black", n_levels - 1))
-  )
-
   settings <- default_treeplot_settings()
 
   files <- default_treemap_files(as_png, settings, output_dir, depth, name)
 
-  maps <- lapply(types, function(type) {
+  maps <- lapply(types, function(map_type) {
+
     #type <- "files"
+
     map <- kwb.utils::catAndRun(
-      sprintf("Creating treemap '%s'", type),
+      sprintf("Creating treemap '%s'", map_type),
       plot_one_treemap(
-        file = unname(files[type]),
+        file = unname(files[map_type]),
         args_png = args_png,
         subtitle = root_path,
-        args_treemap = c(args, args_treemap(settings, type))
+        args_treemap = c(
+          main_args_treemap(x = total_size, index, type, n_levels),
+          args_treemap(settings, map_type)
+        )
       )
     )
 
@@ -136,43 +128,18 @@ plot_treemaps_from_path_data <- function(
   # the biggest subfolder in terms of size and number of files
   if (depth < length(n_biggest)) {
 
-    biggest_folders_list <- lapply(maps, function(map) {
+    biggest <- unique(unlist(lapply(
+      maps, get_biggest_folders_from_map, n = n_biggest[depth]
+    )))
 
-      #map <- maps[[1]]
-      rectangles <- map$tm
-
-      rectangles <- rectangles[rectangles$level == 1, ]
-
-      n_select <- if (n_biggest[depth] == -1) {
-
-        nrow(rectangles)
-
-      } else {
-
-        min(n_biggest[depth], nrow(rectangles))
-      }
-
-      row_order <- order(rectangles$vSize, decreasing = TRUE)
-
-      as.character(rectangles$level_1[row_order[seq_len(n_select)]])
-    })
-
-    biggest_folders <- unique(unlist(biggest_folders_list))
-
-    for (i in seq_along(biggest_folders)) {
-
-      message_text <- sprintf(
-        "Creating subplot %d/%d", i, length(biggest_folders)
-      )
-
-      folder <- biggest_folders[i]
+    for (i in seq_along(biggest)) {
 
       kwb.utils::catAndRun(
-        message_text,
+        messageText = sprintf("Creating subplot %d/%d", i, length(biggest)),
         plot_treemaps_from_path_data(
           path_data,
-          root_path = paste0(check_or_set_ending_slash(root_path), folder),
-          name = sprintf("%02d_%s", depth + 1, folder),
+          root_path = paste0(check_or_set_ending_slash(root_path), biggest[i]),
+          name = sprintf("%02d_%s", depth + 1, biggest[i]),
           as_png = as_png, n_levels = n_levels, output_dir = output_dir,
           type = type, args_png = args_png, depth = depth + 1,
           types = types
@@ -193,6 +160,31 @@ check_path_data <- function(path_data)
   } else {
     TRUE
   }
+}
+
+# prepare_for_n_level_treemap --------------------------------------------------
+prepare_for_n_level_treemap <- function(path_data, root_path, name, n_levels)
+{
+  folder_data <- kwb.utils::catAndRun(
+    sprintf("Preparing data for '%s'", name), newLine = 3,
+    prepare_for_treemap(path_data, root_path, n_keep = 0)
+  )
+
+  group_by <- names(folder_data)[seq_len(n_levels)]
+
+  kwb.utils::catAndRun(
+    sprintf("Aggregating by first %d path levels", length(group_by)),
+    aggregate_by_levels(folder_data, group_by)
+  )
+}
+
+# main_args_treemap ------------------------------------------------------------
+main_args_treemap <- function(x, index, type, n_levels)
+{
+  list(
+    x, index = index, type = type,
+    border.col = c("darkred", rep("black", n_levels - 1))
+  )
 }
 
 # args_treemap -----------------------------------------------------------------
@@ -239,6 +231,28 @@ default_treeplot_settings <- function()
       filename = "treemap_%02d_%s_files.png"
     )
   )
+}
+
+# get_biggest_folders_from_map -------------------------------------------------
+get_biggest_folders_from_map <- function(map, n)
+{
+  #map <- maps[[1]]
+  rectangles <- map$tm
+
+  rectangles <- rectangles[rectangles$level == 1, ]
+
+  n_select <- if (n == -1) {
+
+    nrow(rectangles)
+
+  } else {
+
+    min(n, nrow(rectangles))
+  }
+
+  row_order <- order(rectangles$vSize, decreasing = TRUE)
+
+  as.character(rectangles$level_1[row_order[seq_len(n_select)]])
 }
 
 # prepare_for_treemap ----------------------------------------------------------
