@@ -4,18 +4,17 @@
 \alias{read_lines}
 \title{Read Lines by Giving the File Encoding}
 \usage{
-read_lines(file, ..., fileEncoding = "", encoding = NULL)
+read_lines(file, ..., encoding = "unknown", fileEncoding = "")
 }
 \arguments{
 \item{file}{a connection object or character string}
 
 \item{\dots}{arguments passed to \code{\link{readLines}}}
 
+\item{encoding}{passed to \code{\link{readLines}}.}
+
 \item{fileEncoding}{The name of the encoding to be assumed. Passed as
 \code{encoding} to \code{\link{file}}, see there.}
-
-\item{encoding}{passed to \code{\link{readLines}}. If \code{NULL}, the
-result of \code{kwb.fakin:::default_local_encoding} is used.}
 }
 \description{
 Read Lines by Giving the File Encoding

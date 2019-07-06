@@ -4,16 +4,25 @@
 \alias{read_paths}
 \title{Read Paths From File}
 \usage{
-read_paths(file, ..., do_sort = TRUE)
+read_paths(file, fileEncoding = NULL, encoding = NULL, ...,
+  do_sort = TRUE, expected_encodings = c("windows-1252", "ISO-8859-1"))
 }
 \arguments{
 \item{file}{full path to the text file containing paths}
 
+\item{fileEncoding}{The name of the encoding to be assumed. Passed as
+\code{encoding} to \code{\link{file}}, see there.}
+
+\item{encoding}{passed to \code{\link{readLines}}.}
+
 \item{\dots}{arguments passed to \code{\link{read_lines}}, such as
-\code{n}, \code{fileEncoding}, \code{encoding}}
+\code{n}}
 
 \item{do_sort}{if \code{TRUE} (default), the vector of paths is sorted
 alphanumerically.}
+
+\item{expected_encodings}{vector of names of file encodings that are
+expected to occur. Expected encodings will be preferred.}
 }
 \value{
 vector of character

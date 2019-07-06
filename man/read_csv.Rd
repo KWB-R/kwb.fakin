@@ -4,7 +4,7 @@
 \alias{read_csv}
 \title{Read Data from CSV File}
 \usage{
-read_csv(file, sep = ";", version = 2, ...)
+read_csv(file, sep = ";", version = 2, fileEncoding = NULL, ...)
 }
 \arguments{
 \item{file}{path to CSV file}
@@ -13,6 +13,9 @@ read_csv(file, sep = ";", version = 2, ...)
 
 \item{version}{determines which function to use for reading the CSV file
 1: \code{\link[utils]{read.table}}, 2: \code{\link[data.table]{fread}}}
+
+\item{fileEncoding}{passed to \code{\link[utils]{read.table}} or as
+\code{encoding} to \code{\link[data.table]{fread}}}
 
 \item{\dots}{further arguments passed to \code{\link[utils]{read.table}} or
 \code{\link[data.table]{fread}}}

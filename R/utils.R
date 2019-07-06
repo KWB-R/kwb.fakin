@@ -141,21 +141,28 @@ ncharHist <- function(x)
 #' @param sep column separator
 #' @param version determines which function to use for reading the CSV file
 #'   1: \code{\link[utils]{read.table}}, 2: \code{\link[data.table]{fread}}
+#' @param fileEncoding passed to \code{\link[utils]{read.table}} or as
+#'   \code{encoding} to \code{\link[data.table]{fread}}
 #' @param \dots further arguments passed to \code{\link[utils]{read.table}} or
 #'   \code{\link[data.table]{fread}}
 #'
 #' @export
 #'
-read_csv <- function(file, sep = ";", version = 2, ...)
+read_csv <- function(file, sep = ";", version = 2, fileEncoding = NULL, ...)
 {
   message_string <- function(fun) sprintf("Reading '%s' with %s", file, fun)
+
+  fileEncoding <- kwb.utils::defaultIfNULL(
+    fileEncoding, ifelse(version == 1, "", "unknown")
+  )
 
   if (version == 1) {
 
     kwb.utils::catAndRun(
       message_string("utils::read.table()"),
       utils::read.table(
-        file, header = TRUE, sep = sep, stringsAsFactors = FALSE, ...
+        file, header = TRUE, sep = sep, stringsAsFactors = FALSE,
+        fileEncoding = fileEncoding, ...
       )
     )
 
@@ -163,7 +170,9 @@ read_csv <- function(file, sep = ";", version = 2, ...)
 
     kwb.utils::catAndRun(
       message_string("data.table::fread()"),
-      as.data.frame(data.table::fread(file = file, sep = sep, ...))
+      as.data.frame(data.table::fread(
+        file = file, sep = sep, encoding = fileEncoding, ...
+      ))
     )
 
   } else {

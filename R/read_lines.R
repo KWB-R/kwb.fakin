@@ -4,19 +4,13 @@
 #'
 #' @param file a connection object or character string
 #' @param \dots arguments passed to \code{\link{readLines}}
+#' @param encoding passed to \code{\link{readLines}}.
 #' @param fileEncoding The name of the encoding to be assumed. Passed as
 #'   \code{encoding} to \code{\link{file}}, see there.
-#' @param encoding passed to \code{\link{readLines}}. If \code{NULL}, the
-#'   result of \code{kwb.fakin:::default_local_encoding} is used.
 #' @export
 #'
-read_lines <- function(file, ..., fileEncoding = "", encoding = NULL)
+read_lines <- function(file, ..., encoding = "unknown", fileEncoding = "")
 {
-  if (fileEncoding == "") {
-    fileEncoding <- readr::guess_encoding(file)$encoding[1]
-    message("Guessed file encoding: ", fileEncoding)
-  }
-
   # This part is copied from the implementation of read.table
   if (is.character(file)) {
     con <- if (nzchar(fileEncoding)) {
@@ -29,9 +23,7 @@ read_lines <- function(file, ..., fileEncoding = "", encoding = NULL)
     con <- file
   }
 
-  encoding <- kwb.utils::defaultIfNULL(encoding, default_local_encoding())
-
-  readLines(con, ..., encoding = encoding)
+  readLines(con, encoding = encoding, ...)
 }
 
 # default_local_encoding -------------------------------------------------------
