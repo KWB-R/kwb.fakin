@@ -2,18 +2,14 @@
 % Please edit documentation in R/read_file_info.R
 \name{read_file_info}
 \alias{read_file_info}
-\title{Read File Information from CSV File}
+\title{Deprecated}
 \usage{
-read_file_info(file, version = 2, ...)
+read_file_info(...)
 }
 \arguments{
-\item{file}{path to CSV file containing file information as stored with
-\code{\link{write_file_info}}}
-
-\item{version}{passed to \code{\link{read_csv}}}
-
-\item{\dots}{further arguments passed to \code{\link{read_csv}})}
+\item{\dots}{arguments passed to private function}
 }
 \description{
-Read File Information from CSV File
+Deprecated
 }
+\keyword{internal}

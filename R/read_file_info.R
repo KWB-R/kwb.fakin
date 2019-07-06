@@ -1,17 +1,29 @@
 # read_file_info ---------------------------------------------------------------
 
+#' Deprecated
+#'
+#' @param \dots arguments passed to private function
+#' @export
+#' @keywords internal
+#'
+read_file_info <- function(...)
+{
+  kwb.utils::warningDeprecated("read_file_info", "read_file_paths")
+  read_file_info_(...)
+}
+
+# read_file_info_ --------------------------------------------------------------
+
 #' Read File Information from CSV File
 #'
 #' @param file path to CSV file containing file information as stored with
 #'   \code{\link{write_file_info}}
 #' @param version passed to \code{\link{read_csv}}
 #' @param \dots further arguments passed to \code{\link{read_csv}})
-#'
-#' @export
-#'
 #' @importFrom kwb.utils catAndRun
+#' @keywords internal
 #'
-read_file_info <- function(file, version = 2, ...)
+read_file_info_ <- function(file, version = 2, ...)
 {
   file_info <- read_csv(file, version = version, ...)
 
@@ -36,6 +48,7 @@ read_file_info <- function(file, version = 2, ...)
 #' @importFrom kwb.utils defaultIfNA renameColumns rStylePath selectColumns
 #' @importFrom lubridate dmy_hms
 #' @keywords internal
+#'
 reformat_file_info <- function(file_info)
 {
   # Which columns are time columns?
