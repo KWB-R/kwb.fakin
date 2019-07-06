@@ -95,10 +95,27 @@ extdata_file <- function(file)
   paths
 }
 
+# extend_each_element ----------------------------------------------------------
+extend_each_element <- function(x, ...)
+{
+  stopifnot(is.list(x))
+  stopifnot(all(sapply(x, is.list)))
+
+  lapply(x, function(xx) {
+    kwb.utils::hsRestoreAttributes(c(xx, ...), attributes(xx))
+  })
+}
+
 # fails ------------------------------------------------------------------------
 fails <- function(expr)
 {
   inherits(try(expr), "try-error")
+}
+
+# grepl_bytes ------------------------------------------------------------------
+grepl_bytes <- function(...)
+{
+  grepl(..., useBytes = TRUE)
 }
 
 # indentation ------------------------------------------------------------------
