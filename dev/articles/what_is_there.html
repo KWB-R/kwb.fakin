@@ -130,7 +130,7 @@
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; Reading '/usr/local/lib/R/site-library/kwb.fakin/extdata/example_file_info_1.csv' with utils::read.table() ... ok. (0.00s)</span></a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb2-4" data-line-number="4">data_<span class="dv">2</span> &lt;-<span class="st"> </span>kwb.fakin<span class="op">::</span><span class="kw">read_csv</span>(example_file, <span class="dt">version =</span> <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; Reading '/usr/local/lib/R/site-library/kwb.fakin/extdata/example_file_info_1.csv' with data.table::fread() ... ok. (0.05s)</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; Reading '/usr/local/lib/R/site-library/kwb.fakin/extdata/example_file_info_1.csv' with data.table::fread() ... ok. (0.06s)</span></a>
 <a class="sourceLine" id="cb2-6" data-line-number="6"></a>
 <a class="sourceLine" id="cb2-7" data-line-number="7"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(data_<span class="dv">1</span>, <span class="dv">3</span>)</a>
 <a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt;               path      size          last_access      type</span></a>
@@ -184,32 +184,36 @@
 <a class="sourceLine" id="cb5-2" data-line-number="2">read_example &lt;-<span class="st"> </span><span class="cf">function</span>(x) kwb.fakin<span class="op">::</span><span class="kw">read_paths</span>(kwb.fakin<span class="op">::</span><span class="kw">extdata_file</span>(x))</a>
 <a class="sourceLine" id="cb5-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb5-4" data-line-number="4">file_paths &lt;-<span class="st"> </span><span class="kw">read_example</span>(<span class="st">"example_file_paths.csv"</span>)</a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; Suggested encodings: 'UTF-8', 'ISO8859-1'</span></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt; Selected encoding: 'UTF-8'</span></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; Reading paths from '/usr/local/lib/R/site-library/kwb.fakin/extdata/example_file_paths.csv' ... ok. (0.00s) </span></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt; 546 lines have been read.</span></a>
-<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; Sorting paths ... ok. (0.00s)</span></a>
-<a class="sourceLine" id="cb5-10" data-line-number="10">folder_paths &lt;-<span class="st"> </span><span class="kw">read_example</span>(<span class="st">"example_folder_paths.csv"</span>)</a>
-<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; Suggested encodings: 'UTF-8', 'ISO8859-1'</span></a>
-<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt; Selected encoding: 'UTF-8'</span></a>
-<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt; Reading paths from '/usr/local/lib/R/site-library/kwb.fakin/extdata/example_folder_paths.csv' ... ok. (0.00s) </span></a>
-<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#&gt; 113 lines have been read.</span></a>
-<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">#&gt; Sorting paths ... ok. (0.00s)</span></a>
-<a class="sourceLine" id="cb5-16" data-line-number="16"></a>
-<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(file_paths)</a>
-<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="co">#&gt; [1] "radio/effect.png"                            </span></a>
-<a class="sourceLine" id="cb5-19" data-line-number="19"><span class="co">#&gt; [2] "radio/person.pdf"                            </span></a>
-<a class="sourceLine" id="cb5-20" data-line-number="20"><span class="co">#&gt; [3] "radio/please.R"                              </span></a>
-<a class="sourceLine" id="cb5-21" data-line-number="21"><span class="co">#&gt; [4] "radio/provide/double/between.xls"            </span></a>
-<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="co">#&gt; [5] "radio/provide/double/corner/describe.png"    </span></a>
-<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="co">#&gt; [6] "radio/provide/double/corner/select/final.pdf"</span></a>
-<a class="sourceLine" id="cb5-24" data-line-number="24"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(folder_paths)</a>
-<a class="sourceLine" id="cb5-25" data-line-number="25"><span class="co">#&gt; [1] "radio"                             </span></a>
-<a class="sourceLine" id="cb5-26" data-line-number="26"><span class="co">#&gt; [2] "radio/provide"                     </span></a>
-<a class="sourceLine" id="cb5-27" data-line-number="27"><span class="co">#&gt; [3] "radio/provide/double"              </span></a>
-<a class="sourceLine" id="cb5-28" data-line-number="28"><span class="co">#&gt; [4] "radio/provide/double/corner"       </span></a>
-<a class="sourceLine" id="cb5-29" data-line-number="29"><span class="co">#&gt; [5] "radio/provide/double/corner/select"</span></a>
-<a class="sourceLine" id="cb5-30" data-line-number="30"><span class="co">#&gt; [6] "radio/provide/double/design"</span></a></code></pre></div>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; Reading paths from '/usr/local/lib/R/site-library/kwb.fakin/extdata/example_file_paths.csv' ...</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt; Guessed file encoding: ASCII</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; Suggested encodings: 'UTF-8', 'ISO8859-1'</span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt; Selected encoding: 'UTF-8'</span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; ok. (0.11s) </span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; 546 lines have been read.</span></a>
+<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; Sorting paths ... ok. (0.00s)</span></a>
+<a class="sourceLine" id="cb5-12" data-line-number="12">folder_paths &lt;-<span class="st"> </span><span class="kw">read_example</span>(<span class="st">"example_folder_paths.csv"</span>)</a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt; Reading paths from '/usr/local/lib/R/site-library/kwb.fakin/extdata/example_folder_paths.csv' ...</span></a>
+<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#&gt; Guessed file encoding: ASCII</span></a>
+<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">#&gt; Suggested encodings: 'UTF-8', 'ISO8859-1'</span></a>
+<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt; Selected encoding: 'UTF-8'</span></a>
+<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="co">#&gt; ok. (0.00s) </span></a>
+<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="co">#&gt; 113 lines have been read.</span></a>
+<a class="sourceLine" id="cb5-19" data-line-number="19"><span class="co">#&gt; Sorting paths ... ok. (0.00s)</span></a>
+<a class="sourceLine" id="cb5-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb5-21" data-line-number="21"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(file_paths)</a>
+<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="co">#&gt; [1] "radio/effect.png"                            </span></a>
+<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="co">#&gt; [2] "radio/person.pdf"                            </span></a>
+<a class="sourceLine" id="cb5-24" data-line-number="24"><span class="co">#&gt; [3] "radio/please.R"                              </span></a>
+<a class="sourceLine" id="cb5-25" data-line-number="25"><span class="co">#&gt; [4] "radio/provide/double/between.xls"            </span></a>
+<a class="sourceLine" id="cb5-26" data-line-number="26"><span class="co">#&gt; [5] "radio/provide/double/corner/describe.png"    </span></a>
+<a class="sourceLine" id="cb5-27" data-line-number="27"><span class="co">#&gt; [6] "radio/provide/double/corner/select/final.pdf"</span></a>
+<a class="sourceLine" id="cb5-28" data-line-number="28"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(folder_paths)</a>
+<a class="sourceLine" id="cb5-29" data-line-number="29"><span class="co">#&gt; [1] "radio"                             </span></a>
+<a class="sourceLine" id="cb5-30" data-line-number="30"><span class="co">#&gt; [2] "radio/provide"                     </span></a>
+<a class="sourceLine" id="cb5-31" data-line-number="31"><span class="co">#&gt; [3] "radio/provide/double"              </span></a>
+<a class="sourceLine" id="cb5-32" data-line-number="32"><span class="co">#&gt; [4] "radio/provide/double/corner"       </span></a>
+<a class="sourceLine" id="cb5-33" data-line-number="33"><span class="co">#&gt; [5] "radio/provide/double/corner/select"</span></a>
+<a class="sourceLine" id="cb5-34" data-line-number="34"><span class="co">#&gt; [6] "radio/provide/double/design"</span></a></code></pre></div>
 </div>
 </div>
 <div id="file-listing-functions" class="section level2">
@@ -242,7 +246,7 @@
 <a class="sourceLine" id="cb6-21" data-line-number="21"><span class="co">#&gt;     }</span></a>
 <a class="sourceLine" id="cb6-22" data-line-number="22"><span class="co">#&gt;     cat_time("End")</span></a>
 <a class="sourceLine" id="cb6-23" data-line-number="23"><span class="co">#&gt; }</span></a>
-<a class="sourceLine" id="cb6-24" data-line-number="24"><span class="co">#&gt; &lt;bytecode: 0x6855538&gt;</span></a>
+<a class="sourceLine" id="cb6-24" data-line-number="24"><span class="co">#&gt; &lt;bytecode: 0x62def98&gt;</span></a>
 <a class="sourceLine" id="cb6-25" data-line-number="25"><span class="co">#&gt; &lt;environment: namespace:kwb.fakin&gt;</span></a></code></pre></div>
 </div>
 <div id="get_recursive_file_info" class="section level3">
@@ -253,20 +257,15 @@
 <a class="sourceLine" id="cb7-2" data-line-number="2">file_info &lt;-<span class="st"> </span>kwb.fakin<span class="op">::</span><span class="kw">get_recursive_file_info</span>(root)</a>
 <a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt; Getting file information on files below /usr/local/lib/R/site-library/kwb.fakin ... ok. (0.00s)</span></a>
 <a class="sourceLine" id="cb7-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(file_info[, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>])</a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt;                                                        path      type</span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; 1       /usr/local/lib/R/site-library/kwb.fakin/DESCRIPTION      file</span></a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; 2             /usr/local/lib/R/site-library/kwb.fakin/INDEX      file</span></a>
-<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt; 3           /usr/local/lib/R/site-library/kwb.fakin/LICENSE      file</span></a>
-<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt; 4              /usr/local/lib/R/site-library/kwb.fakin/Meta directory</span></a>
-<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt; 5       /usr/local/lib/R/site-library/kwb.fakin/Meta/Rd.rds      file</span></a>
-<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt; 6 /usr/local/lib/R/site-library/kwb.fakin/Meta/features.rds      file</span></a>
-<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">#&gt;      size</span></a>
-<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">#&gt; 1   1.87K</span></a>
-<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co">#&gt; 2   3.14K</span></a>
-<a class="sourceLine" id="cb7-15" data-line-number="15"><span class="co">#&gt; 3   1.08K</span></a>
-<a class="sourceLine" id="cb7-16" data-line-number="16"><span class="co">#&gt; 4      4K</span></a>
-<a class="sourceLine" id="cb7-17" data-line-number="17"><span class="co">#&gt; 5   1.91K</span></a>
-<a class="sourceLine" id="cb7-18" data-line-number="18"><span class="co">#&gt; 6     131</span></a></code></pre></div>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt; # A tibble: 6 x 3</span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt;   path                                                 type            size</span></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt;   &lt;fs::path&gt;                                           &lt;fct&gt;     &lt;fs::byte&gt;</span></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt; 1 /usr/local/lib/R/site-library/kwb.fakin/DESCRIPTION  file           1.93K</span></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt; 2 /usr/local/lib/R/site-library/kwb.fakin/INDEX        file            3.2K</span></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt; 3 /usr/local/lib/R/site-library/kwb.fakin/LICENSE      file           1.08K</span></a>
+<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt; 4 /usr/local/lib/R/site-library/kwb.fakin/Meta         directory         4K</span></a>
+<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">#&gt; 5 /usr/local/lib/R/site-library/kwb.fakin/Meta/Rd.rds  file           1.94K</span></a>
+<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">#&gt; 6 /usr/local/lib/R/site-library/kwb.fakin/Meta/featur… file             131</span></a></code></pre></div>
 </div>
 </div>
   </div>
