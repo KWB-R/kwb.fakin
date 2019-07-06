@@ -4,14 +4,13 @@
 \alias{read_paths}
 \title{Read Paths From File}
 \usage{
-read_paths(file, encoding = NULL, fileEncoding = "", do_sort = TRUE)
+read_paths(file, ..., do_sort = TRUE)
 }
 \arguments{
 \item{file}{full path to the text file containing paths}
 
-\item{encoding}{passed to \code{\link[base]{readLines}}}
-
-\item{fileEncoding}{passed to \code{\link{file}}}
+\item{\dots}{arguments passed to \code{\link{read_lines}}, such as
+\code{n}, \code{fileEncoding}, \code{encoding}}
 
 \item{do_sort}{if \code{TRUE} (default), the vector of paths is sorted
 alphanumerically.}
