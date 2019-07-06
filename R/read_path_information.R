@@ -47,5 +47,5 @@ read_path_information <- function(
 
   names(files) <- names
 
-  lapply(files, read_file_info, sep = sep, ...)
+  lapply(files, read_file_info_, sep = sep, ...)
 }

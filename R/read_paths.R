@@ -33,6 +33,7 @@ read_paths <- function(...)
 #' @importFrom kwb.utils catAndRun
 #' @importFrom kwb.utils catIf
 #' @importFrom kwb.utils stringList
+#' @keywords internal
 #'
 read_paths_ <- function(
   file, fileEncoding = NULL, encoding = NULL, ..., do_sort = TRUE,

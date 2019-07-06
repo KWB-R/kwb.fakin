@@ -82,7 +82,7 @@ root_dir = "~/Desktop/R-Development/RScripts"
 packages <- kwb.code::get_names_of_used_packages(root_dir)
 
 # Print the script names
-kwb.utils::catLines(packages)
+writeLines(packages)
 ```
 
 ## Get file properties recursively

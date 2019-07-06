@@ -33,7 +33,7 @@ read_file_paths <- function(file, metadata = NULL)
 
   if (metadata$ncol == 1) {
 
-    paths <- read_paths(file, fileEncoding = metadata$encoding)
+    paths <- read_paths_(file, fileEncoding = metadata$encoding)
     result <- kwb.utils::noFactorDataFrame(path = paths)
     result$type <- guess_file_path_type(x = result$path)
     result$size <- ifelse(result$type == "directory", 0L, 2^20)
@@ -42,20 +42,17 @@ read_file_paths <- function(file, metadata = NULL)
 
     columns <- attr(metadata, "columns")
 
-    result <- if (! is.null(columns)) {
+    result <- if ("birthtim" %in% columns) {
 
-      if ("birthtim" %in% columns) {
+      read_file_info_libuv(file)
 
-        read_file_info_libuv(file)
+    } else if ("ITEMURL" %in% columns) {
 
-      } else if ("ITEMURL" %in% columns) {
-
-        read_file_info_search_index(file)
-      }
+      read_file_info_search_index(file)
 
     } else {
 
-      read_file_info(
+      read_file_info_(
         file, sep = metadata$sep, fileEncoding = metadata$encoding_fread
       )
     }

@@ -31,3 +31,4 @@ vector of character
 Read paths from a file that contains one path per line. Convert backslashes
 to slashes and sort the paths (by default)
 }
+\keyword{internal}

@@ -52,16 +52,38 @@ identical(data_1, data_2)
 
 ### read_file_info()
 
-This function reads a text file that contains file information, such as file 
-path, file size, creation time or last modification time. The file is read with
-`read_csv()`, see above. File sizes are assumed to be given in bytes and are
-converted to Mebibytes (MiB = 2^20 bytes) in order to avoid very large numbers
-that require a non-standard data type.
+This function reads a text file that contains any kind of file path information.
+The function is aimed to read files containing file paths only, one path per
+line, as well as files that contain additional information such as file size,
+creation time or last modification time. File sizes are assumed to be given in
+bytes and are converted to Mebibytes (MiB = 2^20 bytes) in order to avoid very
+large numbers that require a non-standard data type.
 
 ```{r}
-file_info <- kwb.fakin::read_file_info(example_file)
+file_info <- kwb.fakin::read_file_paths(example_file)
 
 head(file_info)
+```
+
+When reading files that only contain file paths (without any additional columns)
+the function adds columns `type` and `size`. The `type` is guessed from the
+filename extension whereas the `size` is set to 0 for directories and to `2^20`
+for files. You can specify the `fileEncoding` assumed for the file. When being
+set to `NULL` the function uses `utils::localeToCharset()` to guess an encoding.
+The encoding is passed to the function `file()` that is used to open an explicit
+connection. This connection is then given to `readLines()`. The lines read are
+assumed to be full file paths. Backslashes are converted to slashes. By default,
+all paths are sorted.
+
+```{r}
+# Helper function
+read_example <- function(x) kwb.fakin::read_file_paths(kwb.fakin::extdata_file(x))
+
+file_paths <- read_example("example_file_paths.csv")
+folder_paths <- read_example("example_folder_paths.csv")
+
+head(file_paths)
+head(folder_paths)
 ```
 
 ### read_path_information()
@@ -78,27 +100,6 @@ file_infos <- kwb.fakin::read_path_information(
   pattern = "^example_file_info.*\\.csv$", 
   sep = ";"
 )
-```
-
-### read_paths()
-
-This function reads files that contain one file path per line. You can specify
-the `fileEncoding` assumed for the file. When being set to `NULL` the function
-uses `utils::localeToCharset()` to guess an encoding. The encoding is passed to
-the function `file()` that is used to open an explicit connection. This 
-connection is then given to `readLines()`. The lines read are assumed to be full
-file paths. Backslashes are converted to slashes. By default, all paths are 
-sorted. 
-
-```{r}
-# Helper function
-read_example <- function(x) kwb.fakin::read_paths(kwb.fakin::extdata_file(x))
-
-file_paths <- read_example("example_file_paths.csv")
-folder_paths <- read_example("example_folder_paths.csv")
-
-head(file_paths)
-head(folder_paths)
 ```
 
 ## File Listing Functions
