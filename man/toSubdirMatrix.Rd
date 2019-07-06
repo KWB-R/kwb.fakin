@@ -23,3 +23,4 @@ matrix or data frame, depending on \code{result_type}
 \description{
 This function is deprecated. Please use kwb.file::to_subdir_matrix() instead.
 }
+\keyword{internal}

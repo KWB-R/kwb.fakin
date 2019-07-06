@@ -21,13 +21,14 @@ toLongPath <- function(shortpath, dict)
 #' @param dbg if \code{TRUE} debug messages are shown
 #' @return matrix or data frame, depending on \code{result_type}
 #' @export
+#' @keywords internal
+#'
 toSubdirMatrix <- function(
   paths, fill.value = "", result_type = "matrix", dbg = TRUE
 )
 {
-  warning(
-    "Please use kwb.file::to_subdir_matrix() instead of toSubdirMatrix()!",
-    call. = FALSE
+  kwb.utils::warningDeprecated(
+    old_name = "toSubdirMatrix", new_name = "kwb.file::to_subdir_matrix"
   )
 
   kwb.file::to_subdir_matrix(paths, fill.value, result_type, dbg)

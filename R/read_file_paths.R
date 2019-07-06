@@ -1,4 +1,19 @@
 # read_file_paths --------------------------------------------------------------
+
+#' Read File Paths from a File
+#'
+#' The function tries to guess what type of file is given to the function and
+#' calls the appropriate function to read the file. The aim of this function is
+#' to provide a common result format independent from the type of file that was
+#' read.
+#'
+#' @param file file containing file path information (path only or additional
+#'   information such as file type, size or creation/modification time, etc.)
+#' @param metadata data frame containing metadata about the file. If given, it
+#'   must look as what \code{\link{guess_file_metadata}} returns. If \code{NULL}
+#'   the same function is called to guess metadata about the file.
+#' @return data frame with columns...
+#'
 read_file_paths <- function(file, metadata = NULL)
 {
   if (is.null(metadata)) {
@@ -24,9 +39,25 @@ read_file_paths <- function(file, metadata = NULL)
 
   } else {
 
-    result <- read_file_info(
-      file, sep = metadata$sep, fileEncoding = metadata$encoding_fread
-    )
+    columns <- attr(metadata, "columns")
+
+    result <- if (! is.null(columns)) {
+
+      if ("birthtim" %in% columns) {
+
+        read_file_info_libuv(file)
+
+      } else if ("ITEMURL" %in% columns) {
+
+        read_file_info_search_index(file)
+      }
+
+    } else {
+
+      read_file_info(
+        file, sep = metadata$sep, fileEncoding = metadata$encoding_fread
+      )
+    }
   }
 
   result

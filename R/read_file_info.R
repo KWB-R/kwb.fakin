@@ -69,8 +69,8 @@ reformat_file_info <- function(file_info)
 #' @param file file containing the output of a Windows powershell script that
 #'   reads file paths from the search index database and writes them to a CSV
 #'   file
-#'
 #' @return data frame
+#' @keywords internal
 #'
 read_file_info_search_index <- function(file)
 {
@@ -87,8 +87,8 @@ read_file_info_search_index <- function(file)
 #'
 #' @param file file containing the output of my own fast version of
 #'   \code{fs::dir_info}
-#'
 #' @return data frame with time columns converted to \code{POSIXct}
+#' @keywords internal
 #'
 read_file_info_libuv <- function(file)
 {
