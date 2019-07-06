@@ -13,6 +13,7 @@
 #'   must look as what \code{\link{guess_file_metadata}} returns. If \code{NULL}
 #'   the same function is called to guess metadata about the file.
 #' @return data frame with columns...
+#' @export
 #'
 read_file_paths <- function(file, metadata = NULL)
 {

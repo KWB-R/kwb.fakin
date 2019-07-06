@@ -1,5 +1,19 @@
 # read_paths -------------------------------------------------------------------
 
+#' Deprecated
+#'
+#' @param \dots passed to private function
+#' @export
+#' @keywords internal
+#'
+read_paths <- function(...)
+{
+  kwb.utils::warningDeprecated("read_paths", "read_file_paths")
+  read_paths_(...)
+}
+
+# read_paths_ ------------------------------------------------------------------
+
 #' Read Paths From File
 #'
 #' Read paths from a file that contains one path per line. Convert backslashes
@@ -16,14 +30,11 @@
 #' @param expected_encodings vector of names of file encodings that are
 #'   expected to occur. Expected encodings will be preferred.
 #' @return vector of character
-#'
 #' @importFrom kwb.utils catAndRun
 #' @importFrom kwb.utils catIf
 #' @importFrom kwb.utils stringList
 #'
-#' @export
-#'
-read_paths <- function(
+read_paths_ <- function(
   file, fileEncoding = NULL, encoding = NULL, ..., do_sort = TRUE,
   expected_encodings = c("windows-1252", "ISO-8859-1")
 )
@@ -53,15 +64,4 @@ read_paths <- function(
   }
 
   paths
-}
-
-# writePathsToFiles ------------------------------------------------------------
-writePathsToFiles <- function(xall, file)
-{
-  for (i in seq_along(xall)) {
-
-    file <- sub(".txt", paste0("_", LETTERS[i], ".txt"), file)
-
-    kwb.utils::writeText(xall[[i]], file = file)
-  }
 }
