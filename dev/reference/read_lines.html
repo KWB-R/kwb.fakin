@@ -149,7 +149,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>read_lines</span>(<span class='no'>file</span>, <span class='no'>...</span>, <span class='kw'>fileEncoding</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>encoding</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>read_lines</span>(<span class='no'>file</span>, <span class='no'>...</span>, <span class='kw'>encoding</span> <span class='kw'>=</span> <span class='st'>"unknown"</span>, <span class='kw'>fileEncoding</span> <span class='kw'>=</span> <span class='st'>""</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -163,14 +163,13 @@
       <td><p>arguments passed to <code><a href='https://www.rdocumentation.org/packages/base/topics/readLines'>readLines</a></code></p></td>
     </tr>
     <tr>
+      <th>encoding</th>
+      <td><p>passed to <code><a href='https://www.rdocumentation.org/packages/base/topics/readLines'>readLines</a></code>.</p></td>
+    </tr>
+    <tr>
       <th>fileEncoding</th>
       <td><p>The name of the encoding to be assumed. Passed as
 <code>encoding</code> to <code><a href='https://www.rdocumentation.org/packages/base/topics/connections'>file</a></code>, see there.</p></td>
-    </tr>
-    <tr>
-      <th>encoding</th>
-      <td><p>passed to <code><a href='https://www.rdocumentation.org/packages/base/topics/readLines'>readLines</a></code>. If <code>NULL</code>, the
-result of <code>kwb.fakin:::default_local_encoding</code> is used.</p></td>
     </tr>
     </table>
     

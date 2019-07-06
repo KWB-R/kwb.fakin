@@ -149,7 +149,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>read_csv</span>(<span class='no'>file</span>, <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>";"</span>, <span class='kw'>version</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>read_csv</span>(<span class='no'>file</span>, <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>";"</span>, <span class='kw'>version</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>fileEncoding</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -166,6 +166,11 @@
       <th>version</th>
       <td><p>determines which function to use for reading the CSV file
 1: <code><a href='https://www.rdocumentation.org/packages/utils/topics/read.table'>read.table</a></code>, 2: <code><a href='https://www.rdocumentation.org/packages/data.table/topics/fread'>fread</a></code></p></td>
+    </tr>
+    <tr>
+      <th>fileEncoding</th>
+      <td><p>passed to <code><a href='https://www.rdocumentation.org/packages/utils/topics/read.table'>read.table</a></code> or as
+<code>encoding</code> to <code><a href='https://www.rdocumentation.org/packages/data.table/topics/fread'>fread</a></code></p></td>
     </tr>
     <tr>
       <th>&#8230;</th>
