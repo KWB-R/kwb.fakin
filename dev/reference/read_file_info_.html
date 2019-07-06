@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Deprecated — read_file_info • kwb.fakin</title>
+<title>Read File Information from CSV File — read_file_info_ • kwb.fakin</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -36,9 +36,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Deprecated — read_file_info" />
+<meta property="og:title" content="Read File Information from CSV File — read_file_info_" />
 
-<meta property="og:description" content="Deprecated" />
+<meta property="og:description" content="Read File Information from CSV File" />
 <meta name="twitter:card" content="summary" />
 
 <meta name="robots" content="noindex">
@@ -138,25 +138,34 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Deprecated</h1>
+    <h1>Read File Information from CSV File</h1>
     <small class="dont-index">Source: <a href='https://github.com/kwb-r/kwb.fakin/blob/master/R/read_file_info.R'><code>R/read_file_info.R</code></a></small>
-    <div class="hidden name"><code>read_file_info.Rd</code></div>
+    <div class="hidden name"><code>read_file_info_.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Deprecated</p>
+    <p>Read File Information from CSV File</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>read_file_info</span>(<span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>read_file_info_</span>(<span class='no'>file</span>, <span class='kw'>version</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>file</th>
+      <td><p>path to CSV file containing file information as stored with
+<code><a href='write_file_info.html'>write_file_info</a></code></p></td>
+    </tr>
+    <tr>
+      <th>version</th>
+      <td><p>passed to <code><a href='read_csv.html'>read_csv</a></code></p></td>
+    </tr>
+    <tr>
       <th>&#8230;</th>
-      <td><p>arguments passed to private function</p></td>
+      <td><p>further arguments passed to <code><a href='read_csv.html'>read_csv</a></code>)</p></td>
     </tr>
     </table>
     
