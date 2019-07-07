@@ -27,8 +27,11 @@ read_file_info_ <- function(file, version = 2, ...)
 {
   file_info <- read_csv(file, version = version, ...)
 
+  # Provide the column names
+  columns <- names(file_info)
+
   # If the file has been created with PowerShell, adapt the format
-  if ("FullName" %in% names(file_info)) {
+  if ("FullName" %in% columns) {
 
     file_info <- kwb.utils::catAndRun("Reformatting the file info table", {
       reformat_file_info(file_info)
@@ -87,13 +90,15 @@ reformat_file_info <- function(file_info)
 #'
 read_file_info_search_index <- function(file)
 {
-  file_info <- read_csv(file, sep = ",", version = 2)
+  result <- read_csv(file, sep = ",", version = 2)
 
-  names(file_info) <- gsub("^SYSTEM[.]", "", names(file_info))
+  names(result) <- gsub("^SYSTEM[.]", "", names(result))
 
-  file_info$ITEMURL <- gsub("^file:", "", file_info$ITEMURL)
+  if (! is.null(result$ITEMURL)) {
+    result$ITEMURL <- gsub("^file:", "", result$ITEMURL)
+  }
 
-  file_info
+  result
 }
 
 #' Read CSV File Created Directly With libuv
