@@ -31,46 +31,41 @@ read_file_paths <- function(file, metadata = NULL)
     )
   )
 
-  if (metadata$ncol == 1) {
+  # Case: One path per line
+  if (metadata$ncol == 1) return (kwb.utils::catAndRun(
+    "Reading file with read_paths_only()",
+    read_paths_only(file, metadata)
+  ))
 
-    paths <- read_paths_(file, fileEncoding = metadata$encoding)
-    result <- kwb.utils::noFactorDataFrame(path = paths)
-    result$type <- guess_file_path_type(x = result$path)
-    result$size <- ifelse(result$type == "directory", 0L, 2^20)
+  # If we arrive here, there is more than one column
+  columns <- attr(metadata, "columns")
 
-  } else {
+  # Case: File created with Linux-tool libuv
+  if ("birthtim" %in% columns) return (kwb.utils::catAndRun(
+    "Reading file with read_file_info_libuv()",
+    read_file_info_libuv(file)
+  ))
 
-    columns <- attr(metadata, "columns")
+  # Case: File created by querying the Windows search index
+  if ("ITEMURL" %in% columns || any(grepl("SYSTEM[.]", columns))) return (
+    kwb.utils::catAndRun("Reading file with read_file_info_search_index()", {
+      result <- read_file_info_search_index(file)
+      result <- renameColumns(result, list(
+        ITEMTYPE = "type", ITEMPATHDISPLAY = "path", SIZE = "size"
+      ))
+      result$type <- ifelse(result$type == "Directory", "directory", "file")
+      result
+    })
+  )
 
-    result <- if ("birthtim" %in% columns) {
-
-      kwb.utils::catAndRun("Reading file with read_file_info_libuv()", {
-        read_file_info_libuv(file)
-      })
-
-    } else if ("ITEMURL" %in% columns || any(grepl("SYSTEM[.]", columns))) {
-
-      kwb.utils::catAndRun("Reading file with read_file_info_search_index()", {
-        result <- read_file_info_search_index(file)
-        result <- renameColumns(result, list(
-          ITEMTYPE = "type", ITEMPATHDISPLAY = "path", SIZE = "size"
-        ))
-        result$type <- ifelse(result$type == "Directory", "directory", "file")
-        result
-      })
-
-    } else {
-
-      kwb.utils::catAndRun(
-        "Reading file with read_file_info()", read_file_info_(
-          file, sep = metadata$sep, fileEncoding = metadata$encoding_fread
-        )
-      )
-    }
-  }
+  # Case: File created by Windows Powershell script, running as a cron-job
+  return (kwb.utils::catAndRun(
+    "Reading file with read_file_info()", read_file_info_(
+      file, sep = metadata$sep, fileEncoding = metadata$encoding_fread
+    )
+  ))
 
   #normalise_file_info_data(result)
-  result
 }
 
 # is_valid_path_file -----------------------------------------------------------
@@ -110,4 +105,3 @@ guess_file_path_type <- function(x)
     ifelse(has_final_slash | ! has_extension, "directory", "file")
   })
 }
-

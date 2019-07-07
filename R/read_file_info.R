@@ -20,7 +20,6 @@ read_file_info <- function(...)
 #'   \code{\link{write_file_info}}
 #' @param version passed to \code{\link{read_csv}}
 #' @param \dots further arguments passed to \code{\link{read_csv}})
-#' @importFrom kwb.utils catAndRun
 #' @keywords internal
 #'
 read_file_info_ <- function(file, version = 2, ...)

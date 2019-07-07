@@ -12,6 +12,25 @@ read_paths <- function(...)
   read_paths_(...)
 }
 
+# read_paths_only --------------------------------------------------------------
+read_paths_only <- function(file, metadata)
+{
+  # Read the paths into a vector of character
+  paths <- read_paths_(file, fileEncoding = metadata$encoding)
+
+  # Create a data frame with column "path"
+  result <- kwb.utils::noFactorDataFrame(path = paths)
+
+  # Guess the file type (directory or file) from the path
+  result$type <- guess_file_path_type(x = result$path)
+
+  # Set the size of all directories to 0 and of all files to 1 MiB
+  result$size <- ifelse(result$type == "directory", 0L, 2^20)
+
+  # Return the data frame
+  result
+}
+
 # read_paths_ ------------------------------------------------------------------
 
 #' Read Paths From File
