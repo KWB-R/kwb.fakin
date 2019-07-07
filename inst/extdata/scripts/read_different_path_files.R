@@ -65,6 +65,18 @@ if (FALSE)
   })))
 }
 
+# MAIN 4 -----------------------------------------------------------------------
+if (FALSE)
+{
+  file <- files$files_hauke
+  file_info <- kwb.fakin::read_file_paths(file)
+  str(file_info)
+  # 'data.frame':	164629 obs. of  18 variables:
+  # $ path             : chr  "Y:/SUW_Department/Bibliographie" "Y:/SUW_Department/Bibliographie/Abwasserbeseitigungsplan_Berlin" "Y:/SUW_Department/Bibliographie/Abwasserbeseitigungsplan_Berlin/AB-Plan0.pdf" "Y:/SUW_Department/Bibliographie/Abwasserbeseitigungsplan_Berlin/AB-Plan1.pdf" ...
+  # $ type             : chr  "directory" "directory" "file" "file" ...
+  # $ size             : num
+}
+
 # print_metadata_list ----------------------------------------------------------
 print_metadata_list <- function(metadata_list)
 {

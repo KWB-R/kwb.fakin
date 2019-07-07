@@ -69,6 +69,7 @@ read_file_paths <- function(file, metadata = NULL)
     }
   }
 
+  #normalise_file_info_data(result)
   result
 }
 
