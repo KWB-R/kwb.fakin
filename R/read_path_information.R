@@ -6,8 +6,7 @@
 #'   \code{pattern}
 #' @param pattern pattern to match against the file names to be read. Default:
 #'   "^path-info"
-#' @param sep column separator passed to \code{\link{read_file_info}}
-#' @param \dots further arguments passed to \code{\link{read_file_info}}
+#' @param \dots further arguments passed to \code{\link{read_file_paths}}
 #' @importFrom kwb.file dir_full
 #' @importFrom fs dir_ls
 #' @export
@@ -22,11 +21,9 @@
 #' kwb.fakin::get_and_save_file_info(root_dir, output_dir)
 #'
 #' # Read the "path-info"-files that are (now) found in output_dir
-#' path_info <- kwb.fakin:::read_path_information(output_dir, sep = ";")
+#' path_info <- kwb.fakin:::read_path_information(output_dir)
 #'
-read_path_information <- function(
-  file_info_dir, pattern = "^path-info", sep = ",", ...
-)
+read_path_information <- function(file_info_dir, pattern = "^path-info", ...)
 {
   files <- kwb.file::dir_full(file_info_dir, pattern)
 
@@ -47,5 +44,5 @@ read_path_information <- function(
 
   names(files) <- names
 
-  lapply(files, read_file_info_, sep = sep, ...)
+  lapply(files, read_file_paths, ...)
 }

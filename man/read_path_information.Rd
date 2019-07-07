@@ -4,8 +4,7 @@
 \alias{read_path_information}
 \title{Read Files Containing File Path Information from Folder}
 \usage{
-read_path_information(file_info_dir, pattern = "^path-info", sep = ",",
-  ...)
+read_path_information(file_info_dir, pattern = "^path-info", ...)
 }
 \arguments{
 \item{file_info_dir}{path to folder in which to look for files matching
@@ -14,9 +13,7 @@ read_path_information(file_info_dir, pattern = "^path-info", sep = ",",
 \item{pattern}{pattern to match against the file names to be read. Default:
 "^path-info"}
 
-\item{sep}{column separator passed to \code{\link{read_file_info}}}
-
-\item{\dots}{further arguments passed to \code{\link{read_file_info}}}
+\item{\dots}{further arguments passed to \code{\link{read_file_paths}}}
 }
 \description{
 Read Files Containing File Path Information from Folder
@@ -32,6 +29,6 @@ output_dir <- tempdir()
 kwb.fakin::get_and_save_file_info(root_dir, output_dir)
 
 # Read the "path-info"-files that are (now) found in output_dir
-path_info <- kwb.fakin:::read_path_information(output_dir, sep = ";")
+path_info <- kwb.fakin:::read_path_information(output_dir)
 
 }
