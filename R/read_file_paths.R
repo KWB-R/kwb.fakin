@@ -27,7 +27,7 @@ read_file_paths <- function(file, metadata = NULL)
 
   metadata$encoding <- kwb.utils::defaultIfNULL(
     metadata$encoding, guess_expected_encoding(
-      file, expected = c("ISO-8859-1", "WINDOWS-1252")
+      file, expected = c("ISO-8859-1", "WINDOWS-1252", "ASCII")
     )
   )
 
@@ -44,16 +44,27 @@ read_file_paths <- function(file, metadata = NULL)
 
     result <- if ("birthtim" %in% columns) {
 
-      read_file_info_libuv(file)
+      kwb.utils::catAndRun("Reading file with read_file_info_search_index()", {
+        read_file_info_libuv(file)
+      })
 
-    } else if ("ITEMURL" %in% columns) {
+    } else if ("ITEMURL" %in% columns || any(grepl("SYSTEM[.]", columns))) {
 
-      read_file_info_search_index(file)
+      kwb.utils::catAndRun("Reading file with read_file_info_search_index()", {
+        result <- read_file_info_search_index(file)
+        result <- renameColumns(result, list(
+          ITEMTYPE = "type", ITEMPATHDISPLAY = "path", SIZE = "size"
+        ))
+        result$type <- ifelse(result$type == "Directory", "directory", "file")
+        result
+      })
 
     } else {
 
-      read_file_info_(
-        file, sep = metadata$sep, fileEncoding = metadata$encoding_fread
+      kwb.utils::catAndRun(
+        "Reading file with read_file_info()", read_file_info_(
+          file, sep = metadata$sep, fileEncoding = metadata$encoding_fread
+        )
       )
     }
   }
