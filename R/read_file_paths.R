@@ -44,7 +44,7 @@ read_file_paths <- function(file, metadata = NULL)
 
     result <- if ("birthtim" %in% columns) {
 
-      kwb.utils::catAndRun("Reading file with read_file_info_search_index()", {
+      kwb.utils::catAndRun("Reading file with read_file_info_libuv()", {
         read_file_info_libuv(file)
       })
 
