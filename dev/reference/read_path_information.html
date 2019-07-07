@@ -149,8 +149,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>read_path_information</span>(<span class='no'>file_info_dir</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"^path-info"</span>, <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>","</span>,
-  <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>read_path_information</span>(<span class='no'>file_info_dir</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"^path-info"</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -166,12 +165,8 @@
 "^path-info"</p></td>
     </tr>
     <tr>
-      <th>sep</th>
-      <td><p>column separator passed to <code><a href='read_file_info.html'>read_file_info</a></code></p></td>
-    </tr>
-    <tr>
       <th>&#8230;</th>
-      <td><p>further arguments passed to <code><a href='read_file_info.html'>read_file_info</a></code></p></td>
+      <td><p>further arguments passed to <code><a href='read_file_paths.html'>read_file_paths</a></code></p></td>
     </tr>
     </table>
     
@@ -185,12 +180,16 @@
 
 <span class='co'># Write all paths below root_dir into a "path-info"-file</span>
 <span class='kw pkg'>kwb.fakin</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/kwb.fakin/topics/get_and_save_file_info'>get_and_save_file_info</a></span>(<span class='no'>root_dir</span>, <span class='no'>output_dir</span>)</div><div class='output co'>#&gt; Getting file information on files below /home/travis/build/KWB-R/kwb.fakin/inst ... ok. (0.00s) 
-#&gt; Elapsed: 0.003 
-#&gt; Writing to '/tmp/RtmpXdYDUy/path-info_2019-07-06_2344_inst.csv' with data.table::fwrite() ... ok. (0.00s) 
-#&gt; Elapsed: 0.002 </div><div class='input'>
+#&gt; Elapsed: 0.004 
+#&gt; Writing to '/tmp/Rtmp7Tded2/path-info_2019-07-07_0716_inst.csv' with data.table::fwrite() ... ok. (0.00s) 
+#&gt; Elapsed: 0.001 </div><div class='input'>
 <span class='co'># Read the "path-info"-files that are (now) found in output_dir</span>
-<span class='no'>path_info</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>kwb.fakin</span><span class='kw ns'>:::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/kwb.fakin/topics/read_path_information'>read_path_information</a></span>(<span class='no'>output_dir</span>, <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>";"</span>)</div><div class='output co'>#&gt; Reading '/tmp/RtmpXdYDUy/path-info_2019-07-06_2344_inst.csv' with data.table::fread() ... ok. (0.00s) 
-#&gt; Converting file size to MiB ... ok. (0.00s) </div><div class='input'>
+<span class='no'>path_info</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>kwb.fakin</span><span class='kw ns'>:::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/kwb.fakin/topics/read_path_information'>read_path_information</a></span>(<span class='no'>output_dir</span>)</div><div class='output co'>#&gt; Encodings guessed by readr:
+#&gt; [1] "ASCII"
+#&gt; Selected encoding: ascii
+#&gt; Reading file with read_file_info() ... Reading '/tmp/Rtmp7Tded2/path-info_2019-07-07_0716_inst.csv' with data.table::fread() ... ok. (0.00s) 
+#&gt; Converting file size to MiB ... ok. (0.00s) 
+#&gt; ok. (0.00s) </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

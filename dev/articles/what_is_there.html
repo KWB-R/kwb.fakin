@@ -154,18 +154,19 @@
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">file_info &lt;-<span class="st"> </span>kwb.fakin<span class="op">::</span><span class="kw">read_file_paths</span>(example_file)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; Encodings guessed by readr:</span></a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; [1] "ASCII"</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; Selected encoding: ISO-8859-1</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; Reading '/usr/local/lib/R/site-library/kwb.fakin/extdata/example_file_info_1.csv' with data.table::fread() ... ok. (0.00s) </span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; Converting file size to MiB ... ok. (0.00s)</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(file_info)</a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt;                   path     size          last_access      type</span></a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; 1                radio   0.0000 2016-12-31T12:46:27Z directory</span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; 2     radio/effect.png 695.5531 2009-08-08T05:41:27Z      file</span></a>
-<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; 3     radio/person.pdf 774.4095 2011-01-17T18:35:28Z      file</span></a>
-<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt; 4       radio/please.R 111.6977 2016-05-21T02:07:34Z      file</span></a>
-<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt; 5        radio/provide   0.0000 2012-10-24T05:32:42Z directory</span></a>
-<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">#&gt; 6 radio/provide/double   0.0000 2018-04-05T02:02:54Z directory</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; Selected encoding: ascii</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; Reading file with read_file_info() ... Reading '/usr/local/lib/R/site-library/kwb.fakin/extdata/example_file_info_1.csv' with data.table::fread() ... ok. (0.00s) </span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; Converting file size to MiB ... ok. (0.00s) </span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; ok. (0.00s)</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(file_info)</a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt;                   path     size          last_access      type</span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; 1                radio   0.0000 2016-12-31T12:46:27Z directory</span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; 2     radio/effect.png 695.5531 2009-08-08T05:41:27Z      file</span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt; 3     radio/person.pdf 774.4095 2011-01-17T18:35:28Z      file</span></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt; 4       radio/please.R 111.6977 2016-05-21T02:07:34Z      file</span></a>
+<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">#&gt; 5        radio/provide   0.0000 2012-10-24T05:32:42Z directory</span></a>
+<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co">#&gt; 6 radio/provide/double   0.0000 2018-04-05T02:02:54Z directory</span></a></code></pre></div>
 <p>When reading files that only contain file paths (without any additional columns) the function adds columns <code>type</code> and <code>size</code>. The <code>type</code> is guessed from the filename extension whereas the <code>size</code> is set to 0 for directories and to <code>2^20</code> for files. You can specify the <code>fileEncoding</code> assumed for the file. When being set to <code>NULL</code> the function uses <code><a href="https://www.rdocumentation.org/packages/utils/topics/localeToCharset">utils::localeToCharset()</a></code> to guess an encoding. The encoding is passed to the function <code><a href="https://www.rdocumentation.org/packages/base/topics/connections">file()</a></code> that is used to open an explicit connection. This connection is then given to <code><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines()</a></code>. The lines read are assumed to be full file paths. Backslashes are converted to slashes. By default, all paths are sorted.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># Helper function</span></a>
 <a class="sourceLine" id="cb4-2" data-line-number="2">read_example &lt;-<span class="st"> </span><span class="cf">function</span>(x) kwb.fakin<span class="op">::</span><span class="kw">read_file_paths</span>(kwb.fakin<span class="op">::</span><span class="kw">extdata_file</span>(x))</a>
@@ -173,7 +174,7 @@
 <a class="sourceLine" id="cb4-4" data-line-number="4">file_paths &lt;-<span class="st"> </span><span class="kw">read_example</span>(<span class="st">"example_file_paths.csv"</span>)</a>
 <a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; Encodings guessed by readr:</span></a>
 <a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; [1] "ASCII"</span></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; Selected encoding: ISO-8859-1</span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; Selected encoding: ascii</span></a>
 <a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; Suggested encodings: 'UTF-8', 'ISO8859-1'</span></a>
 <a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; Selected encoding: 'UTF-8'</span></a>
 <a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; Reading paths from '/usr/local/lib/R/site-library/kwb.fakin/extdata/example_file_paths.csv' ... ok. (0.00s) </span></a>
@@ -183,7 +184,7 @@
 <a class="sourceLine" id="cb4-14" data-line-number="14">folder_paths &lt;-<span class="st"> </span><span class="kw">read_example</span>(<span class="st">"example_folder_paths.csv"</span>)</a>
 <a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt; Encodings guessed by readr:</span></a>
 <a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt; [1] "ASCII"</span></a>
-<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; Selected encoding: ISO-8859-1</span></a>
+<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; Selected encoding: ascii</span></a>
 <a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt; Suggested encodings: 'UTF-8', 'ISO8859-1'</span></a>
 <a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">#&gt; Selected encoding: 'UTF-8'</span></a>
 <a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">#&gt; Reading paths from '/usr/local/lib/R/site-library/kwb.fakin/extdata/example_folder_paths.csv' ... ok. (0.00s) </span></a>
@@ -217,8 +218,7 @@
 <a class="sourceLine" id="cb5-3" data-line-number="3">  <span class="dt">pattern =</span> <span class="st">"^example_file_info.*</span><span class="ch">\\</span><span class="st">.csv$"</span>, </a>
 <a class="sourceLine" id="cb5-4" data-line-number="4">  <span class="dt">sep =</span> <span class="st">";"</span></a>
 <a class="sourceLine" id="cb5-5" data-line-number="5">)</a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt; Reading '/usr/local/lib/R/site-library/kwb.fakin/extdata//example_file_info_1.csv' with data.table::fread() ... ok. (0.00s) </span></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; Converting file size to MiB ... ok. (0.00s)</span></a></code></pre></div>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt; Error in FUN(X[[i]], ...): unused argument (sep = ";")</span></a></code></pre></div>
 </div>
 </div>
 <div id="file-listing-functions" class="section level2">
@@ -251,7 +251,7 @@
 <a class="sourceLine" id="cb6-21" data-line-number="21"><span class="co">#&gt;     }</span></a>
 <a class="sourceLine" id="cb6-22" data-line-number="22"><span class="co">#&gt;     cat_time("End")</span></a>
 <a class="sourceLine" id="cb6-23" data-line-number="23"><span class="co">#&gt; }</span></a>
-<a class="sourceLine" id="cb6-24" data-line-number="24"><span class="co">#&gt; &lt;bytecode: 0x5d6d530&gt;</span></a>
+<a class="sourceLine" id="cb6-24" data-line-number="24"><span class="co">#&gt; &lt;bytecode: 0x6b03038&gt;</span></a>
 <a class="sourceLine" id="cb6-25" data-line-number="25"><span class="co">#&gt; &lt;environment: namespace:kwb.fakin&gt;</span></a></code></pre></div>
 </div>
 <div id="get_recursive_file_info" class="section level3">
