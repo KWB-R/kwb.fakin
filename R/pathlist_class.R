@@ -20,12 +20,12 @@ if (FALSE)
   object.size(subdirs) / 2^20 # 14.7 MiB
 
   ## an object from the class
-  pl_1 <- pathlist(paths = paths[1:100])
+  pl_1 <- pathlist(paths = paths)
 
   class(pl_1)
 
   pl_1@root
-  head(pl_1@folders)
+  pl_1@folders
   head(pl_1@depths)
 
   pl_1[10:20, ]
@@ -36,8 +36,8 @@ if (FALSE)
   identical(paths, paths2)
   identical(paths3, paths[1:100])
 
-  summary(pl_1)
-  summary(pl_1$Administration)
+  pl_1$a
+  summary(pl_1$Administratio)
 }
 
 #
@@ -121,8 +121,17 @@ setMethod("[", "pathlist", function(x, i, j) {
 })
 
 setMethod("$", "pathlist", function(x, name) {
-  keep <- x@folders[, 1] == name
-  x@folders <- x@folders[keep, -1]
+  folders <- x@folders
+  folders_1 <- folders[, 1]
+  top_level_folders <- unique(folders_1)
+  if (! name %in% top_level_folders) {
+    stop(
+      "No such top-level folder: '", name, "'. Available folders: ",
+      kwb.utils::stringList(top_level_folders), call. = FALSE
+    )
+  }
+  keep <- folders_1 == name
+  x@folders <- folders[keep, -1]
   x@depths <- x@depths[keep] + 1L
   x@root <- paste0(x@root, "/", name)
   x
