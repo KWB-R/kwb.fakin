@@ -31,6 +31,9 @@ if (FALSE)
   })
 
   contents <- kwb.utils::excludeNULL(contents)
+  paths <- contents[[8]]$path
+
+  save(paths, file = "~/Desktop/tmp/paths.RData")
 
   lapply(contents, function(x) table(kwb.utils::fileExtension(x[[1]])))
 }
