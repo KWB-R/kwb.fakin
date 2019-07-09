@@ -1,20 +1,44 @@
-paths <- kwb.utils::loadObject("~/Desktop/tmp/paths.RData", "paths")
-length(paths) # 143058
+if (FALSE)
+{
+  paths <- kwb.utils::loadObject("~/Desktop/tmp/paths.RData", "paths")
 
-segments <- kwb.file::split_paths(paths)
-# Splitting paths ... ok. (7.34s)
-system.time(subdirs_2 <- kwb.file::to_subdir_matrix(paths))
-# user  system elapsed
-# 13.864   0.023  14.014
-system.time(subdirs <- kwb.file::to_subdir_matrix(segments))
-# user  system elapsed
-# 5.397   0.004   5.406
+  length(paths) # 143058
 
-identical(subdirs, subdirs_2) # TRUE
+  segments <- kwb.file::split_paths(paths)
+  # Splitting paths ... ok. (7.34s)
+  system.time(subdirs_2 <- kwb.file::to_subdir_matrix(paths))
+  # user  system elapsed
+  # 13.864   0.023  14.014
+  system.time(subdirs <- kwb.file::to_subdir_matrix(segments))
+  # user  system elapsed
+  # 5.397   0.004   5.406
 
-object.size(paths) / 2^20 # 25.2 MiB
-object.size(segments) / 2^20 # 70.9 MiB
-object.size(subdirs) / 2^20 # 14.7 MiB
+  identical(subdirs, subdirs_2) # TRUE
+
+  object.size(paths) / 2^20 # 25.2 MiB
+  object.size(segments) / 2^20 # 70.9 MiB
+  object.size(subdirs) / 2^20 # 14.7 MiB
+
+  ## an object from the class
+  pl_1 <- pathlist(paths = paths[1:100])
+
+  class(pl_1)
+
+  pl_1@root
+  head(pl_1@folders)
+  head(pl_1@depths)
+
+  pl_1[10:20, ]
+
+  paths2 <- as.character(pl_1)
+  paths3 <- as.character(pl_1, i = 1:10)
+
+  identical(paths, paths2)
+  identical(paths3, paths[1:100])
+
+  summary(pl_1)
+  summary(pl_1$Administration)
+}
 
 #
 # Define a class "pathlist"
@@ -96,20 +120,19 @@ setMethod("[", "pathlist", function(x, i, j) {
   x
 })
 
-## an object from the class
-pl_1 <- pathlist(paths = paths)
+setMethod("$", "pathlist", function(x, name) {
+  keep <- x@folders[, 1] == name
+  x@folders <- x@folders[keep, -1]
+  x@depths <- x@depths[keep] + 1L
+  x@root <- paste0(x@root, "/", name)
+  x
+})
 
-pl_1
-pl_1@root
-head(pl_1@folders)
-head(pl_1@depths)
+setGeneric(".DollarNames")
 
-pl_1[10:20, ]
+.DollarNames.pathlist <- function(x, pattern) {
+  stop("not implemented")
+  #grep(pattern, x@folders[, 1], value = TRUE)
+}
 
-paths2 <- as.character(pl_1)
-paths3 <- as.character(pl_1, i = 1:100)
-
-identical(paths, paths2)
-identical(paths3, paths[1:100])
-
-summary(pl_1)
+setMethod(".DollarNames", "pathlist", .DollarNames.pathlist)
