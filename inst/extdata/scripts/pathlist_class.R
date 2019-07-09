@@ -1,6 +1,5 @@
-paths <- kwb.fakin:::restore("paths")
+paths <- kwb.utils::loadObject("~/Desktop/tmp/paths.RData", "paths")
 length(paths) # 143058
-
 
 segments <- kwb.file::split_paths(paths)
 # Splitting paths ... ok. (7.34s)
@@ -16,8 +15,6 @@ identical(subdirs, subdirs_2) # TRUE
 object.size(paths) / 2^20 # 25.2 MiB
 object.size(segments) / 2^20 # 70.9 MiB
 object.size(subdirs) / 2^20 # 14.7 MiB
-
-head(subdirs)
 
 #
 # Define a class "pathlist"
@@ -39,36 +36,41 @@ setMethod("initialize", "pathlist", function(.Object, paths) {
   .Object
 })
 
+# paste_subdirs ----------------------------------------------------------------
+paste_subdirs <- function(folders, depths, root = NULL)
+{
+  paths <- character(nrow(folders))
+  for (depth in unique(depths)) {
+    indices <- which(depths == depth)
+    args <- kwb.utils::asColumnList(
+      folders[indices, seq_len(depth), drop = FALSE]
+    )
+    if (! is.null(root)) {
+      args <- c(list(root), args)
+    }
+    paths[indices] <- do.call(paste, c(args, sep = "/"))
+  }
+  paths
+}
+
 setMethod(
   f = "as.character",
   signature = "pathlist",
   definition = function(x, relative = FALSE, i, dbg = FALSE) {
-    depths <- x@depths
-    print("depths")
-    print(depths)
-    kwb.utils::catAndRun("Composing path strings", dbg = dbg, {
-      folders <- x@folders[i, , drop = FALSE]
-      str(folders)
-      depths <- x@depths[i]
-      paths <- character(nrow(folders))
-      for (depth in unique(depths)) {
-        message("depth: ", depth)
-        indices <- which(depths == depth)
-        args <- kwb.utils::asColumnList(
-          folders[indices, seq_len(depth), drop = FALSE]
-        )
-        if (! relative) {
-          args <- c(list(x@root), args)
-        }
-        paths[indices] <- do.call(paste, c(args, sep = "/"))
-      }
-      paths
-    }
-    )
+    paths <- kwb.utils::catAndRun("Composing path strings", dbg = dbg, {
+      paste_subdirs(
+        folders = x@folders[i, , drop = FALSE],
+        depths = x@depths[i],
+        root = if (! relative) x@root
+      )
+    })
   }
 )
 
 setMethod("show", "pathlist", function(object) {
+  #n <- 10
+  #print(head(as.character(object), n))
+  #cat(sprintf("[%d omitted]\n", length(object@depths) - n))
   print(as.character(object))
 })
 
@@ -89,25 +91,25 @@ setMethod("[", "pathlist", function(x, i, j) {
     min_j <- min
     x@root <- paste(x@root, folders[i, seq_len(min_j - 1)])
   }
-
   x@folders <- folders[i, j, drop = FALSE]
   x@depths <- depths[i]
   x
 })
 
 ## an object from the class
-pathlist1 <- pathlist(paths = paths)
-pl <- pathlist1[10:20, 2]
-pl@folders
-pl@depths
+pl_1 <- pathlist(paths = paths)
 
-paths2 <- as.character(pathlist1)
-paths3 <- as.character(pathlist1, i = 1:100)
-identical(paths3, paths[1:100])
-head(paths2)
+pl_1
+pl_1@root
+head(pl_1@folders)
+head(pl_1@depths)
+
+pl_1[10:20, ]
+
+paths2 <- as.character(pl_1)
+paths3 <- as.character(pl_1, i = 1:100)
+
 identical(paths, paths2)
+identical(paths3, paths[1:100])
 
-summary(pathlist1)
-
-head(pathlist1@folders)
-
+summary(pl_1)
