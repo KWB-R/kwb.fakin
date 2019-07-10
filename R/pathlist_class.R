@@ -1,3 +1,8 @@
+#
+# The class "pathlist" is now implemented in package "pathlist" that is on my
+# personal github repository https://github.com/hsonne/pathlist
+#
+
 if (FALSE)
 {
   paths <- kwb.utils::loadObject("~/Desktop/tmp/paths.RData", "paths")
@@ -39,109 +44,3 @@ if (FALSE)
   pl_1$a
   summary(pl_1$Administratio)
 }
-
-#
-# Define a class "pathlist"
-#
-
-pathlist <- setClass("pathlist", slots = c(
-  folders = "matrix",
-  depths = "integer",
-  root = "character"
-))
-
-setMethod("initialize", "pathlist", function(.Object, paths) {
-  stopifnot(is.character(paths))
-  all_segments <- kwb.file::split_paths(paths)
-  segments <- kwb.file::remove_common_root(all_segments)
-  .Object@depths <- lengths(segments)
-  .Object@folders <- kwb.file::to_subdir_matrix(segments)
-  .Object@root <- kwb.utils::getAttribute(segments, "root")
-  .Object
-})
-
-# paste_subdirs ----------------------------------------------------------------
-paste_subdirs <- function(folders, depths, root = NULL)
-{
-  paths <- character(nrow(folders))
-  for (depth in unique(depths)) {
-    indices <- which(depths == depth)
-    args <- kwb.utils::asColumnList(
-      folders[indices, seq_len(depth), drop = FALSE]
-    )
-    if (! is.null(root)) {
-      args <- c(list(root), args)
-    }
-    paths[indices] <- do.call(paste, c(args, sep = "/"))
-  }
-  paths
-}
-
-setMethod(
-  f = "as.character",
-  signature = "pathlist",
-  definition = function(x, relative = FALSE, i, dbg = FALSE) {
-    paths <- kwb.utils::catAndRun("Composing path strings", dbg = dbg, {
-      paste_subdirs(
-        folders = x@folders[i, , drop = FALSE],
-        depths = x@depths[i],
-        root = if (! relative) x@root
-      )
-    })
-  }
-)
-
-setMethod("show", "pathlist", function(object) {
-  #n <- 10
-  #print(head(as.character(object), n))
-  #cat(sprintf("[%d omitted]\n", length(object@depths) - n))
-  print(as.character(object))
-})
-
-setMethod("summary", "pathlist", function(object) {
-  cat(sprintf("# Common root: %s\n", object@root))
-  cat(sprintf("# Number of paths: %d\n", nrow(object@folders)))
-  cat(sprintf("# Max. depth: %d\n", ncol(object@folders)))
-  cat("# Top-level paths:")
-  print(table(object@folders[, 1]))
-  cat("# Paths per depth:")
-  print(table(object@depths))
-})
-
-setMethod("[", "pathlist", function(x, i, j) {
-  folders <- x@folders
-  depths <- x@depths
-  if (! missing(j) && (min_j <- min(j)) > 1) {
-    min_j <- min
-    x@root <- paste(x@root, folders[i, seq_len(min_j - 1)])
-  }
-  x@folders <- folders[i, j, drop = FALSE]
-  x@depths <- depths[i]
-  x
-})
-
-setMethod("$", "pathlist", function(x, name) {
-  folders <- x@folders
-  folders_1 <- folders[, 1]
-  top_level_folders <- unique(folders_1)
-  if (! name %in% top_level_folders) {
-    stop(
-      "No such top-level folder: '", name, "'. Available folders: ",
-      kwb.utils::stringList(top_level_folders), call. = FALSE
-    )
-  }
-  keep <- folders_1 == name
-  x@folders <- folders[keep, -1]
-  x@depths <- x@depths[keep] + 1L
-  x@root <- paste0(x@root, "/", name)
-  x
-})
-
-setGeneric(".DollarNames")
-
-.DollarNames.pathlist <- function(x, pattern) {
-  stop("not implemented")
-  #grep(pattern, x@folders[, 1], value = TRUE)
-}
-
-setMethod(".DollarNames", "pathlist", .DollarNames.pathlist)

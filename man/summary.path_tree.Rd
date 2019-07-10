@@ -4,7 +4,7 @@
 \alias{summary.path_tree}
 \title{Get Statistics on Path Tree Nodes}
 \usage{
-summary.path_tree(object, ...)
+\method{summary}{path_tree}(object, ...)
 }
 \arguments{
 \item{object}{tree object as returned by \code{kwb.fakin:::to_tree}}
