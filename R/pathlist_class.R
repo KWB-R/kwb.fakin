@@ -3,6 +3,8 @@
 # personal github repository https://github.com/hsonne/pathlist
 #
 
+library(pathlist)
+
 if (FALSE)
 {
   paths <- kwb.utils::loadObject("~/Desktop/tmp/paths.RData", "paths")
@@ -20,9 +22,10 @@ if (FALSE)
 
   identical(subdirs, subdirs_2) # TRUE
 
-  object.size(paths) / 2^20 # 25.2 MiB
-  object.size(segments) / 2^20 # 70.9 MiB
-  object.size(subdirs) / 2^20 # 14.7 MiB
+  to_mib <- function(x) as.numeric(object.size(x)) / 2^20
+  to_mib(paths) # 25.2 MiB
+  to_mib(segments) # 70.9 MiB
+  to_mib(subdirs) # 14.7 MiB
 
   ## an object from the class
   pl_1 <- pathlist(paths = paths)
@@ -30,17 +33,15 @@ if (FALSE)
   class(pl_1)
 
   pl_1@root
-  pl_1@folders
+  dim(pl_1@folders)
   head(pl_1@depths)
 
   pl_1[10:20, ]
 
   paths2 <- as.character(pl_1)
-  paths3 <- as.character(pl_1, i = 1:10)
 
   identical(paths, paths2)
-  identical(paths3, paths[1:100])
 
-  pl_1$a
-  summary(pl_1$Administratio)
+  summary(pl_1$Projects)
+  summary(pl_1$Administration)
 }
