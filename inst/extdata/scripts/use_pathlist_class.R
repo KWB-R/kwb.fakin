@@ -3,10 +3,10 @@
 # personal github repository https://github.com/hsonne/pathlist
 #
 
-library(pathlist)
-
 if (FALSE)
 {
+  library(pathlist)
+
   paths <- kwb.utils::loadObject("~/Desktop/tmp/paths.RData", "paths")
 
   length(paths) # 143058
