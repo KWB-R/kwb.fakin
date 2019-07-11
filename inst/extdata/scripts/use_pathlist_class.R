@@ -5,9 +5,14 @@
 
 if (FALSE)
 {
-  library(pathlist)
+  #library(pathlist)
 
-  paths <- kwb.utils::loadObject("~/Desktop/tmp/paths.RData", "paths")
+  #paths <- kwb.utils::loadObject("~/Desktop/tmp/paths.RData", "paths")
+  path_info <- kwb.utils::loadObject(
+    "~/../Desktop/tmp/path-info_suw.RData", "path_info"
+  )
+
+  paths <- path_info$path
 
   length(paths) # 143058
 
@@ -28,20 +33,21 @@ if (FALSE)
   to_mib(subdirs) # 14.7 MiB
 
   ## an object from the class
-  pl_1 <- pathlist(paths = paths)
+  pl <- pathlist::pathlist(paths = paths)
 
-  class(pl_1)
+  class(pl)
 
-  pl_1@root
-  dim(pl_1@folders)
-  head(pl_1@depths)
+  pl@root
+  dim(pl@folders)
+  head(pl@depths)
 
-  pl_1[10:20, ]
+  head(pl)
+  pl[5:10]
 
-  paths2 <- as.character(pl_1)
+  paths2 <- as.character(pl)
 
   identical(paths, paths2)
 
-  summary(pl_1$Projects)
-  summary(pl_1$Administration)
+  pathlist::summary(pl)
+  pathlist::summary(pl$Projects)
 }
