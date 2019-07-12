@@ -10,5 +10,5 @@
 #' @usage lhs \%>\% rhs
 NULL
 
-#'@importFrom rlang .data
+#' @importFrom rlang .data
 NULL
