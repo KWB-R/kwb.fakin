@@ -232,4 +232,3 @@ plot_horizontal_bars <- function(data, column_values, column_labels, xlab = "")
 
   graphics::text(values + x_shift, y, values, cex = 0.8, adj = 0)
 }
-

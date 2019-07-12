@@ -110,23 +110,6 @@ all_path_levels <- function(path)
   })
 }
 
-# get_example_leafs ------------------------------------------------------------
-get_example_leafs <- function(size = 10, depth = 5)
-{
-  stopifnot(depth <= length(LETTERS))
-  stopifnot(size < 1000)
-
-  folderInDepth <- function(i, prefix = "") {
-
-    paste0(indentation(i-1), prefix, LETTERS[i])
-  }
-
-  unlist(lapply(sprintf("T%02d_", seq_len(size)), function(prefix) {
-
-    sapply(seq_len(depth), folderInDepth, prefix = prefix)
-  }))
-}
-
 # to_leaf_matrix ---------------------------------------------------------------
 to_leaf_matrix <- function(subdirs)
 {
@@ -145,5 +128,22 @@ to_leaf_matrix <- function(subdirs)
     }
 
     row
+  }))
+}
+
+# get_example_leafs ------------------------------------------------------------
+get_example_leafs <- function(size = 10, depth = 5)
+{
+  stopifnot(depth <= length(LETTERS))
+  stopifnot(size < 1000)
+
+  folderInDepth <- function(i, prefix = "") {
+
+    paste0(indentation(i-1), prefix, LETTERS[i])
+  }
+
+  unlist(lapply(sprintf("T%02d_", seq_len(size)), function(prefix) {
+
+    sapply(seq_len(depth), folderInDepth, prefix = prefix)
   }))
 }
