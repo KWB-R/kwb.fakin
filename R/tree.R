@@ -112,3 +112,33 @@ get_names_recursively <- function(x)
     }))
   }
 }
+
+# cut.path_tree ----------------------------------------------------------------
+
+#' Cut a Path Tree
+#'
+#' Reduce a path tree to its first levels.
+#'
+#' @param x tree object as returned by \code{kwb.fakin:::to_tree}
+#' @param n_levels number of levels to which the tree is cut
+#' @param depth current depth level
+#' @param \dots further arguments (currently not used)
+#'
+#' @export
+#'
+cut.path_tree <- function(x, n_levels = 2, depth = 0, ...)
+{
+  if (depth == n_levels || ! is.list(x)) {
+
+    ""
+
+  } else {
+
+    result <- lapply(x, function(subtree) {
+
+      cut.path_tree(subtree, n_levels, depth + 1)
+    })
+
+    kwb.utils::addClass(result, className = "path_tree")
+  }
+}
