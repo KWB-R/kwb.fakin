@@ -1,29 +1,3 @@
-# plot_files_in_depth ----------------------------------------------------------
-
-#' Plot File Sizes over Folder Depth
-#'
-#' @param depth_summaries list as returned by \code{\link{get_depth_summaries}}
-#' @param project name of project (in fact folder name in folder depth 1)
-#' @export
-#'
-plot_files_in_depth <- function(depth_summaries, project)
-{
-  stop_("plot_file_in_depth() has been removed.")
-}
-
-# filter_for_project -----------------------------------------------------------
-filter_for_project <- function(level_data, project)
-{
-  is_project <- kwb.utils::selectColumns(level_data, "level_1") == project
-
-  if (! any(is_project)) stop(
-    "No project folder '", project, "' found. Available projects:\n",
-    kwb.utils::stringList(unique(level_data$level_1)), call. = FALSE
-  )
-
-  kwb.utils::resetRowNames(level_data[is_project, , drop = FALSE])
-}
-
 # check_depth_summaries --------------------------------------------------------
 check_depth_summaries <- function(depth_summaries)
 {
@@ -50,6 +24,18 @@ check_depth_summary <- function(depth_summary)
   stopifnot(identical(names(depth_summary), expected_names))
 }
 
+# filter_for_project -----------------------------------------------------------
+filter_for_project <- function(level_data, project)
+{
+  is_project <- kwb.utils::selectColumns(level_data, "level_1") == project
+
+  if (! any(is_project)) stop(
+    "No project folder '", project, "' found. Available projects:\n",
+    kwb.utils::stringList(unique(level_data$level_1)), call. = FALSE
+  )
+
+  kwb.utils::resetRowNames(level_data[is_project, , drop = FALSE])
+}
 # get_depths_from_subdir_matrix ------------------------------------------------
 get_depths_from_subdir_matrix <- function(subdirs)
 {
@@ -63,3 +49,17 @@ get_depths_from_subdir_matrix <- function(subdirs)
     }
   })
 }
+
+# plot_files_in_depth ----------------------------------------------------------
+
+#' Plot File Sizes over Folder Depth
+#'
+#' @param depth_summaries list as returned by \code{\link{get_depth_summaries}}
+#' @param project name of project (in fact folder name in folder depth 1)
+#' @export
+#'
+plot_files_in_depth <- function(depth_summaries, project)
+{
+  stop_("plot_files_in_depth() has been removed.")
+}
+
