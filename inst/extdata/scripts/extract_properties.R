@@ -91,7 +91,7 @@ if (FALSE)
   )
 
   # Assign attributes to matching folder names
-  folder_properties <- kwb.fakin:::extract_properties(
+  folder_properties <- kwb.fakin::extract_properties(
     x = folder_names, # folder_names_3
     patterns = property_defs$word,
     replacements = property_defs$attributes,
