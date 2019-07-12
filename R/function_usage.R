@@ -63,25 +63,6 @@ get_package_function_usage <- function(
   kwb.utils::resetRowNames(result[row_order, ])
 }
 
-# remove_non_installed_packages ------------------------------------------------
-remove_non_installed_packages <- function(packages)
-{
-  # Are packages as named in vector package installed?
-  available <- packages %in% unname(utils::installed.packages()[, "Package"])
-
-  if (all(available)) {
-
-    return(packages)
-  }
-
-  message(
-    "Skipping ", sum(! available), " package(s) that are not installed:\n",
-    kwb.utils::stringList(packages[! available])
-  )
-
-  packages[available]
-}
-
 # get_function_call_frequency --------------------------------------------------
 
 #' Which Function is Called How Often?
@@ -136,6 +117,25 @@ get_function_call_frequency <- function(tree, simple = FALSE, dbg = TRUE)
 
     vector_to_count_table(result) # may return NULL
   })
+}
+
+# remove_non_installed_packages ------------------------------------------------
+remove_non_installed_packages <- function(packages)
+{
+  # Are packages as named in vector package installed?
+  available <- packages %in% unname(utils::installed.packages()[, "Package"])
+
+  if (all(available)) {
+
+    return(packages)
+  }
+
+  message(
+    "Skipping ", sum(! available), " package(s) that are not installed:\n",
+    kwb.utils::stringList(packages[! available])
+  )
+
+  packages[available]
 }
 
 # filter_for_package_functions -------------------------------------------------
