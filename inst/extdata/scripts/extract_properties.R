@@ -1,5 +1,5 @@
-# install.packages("devtools")
-# devtools::install_github("kwb-r/kwb.fakin")
+# install.packages("remotes")
+# remotes::install_github("kwb-r/kwb.fakin")
 
 # In Ubuntu, do not use pandoc that ships with RStudio but use pandoc that
 # we install manually with:
@@ -15,7 +15,7 @@ library("kwb.utils")
 file <- safePath("~/Desktop/Data/FAKIN/folders_projects/folders_projects_2018-09-11.txt")
 #file <- "~/Desktop/Data/FAKIN/paths_poseidon_projekte_2016_05_16.txt"
 
-pkg_file <- kwb.fakin:::extdata_file
+pkg_file <- function(file) safePath(kwb.fakin::extdata_file(file))
 file_composed <- pkg_file("config/replacements_composed-words.csv")
 file_unify <- pkg_file("config/replacements_unify.csv")
 file_attribute_words <- pkg_file("config/words-to-attributes.csv")
@@ -171,9 +171,10 @@ provide_path_tree <- function(file, fileEncoding)
   # Try to restore a vector of folder paths or recreate and store it
   if (kwb.fakin:::fails(paths <- kwb.fakin:::restore("paths"))) {
 
-    paths <- kwb.file::remove_common_root(kwb.fakin::read_paths(
-      file, encoding = "UTF-8", fileEncoding = fileEncoding
-    ))
+    metadata <- kwb.fakin::guess_file_metadata(file)
+    metadata$fileEncoding <- fileEncoding
+    paths <- kwb.fakin::read_file_paths(file, metadata)$path
+    paths <- kwb.file::remove_common_root(paths)
 
     kwb.fakin:::store(paths, THIS_SCRIPT)
   }
