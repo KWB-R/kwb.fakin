@@ -58,13 +58,13 @@ opened in a browser.
 A shortcut to the above call is:
 
 ```{r report-github-fakin, eval = FALSE}
-kwb.fakin:::report_about_github_package("kwb-r/kwb.fakin", show = FALSE)
+kwb.fakin::report_about_github_package("kwb-r/kwb.fakin", show = FALSE)
 ```
 
 It is up to you to compare with what the great guys do. Try e.g.
 
 ```{r report-github-dplyr, eval = FALSE}
-kwb.fakin:::report_about_github_package("tidyverse/dplyr")
+kwb.fakin::report_about_github_package("tidyverse/dplyr")
 ```
 
 ## What packages are used by our scripts?

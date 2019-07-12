@@ -1,4 +1,11 @@
 # report_about_github_package --------------------------------------------------
+
+#' Report about the Functions in an R-Package on GitHub
+#'
+#' @param repo path to the GitHub repository
+#' @param \dots arguments passed to \code{\link{report_about_r_scripts}}
+#' @export
+#'
 report_about_github_package <- function(repo, ...)
 {
   report_about_r_scripts(

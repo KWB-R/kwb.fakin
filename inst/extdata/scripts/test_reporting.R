@@ -2,8 +2,8 @@ library("kwb.utils")
 
 if (FALSE)
 {
-  kwb.fakin:::report_about_github_package(repo = "KWB-R/kwb.fakin")
-  kwb.fakin:::report_about_r_scripts("~/RProgramming/github/kwb.code")
+  kwb.fakin::report_about_github_package(repo = "KWB-R/kwb.fakin")
+  kwb.fakin::report_about_r_scripts("~/RProgramming/github/kwb.code")
   report_about_github_package(repo = "tidyverse/dplyr")
 }
 
