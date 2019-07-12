@@ -5,6 +5,8 @@
 #' @param file path to text file
 #' @param n_first_rows number of first rows of \code{file} from which to guess
 #'   the meta information.
+#' @param \dots further arguments passe to \code{\link{read_lines}}, such as
+#'   \code{fileEncoding}
 #' @return data frame with columns
 #' \itemize{
 #'   \item \code{paths}: does the file seem to contain path information, i.e.
@@ -25,11 +27,11 @@
 #' }
 #' @export
 #'
-guess_file_metadata <- function(file, n_first_rows = 1000)
+guess_file_metadata <- function(file, n_first_rows = 1000, ...)
 {
-  first_rows <- readLines(file, n_first_rows)
+  first_rows <- kwb.fakin::read_lines(file, n_first_rows, ...)
   patterns <- c(slash = "/", backslash = "\\\\")
-  has_pattern <- lapply(patterns, grepl, first_rows)
+  has_pattern <- lapply(patterns, grepl_bytes, first_rows)
   has_paths <- has_pattern$slash | has_pattern$backslash
   separators <- c(",", ";", "\t")
 
@@ -50,7 +52,7 @@ guess_file_metadata <- function(file, n_first_rows = 1000)
 
   metadata <- kwb.utils::noFactorDataFrame(
     paths = any(has_paths),
-    forbidden = any(grepl("[<>?*]", first_rows)),
+    forbidden = any(grepl_bytes("[<>?*]", first_rows)),
     header = has_header,
     windows = any(has_pattern$backslash),
     sep = sep,

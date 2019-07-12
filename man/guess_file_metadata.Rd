@@ -4,13 +4,16 @@
 \alias{guess_file_metadata}
 \title{Guess Metadata about a Text File}
 \usage{
-guess_file_metadata(file, n_first_rows = 1000)
+guess_file_metadata(file, n_first_rows = 1000, ...)
 }
 \arguments{
 \item{file}{path to text file}
 
 \item{n_first_rows}{number of first rows of \code{file} from which to guess
 the meta information.}
+
+\item{\dots}{further arguments passe to \code{\link{read_lines}}, such as
+\code{fileEncoding}}
 }
 \value{
 data frame with columns
