@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Cut a Path Tree — cut.path_tree • kwb.fakin</title>
+<title>Arrange key1:value1+key2:value2 Strings in a Data Frame — property_strings_to_data_frame • kwb.fakin</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -36,9 +36,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Cut a Path Tree — cut.path_tree" />
+<meta property="og:title" content="Arrange key1:value1+key2:value2 Strings in a Data Frame — property_strings_to_data_frame" />
 
-<meta property="og:description" content="Reduce a path tree to its first levels." />
+<meta property="og:description" content="This function needs some improvement! The argument is called values but the
+values will appear in column &quot;name&quot;. Also, what happens if there is also a
+property with name &quot;name&quot;?" />
 <meta name="twitter:card" content="summary" />
 
 <meta name="robots" content="noindex">
@@ -138,48 +140,58 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Cut a Path Tree</h1>
-    <small class="dont-index">Source: <a href='https://github.com/kwb-r/kwb.fakin/blob/master/R/tree.R'><code>R/tree.R</code></a></small>
-    <div class="hidden name"><code>cut.path_tree.Rd</code></div>
+    <h1>Arrange key1:value1+key2:value2 Strings in a Data Frame</h1>
+    <small class="dont-index">Source: <a href='https://github.com/kwb-r/kwb.fakin/blob/master/R/extract_properties.R'><code>R/extract_properties.R</code></a></small>
+    <div class="hidden name"><code>property_strings_to_data_frame.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Reduce a path tree to its first levels.</p>
+    <p>This function needs some improvement! The argument is called values but the
+values will appear in column "name". Also, what happens if there is also a
+property with name "name"?</p>
     
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for path_tree</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cut'>cut</a></span>(<span class='no'>x</span>, <span class='kw'>n_levels</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>depth</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>property_strings_to_data_frame</span>(<span class='no'>property_strings</span>, <span class='kw'>values</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>tree object as returned by <code>kwb.fakin:::to_tree</code></p></td>
+      <th>property_strings</th>
+      <td><p>vector of character containing property values in the
+form of <code>prop1:value1+prop2:value2+prob3:value3+...</code></p></td>
     </tr>
     <tr>
-      <th>n_levels</th>
-      <td><p>number of levels to which the tree is cut</p></td>
-    </tr>
-    <tr>
-      <th>depth</th>
-      <td><p>current depth level</p></td>
-    </tr>
-    <tr>
-      <th>&#8230;</th>
-      <td><p>further arguments (currently not used)</p></td>
+      <th>values</th>
+      <td><p>if given and not <code>NULL</code> this must be a vector of character
+as long as <code>property_strings</code>. The values will appear in a first
+column <code>name</code> of the returned data frame.</p></td>
     </tr>
     </table>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>property_strings</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(
+  <span class='st'>"id:peter+class:person"</span>,
+  <span class='st'>"id:germany+class:country"</span>
+)
+
+<span class='kw pkg'>kwb.fakin</span><span class='kw ns'>:::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/kwb.fakin/topics/property_strings_to_data_frame'>property_strings_to_data_frame</a></span>(<span class='no'>property_strings</span>)</div><div class='output co'>#&gt;     class      id
+#&gt; 1  person   peter
+#&gt; 2 country germany</div><div class='input'><span class='kw pkg'>kwb.fakin</span><span class='kw ns'>:::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/kwb.fakin/topics/property_strings_to_data_frame'>property_strings_to_data_frame</a></span>(<span class='no'>property_strings</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>))</div><div class='output co'>#&gt;   name   class      id
+#&gt; 1    a  person   peter
+#&gt; 2    b country germany</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+            
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>
