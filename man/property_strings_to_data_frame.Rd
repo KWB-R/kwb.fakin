@@ -2,7 +2,7 @@
 % Please edit documentation in R/extract_properties.R
 \name{property_strings_to_data_frame}
 \alias{property_strings_to_data_frame}
-\title{Arrange key1:value1+key2:value2 Strings in a Data Frame}
+\title{key1:value1+key2:value2 Strings to Data Frame}
 \usage{
 property_strings_to_data_frame(property_strings, values = NULL)
 }
@@ -15,7 +15,7 @@ as long as \code{property_strings}. The values will appear in a first
 column \code{name} of the returned data frame.}
 }
 \description{
-This function needs some improvement! The argument is called values but the
+This function needs some improvement! The argument is called "values" but the
 values will appear in column "name". Also, what happens if there is also a
 property with name "name"?
 }

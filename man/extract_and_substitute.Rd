@@ -15,7 +15,7 @@ example.}
 \item{replacement}{string of the form \code{prop1:value1+prop2:value2+...}
 defining property names and values. In \code{value1}, \code{value2}, etc.
 it may be referred to parts of the matching string that correspond to
-the parts of the pattern encloded in parentheses, see example.}
+the parts of the pattern enclosed in parentheses, see example.}
 
 \item{x}{vector of character in which to look for substrings to extract}
 }

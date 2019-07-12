@@ -2,7 +2,7 @@
 % Please edit documentation in R/extract_properties.R
 \name{extract_properties}
 \alias{extract_properties}
-\title{Extract Patter-Defined Properties from Strings}
+\title{Extract Pattern-Defined Properties from Strings}
 \usage{
 extract_properties(x, patterns, replacements, as_data_frame = FALSE)
 }
@@ -17,7 +17,7 @@ extract_properties(x, patterns, replacements, as_data_frame = FALSE)
 a data frame is returned.}
 }
 \description{
-Extract Patter-Defined Properties from Strings
+Extract Pattern-Defined Properties from Strings
 }
 \examples{
 # Define patterns to be matched against

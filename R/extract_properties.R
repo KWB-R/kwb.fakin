@@ -73,7 +73,7 @@ extract_properties <- function(x, patterns, replacements, as_data_frame = FALSE)
 #' @param replacement string of the form \code{prop1:value1+prop2:value2+...}
 #'   defining property names and values. In \code{value1}, \code{value2}, etc.
 #'   it may be referred to parts of the matching string that correspond to
-#'   the parts of the pattern encloded in parentheses, see example.
+#'   the parts of the pattern enclosed in parentheses, see example.
 #' @param x vector of character in which to look for substrings to extract
 #' @keywords internal
 #' @examples
@@ -95,9 +95,9 @@ extract_and_substitute <- function(pattern, replacement, x)
 
 # property_strings_to_data_frame -----------------------------------------------
 
-#' Arrange key1:value1+key2:value2 Strings in a Data Frame
+#' key1:value1+key2:value2 Strings to Data Frame
 #'
-#' This function needs some improvement! The argument is called values but the
+#' This function needs some improvement! The argument is called "values" but the
 #' values will appear in column "name". Also, what happens if there is also a
 #' property with name "name"?
 #'
