@@ -211,16 +211,11 @@ read_csv_de <- function(file, ...)
 # remove_duplicates ------------------------------------------------------------
 remove_duplicates <- function(x)
 {
-  is_duplicate <- duplicated(x)
-
-  if (! any(is_duplicate)) {
-    return(x)
-  }
-
-  kwb.utils::catAndRun(
-    messageText = paste("Removing", sum(is_duplicate), "duplicate(s)"),
-    expr = x[! is_duplicate]
+  kwb.utils::warningDeprecated(
+    old_name = "remove_duplicates", new_name = "kwb.utils::removeDuplicates"
   )
+
+  kwb.utils::removeDuplicates(x)
 }
 
 # remove_empty -----------------------------------------------------------------
