@@ -2,7 +2,6 @@
 flatten_tree <- function(x)
 {
   if (! is.list(x)) {
-
     return(x)
   }
 
