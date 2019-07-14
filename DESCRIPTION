@@ -40,7 +40,7 @@ Remotes:
     github::kwb-r/kwb.file,
     github::kwb-r/kwb.pathdict,
     github::kwb-r/kwb.plot,
-    github::kwb-r/kwb.utils
+    github::kwb-r/kwb.utils@dev
 Suggests: 
     covr (>= 3.2.1),
     jsonlite (>= 1.6),
