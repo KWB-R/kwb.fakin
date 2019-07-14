@@ -35,7 +35,7 @@ Imports:
     treemap (>= 2.4.2),
     yaml (> 2.1)
 Remotes: 
-    github::hsonne/pathlist,
+    github::hsonne/pathlist@dev,
     github::kwb-r/kwb.code,
     github::kwb-r/kwb.file,
     github::kwb-r/kwb.pathdict,
