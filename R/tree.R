@@ -81,6 +81,64 @@ to_tree <- function(x, dbg = FALSE)
   kwb.utils::addClass(trees, "path_tree")
 }
 
+# to_tree_using_pathlist -------------------------------------------------------
+to_tree_using_pathlist <- function(x, dbg = FALSE, depth. = 0)
+{
+  pl <- if (inherits(x, "pathlist")) {
+    x
+  } else {
+    if (is.list(x)) {
+      pathlist::pathlist(dbg = dbg, segments = x)
+    } else {
+      pathlist::pathlist(dbg = dbg, paths = kwb.utils::removeDuplicates(
+        as.character(x)
+      ))
+    }
+  }
+
+  # There should not be any elements with a depth of zero
+  stopifnot(all(pl@depths > 0))
+
+  # Get first level folders/files
+  first_elements <- pl@folders[, 1]
+
+  # Get frequency of first level folders/files
+  n <- table(first_elements)
+
+  # Find the leafs of the tree
+  leafs <- setdiff(unique(first_elements[pl@depths == 1]), names(n)[n > 1])
+
+  # Separate the leafs from the sub-trees
+  is_tree <- ! first_elements %in% leafs
+
+  # Build the sub-trees
+  trees <- if (any(is_tree)) {
+
+    top_levels <- setdiff(unique(first_elements), leafs)
+
+    trees <- lapply(stats::setNames(nm = top_levels), function(top_level) {
+      top_level_paths <- methods::getMethod("$", "pathlist")(pl, top_level)
+    })
+
+    lapply(trees, to_tree_using_pathlist, depth. = depth. + 1)
+
+  } # else NULL
+
+  if (length(leafs)) {
+    trees <- c(structure(as.list(rep("", length(leafs))), names = leafs), trees)
+  }
+
+  trees <- kwb.utils::addClass(trees, "path_tree")
+
+  # If this is the top-level call, put the tree into a list with the root as the
+  # top-level
+  if (depth. == 0) {
+    kwb.utils::addClass(stats::setNames(list(trees), pl@root), "path_tree")
+  } else {
+    trees
+  }
+}
+
 # summary.path_tree ------------------------------------------------------------
 
 #' Get Statistics on Path Tree Nodes

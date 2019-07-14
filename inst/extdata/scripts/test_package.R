@@ -23,7 +23,7 @@ if (FALSE)
   paths_desktop <- dir(safePath(desktop()), recursive = TRUE)
 
   dirs_desktop <- dirname(paths_desktop)
-  dirs_desktop_no_tmp <- dirs_desktop[! grepl("tmp/", dirs_desktop)]
+  dirs_desktop_no_tmp <- dirs_desktop[! grepl("tmp/", dirs_desktop, useBytes = TRUE)]
 
   # Define very simple paths
   paths_simple <- c(
@@ -46,11 +46,8 @@ if (FALSE)
   head(sort(unique(paths)))
 
   # Print all paths
-  catLines(paths)
+  writeLines(paths)
 
   # Plot the folder network
-  plot_path_network(paths, max_depth = 2, fontSize = 12)
-
-  # Can we use functions for plotting trees?
-  kwb.fakin:::to_tree(x)
+  plot_path_network(paths, max_depth = 3, fontSize = 12)
 }
