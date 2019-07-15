@@ -10,7 +10,15 @@ plot_file_size_in_depth_gg <- function(
     x = 0, y = y_label, label = "Size (MiB):\nFiles:"
   )
 
-  ggplot2::ggplot(df, ggplot2::aes_string(x = "depth", y = "size")) +
+  aes_args <- list(x = "depth", y = "size")
+
+  if ("label" %in% names(df)) {
+    aes_args <- c(aes_args, text = "label")
+  }
+
+  aesthetics <- do.call(ggplot2::aes_string, aes_args)
+
+  ggplot2::ggplot(df, aesthetics) +
     ggplot2::geom_point(
       do.call(
         what = ggplot2::aes_string,
