@@ -23,7 +23,9 @@
 #' @param \dots further arguments passed to
 #'   \code{\link[networkD3]{sankeyNetwork}}, such as \code{nodeWidth},
 #'   \code{nodePadding}, \code{fontSize}
-#'
+#' @param method if \code{1} (default) the function behaves as before, another
+#'   value activates the new preparation of paths accepting/using an object
+#'   of class \pkg{pathlist}
 #' @return object representing an HTML page
 #'
 #' @export
@@ -38,22 +40,29 @@
 plot_path_network <- function(
   paths, max_depth = 3, nodePadding = 8, nodeHeight = 10, sinksRight = FALSE,
   remove_common_root = TRUE, names_to_colours = name_to_traffic_light,
-  height = NULL, ...
+  height = NULL, ..., method = 1
 )
 {
   #kwb.utils::assignPackageObjects("kwb.fakin")
   #kwb.utils::assignArgumentDefaults(kwb.fakin::plot_path_network)
 
-  paths <- prepare_paths_for_network(paths, remove_common_root)
+  if (method == 1) {
 
-  network <- get_path_network(paths, max_depth)
+    paths <- prepare_paths_for_network(paths, remove_common_root)
+    network <- get_path_network(paths, max_depth)
+
+  } else {
+
+    paths <- prepare_paths_for_network2(paths)
+    network <- get_path_network2(paths, max_depth)
+  }
 
   if (! is.null(names_to_colours)) {
     network$nodes <- add_colours_to_nodes(network$nodes, names_to_colours)
   }
 
   if (is.null(height)) {
-    height <- (nodeHeight + nodePadding) * get_max_path_width(paths)
+    height <- get_default_sankey_height(paths, nodeHeight, nodePadding)
   }
 
   arguments <- list(
@@ -69,6 +78,18 @@ plot_path_network <- function(
   } else {
     c(arguments, NodeGroup = "colour", colourScale = colourScale)
   })
+}
+
+# get_default_sankey_height ----------------------------------------------------
+get_default_sankey_height <- function(paths, nodeHeight, nodePadding)
+{
+  actual_max_depth <- if (inherits(paths, "pathlist")) {
+    max(paths@depths)
+  } else {
+    get_max_path_width(paths)
+  }
+
+  (nodeHeight + nodePadding) * actual_max_depth
 }
 
 # prepare_paths_for_network ----------------------------------------------------

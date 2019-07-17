@@ -6,7 +6,8 @@
 \usage{
 plot_path_network(paths, max_depth = 3, nodePadding = 8,
   nodeHeight = 10, sinksRight = FALSE, remove_common_root = TRUE,
-  names_to_colours = name_to_traffic_light, height = NULL, ...)
+  names_to_colours = name_to_traffic_light, height = NULL, ...,
+  method = 1)
 }
 \arguments{
 \item{paths}{character vector of paths}
@@ -38,6 +39,10 @@ number of nodes at one folder depth.}
 \item{\dots}{further arguments passed to
 \code{\link[networkD3]{sankeyNetwork}}, such as \code{nodeWidth},
 \code{nodePadding}, \code{fontSize}}
+
+\item{method}{if \code{1} (default) the function behaves as before, another
+value activates the new preparation of paths accepting/using an object
+of class \pkg{pathlist}}
 }
 \value{
 object representing an HTML page
