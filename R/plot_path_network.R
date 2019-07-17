@@ -44,49 +44,15 @@ plot_path_network <- function(
   #kwb.utils::assignPackageObjects("kwb.fakin")
   #kwb.utils::assignArgumentDefaults(kwb.fakin::plot_path_network)
 
-  # Remove the common root in order to "save" depth levels
-  if (remove_common_root) {
+  paths <- prepare_paths_for_network(paths, remove_common_root)
 
-    paths <- kwb.file::remove_common_root(paths, dbg = FALSE)
-  }
-
-  # If a path tree is given, flatten the tree into a vector of character
-  if (is.list(paths)) {
-
-    paths <- flatten_tree(paths)
-  }
-
-  #kwb.utils::assignArgumentDefaults(kwb.fakin::plot_path_network)
   network <- get_path_network(paths, max_depth)
 
-  colourScale <- if (! is.null(names_to_colours)) {
-
-    stopifnot(is.function(names_to_colours))
-
-    node_names <- network$nodes$name
-
-    colour_strings <- names_to_colours(node_names)
-
-    stopifnot(is.character(node_names))
-
-    stopifnot(length(colour_strings) == length(node_names))
-
-    network$nodes$colour <- colour_strings
-
-    colour_string_list <- kwb.utils::stringList(unique(colour_strings))
-
-    sprintf(
-      'd3.scaleOrdinal() .domain([%s]) .range([%s])',
-      colour_string_list, colour_string_list
-    )
-
-  } else {
-
-    NULL
+  if (! is.null(names_to_colours)) {
+    network$nodes <- add_colours_to_nodes(network$nodes, names_to_colours)
   }
 
   if (is.null(height)) {
-
     height <- (nodeHeight + nodePadding) * get_max_path_width(paths)
   }
 
@@ -96,14 +62,53 @@ plot_path_network <- function(
     nodePadding = nodePadding, height = height, ...
   )
 
+  colourScale <- attr(network$nodes, "colourScale")
+
   do.call(networkD3::sankeyNetwork, if (is.null(colourScale)) {
-
     c(arguments, NodeGroup = "name")
-
   } else {
-
     c(arguments, NodeGroup = "colour", colourScale = colourScale)
   })
+}
+
+# prepare_paths_for_network ----------------------------------------------------
+prepare_paths_for_network <- function(paths, remove_common_root, dbg = FALSE)
+{
+  # Remove the common root in order to "save" depth levels
+  if (remove_common_root) {
+    paths <- kwb.file::remove_common_root(paths, dbg = FALSE)
+  }
+
+  # If a path tree is given, flatten the tree into a vector of character
+  if (is.list(paths)) {
+    paths <- flatten_tree(paths)
+  }
+
+  paths
+}
+
+# add_colours_to_nodes ---------------------------------------------------------
+add_colours_to_nodes <- function(nodes, names_to_colours)
+{
+  stopifnot(is.function(names_to_colours))
+
+  node_names <- as.character(kwb.utils::selectColumns(nodes, "name"))
+
+  colours <- names_to_colours(node_names)
+
+  stopifnot(length(colours) == length(node_names))
+
+  # Comma separated, enquoted, unique colour strings
+  string_list <- kwb.utils::stringList(unique(colours))
+
+  # Format string required to define the colour scale with sprintf()
+  fmt <- 'd3.scaleOrdinal() .domain([%s]) .range([%s])'
+
+  # Add a column "colour" to the nodes table
+  nodes$colour <- colours
+
+  # Return the nodes table with an attribute "colourScale" added
+  structure(nodes, colourScale = sprintf(fmt, string_list, string_list))
 }
 
 # name_to_traffic_light --------------------------------------------------------
@@ -129,13 +134,13 @@ plot_path_network <- function(
 #'
 name_to_traffic_light <- function(x)
 {
-  colour_strings <- rep("red", length(x))
+  colours <- rep("red", length(x))
 
-  colour_strings[name_is_ok(x, mildness = 2)] <- "yellow"
+  colours[name_is_ok(x, mildness = 2)] <- "yellow"
 
-  colour_strings[name_is_ok(x, mildness = 1)] <- "green"
+  colours[name_is_ok(x, mildness = 1)] <- "green"
 
-  colour_strings
+  colours
 }
 
 # get_path_network -------------------------------------------------------------
