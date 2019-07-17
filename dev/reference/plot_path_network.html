@@ -151,7 +151,8 @@
 
     <pre class="usage"><span class='fu'>plot_path_network</span>(<span class='no'>paths</span>, <span class='kw'>max_depth</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>nodePadding</span> <span class='kw'>=</span> <span class='fl'>8</span>,
   <span class='kw'>nodeHeight</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>sinksRight</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>remove_common_root</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>names_to_colours</span> <span class='kw'>=</span> <span class='no'>name_to_traffic_light</span>, <span class='kw'>height</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>names_to_colours</span> <span class='kw'>=</span> <span class='no'>name_to_traffic_light</span>, <span class='kw'>height</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>,
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -203,6 +204,12 @@ number of nodes at one folder depth.</p></td>
       <td><p>further arguments passed to
 <code><a href='https://www.rdocumentation.org/packages/networkD3/topics/sankeyNetwork'>sankeyNetwork</a></code>, such as <code>nodeWidth</code>,
 <code>nodePadding</code>, <code>fontSize</code></p></td>
+    </tr>
+    <tr>
+      <th>method</th>
+      <td><p>if <code>1</code> (default) the function behaves as before, another
+value activates the new preparation of paths accepting/using an object
+of class <span class="pkg">pathlist</span></p></td>
     </tr>
     </table>
     
