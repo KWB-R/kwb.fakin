@@ -106,8 +106,6 @@ plot_treemaps_from_path_data <- function(
 
   maps <- lapply(types, function(map_type) {
 
-    #type <- "files"
-
     map <- kwb.utils::catAndRun(
       sprintf("Creating treemap '%s'", map_type),
       kwb.utils::callWith(
@@ -205,7 +203,6 @@ args_treemap <- function(
     title = setting$title,
     title.legend = setting$legend
   )
-
 }
 
 # default_treemap_files --------------------------------------------------------
@@ -283,7 +280,7 @@ prepare_for_treemap <- function(
   # Filter for paths of type "file" and paths starting with root_path and select
   # only requested variables
   result <- path_data %>%
-    filter_for_file_paths() %>%
+    exclude_directories() %>%
     kwb.utils::selectColumns(c("path", variable)) %>%
     filter_for_start_path(root_path)
 
@@ -301,10 +298,11 @@ prepare_for_treemap <- function(
     cbind(kwb.utils::removeColumns(result, "path"))
 }
 
-# filter_for_file_paths --------------------------------------------------------
-filter_for_file_paths <- function(path_data)
+# exclude_directories ----------------------------------------------------------
+exclude_directories <- function(path_data)
 {
-  path_data[kwb.utils::selectColumns(path_data, "type") == "file", ]
+  types <- kwb.utils::selectColumns(path_data, "type")
+  path_data[types == "file", ]
 }
 
 # filter_for_start_path --------------------------------------------------------
@@ -323,8 +321,6 @@ filter_for_start_path <- function(path_data, start_path = "")
 # aggregate_by_levels ----------------------------------------------------------
 aggregate_by_levels <- function(folder_data, group_by = names(folder_data)[1:2])
 {
-  `%>%` <- magrittr::`%>%`
-
   # Convert size to numeric, otherwise we get an overflow when summing up
   folder_data$size <- as.numeric(folder_data$size)
 
