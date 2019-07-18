@@ -110,15 +110,19 @@ plot_treemaps_from_path_data <- function(
 
     map <- kwb.utils::catAndRun(
       sprintf("Creating treemap '%s'", map_type),
-      plot_treemap(
+      kwb.utils::callWith(
+        plot_treemap,
+        dtf = total_size,
+        args_treemap(
+          index = index,
+          type = type,
+          n_levels = n_levels,
+          settings = settings,
+          area_represents = map_type
+        ),
         file = unname(files[map_type]),
         args_png = args_png,
-        subtitle = root_path,
-        args_treemap = c(
-          list(total_size),
-          main_args_treemap(index, type, n_levels),
-          args_treemap(settings, map_type)
-        )
+        subtitle = root_path
       )
     )
 
@@ -181,29 +185,27 @@ prepare_for_n_level_treemap <- function(
   )
 }
 
-# main_args_treemap ------------------------------------------------------------
-main_args_treemap <- function(
-  index = "level_1", type = "total_size", n_levels = 1,
-  border.col = c("darkred", rep("black", n_levels - 1))
+# args_treemap -----------------------------------------------------------------
+args_treemap <- function(
+  index = "level_1", type = "value", n_levels = 1,
+  border.col = c("darkred", rep("black", n_levels - 1)),
+  settings = default_treeplot_settings(), area_represents = "size"
 )
 {
-  list(index = index, type = type, border.col = border.col)
-}
-
-# args_treemap -----------------------------------------------------------------
-args_treemap <- function(settings, type)
-{
-  anti_type <- setdiff(names(settings), type)
-
-  setting <- kwb.utils::selectElements(settings, type)
-  anti_setting <- kwb.utils::selectElements(settings, anti_type)
+  anti_representation <- setdiff(names(settings), area_represents)
+  setting <- kwb.utils::selectElements(settings, area_represents)
+  anti_setting <- kwb.utils::selectElements(settings, anti_representation)
 
   list(
+    index = index,
+    type = type,
+    border.col = border.col,
     vSize = setting$column,
     vColor = anti_setting$column,
     title = setting$title,
     title.legend = setting$legend
   )
+
 }
 
 # default_treemap_files --------------------------------------------------------
@@ -333,17 +335,22 @@ aggregate_by_levels <- function(folder_data, group_by = names(folder_data)[1:2])
 
 # plot_treemap -----------------------------------------------------------------
 plot_treemap <- function(
-  ..., file = NULL, args_png = list(), subtitle = "", args_treemap = list(...)
+  dtf, ..., file = NULL, args_png = list(), subtitle = ""
 )
 {
+  #args <- list()
+  args <- list(...)
+
+  if (length(args) == 0) {
+    args <- args_treemap()
+  }
+
   if (! is.null(file)) {
-
     do.call(grDevices::png, c(list(file), args_png))
-
     on.exit(grDevices::dev.off())
   }
 
-  map <- try(do.call(treemap::treemap, args_treemap))
+  map <- try(kwb.utils::callWith(treemap::treemap, dtf = dtf, args))
 
   if (subtitle != "") {
 
