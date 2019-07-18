@@ -88,11 +88,11 @@ plot_treemaps_from_path_data <- function(
   #kwb.utils::assignArgumentDefaults(kwb.fakin:::plot_treemaps_from_path_data)
   #kwb.utils::assignPackageObjects("kwb.fakin")
 
-  if (! check_path_data(path_data)) {
+  if (! inherits(path_data, "pathlist") && ! check_path_data(path_data)) {
     return()
   }
 
-  total_size <- if (inherits(path_data, "path_list")) {
+  total_size <- if (inherits(path_data, "pathlist")) {
     prepare_for_n_level_treemap2(path_data, n_levels, root_path, name)
   } else {
     prepare_for_n_level_treemap(path_data, n_levels, root_path, name)
