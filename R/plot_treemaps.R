@@ -92,9 +92,11 @@ plot_treemaps_from_path_data <- function(
     return()
   }
 
-  total_size <- prepare_for_n_level_treemap(
-    path_data, n_levels, root_path, name
-  )
+  total_size <- if (inherits(path_data, "path_list")) {
+    prepare_for_n_level_treemap2(path_data, n_levels, root_path, name)
+  } else {
+    prepare_for_n_level_treemap(path_data, n_levels, root_path, name)
+  }
 
   n_available <- min(c(length(grep("^level", names(total_size))), n_levels))
 
@@ -173,6 +175,50 @@ prepare_for_n_level_treemap <- function(
   folder_data <- kwb.utils::catAndRun(
     sprintf("Preparing data for '%s'", name), newLine = 3,
     prepare_for_treemap(path_data, root_path, n_keep = 1L)
+  )
+
+  group_by <- names(folder_data)[seq_len(n_levels)]
+
+  kwb.utils::catAndRun(
+    sprintf("Aggregating by first %d path levels", length(group_by)),
+    aggregate_by_levels(folder_data, group_by)
+  )
+}
+
+# prepare_for_n_level_treemap2 -------------------------------------------------
+prepare_for_n_level_treemap2 <- function(
+  path_list, n_levels = 1L, root_path = "", name = "root", variable = "size"
+)
+{
+  #n_levels = 1L; root_path = ""; name = "root"; variable = "size"
+  stopifnot(inherits(path_list, "pathlist"))
+
+  kwb.utils::checkForMissingColumns(path_list@data, c("type", variable))
+
+  folder_data <- kwb.utils::catAndRun(
+    sprintf("Preparing data for '%s'", name), newLine = 3, {
+
+      # Filter for paths of type "file" and paths starting with root_path and select
+      # only requested variables
+      is_directory <- path_list@data$type == "directory"
+
+      pl <- path_list[! is_directory]
+      pl@data <- kwb.utils::selectColumns(pl@data, variable, drop = FALSE)
+
+      # Filter for paths starting with root_path if root_path is given
+      if (root_path != "") {
+        pl <- pl[left_substring_equals(as.character(pl), root_path)]
+      }
+
+      # Let pathlist remove common roots
+      pl <- pathlist::pathlist(segments = pathlist::as.list(pl), data = pl@data)
+      subdir_data <- kwb.utils::asNoFactorDataFrame(pl@folders)
+
+      # Set names of path segment columns and combine with value columns
+      subdir_data %>%
+        stats::setNames(paste0("level_", seq_along(subdir_data))) %>%
+        cbind(pl@data)
+    }
   )
 
   group_by <- names(folder_data)[seq_len(n_levels)]
