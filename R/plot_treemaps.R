@@ -93,7 +93,7 @@ plot_treemaps_from_path_data <- function(
   }
 
   total_size <- prepare_for_n_level_treemap(
-    path_data, root_path, name, n_levels
+    path_data, n_levels, root_path, name
   )
 
   n_available <- min(c(length(grep("^level", names(total_size))), n_levels))
@@ -110,12 +110,13 @@ plot_treemaps_from_path_data <- function(
 
     map <- kwb.utils::catAndRun(
       sprintf("Creating treemap '%s'", map_type),
-      plot_one_treemap(
+      plot_treemap(
         file = unname(files[map_type]),
         args_png = args_png,
         subtitle = root_path,
         args_treemap = c(
-          main_args_treemap(x = total_size, index, type, n_levels),
+          list(total_size),
+          main_args_treemap(index, type, n_levels),
           args_treemap(settings, map_type)
         )
       )
@@ -163,11 +164,13 @@ check_path_data <- function(path_data)
 }
 
 # prepare_for_n_level_treemap --------------------------------------------------
-prepare_for_n_level_treemap <- function(path_data, root_path, name, n_levels)
+prepare_for_n_level_treemap <- function(
+  path_data, n_levels = 1L, root_path = "", name = "root"
+)
 {
   folder_data <- kwb.utils::catAndRun(
     sprintf("Preparing data for '%s'", name), newLine = 3,
-    prepare_for_treemap(path_data, root_path, n_keep = 0)
+    prepare_for_treemap(path_data, root_path, n_keep = 1L)
   )
 
   group_by <- names(folder_data)[seq_len(n_levels)]
@@ -179,12 +182,12 @@ prepare_for_n_level_treemap <- function(path_data, root_path, name, n_levels)
 }
 
 # main_args_treemap ------------------------------------------------------------
-main_args_treemap <- function(x, index, type, n_levels)
+main_args_treemap <- function(
+  index = "level_1", type = "total_size", n_levels = 1,
+  border.col = c("darkred", rep("black", n_levels - 1))
+)
 {
-  list(
-    x, index = index, type = type,
-    border.col = c("darkred", rep("black", n_levels - 1))
-  )
+  list(index = index, type = type, border.col = border.col)
 }
 
 # args_treemap -----------------------------------------------------------------
@@ -269,12 +272,11 @@ get_biggest_folders_from_map <- function(map, n)
 #' @param ... further arguments passed to
 #'   \code{\link[kwb.file]{remove_common_root}}, such as \code{n_keep} (number
 #'   of last segments to be kept from the common first part of all paths)
-#'
 prepare_for_treemap <- function(
   path_data, root_path = "", variable = "size", ...
 )
 {
-  `%>%` <- magrittr::`%>%`
+  kwb.utils::checkForMissingColumns(path_data, c("type", "path", variable))
 
   # Filter for paths of type "file" and paths starting with root_path and select
   # only requested variables
@@ -307,7 +309,6 @@ filter_for_file_paths <- function(path_data)
 filter_for_start_path <- function(path_data, start_path = "")
 {
   if (start_path == "") {
-
     return(path_data)
   }
 
@@ -330,9 +331,10 @@ aggregate_by_levels <- function(folder_data, group_by = names(folder_data)[1:2])
     as.data.frame()
 }
 
-# plot_one_treemap -------------------------------------------------------------
-plot_one_treemap <- function(args_treemap, file = NULL, args_png = list(),
-                             subtitle = "")
+# plot_treemap -----------------------------------------------------------------
+plot_treemap <- function(
+  ..., file = NULL, args_png = list(), subtitle = "", args_treemap = list(...)
+)
 {
   if (! is.null(file)) {
 

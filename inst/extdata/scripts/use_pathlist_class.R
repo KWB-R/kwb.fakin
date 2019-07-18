@@ -18,6 +18,8 @@ if (FALSE)
 
   length(paths) # 143058
 
+  pathtree <- kwb.fakin:::to_tree_using_pathlist(paths)
+
   # Create an object of class pathlist
   pl <- pathlist::pathlist(paths = paths)
 

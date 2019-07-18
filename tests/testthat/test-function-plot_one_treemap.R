@@ -5,9 +5,9 @@
 # so that real cases are tested. You should then delete this comment.
 #
 
-test_that("plot_one_treemap() works", {
+test_that("plot_treemap() works", {
 
-  kwb.fakin:::plot_one_treemap()
+  kwb.fakin:::plot_treemap()
 
 })
 
