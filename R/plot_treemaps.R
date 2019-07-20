@@ -98,6 +98,9 @@ plot_treemaps_from_path_data <- function(
     prepare_for_n_level_treemap(path_data, n_levels, root_path, name)
   }
 
+  # Store the root that was returned in attribute "root"
+  root <- kwb.utils::getAttribute(total_size, "root")
+
   n_available <- min(c(length(grep("^level", names(total_size))), n_levels))
 
   index <- names(total_size)[seq_len(n_available)]
@@ -122,7 +125,7 @@ plot_treemaps_from_path_data <- function(
         ),
         file = unname(files[map_type]),
         args_png = args_png,
-        subtitle = root_path
+        subtitle = sprintf("Root folder: %s", root)
       )
     )
 
@@ -179,10 +182,13 @@ prepare_for_n_level_treemap <- function(
 
   group_by <- names(folder_data)[seq_len(n_levels)]
 
-  kwb.utils::catAndRun(
+  result <- kwb.utils::catAndRun(
     sprintf("Aggregating by first %d path levels", length(group_by)),
     aggregate_by_levels(folder_data, group_by)
   )
+
+  # Return the root path in attribute "root"
+  structure(result, root = kwb.utils::getAttribute(folder_data, "root"))
 }
 
 # prepare_for_n_level_treemap2 -------------------------------------------------
@@ -198,11 +204,10 @@ prepare_for_n_level_treemap2 <- function(
   folder_data <- kwb.utils::catAndRun(
     sprintf("Preparing data for '%s'", name), newLine = 3, {
 
-      # Filter for paths of type "file" and paths starting with root_path and select
-      # only requested variables
-      is_directory <- path_list@data$type == "directory"
+      # Filter for paths of type "file" by ec
+      pl <- path_list[path_list@data$type == "file"]
 
-      pl <- path_list[! is_directory]
+      # Select only required extra columns
       pl@data <- kwb.utils::selectColumns(pl@data, variable, drop = FALSE)
 
       # Filter for paths starting with root_path if root_path is given
@@ -223,10 +228,13 @@ prepare_for_n_level_treemap2 <- function(
 
   group_by <- names(folder_data)[seq_len(n_levels)]
 
-  kwb.utils::catAndRun(
+  result <- kwb.utils::catAndRun(
     sprintf("Aggregating by first %d path levels", length(group_by)),
     aggregate_by_levels(folder_data, group_by)
   )
+
+  # Return the root path in attribute "root"
+  structure(result, root = pl@root)
 }
 
 # args_treemap -----------------------------------------------------------------
@@ -332,16 +340,25 @@ prepare_for_treemap <- function(
 
   # Split the paths into path segments (folder names), remove the first common
   # segments and create a data frame with the path segments in columns
-  subdir_data <- result$path %>%
+  paths <- result$path %>%
     kwb.file::split_paths() %>%
-    kwb.file::remove_common_root(...) %>%
+    kwb.file::remove_common_root(...)
+
+  # Store the root that was returned by remove_common_root() in attribute "root"
+  root <- kwb.utils::getAttribute(paths, "root")
+
+  # Create data frame of subdirectories
+  subdir_data <- paths %>%
     kwb.file::to_subdir_matrix(fill.value = NA) %>%
     kwb.utils::asNoFactorDataFrame()
 
   # Set names of path segement columns and combine with value columns
-  subdir_data %>%
+  result <- subdir_data %>%
     stats::setNames(paste0("level_", seq_along(subdir_data))) %>%
     cbind(kwb.utils::removeColumns(result, "path"))
+
+  # Return the common root in attribute "root"
+  structure(result, root = root)
 }
 
 # exclude_directories ----------------------------------------------------------
