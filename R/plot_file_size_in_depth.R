@@ -27,16 +27,7 @@ plot_file_size_in_depth <- function(
 
   max_depth <- kwb.utils::defaultIfNULL(max_depth, max(df$depth))
 
-  df$group <- if (group_by == "extension") {
-    to_top_n(df$extension, n = n_top_groups)
-  } else if (group_by == "level-1") {
-    to_top_n(
-      kwb.file::split_into_root_folder_file_extension(df$folder, 1)$root,
-      n = n_top_groups
-    )
-  } else stop_(
-    "group_by must be one of 'extension', 'level-1'"
-  )
+  df$group <- get_group_values(df, group_by, n_top_groups)
 
   summary_data <- df %>%
     dplyr::group_by(.data$root, .data$depth) %>%
@@ -53,4 +44,25 @@ plot_file_size_in_depth <- function(
     point_size = point_size,
     text_size = text_size
   )
+}
+
+# get_group_values -------------------------------------------------------------
+get_group_values <- function(df, group_by = "extension", n_top_groups = 4)
+{
+  values <- if (group_by == "extension") {
+
+    kwb.utils::selectColumns(df, "extension")
+
+  } else if (group_by == "level-1") {
+
+    folders <- kwb.utils::selectColumns(df, "folder")
+
+    kwb.file::split_into_root_folder_file_extension(folders, 1)$root
+
+  } else stop_(
+
+    "group_by must be one of 'extension', 'level-1'"
+  )
+
+  to_top_n(values, n = n_top_groups)
 }
