@@ -1,11 +1,9 @@
 # plot_file_size_in_depth_gg ---------------------------------------------------
 plot_file_size_in_depth_gg <- function(
   df, group_aesthetics, summary_data, max_depth,
-  main = "", point_size = 1, text_size = 3
+  main = "", point_size = 1, text_size = 3, y_label = 100 * 1024
 )
 {
-  y_label <- 100 * 1024
-
   label_captions <- data.frame(
     x = 0, y = y_label, label = "Size (MiB):\nFiles:"
   )
