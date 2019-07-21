@@ -12,7 +12,7 @@ get_path_summary <- function(df, n = 3)
   is_pathlist <- inherits(df, "pathlist")
 
   paths <- if (is_pathlist) {
-    as.character(df, relative = TRUE)
+    as.character(df)
   } else {
     kwb.utils::pasteColumns(df, c("folder", "file"), "/")
   }
