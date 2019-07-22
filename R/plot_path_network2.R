@@ -14,14 +14,16 @@ prepare_paths_for_network2 <- function(paths)
 # get_path_network2 ------------------------------------------------------------
 get_path_network2 <- function(
   paths, max_depth = 3, reverse = FALSE,
-  weight_by = c("n_files", "size", "none")[1]
+  weight_by = c("n_files", "size", "none")[1], sizes = NULL
 )
 {
   # kwb.utils::assignPackageObjects("kwb.fakin")
 
+  is_pathlist <- inherits(paths, "pathlist")
+
   # Create data frame with each column representing a folder depth level
   folder_data <- kwb.utils::asNoFactorDataFrame(
-    if (inherits(paths, "pathlist")) {
+    if (is_pathlist) {
       paths@folders
     } else {
       kwb.file::to_subdir_matrix(paths, dbg = FALSE)
@@ -31,14 +33,15 @@ get_path_network2 <- function(
   # Reduce max_depth to the number of available columns
   max_depth <- min(
     max_depth,
-    if (inherits(paths, "pathlist")) max(paths@depths) else ncol(folder_data)
+    if (is_pathlist) max(paths@depths) else ncol(folder_data)
   )
 
   # We need at least a depth of two
   stopifnot(max_depth >= 2)
 
   links <- do.call(rbind, lapply(
-    2:max_depth, get_links_at_depth2, folder_data, weight_by = weight_by
+    2:max_depth, get_links_at_depth2, folder_data, weight_by = weight_by,
+    sizes = sizes
   ))
 
   node_names <- unique(unlist(links[, -3]))
@@ -67,34 +70,41 @@ get_path_network2 <- function(
 
 # get_links_at_depth2 ----------------------------------------------------------
 get_links_at_depth2 <- function(
-  i, folder_data, weight_by = c("n_files", "size", "none")[1]
+  i, folder_data, weight_by = c("n_files", "size", "none")[1], sizes = NULL
 )
 {
   stopifnot(weight_by %in% c("n_files", "size", "none"))
 
-  if (inherits(folder_data, "pathlist")) {
+  is_pathlist <- inherits(folder_data, "pathlist")
 
-    folder_data <- folder_data[folder_data@depths >= i]
+  if (is_pathlist) {
+
+    is_deeper <- folder_data@depths >= i
+    folder_data <- folder_data[is_deeper]
     source_data <- folder_data@folders[, seq_len(i)]
     source_data <- kwb.utils::asNoFactorDataFrame(source_data)
-    source_data$size <- kwb.utils::selectColumns(folder_data@data, "size")
 
   } else {
 
     # Select the first i columns
     source_data <- folder_data[, seq_len(i)]
     # Exclude rows being empty in the i-th column
-    source_data <- source_data[source_data[, i] != "", ]
+    is_deeper <- source_data[, i] != ""
+    source_data <- source_data[is_deeper, ]
   }
 
+  sizes <- sizes[is_deeper]
+  source_data$size <- kwb.utils::defaultIfNULL(sizes, 1)
+  n_levels <- ncol(source_data) - 1
+
   # Count the number of files per path
-  stats <- if (weight_by == "n_files") {
-    stats::aggregate(source_data[, 1], by = source_data, FUN = length)
-  } else if (weight_by == "size") {
-    stats::aggregate(source_data$size, by = source_data, FUN = sum)
-  } else if (weight_by == "none") {
-    stats::aggregate(source_data[, 1], by = source_data, FUN = function(x) 1)
-  }
+  FUN <- list(n_files = length, size = sum, none = function(x) 1)[[weight_by]]
+
+  stats <- stats::aggregate(
+    x = source_data$size,
+    by = kwb.utils::removeColumns(source_data, "size"),
+    FUN = FUN
+  )
 
   # Define helper function
   n_columns_to_path <- function(data, n) {
