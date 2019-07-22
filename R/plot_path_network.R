@@ -26,6 +26,9 @@
 #' @param method if \code{1} (default) the function behaves as before, another
 #'   value activates the new preparation of paths accepting/using an object
 #'   of class \pkg{pathlist}
+#' @param weight_by one of \code{"n_files", "size", "none"}. Specifies whether
+#'   to set the link widths according to the total number or total size of files
+#'   in subsequent folders or by setting all links to the same width.
 #' @return object representing an HTML page
 #'
 #' @export
@@ -40,7 +43,7 @@
 plot_path_network <- function(
   paths, max_depth = 3, nodePadding = 8, nodeHeight = 10, sinksRight = FALSE,
   remove_common_root = TRUE, names_to_colours = name_to_traffic_light,
-  height = NULL, ..., method = 1
+  height = NULL, ..., method = 1, weight_by = c("n_files", "size", "none")[1]
 )
 {
   #kwb.utils::assignPackageObjects("kwb.fakin")
@@ -54,7 +57,7 @@ plot_path_network <- function(
   } else {
 
     paths <- prepare_paths_for_network2(paths)
-    network <- get_path_network2(paths, max_depth)
+    network <- get_path_network2(paths, max_depth, weight_by = weight_by)
   }
 
   if (! is.null(names_to_colours)) {
