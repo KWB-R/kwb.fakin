@@ -39,6 +39,7 @@ plot_file_distribution <- function(
   file_data, start_path, n_root_parts, ..., to_pdf = TRUE
 )
 {
+  #kwb.utils::assignPackageObjects("kwb.fakin")
   data_scatter <- prepare_for_scatter_plot(
     file_data, n_root_parts, start_path, min_depth = 1
   )
