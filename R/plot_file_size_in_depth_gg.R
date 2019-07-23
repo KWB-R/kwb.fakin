@@ -1,10 +1,11 @@
 # plot_file_size_in_depth_gg ---------------------------------------------------
 plot_file_size_in_depth_gg <- function(
-  df, group_aesthetics, summary_data = NULL,
-  max_depth = max(df$depth, na.rm = TRUE), main = "", point_size = 1,
-  text_size = 3
+  df, group_aesthetics = c("colour", "shape")[1], summary_data = NULL,
+  max_depth = NULL, main = "Total", point_size = 1, text_size = 3
 )
 {
+  stopifnot(group_aesthetics %in% c("shape", "colour"))
+
   gg <- ggplot2::ggplot(df, get_depth_size_aesthetics("label" %in% names(df))) +
     ggplot2::geom_point(
       get_group_aesthetics(group_aesthetics),
@@ -12,6 +13,10 @@ plot_file_size_in_depth_gg <- function(
     )
 
   gg <- add_size_count_labels(gg, summary_data, text_size = text_size)
+
+  if (is.null(max_depth)) {
+    max_depth <- max(kwb.utils::selectColumns(df, "depth"))
+  }
 
   gg +
     geom_hline_bytes() +
@@ -36,7 +41,7 @@ get_depth_size_aesthetics <- function(add_labels = FALSE)
 }
 
 # get_group_aesthetics ---------------------------------------------------------
-get_group_aesthetics <- function(group_aesthetics)
+get_group_aesthetics <- function(group_aesthetics = "colour")
 {
   do.call(
     what = ggplot2::aes_string,
@@ -55,13 +60,13 @@ add_size_count_labels <- function(
     return(gg)
   }
 
+  kwb.utils::checkForMissingColumns(summary_data, "depth")
+
   gg + ggplot2::geom_text(
     mapping = ggplot2::aes_string(x = "x", y = "y", label = "label"),
     data = data.frame(x = 0, y = y_label, label = "Size (MiB):\nFiles:"),
     size = text_size
-  )
-
-  gg + ggplot2::geom_text(
+  ) + ggplot2::geom_text(
     data = summary_data, size = text_size, ggplot2::aes_string(
       x = "depth", y = y_label,
       label = "sprintf('%0.1f\n%d', total_size, n_files)"
