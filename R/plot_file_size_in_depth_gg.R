@@ -1,7 +1,8 @@
 # plot_file_size_in_depth_gg ---------------------------------------------------
 plot_file_size_in_depth_gg <- function(
   df, group_aesthetics = c("colour", "shape")[1], summary_data = NULL,
-  max_depth = NULL, main = "Total", point_size = 1, text_size = 3
+  max_depth = 0L, min_depth = 0L, main = "Total", point_size = 1,
+  text_size = 3
 )
 {
   stopifnot(group_aesthetics %in% c("shape", "colour"))
@@ -14,13 +15,17 @@ plot_file_size_in_depth_gg <- function(
 
   gg <- add_size_count_labels(gg, summary_data, text_size = text_size)
 
-  if (is.null(max_depth)) {
-    max_depth <- max(kwb.utils::selectColumns(df, "depth"))
-  }
+  max_depth <- kwb.utils::defaultIfZero(
+    max_depth, max(kwb.utils::selectColumns(df, "depth"))
+  )
+
+  min_depth <- kwb.utils::defaultIfZero(
+    min_depth, min(kwb.utils::selectColumns(df, "depth"))
+  )
 
   gg +
     geom_hline_bytes() +
-    scale_x_depth(max_depth) +
+    scale_x_depth(max_depth, min_depth) +
     scale_y_log_bytes() +
     ggplot2::xlab("") +
     ggplot2::ylab("File size") +
@@ -82,10 +87,10 @@ geom_hline_bytes <- function()
 }
 
 # scale_x_depth ----------------------------------------------------------------
-scale_x_depth <- function(max_depth)
+scale_x_depth <- function(max_depth, min_depth = 0)
 {
   ggplot2::scale_x_continuous(
-    breaks = seq_len(max_depth), limits = 0.0 + c(0, max_depth)
+    breaks = seq_len(max_depth), limits = 0.0 + c(min_depth, max_depth)
   )
 }
 
