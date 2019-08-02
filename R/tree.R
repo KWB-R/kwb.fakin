@@ -34,7 +34,9 @@ flatten_tree <- function(x)
 to_tree <- function(x, dbg = FALSE)
 {
   if (! is.list(x)) {
-    x <- kwb.file::split_paths(remove_duplicates(as.character(x)), dbg = dbg)
+    x <- kwb.file::split_paths(
+      kwb.utils::removeDuplicates(as.character(x)), dbg = dbg
+    )
   }
 
   # Get path depths

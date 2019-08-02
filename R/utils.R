@@ -208,16 +208,6 @@ read_csv_de <- function(file, ...)
   utils::read.csv2(file, stringsAsFactors = FALSE, ...)
 }
 
-# remove_duplicates ------------------------------------------------------------
-remove_duplicates <- function(x)
-{
-  kwb.utils::warningDeprecated(
-    old_name = "remove_duplicates", new_name = "kwb.utils::removeDuplicates"
-  )
-
-  kwb.utils::removeDuplicates(x)
-}
-
 # remove_empty -----------------------------------------------------------------
 remove_empty <- function(x, dbg = FALSE)
 {
