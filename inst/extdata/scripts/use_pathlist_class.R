@@ -5,8 +5,6 @@
 
 if (FALSE)
 {
-  #library(pathlist)
-
   if (kwb.utils::user() == "hauke") {
     paths <- kwb.utils::loadObject("~/Desktop/tmp/paths.RData", "paths")
   } else {
@@ -18,28 +16,11 @@ if (FALSE)
 
   length(paths) # 143058
 
-  pathtree <- kwb.fakin:::to_tree_using_pathlist(paths)
-
   # Create an object of class pathlist
   pl <- pathlist::pathlist(paths = paths)
 
-  # Can we use functions for plotting trees?
-  system.time(tree <- kwb.fakin:::to_tree(paths))
-  system.time(tree2 <- kwb.fakin:::to_tree2(paths))
-  str(tree, 1)
-  str(tree2, 2)
-
-  tree$"Y:"$WWT_Department
-  tree2$
-
-
   folder_data <- kwb.utils::asNoFactorDataFrame(pl@folders)
   View(kwb.fakin:::get_links_at_depth(2, folder_data))
-
-  files <- pl@basename()
-  freq <- table(files)
-  which.max(freq)
-  pl[grep("KAWestewitz.csv", files)]
 
   class(pl)
 
@@ -48,12 +29,9 @@ if (FALSE)
   head(pl@depths)
 
   head(pl)
-
-  setAs(pl, "character")
   pathlist::as.list(head(pl))
 
   pl[5:10]
-  as.character(pl[5:10])
 
   paths2 <- as.character(pl)
 
@@ -70,16 +48,24 @@ if (FALSE)
   # to_tree2() internally uses the pathlist class
   #
 
+  # Can we use functions for plotting trees?
+
   #paths <- c("r/a", "r/a/b", "r/b", "r/b/c/d")
   system.time(tree1 <- kwb.fakin:::to_tree(paths))
-  system.time(tree2 <- kwb.fakin:::to_tree2(paths))
+  system.time(tree2 <- kwb.fakin:::to_tree_using_pathlist(paths))
 
   identical(tree1, tree2)
+  identical(tree1$`Y:`$WWT_Department, tree2$`Y:/WWT_Department`)
+
+  str(tree1, 3)
+  str(tree2, 2)
 
   out1 <- capture.output(str(tree1))
   out2 <- capture.output(str(tree2))
+
   length(out1)
   length(out2)
+
   print(tree1, 5)
   print(tree2, 5)
 }
