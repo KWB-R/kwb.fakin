@@ -17,13 +17,13 @@
 #' paths <- c("a1/b1", "a1/b2", "a2/b1", "a2/b1/c1")
 #'
 #' # Write the example paths to a temporary file
-#' writeLines(paths, file_paths <- tempfile())
+#' writeLines(paths, file <- tempfile())
 #'
 #' # Create a temporary target directory
 #' target_dir <- kwb.utils::createDirectory(file.path(tempdir(), "test"))
 #'
 #' # Create the folder structure as defined by the paths in the temporary file
-#' kwb.fakin::build_folders_from_file(file_paths, target_dir)
+#' kwb.fakin::build_folders_from_file(file, target_dir)
 #'
 #' # List the directory paths below the target directory
 #' paths_reread <- list.dirs(target_dir, recursive = TRUE, full.names = FALSE)
@@ -35,96 +35,72 @@ build_folders_from_file <- function(
   file, target_dir, pattern = NULL, max_depth = NULL, encoding = "Latin-1"
 )
 {
-  paths_raw <- kwb.fakin::read_paths(file, do_sort = FALSE, encoding = encoding)
+  #pattern = NULL; max_depth = NULL; encoding = "Latin-1"
+  #kwb.utils::assignPackageObjects("kwb.fakin")
+  paths_raw <- read_paths_(file, do_sort = FALSE, encoding = encoding)
 
-  paths <- if (! is.null(pattern)) {
-
-    grep(pattern, paths_raw, ignore.case = TRUE, value = TRUE)
-
-  } else {
-
+  path_list <- pathlist::pathlist(if (is.null(pattern)) {
     paths_raw
+  } else {
+    grep(pattern, paths_raw, ignore.case = TRUE, value = TRUE)
+  })
+
+  if (is.null(max_depth)) {
+    max_depth <- max(pathlist::depth(path_list))
   }
-
-  paths <- kwb.file::remove_common_root(x = paths)
-
-  max_depth <- kwb.utils::defaultIfNULL(
-    max_depth, kwb.file:::get_max_path_depth(paths = paths)
-  )
 
   kwb.utils::createDirectory(target_dir)
 
-  write_paths_to_folder_tree(paths, target_dir, max_depth)
+  write_paths_to_folder_tree(path_list, target_dir, max_depth)
 }
 
 # write_paths_to_folder_tree ---------------------------------------------------
 write_paths_to_folder_tree <- function(
-  paths, target_dir, max_depth = 2, depth = 0
+  path_list, target_dir, max_depth = 2L, depth = 0L
 )
 {
-  paths <- remove_empty(paths, dbg = TRUE)
+  stopifnot(inherits(path_list, "pathlist"))
 
-  if (length(paths) == 0) {
-
+  if (length(path_list) == 0) {
     return()
   }
 
-  folder_data <- kwb.file::to_subdir_matrix(paths, result_type = "data.frame")
+  # Names of top levels
+  top_levels <- unique(pathlist::as.matrix(path_list, relative = TRUE)[, 1])
 
-  # Split the folder matrix into sub-matrices each of which refers to one
-  # first-level folder
-  subsets <- split(folder_data, folder_data[, 1])
-
-  # Define helper function that drops the first column of a data frame and
-  # converts the data frame to a vector of paths
-  to_child_paths <- function(x) kwb.pathdict:::data_frame_to_paths(
-    x[, -1, drop = FALSE]
-  )
-
-  # Get a list of path vectors with the first level folders removed
-  path_vectors <- lapply(subsets, function(x) remove_empty(to_child_paths(x)))
+  # Path subsetting method
+  dollar <- methods::getMethod("$", "pathlist")
 
   # Loop through the top level folders
-  for (top_level_folder in names(path_vectors)) {
+  for (top_level in top_levels) {
 
-    #top_level_folder <- names(path_vectors)[2]
+    #top_level <- top_levels[1]
+    pl <- dollar(path_list, top_level)
 
     # If we are already at maximal depth, write one file per top level folder
     # containing the paths to all subfolders in each top level folder
     if (depth == max_depth) {
 
-      write_paths_file(path_vectors, top_level_folder, output_dir = target_dir)
+      relative_paths <- as.character(pl, relative = TRUE)
+
+      n <- length(pl)
+
+      file <- file.path(target_dir, sprintf(
+        "%s__WITH%s-SUBFOLDER%s.txt",
+        top_level, ifelse(n > 0, paste0("-", n), "OUT"), ifelse(n == 1, "", "S")
+      ))
+
+      kwb.utils::writeText(relative_paths, file = file)
 
     } else {
 
       # Create the top level folder and call this function recursively
-      new_target_dir <- file.path(target_dir, top_level_folder)
-
-      kwb.utils::createDirectory(new_target_dir)
+      new_dir <- kwb.utils::createDirectory(file.path(target_dir, top_level))
 
       write_paths_to_folder_tree(
-        paths = path_vectors[[top_level_folder]],
-        target_dir = new_target_dir,
-        max_depth = max_depth,
-        depth = depth + 1
+        path_list = pl, target_dir = new_dir, max_depth = max_depth,
+        depth = depth + 1L
       )
     }
   }
-}
-
-# write_paths_file -------------------------------------------------------------
-write_paths_file <- function(path_list, element, output_dir = "")
-{
-  paths <- kwb.utils::selectElements(path_list, element)
-  #file <- sprintf("%04d_FOLDERS_IN_%s.txt", length(paths), element)
-  n_paths <- length(paths)
-
-  file <- sprintf(
-    "%s__WITH%s-SUBFOLDER%s.txt",
-    element,
-    if (n_paths > 0) paste0("-", n_paths) else "OUT",
-    if (n_paths != 1) "S" else ""
-  )
-
-  kwb.utils::writeText(paths, file.path(output_dir, file))
 }
