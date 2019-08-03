@@ -16,17 +16,26 @@ if (FALSE)
 
   length(paths) # 143058
 
+  system.time(parts1 <- kwb.file::split_paths(paths))
+  system.time(parts2 <- fs::path_split(paths))
+
+  parts1[[21]]
+  parts2[[21]]
+
   # Create an object of class pathlist
   pl <- pathlist::pathlist(paths = paths)
 
-  folder_data <- kwb.utils::asNoFactorDataFrame(pl@folders)
+  folder_data <- kwb.utils::asNoFactorDataFrame(
+    pathlist::as.matrix(pl, relative = TRUE)
+  )
+
   View(kwb.fakin:::get_links_at_depth(2, folder_data))
 
   class(pl)
 
   pl@root
-  dim(pl@folders)
-  head(pl@depths)
+  dim(pathlist::as.matrix(pl, relative = TRUE))
+  head(pathlist::depth(pl))
 
   head(pl)
   pathlist::as.list(head(pl))
@@ -44,10 +53,6 @@ if (FALSE)
 # Compare two versions of tree generation --------------------------------------
 if (FALSE)
 {
-  #
-  # to_tree2() internally uses the pathlist class
-  #
-
   # Can we use functions for plotting trees?
 
   #paths <- c("r/a", "r/a/b", "r/b", "r/b/c/d")

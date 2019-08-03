@@ -18,7 +18,7 @@ prepare_for_scatter_plot2 <- function(file_data)
     folder = pathlist::folder(file_data),
     file = files,
     extension = kwb.utils::fileExtension(files),
-    depth = file_data@depths,
+    depth = pathlist::depth(file_data),
     size = file_data@data[, "size", drop = FALSE]
   )
 }

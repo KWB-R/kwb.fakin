@@ -33,7 +33,7 @@ get_path_network2 <- function(
   # Reduce max_depth to the number of available columns
   max_depth <- min(
     max_depth,
-    if (is_pathlist) max(paths@depths) else ncol(folder_data)
+    if (is_pathlist) max(pathlist::depth(paths)) else ncol(folder_data)
   )
 
   # We need at least a depth of two
@@ -79,7 +79,7 @@ get_links_at_depth2 <- function(
 
   if (is_pathlist) {
 
-    is_deeper <- folder_data@depths >= i
+    is_deeper <- pathlist::depth(folder_data) >= i
     folder_data <- folder_data[is_deeper]
     source_data <- folder_data@folders[, seq_len(i)]
     source_data <- kwb.utils::asNoFactorDataFrame(source_data)

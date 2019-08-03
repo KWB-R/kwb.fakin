@@ -97,7 +97,7 @@ to_tree_using_pathlist <- function(x, dbg = FALSE, depth. = 0)
   }
 
   # There should not be any elements with a depth of zero
-  stopifnot(all(pl@depths > 0))
+  stopifnot(all(pathlist::depth(pl) > 0))
 
   # Get first level folders/files
   first_elements <- pl@folders[, 1]
@@ -106,7 +106,10 @@ to_tree_using_pathlist <- function(x, dbg = FALSE, depth. = 0)
   n <- table(first_elements)
 
   # Find the leafs of the tree
-  leafs <- setdiff(unique(first_elements[pl@depths == 1]), names(n)[n > 1])
+  leafs <- setdiff(
+    unique(first_elements[pathlist::depth(pl) == 1]),
+    names(n)[n > 1]
+  )
 
   # Separate the leafs from the sub-trees
   is_tree <- ! first_elements %in% leafs

@@ -91,7 +91,7 @@ plot_path_network <- function(
 get_default_sankey_height <- function(paths, nodeHeight, nodePadding)
 {
   actual_max_depth <- if (inherits(paths, "pathlist")) {
-    max(paths@depths)
+    max(pathlist::depth(paths))
   } else {
     get_max_path_width(paths)
   }
