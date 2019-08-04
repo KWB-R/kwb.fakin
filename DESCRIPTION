@@ -20,10 +20,10 @@ Imports:
     fs (>= 1.2.6),
     ggplot2 (>= 3.2.0),
     kwb.code (>= 0.0.0.9000),
-    kwb.file (>= 0.0.0.9000),
+    kwb.file (>= 0.2.0),
     kwb.pathdict (>= 0.0.0.9000),
-    kwb.plot (>= 0.2.0.9000),
-    kwb.utils (>= 0.4.1),
+    kwb.plot (>= 0.2.0),
+    kwb.utils (>= 0.4.3),
     lubridate (>= 1.7.4),
     methods,
     magrittr (>= 1.5),
@@ -40,7 +40,7 @@ Remotes:
     github::kwb-r/kwb.file,
     github::kwb-r/kwb.pathdict,
     github::kwb-r/kwb.plot,
-    github::kwb-r/kwb.utils@dev
+    github::kwb-r/kwb.utils
 Suggests: 
     covr (>= 3.2.1),
     jsonlite (>= 1.6),

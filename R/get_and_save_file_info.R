@@ -11,10 +11,11 @@
 #' @param check_dirs if \code{TRUE} (default) it is checked in advance if both
 #'   \code{root_dir} and \code{output_dir} exist. Switch this off if e.g.
 #'   network paths are wrongly considered to be non-existing.
-#'
+#' @param \dots further arguments passed to
+#'   \code{\link{get_recursive_file_info}}, such as \code{all}
 #' @export
 #'
-get_and_save_file_info <- function(root_dir, output_dir, check_dirs = TRUE)
+get_and_save_file_info <- function(root_dir, output_dir, check_dirs = TRUE, ...)
 {
   # Check if the root directory exists
   if (check_dirs) {
@@ -24,7 +25,9 @@ get_and_save_file_info <- function(root_dir, output_dir, check_dirs = TRUE)
   }
 
   # Get information on all files in this directory
-  runtime <- system.time(file_info <- get_recursive_file_info(root_dir))
+  runtime <- system.time(
+    file_info <- get_recursive_file_info(root_dir, ...)
+  )
 
   cat_elapsed(runtime)
 
