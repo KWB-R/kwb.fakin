@@ -11,10 +11,14 @@
 #' @param check_dirs if \code{TRUE} (default) it is checked in advance if both
 #'   \code{root_dir} and \code{output_dir} exist. Switch this off if e.g.
 #'   network paths are wrongly considered to be non-existing.
-#'
+#' @param format format string specifying how to format the part of the
+#'   filename intended to contain date (and, if required, time) information.
+#'   Default: "\%Y-\%m-\%d_\%H\%M"
 #' @export
 #'
-get_and_save_file_info <- function(root_dir, output_dir, check_dirs = TRUE)
+get_and_save_file_info <- function(
+  root_dir, output_dir, check_dirs = TRUE, format = "%Y-%m-%d_%H%M"
+)
 {
   # Check if the root directory exists
   if (check_dirs) {
@@ -29,7 +33,7 @@ get_and_save_file_info <- function(root_dir, output_dir, check_dirs = TRUE)
   cat_elapsed(runtime)
 
   # Define path to output file
-  datetime_string <- format(Sys.time(), "%Y-%m-%d_%H%M")
+  datetime_string <- format(Sys.time(), format = format)
 
   parent_folder <- basename(root_dir)
 

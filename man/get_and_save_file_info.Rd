@@ -4,7 +4,8 @@
 \alias{get_and_save_file_info}
 \title{Get and Save File Information}
 \usage{
-get_and_save_file_info(root_dir, output_dir, check_dirs = TRUE)
+get_and_save_file_info(root_dir, output_dir, check_dirs = TRUE,
+  format = "\%Y-\%m-\%d_\%H\%M")
 }
 \arguments{
 \item{root_dir}{path to the directory from which to start searching for
@@ -18,6 +19,10 @@ files}
 \item{check_dirs}{if \code{TRUE} (default) it is checked in advance if both
 \code{root_dir} and \code{output_dir} exist. Switch this off if e.g.
 network paths are wrongly considered to be non-existing.}
+
+\item{format}{format string specifying how to format the part of the
+filename intended to contain date (and, if required, time) information.
+Default: "\%Y-\%m-\%d_\%H\%M"}
 }
 \description{
 Get and Save File Information
