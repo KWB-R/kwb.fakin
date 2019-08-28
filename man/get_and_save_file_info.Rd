@@ -5,7 +5,7 @@
 \title{Get and Save File Information}
 \usage{
 get_and_save_file_info(root_dir, output_dir, check_dirs = TRUE,
-  format = "\%Y-\%m-\%d_\%H\%M")
+  format = "\%Y-\%m-\%d_\%H\%M", ...)
 }
 \arguments{
 \item{root_dir}{path to the directory from which to start searching for
@@ -23,6 +23,11 @@ network paths are wrongly considered to be non-existing.}
 \item{format}{format string specifying how to format the part of the
 filename intended to contain date (and, if required, time) information.
 Default: "\%Y-\%m-\%d_\%H\%M"}
+
+\item{\dots}{further arguments passed to
+\code{\link{get_recursive_file_info}} and finally to
+\code{\link[fs]{dir_info}}. Set e.g. \code{fail = FALSE} to avoid failure
+due to insufficient access permissions.}
 }
 \description{
 Get and Save File Information
