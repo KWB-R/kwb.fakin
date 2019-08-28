@@ -7,18 +7,19 @@
 #' @param pattern regular expression matching the names of the files to be
 #'   considered. By default, all files are considered.
 #' @param all if \code{TRUE} (default) hidden files are also returned
+#' @param \dots further arguments passed to \code{\link[fs]{dir_info}}
 #' @param dbg if \code{TRUE} (default) progress messages are shown
 #'
 #' @export
 #'
 get_recursive_file_info <- function(
-  root_dir, pattern = NULL, all = TRUE, dbg = TRUE
+  root_dir, pattern = NULL, all = TRUE, ..., dbg = TRUE
 )
 {
   kwb.utils::catAndRun(
     paste("Getting file information on files below", root_dir),
     dbg = dbg,
-    fs::dir_info(root_dir, all = all, recurse = TRUE, regexp = pattern)
+    fs::dir_info(root_dir, all = all, recurse = TRUE, regexp = pattern, ...)
   )
 }
 

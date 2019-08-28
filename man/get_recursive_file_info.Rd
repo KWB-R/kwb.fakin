@@ -4,7 +4,7 @@
 \alias{get_recursive_file_info}
 \title{Call file.info recursively on files below a root folder}
 \usage{
-get_recursive_file_info(root_dir, pattern = NULL, all = TRUE,
+get_recursive_file_info(root_dir, pattern = NULL, all = TRUE, ...,
   dbg = TRUE)
 }
 \arguments{
@@ -15,6 +15,8 @@ search for files}
 considered. By default, all files are considered.}
 
 \item{all}{if \code{TRUE} (default) hidden files are also returned}
+
+\item{\dots}{further arguments passed to \code{\link[fs]{dir_info}}}
 
 \item{dbg}{if \code{TRUE} (default) progress messages are shown}
 }
