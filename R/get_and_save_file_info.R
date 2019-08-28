@@ -19,6 +19,7 @@
 #'   \code{\link[fs]{dir_info}}. Set e.g. \code{fail = FALSE} to avoid failure
 #'   due to insufficient access permissions.
 #' @export
+#' @return full path to the file to which all file information were written
 #'
 get_and_save_file_info <- function(
   root_dir, output_dir, check_dirs = TRUE, format = "%Y-%m-%d_%H%M", ...
@@ -49,4 +50,7 @@ get_and_save_file_info <- function(
 
   # Write the file information to a CSV file
   write_file_info(file_info, file)
+
+  # Return the path to the file created
+  file
 }

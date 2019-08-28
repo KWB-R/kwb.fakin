@@ -29,6 +29,9 @@ Default: "\%Y-\%m-\%d_\%H\%M"}
 \code{\link[fs]{dir_info}}. Set e.g. \code{fail = FALSE} to avoid failure
 due to insufficient access permissions.}
 }
+\value{
+full path to the file to which all file information were written
+}
 \description{
 Get and Save File Information
 }
