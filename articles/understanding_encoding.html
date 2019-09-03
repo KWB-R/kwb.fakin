@@ -7,8 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Understanding Encoding • kwb.fakin</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cerulean/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><!-- docsearch --><script src="../docsearch.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous">
 <link href="../docsearch.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><meta property="og:title" content="Understanding Encoding">
@@ -32,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">kwb.fakin</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
       </span>
     </div>
 
@@ -40,7 +41,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -78,12 +79,12 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/kwb-r/kwb.fakin">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
       </ul>
-<form class="navbar-form navbar-right" role="search">
+<form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
         <div class="form-group">
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
 </div>
@@ -97,13 +98,14 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Understanding Encoding</h1>
                         <h4 class="author">Hauke Sonnenberg</h4>
             
-            <h4 class="date">2019-08-04</h4>
+            <h4 class="date">2019-09-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/kwb-r/kwb.fakin/blob/master/vignettes/understanding_encoding.Rmd"><code>vignettes/understanding_encoding.Rmd</code></a></small>
       <div class="hidden name"><code>understanding_encoding.Rmd</code></div>
@@ -129,45 +131,45 @@
 <a href="#example-sessions" class="anchor"></a>Example Sessions</h2>
 <p>What does R tell us about Encoding?</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">?Encoding</a></code></pre></div>
-<p>We learn, that R offers a function <code><a href="https://www.rdocumentation.org/packages/base/topics/Encoding">Encoding()</a></code> as well as the functions <code><a href="https://www.rdocumentation.org/packages/base/topics/Encoding">enc2native()</a></code> and <code><a href="https://www.rdocumentation.org/packages/base/topics/Encoding">enc2utf8()</a></code>. How do these functions work?</p>
+<p>We learn, that R offers a function <code><a href="https://rdrr.io/r/base/Encoding.html">Encoding()</a></code> as well as the functions <code><a href="https://rdrr.io/r/base/Encoding.html">enc2native()</a></code> and <code><a href="https://rdrr.io/r/base/Encoding.html">enc2utf8()</a></code>. How do these functions work?</p>
 <p>Let’s have a look at the Examples given in the R documentation:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">## x is intended to be in latin1</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2">x &lt;-<span class="st"> "fa</span><span class="ch">\xE7</span><span class="st">ile"</span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Encoding">Encoding</a></span>(x)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/Encoding.html">Encoding</a></span>(x)</a>
 <a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; [1] "unknown"</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Encoding">Encoding</a></span>(x) &lt;-<span class="st"> "latin1"</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/base/Encoding.html">Encoding</a></span>(x) &lt;-<span class="st"> "latin1"</span></a>
 <a class="sourceLine" id="cb2-6" data-line-number="6">x</a>
 <a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; [1] "façile"</span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8">xx &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/iconv">iconv</a></span>(x, <span class="st">"latin1"</span>, <span class="st">"UTF-8"</span>)</a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Encoding">Encoding</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(x, xx))</a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">xx &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/iconv.html">iconv</a></span>(x, <span class="st">"latin1"</span>, <span class="st">"UTF-8"</span>)</a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="kw"><a href="https://rdrr.io/r/base/Encoding.html">Encoding</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(x, xx))</a>
 <a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; [1] "latin1" "UTF-8"</span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(x, xx)</a>
+<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(x, xx)</a>
 <a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; [1] "façile" "façile"</span></a>
 <a class="sourceLine" id="cb2-13" data-line-number="13"></a>
 <a class="sourceLine" id="cb2-14" data-line-number="14">### The following now gives an error</a>
-<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Encoding">Encoding</a></span>(xx) &lt;-<span class="st"> "bytes"</span></a>
+<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="kw"><a href="https://rdrr.io/r/base/Encoding.html">Encoding</a></span>(xx) &lt;-<span class="st"> "bytes"</span></a>
 <a class="sourceLine" id="cb2-16" data-line-number="16">xx <span class="co"># will be encoded in hex</span></a>
 <a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt; [1] "fa\\xc3\\xa7ile"</span></a>
-<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">"xx = "</span>, xx, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>, <span class="dt">sep =</span> <span class="st">""</span>)</a>
+<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"xx = "</span>, xx, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>, <span class="dt">sep =</span> <span class="st">""</span>)</a>
 <a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co">#&gt; xx = fa\xc3\xa7ile</span></a></code></pre></div>
 </div>
 <div id="writing-to-and-reading-from-files" class="section level2">
 <h2 class="hasAnchor">
 <a href="#writing-to-and-reading-from-files" class="anchor"></a>Writing to and Reading from Files</h2>
-<p>Lets write a line containing German special characters to a text file. We use the function <code>writeText()</code> from our <a href="https://github.com/kwb-r/kwb.utils">kwb.utils</a> package. This function does no more than using <code><a href="https://www.rdocumentation.org/packages/base/topics/writeLines">writeLines()</a></code>, but additionally gives a message about it and returns the path to the file:</p>
+<p>Lets write a line containing German special characters to a text file. We use the function <code>writeText()</code> from our <a href="https://github.com/kwb-r/kwb.utils">kwb.utils</a> package. This function does no more than using <code><a href="https://rdrr.io/r/base/writeLines.html">writeLines()</a></code>, but additionally gives a message about it and returns the path to the file:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">text &lt;-<span class="st"> "Schöne Grüße"</span></a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3">test_file &lt;-<span class="st"> </span>kwb.utils<span class="op">::</span><span class="kw">writeText</span>(text, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempfile</a></span>(<span class="dt">fileext =</span> <span class="st">".txt"</span>))</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; Writing '/tmp/Rtmp5JdNoD/file463731995473.txt' ... ok.</span></a></code></pre></div>
-<p>And now read the line back with <code><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines()</a></code>:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readLines">readLines</a></span>(test_file)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">test_file &lt;-<span class="st"> </span>kwb.utils<span class="op">::</span><span class="kw">writeText</span>(text, <span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span>(<span class="dt">fileext =</span> <span class="st">".txt"</span>))</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; Writing '/tmp/RtmpE8eGB9/file447fdffca46.txt' ... ok.</span></a></code></pre></div>
+<p>And now read the line back with <code><a href="https://rdrr.io/r/base/readLines.html">readLines()</a></code>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(test_file)</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; [1] "Schöne Grüße"</span></a></code></pre></div>
 <p>Ok, no problem so far, because we used the same system to write and read the file.</p>
 <p>Let’s have a look at the file byte-by-byte:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">con &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">file</a></span>(test_file, <span class="st">"r"</span>)</a>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">con &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/connections.html">file</a></span>(test_file, <span class="st">"r"</span>)</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">sapply</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq_len</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nchar">nchar</a></span>(text, <span class="st">"bytes"</span>)), <span class="cf">function</span>(i) {</a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readChar">readChar</a></span>(con, <span class="dv">1</span>, <span class="dt">useBytes =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq_len</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/nchar.html">nchar</a></span>(text, <span class="st">"bytes"</span>)), <span class="cf">function</span>(i) {</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">  <span class="kw"><a href="https://rdrr.io/r/base/readChar.html">readChar</a></span>(con, <span class="dv">1</span>, <span class="dt">useBytes =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb5-5" data-line-number="5">})</a>
 <a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt; Warning in readChar(con, 1, useBytes = TRUE): text connection used with</span></a>
 <a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; readChar(), results may be incorrect</span></a>
@@ -216,10 +218,10 @@
 <a class="sourceLine" id="cb5-50" data-line-number="50"><span class="co">#&gt;  [1] "S"    "c"    "h"    "\xc3" "\xb6" "n"    "e"    " "    "G"    "r"   </span></a>
 <a class="sourceLine" id="cb5-51" data-line-number="51"><span class="co">#&gt; [11] "\xc3" "\xbc" "\xc3" "\x9f" "e"</span></a>
 <a class="sourceLine" id="cb5-52" data-line-number="52"></a>
-<a class="sourceLine" id="cb5-53" data-line-number="53"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">close</a></span>(con)</a></code></pre></div>
+<a class="sourceLine" id="cb5-53" data-line-number="53"><span class="kw"><a href="https://rdrr.io/r/base/connections.html">close</a></span>(con)</a></code></pre></div>
 <p>Wow, that is interesting. I did not know that! Standard characters are stored as one byte and only the special characters are stored as two bytes!</p>
 <p>Now read the file again, this time as a vector of <code>raw</code>:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">(raw_bytes &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readBin">readBin</a></span>(test_file, <span class="st">"raw"</span>, <span class="dv">100</span>))</a>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">(raw_bytes &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/readBin.html">readBin</a></span>(test_file, <span class="st">"raw"</span>, <span class="dv">100</span>))</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt;  [1] 53 63 68 c3 b6 6e 65 20 47 72 c3 bc c3 9f 65 0a</span></a></code></pre></div>
 </div>
 <div id="conversion-between-numeric-codes-and-characters" class="section level2">
@@ -227,39 +229,39 @@
 <a href="#conversion-between-numeric-codes-and-characters" class="anchor"></a>Conversion Between Numeric Codes and Characters</h2>
 <p>What characters do the numeric codes given as hexedecimal numbers in <code>raw_bytes</code> represent?</p>
 <p>Let’s first see what the hexanumeric codes are in the decimal system:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/integer">as.integer</a></span>(raw_bytes)</a>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span>(raw_bytes)</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt;  [1]  83  99 104 195 182 110 101  32  71 114 195 188 195 159 101  10</span></a></code></pre></div>
 <p>And now let’s convert the codes to characters:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rawConversion">rawToChar</a></span>(raw_bytes)</a>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/rawConversion.html">rawToChar</a></span>(raw_bytes)</a>
 <a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; [1] "Schöne Grüße\n"</span></a></code></pre></div>
-<p>The function <code><a href="https://www.rdocumentation.org/packages/base/topics/rawConversion">rawToChar()</a></code> seems to know how to interpret the sequence of byte codes.</p>
+<p>The function <code><a href="https://rdrr.io/r/base/rawConversion.html">rawToChar()</a></code> seems to know how to interpret the sequence of byte codes.</p>
 <p>Note that the last character (<code>10</code> in the decimal and <code>0a</code> in the hexadecimal system) represents the newline character <code>\n</code>.</p>
-<p>What happens if I ask <code><a href="https://www.rdocumentation.org/packages/base/topics/rawConversion">rawToChar()</a></code> to convert the first and second byte representing the <code>ö</code> character separately?</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rawConversion">rawToChar</a></span>(raw_bytes[<span class="dv">4</span>])</a>
+<p>What happens if I ask <code><a href="https://rdrr.io/r/base/rawConversion.html">rawToChar()</a></code> to convert the first and second byte representing the <code>ö</code> character separately?</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/rawConversion.html">rawToChar</a></span>(raw_bytes[<span class="dv">4</span>])</a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; [1] "\xc3"</span></a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rawConversion">rawToChar</a></span>(raw_bytes[<span class="dv">5</span>])</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/rawConversion.html">rawToChar</a></span>(raw_bytes[<span class="dv">5</span>])</a>
 <a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; [1] "\xb6"</span></a></code></pre></div>
 <p>And now together:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rawConversion">rawToChar</a></span>(raw_bytes[<span class="dv">4</span><span class="op">:</span><span class="dv">5</span>])</a>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/rawConversion.html">rawToChar</a></span>(raw_bytes[<span class="dv">4</span><span class="op">:</span><span class="dv">5</span>])</a>
 <a class="sourceLine" id="cb10-2" data-line-number="2"><span class="co">#&gt; [1] "ö"</span></a></code></pre></div>
-<p>There is an argument <code>multiple</code> to <code><a href="https://www.rdocumentation.org/packages/base/topics/rawConversion">rawToChar()</a></code>. It is <code>FALSE</code> by default. What happens if we set it to <code>TRUE</code>?</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rawConversion">rawToChar</a></span>(raw_bytes[<span class="dv">4</span><span class="op">:</span><span class="dv">5</span>], <span class="dt">multiple =</span> <span class="ot">TRUE</span>)</a>
+<p>There is an argument <code>multiple</code> to <code><a href="https://rdrr.io/r/base/rawConversion.html">rawToChar()</a></code>. It is <code>FALSE</code> by default. What happens if we set it to <code>TRUE</code>?</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/rawConversion.html">rawToChar</a></span>(raw_bytes[<span class="dv">4</span><span class="op">:</span><span class="dv">5</span>], <span class="dt">multiple =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb11-2" data-line-number="2"><span class="co">#&gt; [1] "\xc3" "\xb6"</span></a></code></pre></div>
 <p>As the documentation says, setting <code>multiple</code> to <code>TRUE</code> returns the single characters instead of a single string.</p>
 <p>How does this look if we convert the whole string?</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">(characters_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rawConversion">rawToChar</a></span>(raw_bytes, <span class="dt">multiple =</span> <span class="ot">TRUE</span>))</a>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">(characters_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/rawConversion.html">rawToChar</a></span>(raw_bytes, <span class="dt">multiple =</span> <span class="ot">TRUE</span>))</a>
 <a class="sourceLine" id="cb12-2" data-line-number="2"><span class="co">#&gt;  [1] "S"    "c"    "h"    "\xc3" "\xb6" "n"    "e"    " "    "G"    "r"   </span></a>
 <a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">#&gt; [11] "\xc3" "\xbc" "\xc3" "\x9f" "e"    "\n"</span></a></code></pre></div>
 <p>Is this the same as splitting the original string into single characters?</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/strsplit">strsplit</a></span>(text, <span class="dt">split =</span> <span class="st">""</span>)[[<span class="dv">1</span>]]</a>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span>(text, <span class="dt">split =</span> <span class="st">""</span>)[[<span class="dv">1</span>]]</a>
 <a class="sourceLine" id="cb13-2" data-line-number="2"><span class="co">#&gt;  [1] "S" "c" "h" "ö" "n" "e" " " "G" "r" "ü" "ß" "e"</span></a></code></pre></div>
 <p>No, the German special characters are here shown as one character only instead of two. But we can achieve the same when setting the argument <code>useBytes</code> to <code>TRUE</code>:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">(characters_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/strsplit">strsplit</a></span>(text, <span class="dt">split =</span> <span class="st">""</span>, <span class="dt">useBytes =</span> <span class="ot">TRUE</span>)[[<span class="dv">1</span>]])</a>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">(characters_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span>(text, <span class="dt">split =</span> <span class="st">""</span>, <span class="dt">useBytes =</span> <span class="ot">TRUE</span>)[[<span class="dv">1</span>]])</a>
 <a class="sourceLine" id="cb14-2" data-line-number="2"><span class="co">#&gt;  [1] "S"      "c"      "h"      "\xc3"   "\xb6"      "n"      "e"     </span></a>
 <a class="sourceLine" id="cb14-3" data-line-number="3"><span class="co">#&gt;  [8] " "      "G"      "r"      "\xc3"   "\xbc"      "\xc3"   "\x9f"</span></a>
 <a class="sourceLine" id="cb14-4" data-line-number="4"><span class="co">#&gt; [15] "e"</span></a>
 <a class="sourceLine" id="cb14-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb14-6" data-line-number="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/identical">identical</a></span>(characters_<span class="dv">1</span>[<span class="op">-</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(characters_<span class="dv">1</span>)], characters_<span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb14-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/base/identical.html">identical</a></span>(characters_<span class="dv">1</span>[<span class="op">-</span><span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(characters_<span class="dv">1</span>)], characters_<span class="dv">2</span>)</a>
 <a class="sourceLine" id="cb14-7" data-line-number="7"><span class="co">#&gt; [1] FALSE</span></a></code></pre></div>
 </div>
 <div id="replace-special-characters-with-ascii-characters" class="section level1">
@@ -268,12 +270,12 @@
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">raw_bytes</a>
 <a class="sourceLine" id="cb15-2" data-line-number="2"><span class="co">#&gt;  [1] 53 63 68 c3 b6 6e 65 20 47 72 c3 bc c3 9f 65 0a</span></a>
 <a class="sourceLine" id="cb15-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb15-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rawConversion">rawToChar</a></span>(raw_bytes)</a>
+<a class="sourceLine" id="cb15-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/base/rawConversion.html">rawToChar</a></span>(raw_bytes)</a>
 <a class="sourceLine" id="cb15-5" data-line-number="5"><span class="co">#&gt; [1] "Schöne Grüße\n"</span></a>
 <a class="sourceLine" id="cb15-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb15-7" data-line-number="7"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/grep">gsub</a></span>(<span class="st">"</span><span class="ch">\xc3\xb6</span><span class="st">"</span>, <span class="st">"oe"</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rawConversion">rawToChar</a></span>(raw_bytes))</a>
+<a class="sourceLine" id="cb15-7" data-line-number="7"><span class="kw"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">"</span><span class="ch">\xc3\xb6</span><span class="st">"</span>, <span class="st">"oe"</span>, <span class="kw"><a href="https://rdrr.io/r/base/rawConversion.html">rawToChar</a></span>(raw_bytes))</a>
 <a class="sourceLine" id="cb15-8" data-line-number="8"><span class="co">#&gt; [1] "Schoene Grüße\n"</span></a>
-<a class="sourceLine" id="cb15-9" data-line-number="9"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/grep">gsub</a></span>(<span class="st">"</span><span class="ch">\xc3\xb6</span><span class="st">"</span>, <span class="st">"oe"</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rawConversion">rawToChar</a></span>(raw_bytes), <span class="dt">useBytes =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb15-9" data-line-number="9"><span class="kw"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">"</span><span class="ch">\xc3\xb6</span><span class="st">"</span>, <span class="st">"oe"</span>, <span class="kw"><a href="https://rdrr.io/r/base/rawConversion.html">rawToChar</a></span>(raw_bytes), <span class="dt">useBytes =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb15-10" data-line-number="10"><span class="co">#&gt; [1] "Schoene Grüße\n"</span></a></code></pre></div>
 <p>Ok, it seems that we can replace special characters if we know their byte codes (here: <code>c3</code> and <code>b6</code> for letter <code>ö</code>).</p>
 <p>It will be helpful to have a function that shows the special characters and the corresponding byte codes</p>
@@ -290,6 +292,7 @@
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
         <div id="tocnav">
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
@@ -306,13 +309,15 @@
 </div>
 
 
+
       <footer><div class="copyright">
   <p>Developed by Hauke Sonnenberg.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
 </div>
+
       </footer>
 </div>
 
