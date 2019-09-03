@@ -1,7 +1,7 @@
 Package: kwb.fakin
 Type: Package
 Title: Functions Used in Our Fakin Project
-Version: 0.4.0.9000
+Version: 0.4.1
 Authors@R: c(
     person("Hauke", "Sonnenberg", , "hauke.sonnenberg@kompetenz-wasser.de", 
            role = c("aut", "cre"), comment = c(ORCID = "0000-0001-9134-2871")),
