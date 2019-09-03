@@ -21,7 +21,7 @@ Imports:
     ggplot2 (>= 3.2.0),
     kwb.code (>= 0.1.0),
     kwb.file (>= 0.2.0),
-    kwb.pathdict (>= 0.0.0.9000),
+    kwb.pathdict (>= 0.1.0),
     kwb.plot (>= 0.2.0),
     kwb.utils (>= 0.4.3),
     lubridate (>= 1.7.4),
@@ -38,7 +38,7 @@ Remotes:
     github::hsonne/pathlist@dev,
     github::kwb-r/kwb.code@v0.1.0,
     github::kwb-r/kwb.file,
-    github::kwb-r/kwb.pathdict,
+    github::kwb-r/kwb.pathdict@v0.1.0,
     github::kwb-r/kwb.plot,
     github::kwb-r/kwb.utils
 Suggests: 
