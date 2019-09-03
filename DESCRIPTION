@@ -19,7 +19,7 @@ Imports:
     dplyr (>= 0.7.8),
     fs (>= 1.2.6),
     ggplot2 (>= 3.2.0),
-    kwb.code (>= 0.0.0.9000),
+    kwb.code (>= 0.1.0),
     kwb.file (>= 0.2.0),
     kwb.pathdict (>= 0.0.0.9000),
     kwb.plot (>= 0.2.0),
@@ -36,7 +36,7 @@ Imports:
     yaml (> 2.1)
 Remotes: 
     github::hsonne/pathlist@dev,
-    github::kwb-r/kwb.code,
+    github::kwb-r/kwb.code@v0.1.0,
     github::kwb-r/kwb.file,
     github::kwb-r/kwb.pathdict,
     github::kwb-r/kwb.plot,
