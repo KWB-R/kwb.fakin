@@ -4,5 +4,7 @@ test_that("get_path_stat_matrix() works", {
 
   expect_error(f())
 
-  f(project_folder = file.path(package = "kwb.fakin"))
+  project_folder <- system.file(package = "kwb.fakin")
+
+  f(project_folder, template_folders = c("a", "b"))
 })

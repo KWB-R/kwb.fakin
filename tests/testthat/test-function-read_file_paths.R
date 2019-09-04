@@ -10,4 +10,3 @@ test_that("read_file_paths() works", {
 
   expect_is(result, "data.frame")
 })
-
