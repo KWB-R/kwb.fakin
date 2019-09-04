@@ -1,3 +1,5 @@
+testthat::skip_on_travis()
+
 test_that("github_package_files() works", {
 
   f <- kwb.fakin:::github_package_files

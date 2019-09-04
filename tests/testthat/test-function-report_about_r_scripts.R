@@ -1,3 +1,5 @@
+testthat::skip_on_appveyor()
+
 test_that("report_about_r_scripts() works", {
 
   f <- kwb.fakin:::report_about_r_scripts
