@@ -4,6 +4,6 @@ test_that("example_string_with_specials() works", {
 
   expect_error(f())
   expect_error(f("en"))
-  expect_errorf("fr")
+  expect_error(f("fr"))
   expect_is(f("de"), "character")
 })
