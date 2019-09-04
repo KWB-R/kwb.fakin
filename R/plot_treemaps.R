@@ -80,7 +80,7 @@ plot_all_treemaps <- function(path_infos, as_png = TRUE, ...)
 #' @export
 #'
 plot_treemaps_from_path_data <- function(
-  path_data, root_path = "", name = "root", as_png = FALSE, n_levels = 3,
+  path_data, root_path = "", name = "root", as_png = FALSE, n_levels = 2,
   output_dir = tempdir(), type = "value", args_png = list(), n_biggest = -1,
   depth = 1, types = c("size", "files")
 )
