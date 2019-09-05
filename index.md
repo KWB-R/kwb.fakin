@@ -10,7 +10,7 @@ This package contains all functions and evaluations related to KWB project
 
 ## Installation
 
-```{r echo = TRUE, eval = FALSE}
+```r
 #install.packages("devtools", repos = "https://cloud.r-project.org")
 devtools::install_github("KWB-R/kwb.fakin")
 ```
