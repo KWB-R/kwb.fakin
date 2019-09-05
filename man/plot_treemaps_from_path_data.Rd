@@ -5,7 +5,7 @@
 \title{Plot Treemaps Given File Path Data}
 \usage{
 plot_treemaps_from_path_data(path_data, root_path = "", name = "root",
-  as_png = FALSE, n_levels = 3, output_dir = tempdir(),
+  as_png = FALSE, n_levels = 2, output_dir = tempdir(),
   type = "value", args_png = list(), n_biggest = -1, depth = 1,
   types = c("size", "files"))
 }

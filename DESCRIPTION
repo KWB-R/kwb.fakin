@@ -1,7 +1,7 @@
 Package: kwb.fakin
 Type: Package
 Title: Functions Used in Our Fakin Project
-Version: 0.4.0.9000
+Version: 0.4.1.9000
 Authors@R: c(
     person("Hauke", "Sonnenberg", , "hauke.sonnenberg@kompetenz-wasser.de", 
            role = c("aut", "cre"), comment = c(ORCID = "0000-0001-9134-2871")),
@@ -19,15 +19,15 @@ Imports:
     dplyr (>= 0.7.8),
     fs (>= 1.2.6),
     ggplot2 (>= 3.2.0),
-    kwb.code (>= 0.0.0.9000),
-    kwb.file (>= 0.2.0),
-    kwb.pathdict (>= 0.0.0.9000),
+    kwb.code (>= 0.1.0),
+    kwb.file (>= 0.2.1),
+    kwb.pathdict (>= 0.1.0),
     kwb.plot (>= 0.2.0),
     kwb.utils (>= 0.4.3),
     lubridate (>= 1.7.4),
     methods,
     magrittr (>= 1.5),
-    pathlist,
+    pathlist (>= 0.2.1),
     readr (>= 1.3.1),
     rlang (>= 0.4.0),
     stringi (>= 1.2.4),
@@ -35,10 +35,10 @@ Imports:
     treemap (>= 2.4.2),
     yaml (> 2.1)
 Remotes: 
-    github::hsonne/pathlist@dev,
-    github::kwb-r/kwb.code,
-    github::kwb-r/kwb.file@dev,
-    github::kwb-r/kwb.pathdict,
+    github::hsonne/pathlist,
+    github::kwb-r/kwb.code@v0.1.0,
+    github::kwb-r/kwb.file,
+    github::kwb-r/kwb.pathdict@v0.1.0,
     github::kwb-r/kwb.plot,
     github::kwb-r/kwb.utils
 Suggests: 
