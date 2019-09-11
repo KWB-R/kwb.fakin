@@ -24,7 +24,7 @@ are located in the `extdata` folder of the package. The function
 given the filename:
 
 ```{r}
-(example_file <- kwb.fakin::extdata_file("example_file_info_1.csv"))
+(example_file <- fakin.path.app:::extdata_file("example_file_info_1.csv"))
 ```
 
 ## Read Functions
@@ -60,7 +60,7 @@ bytes and are converted to Mebibytes (MiB = 2^20 bytes) in order to avoid very
 large numbers that require a non-standard data type.
 
 ```{r}
-file_info <- kwb.fakin::read_file_paths(example_file)
+file_info <- fakin.path.app::read_file_paths(example_file)
 
 head(file_info)
 ```
@@ -77,7 +77,9 @@ all paths are sorted.
 
 ```{r}
 # Helper function
-read_example <- function(x) kwb.fakin::read_file_paths(kwb.fakin::extdata_file(x))
+read_example <- function(x) {
+  fakin.path.app::read_file_paths(kwb.fakin::extdata_file(x))
+} 
 
 file_paths <- read_example("example_file_paths.csv")
 folder_paths <- read_example("example_folder_paths.csv")
@@ -121,6 +123,6 @@ function is run inside a call to `kwb.utils::catAndRun()`.
 
 ```{r}
 root <- system.file(package = "kwb.fakin")
-file_info <- kwb.fakin::get_recursive_file_info(root)
+file_info <- fakin.path.app::get_recursive_file_info(root)
 head(file_info[, 1:3])
 ```

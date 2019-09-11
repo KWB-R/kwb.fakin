@@ -1,7 +1,7 @@
 test_that("extend_file_info() works", {
 
   root_dir <- system.file(package = "kwb.fakin")
-  file_info <- kwb.fakin:::get_recursive_file_info(root_dir)
+  file_info <- fakin.path.app::get_recursive_file_info(root_dir)
 
   f <- kwb.fakin:::extend_file_info
 

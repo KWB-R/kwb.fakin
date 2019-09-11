@@ -1,6 +1,6 @@
 path_data <- path_infos$SUW_Department
 
-x <- kwb.fakin:::prepare_for_treemap(path_data, n_keep = 1)
+x <- fakin.path.app:::prepare_for_treemap(path_data, n_keep = 1)
 
 x$size[x$size == 0] <- 1
 

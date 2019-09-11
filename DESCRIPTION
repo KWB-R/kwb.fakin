@@ -17,6 +17,7 @@ Imports:
     data.table (>= 1.11.8),
     digest (>= 0.6.18),
     dplyr (>= 0.7.8),
+    fakin.path.app,
     fs (>= 1.2.6),
     ggplot2 (>= 3.2.0),
     kwb.code (>= 0.1.0),
@@ -36,6 +37,7 @@ Imports:
     yaml (> 2.1)
 Remotes: 
     github::hsonne/pathlist,
+    github::kwb-r/fakin.path.app,
     github::kwb-r/kwb.code@v0.1.0,
     github::kwb-r/kwb.file,
     github::kwb-r/kwb.pathdict@v0.1.0,

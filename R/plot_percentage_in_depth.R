@@ -15,7 +15,7 @@ plot_percentage_in_depth <- function(df, max_depth = max(df$depth))
     "depth", "percentage", linetype = "type"
   )) +
     ggplot2::geom_line() +
-    scale_x_depth(max_depth) +
+    fakin.path.app:::scale_x_depth(max_depth) +
     ggplot2::xlab("") +
     ggplot2::theme_minimal() +
     ggplot2::theme(legend.title = ggplot2::element_blank())

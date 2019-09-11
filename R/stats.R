@@ -59,7 +59,7 @@ get_path_stat_matrix <- function(project_folder, template_folders)
     n_found <- sapply(search_paths, function(x) sum(startsWith(paths, x)))
 
     names(n_found) <- gsub(
-      check_or_set_ending_slash(path), "", names(n_found),
+      fakin.path.app:::check_or_set_ending_slash(path), "", names(n_found),
       fixed = TRUE
     )
 
@@ -68,7 +68,7 @@ get_path_stat_matrix <- function(project_folder, template_folders)
 
   old_names <- if (length(dim(stats)) == 2) colnames(stats) else names(stats)
 
-  x <- check_or_set_ending_slash(project_folder)
+  x <- fakin.path.app:::check_or_set_ending_slash(project_folder)
 
   new_names <- gsub(x, "", old_names, fixed = TRUE)
 
