@@ -35,7 +35,7 @@ plot_file_size_in_depth <- function(
 
   df$size[df$size == 0] <- bytes_to_mib(0.1)
 
-  plot_file_size_in_depth_gg(
+  fakin.path.app:::plot_file_size_in_depth_gg(
     df = df,
     group_aesthetics = group_aesthetics,
     summary_data = summary_data,
@@ -64,5 +64,5 @@ get_group_values <- function(df, group_by = "extension", n_top_groups = 4)
     "group_by must be one of 'extension', 'level-1'"
   )
 
-  to_top_n(values, n = n_top_groups)
+  fakin.path.app:::to_top_n(values, n = n_top_groups)
 }

@@ -21,7 +21,10 @@ paths <- dir(
 
 path_tree <- kwb.fakin:::to_tree(paths)
 
-kwb.fakin::plot_path_network(path_tree[[1]]$home$hauke$Desktop$`R-Development`$RScripts, 3, width = 8000, fontSize = 20)
+fakin.path.app::plot_path_network(
+  path_tree[[1]]$home$hauke$Desktop$`R-Development`$RScripts,
+  3, width = 8000, fontSize = 20
+)
 
 grep_results <- lapply(paths, function(file) {
   content <- readLines(file, warn = FALSE)

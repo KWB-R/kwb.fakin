@@ -20,12 +20,6 @@ bytes_to_mib <- function(x)
   x / 2^20
 }
 
-# cat_elapsed ------------------------------------------------------------------
-cat_elapsed <- function(time_info)
-{
-  cat("Elapsed:", time_info["elapsed"], "\n")
-}
-
 # cat_changes_if ---------------------------------------------------------------
 cat_changes_if <- function(dbg, x, y)
 {
@@ -47,13 +41,6 @@ cat_changes <- function(x, y)
 cat_time <- function(tag)
 {
   cat(paste0("\n", tag, ":"), as.character(Sys.time()), "\n\n")
-}
-
-# check_or_set_ending_slash ----------------------------------------------------
-check_or_set_ending_slash <- function(x)
-{
-  # Add slash to the end and replace multiple occurrences of slash at the end
-  gsub("/+$", "/", paste0(x, "/"))
 }
 
 # cut_left ---------------------------------------------------------------------
@@ -112,30 +99,10 @@ fails <- function(expr)
   inherits(try(expr), "try-error")
 }
 
-# grepl_bytes ------------------------------------------------------------------
-grepl_bytes <- function(...)
-{
-  grepl(..., useBytes = TRUE)
-}
-
 # indentation ------------------------------------------------------------------
 indentation <- function(depth, space = "\t")
 {
   paste(rep(space, depth), collapse = "")
-}
-
-# left_substring_equals --------------------------------------------------------
-
-#' Is Left Substring of X Equal To Y?
-#'
-#' @param x String of which the left part is compared with \code{y}
-#' @param y String to be compared with the left part of \code{x}
-#'
-left_substring_equals <- function(x, y)
-{
-  stopifnot(is.character(x), is.character(y))
-
-  substr(x, 1, nchar(y)) == y
 }
 
 # ncharTable -------------------------------------------------------------------
@@ -260,24 +227,6 @@ succeeds <- function(expr)
   ! fails(expr)
 }
 
-# to_top_n ---------------------------------------------------------------------
-to_top_n <- function(x, n = 5, other = "<other>")
-{
-  x <- tolower(x)
-
-  decreasingly_sorted_table <- function(xx) sort(table(xx), decreasing = TRUE)
-
-  top_n <- names(decreasingly_sorted_table(x)[seq_len(n)])
-
-  x[! x %in% top_n] <- other
-
-  freqs <- decreasingly_sorted_table(x)
-
-  labels <- sprintf("%s (%d)", names(freqs), as.integer(freqs))
-
-  factor(x, levels = names(freqs), labels = labels)
-}
-
 # toDataFrame ------------------------------------------------------------------
 toDataFrame <- function(x)
 {
@@ -310,48 +259,4 @@ vector_to_count_table <- function(x)
   kwb.utils::printIf(unexpected, frequency_data)
 
   stats::setNames(frequency_data, c("name", "count"))
-}
-
-# write_csv --------------------------------------------------------------------
-
-#' Write Data Frame to CSV File
-#'
-#' @param data data frame
-#' @param file path to CSV file to be written
-#' @param sep column separator
-#' @param version determines which function to use for writing the CSV file
-#'   1: \code{\link[utils]{write.table}}, 2: \code{\link[data.table]{fwrite}}
-#' @param \dots further arguments passed to \code{\link[utils]{write.table}} or
-#'   \code{\link[data.table]{fwrite}}
-#' @export
-#'
-write_csv <- function(data, file, sep = ";", version = 2, ...)
-{
-  message_string <- function(fun) sprintf("Writing to '%s' with %s", file, fun)
-
-  if (version == 1) {
-
-    kwb.utils::catAndRun(
-      message_string("utils::write.table()"),
-      utils::write.table(
-        data, file, row.names = FALSE, col.names = TRUE, sep = sep, na = "",
-        ...
-      )
-    )
-
-  } else if (version == 2) {
-
-    kwb.utils::catAndRun(
-      message_string("data.table::fwrite()"),
-      data.table::fwrite(data, file, sep = sep, ...)
-    )
-
-  } else {
-
-    stop_(
-      "Invalid version (", version, "). Possible values are:\n",
-      "  1 - use write.table() or\n",
-      "  2 - use data.table::fwrite().\n"
-    )
-  }
 }

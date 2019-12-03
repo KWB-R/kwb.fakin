@@ -42,7 +42,7 @@ args_png_1024_768 <- list(width = 1024, height = 768, units = "px")
 # Plot all treemaps at once ----------------------------------------------------
 if (FALSE)
 {
-  png_files <- kwb.fakin::plot_all_treemaps(path_infos, as_png = TRUE)
+  png_files <- fakin.path.app::plot_all_treemaps(path_infos, as_png = TRUE)
 }
 
 # Plot department overview -----------------------------------------------------
@@ -57,7 +57,7 @@ if (FALSE)
     do.call(rbind, path_infos[department_strings])
   )
 
-  png_files <- kwb.fakin::plot_treemaps_from_path_data(
+  png_files <- fakin.path.app::plot_treemaps_from_path_data(
     path_data = path_data_kwb,
     name = "KWB_half_width",
     as_png = TRUE,
@@ -74,7 +74,7 @@ if (FALSE)
 # Further plots ----------------------------------------------------------------
 if (FALSE)
 {
-  png_files <- kwb.fakin::plot_treemaps_from_path_data(
+  png_files <- fakin.path.app::plot_treemaps_from_path_data(
     path_data = path_infos$GROUNDWATER,
     name = "GROUNDWATER",
     root_path = "Y:/GROUNDWATER/PROJECTS/",
@@ -85,7 +85,7 @@ if (FALSE)
   )
 
   #kwb.utils::assignPackageObjects("kwb.fakin")
-  #kwb.utils::assignArgumentDefaults(kwb.fakin::plot_treemaps_from_path_data)
+  #kwb.utils::assignArgumentDefaults(fakin.path.app::plot_treemaps_from_path_data)
 
   png_files <- plot_treemaps_from_path_data(
     path_data = path_infos$WWT_Department,
@@ -97,7 +97,7 @@ if (FALSE)
     args_png = args_png_4_3
   )
 
-  png_files <- kwb.fakin::plot_treemaps_from_path_data(
+  png_files <- fakin.path.app::plot_treemaps_from_path_data(
     path_data = path_infos$WWT_Department,
     root_path = "Y:/WWT_Department/Projects/POWERSTEP/Exchange/03 - Rabea/",
     name = "Rabea",
@@ -105,7 +105,7 @@ if (FALSE)
     args_png = args_png_4_3
   )
 
-  png_files <- kwb.fakin::plot_treemaps_from_path_data(
+  png_files <- fakin.path.app::plot_treemaps_from_path_data(
     path_data = path_infos$WWT_Department,
     root_path = "Y:/WWT_Department/Projects/AquaNES/",
     name = "AquaNES",

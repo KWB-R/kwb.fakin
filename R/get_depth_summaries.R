@@ -4,7 +4,7 @@
 #'
 #' @param file_data data frame as returned by \code{\link{read_file_info}}
 #' @param project_dir path by which to filter the paths in \code{file_data},
-#'   passed to \code{kwb.fakin:::prepare_for_treemap}
+#'   passed to \code{fakin.path.app:::prepare_for_treemap}
 #' @param max_depth maximum depth for which to calculate a summary. If
 #'   \code{NULL} (default), all summaries are created for all available path
 #'   depths
@@ -13,7 +13,7 @@
 #'
 get_depth_summaries <- function(file_data, project_dir, max_depth = NULL)
 {
-  level_data <- prepare_for_treemap(file_data, project_dir)
+  level_data <- fakin.path.app:::prepare_for_treemap(file_data, project_dir)
 
   level_data_to_depth_summaries(level_data, max_depth = max_depth)
 }
@@ -30,7 +30,7 @@ level_data_to_depth_summaries <- function(level_data, max_depth = NULL)
   lapply(seq_len(max_depth), function(depth) {
     message("depth = ", depth)
     columns <- paste0("level_", seq_len(depth))
-    aggregate_by_levels(level_data, columns)
+    fakin.path.app:::aggregate_by_levels(level_data, columns)
   })
 }
 
