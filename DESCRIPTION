@@ -32,7 +32,7 @@ Imports:
     yaml (> 2.1)
 Remotes: 
     github::hsonne/pathlist,
-    github::kwb-r/fakin.path.app@minimize,
+    github::kwb-r/fakin.path.app@dev,
     github::kwb-r/kwb.code@v0.1.0,
     github::kwb-r/kwb.file,
     github::kwb-r/kwb.pathdict@v0.1.0,
