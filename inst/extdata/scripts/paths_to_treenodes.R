@@ -5,18 +5,23 @@ if (FALSE)
   # - Either: from real paths
   file_info_dir <- "//medusa/processing/CONTENTS/file-info_by-department/2019-12/"
   path_list <- kwb.fakin:::read_path_information(file_info_dir)
-  pl <- pathlist::pathlist(path_list$`path-info-ps-1_20191201_SUW_Department`$path)
+  paths <- path_list$`path-info-ps-1_20191201_SUW_Department`$path
+  pl <- pathlist::pathlist(paths)
   x <- pl@folders
 
+  # - Or: test paths
+  paths <- c("a/b/a", "a/b/c", "a/c/a", "a/b/a/x")
+
   # - Or: from random paths
-  x <- kwb.file::to_subdir_matrix(kwb.pathdict:::random_paths(max_depth = 5))
+  paths <- kwb.pathdict:::random_paths(max_depth = 5)
+  x <- kwb.file::to_subdir_matrix(paths)
 
   # Number of paths
   nrow(x)
 
   # Create a network structure (with elements nodes and edges)
-  system.time(network1 <- create_network(x))
-  system.time(network2 <- create_network2(x))
+  system.time(network1 <- create_network(x, method = 1))
+  system.time(network2 <- create_network(x, method = 2))
 
   identical(network1, network2)
 
@@ -29,12 +34,13 @@ if (FALSE)
   str(net_3)
 
   net <- net_2
+  net <- network1
 
   graph <- igraph::make_graph(t(net$edges), directed = FALSE)
 
   plot(
     graph, vertex.color = "red", vertex.size = 2, vertex.label.cex = 0.6
-    , vertex.label = net$nodes$name[unique(as.integer(edges))]
+    , vertex.label = net$nodes$name[unique(as.integer(net$edges))]
     , layout = igraph::layout.kamada.kawai
   )
 
@@ -94,7 +100,7 @@ get_node_positions <- function(x)
 }
 
 # create_network ---------------------------------------------------------------
-create_network <- function(x)
+create_network <- function(x, method = 1)
 {
   kwb.utils::stopIfNotMatrix(x)
 
@@ -113,77 +119,48 @@ create_network <- function(x)
   # Loop through the columns of the subdirectory matrix
   for (j in seq_len(ncol(x))) {
 
-    #j <- 1
+    #j <- 4
     message("Giving IDs to nodes in depth ", j, "/", ncol(x))
 
-    rows <- which(is_set[, j])
-
-    xx <- x[rows, j]
-
-    temp_ids <- generate_ids(xx)
-
-    if (j > 1) {
-      temp_ids <- generate_ids(xx = cbind(ids[rows, seq_len(j - 1)], temp_ids))
-    }
-
-    node_names[[j]] <- sapply(unname(split(xx, temp_ids)), "[", 1)
-
-    ids[rows, j] <- temp_ids + max_id
-
-    max_id <- max_id + max(temp_ids)
-  }
-
-  to_nodes_and_edges(ids, is_set, node_names)
-}
-
-# create_network2 --------------------------------------------------------------
-create_network2 <- function(x)
-{
-  kwb.utils::stopIfNotMatrix(x)
-
-  # Which fields are set, i.e. not empty?
-  is_set <- matrix(nzchar(x), nrow = nrow(x), ncol = ncol(x))
-
-  # Initialise a matrix of (tree node) IDs
-  ids <- matrix(integer(), nrow = nrow(x), ncol = ncol(x))
-
-  # Maximal ID so far
-  max_id <- 0
-
-  # Node names occurring in the different path depths
-  node_names <- list()
-
-  # Loop through the columns of the subdirectory matrix
-  for (j in seq(1, ncol(x))) {
-
-    #j <- 2
-    message("Giving IDs to nodes in depth ", j, "/", ncol(x))
-
+    # Which rows have non-empty values in the current column?
     rows <- which(is_set[, j])
 
     # Values in the current column j
     xj <- x[rows, j]
 
-    # Prepend node IDs of parents unless this is the first column
-    xx <- if (j == 1) {
+    if (method == 1) {
 
-      xj
+      new_ids <- generate_ids(xj)
 
-    } else {
+      if (j > 1) {
+        new_ids <- generate_ids(
+          xx = cbind(ids[rows, seq_len(j - 1), drop = FALSE], new_ids)
+        )
+      }
 
-      paste(ids[rows, j - 1], xj, sep = "-")
+      id_offset <- max(new_ids)
+
+    } else if (method == 2) {
+
+      # Prepend node IDs of parents unless this is the first column
+      xx <- if (j == 1) xj else paste(ids[rows, j - 1], xj, sep = "-")
+
+      # Give new IDs to unique combinations of parent (if any) and value
+      unique_values <- unique(xx)
+
+      new_ids <- match(xx, unique_values)
+
+      id_offset <- length(unique_values)
     }
 
-    # Give new IDs to unique combinations of parent (if any) and value
-    unique_values <- unique(xx)
-
-    new_ids <- match(xx, unique_values)
-
+    # Store the node names in the list
     node_names[[j]] <- sapply(unname(split(xj, new_ids)), "[", 1)
 
+    # Store the new IDs in the ID matrix
     ids[rows, j] <- new_ids + max_id
 
-    max_id <- max_id + length(unique_values)
+    # Update maximal ID
+    max_id <- max_id + id_offset
   }
 
   # Generate edges between start-node and end-node
