@@ -104,7 +104,7 @@ get_node_positions <- function(x)
 }
 
 # create_network ---------------------------------------------------------------
-create_network <- function(x, method = 1)
+create_network <- function(x)
 {
   kwb.utils::stopIfNotMatrix(x)
 
@@ -132,30 +132,15 @@ create_network <- function(x, method = 1)
     # Values in the current column j
     xj <- x[rows, j]
 
-    if (method == 1) {
+    # Prepend node IDs of parents unless this is the first column
+    xx <- if (j == 1) xj else paste(ids[rows, j - 1], xj, sep = "-")
 
-      new_ids <- generate_ids(xj)
+    # Give new IDs to unique combinations of parent (if any) and value
+    unique_values <- unique(xx)
 
-      if (j > 1) {
-        new_ids <- generate_ids(
-          xx = cbind(ids[rows, seq_len(j - 1), drop = FALSE], new_ids)
-        )
-      }
+    new_ids <- match(xx, unique_values)
 
-      id_offset <- max(new_ids)
-
-    } else if (method == 2) {
-
-      # Prepend node IDs of parents unless this is the first column
-      xx <- if (j == 1) xj else paste(ids[rows, j - 1], xj, sep = "-")
-
-      # Give new IDs to unique combinations of parent (if any) and value
-      unique_values <- unique(xx)
-
-      new_ids <- match(xx, unique_values)
-
-      id_offset <- length(unique_values)
-    }
+    id_offset <- length(unique_values)
 
     # Store the node names in the list
     node_names[[j]] <- sapply(unname(split(xj, new_ids)), "[", 1)
@@ -189,17 +174,6 @@ to_nodes_and_edges <- function(ids, is_set, node_names)
     kwb.utils::rbindAll("depth", namesAsFactor = FALSE)
 
   list(nodes = nodes, edges = edges)
-}
-
-# generate_ids -----------------------------------------------------------------
-# Generate unique IDs
-generate_ids <- function(xx)
-{
-  if (is.matrix(xx)) {
-    xx <- do.call(paste, c(kwb.utils::asColumnList(xx), sep = "-"))
-  }
-
-  match(xx, unique(xx))
 }
 
 # prune_network ----------------------------------------------------------------
