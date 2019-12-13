@@ -155,9 +155,9 @@ to_nodes_and_edges <- function(ids, node_names)
   n_col <- ncol(ids)
 
   # Generate edges between start-node and end-node
-  edges <- do.call(rbind, lapply(seq(2, n_col, by = 1), function(j) {
+  edges <- do.call(rbind, lapply(seq.int(2L, n_col, by = 1L), function(j) {
     message("Creating edges to depth ", j, "/", n_col)
-    unique(ids[! is.na(ids[, j]), c(j - 1, j)])
+    unique(ids[! is.na(ids[, j]), c(j - 1L, j)])
   }))
 
   nodes <- kwb.utils::rbindAll(
