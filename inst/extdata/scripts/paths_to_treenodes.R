@@ -136,11 +136,7 @@ create_network <- function(x, method = 1)
     new_ids <- match(xx, unique(xx))
 
     # Store the node names in the list
-    node_names[[j]] <- if (method == 1) {
-      sapply(unname(split(xj, new_ids)), "[", 1)
-    } else {
-      xj[diff(c(0, new_ids)) > 0]
-    }
+    node_names[[j]] <- xj[diff(c(0, new_ids)) > 0]
 
     # Store the new IDs in the ID matrix
     ids[rows, j] <- new_ids + max_id
@@ -156,8 +152,6 @@ create_network <- function(x, method = 1)
 # to_nodes_and_edges -----------------------------------------------------------
 to_nodes_and_edges <- function(ids, node_names)
 {
-  `%>%` <- magrittr::`%>%`
-
   n_col <- ncol(ids)
 
   # Generate edges between start-node and end-node
@@ -166,9 +160,13 @@ to_nodes_and_edges <- function(ids, node_names)
     unique(ids[! is.na(ids[, j]), c(j - 1, j)])
   }))
 
-  nodes <- seq_along(node_names) %>%
-    lapply(function(i) kwb.utils::noFactorDataFrame(name = node_names[[i]])) %>%
-    kwb.utils::rbindAll("depth", namesAsFactor = FALSE)
+  nodes <- kwb.utils::rbindAll(
+    x = lapply(node_names, function(name) {
+      data.frame(name = name, stringsAsFactors = FALSE)
+    }),
+    nameColumn = "depth",
+    namesAsFactor = FALSE
+  )
 
   list(nodes = nodes, edges = edges)
 }
