@@ -14,7 +14,12 @@ if (FALSE)
 
   # - Or: from random paths
   paths <- kwb.pathdict:::random_paths(max_depth = 5)
-  x <- kwb.file::to_subdir_matrix(paths)
+
+  system.time(x1 <- kwb.file::to_subdir_matrix(paths, method = 1))
+  system.time(x2 <- kwb.file::to_subdir_matrix(paths, method = 2))
+
+  identical(x1, x2)
+  x <- x1
 
   # Number of paths
   nrow(x)
@@ -24,17 +29,16 @@ if (FALSE)
   system.time(network2 <- create_network(x, method = 2))
 
   identical(network1, network2)
-
   #diffobj::diffStr(network1, network2)
+
+  network <- network1
 
   net_2 <- prune_network(network, depth = 2)
   net_3 <- prune_network(network, depth = 3)
+  net_4 <- prune_network(network, depth = 4)
 
-  str(net_2)
-  str(net_3)
-
-  net <- net_2
-  net <- network1
+  net <- net_4
+  net <- network
 
   graph <- igraph::make_graph(t(net$edges), directed = FALSE)
 
