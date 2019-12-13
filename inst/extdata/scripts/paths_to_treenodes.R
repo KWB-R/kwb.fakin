@@ -25,28 +25,28 @@ if (FALSE)
   nrow(x)
 
   # Create a network structure (with elements nodes and edges)
-  system.time(network1 <- create_network(x, method = 1))
+  system.time(network <- create_network(x))
   system.time(network2 <- create_network(x, method = 2))
+  identical(network, network2)
+  #diffobj::diffStr(network, network2)
 
-  identical(network1, network2)
-  #diffobj::diffStr(network1, network2)
+  nets <- lapply(2:4, function(depth) prune_network(network, depth = depth))
 
-  network <- network1
+  graphs <- lapply(nets, function(net) {
+    igraph::make_graph(t(net$edges), directed = FALSE)
+  })
 
-  net_2 <- prune_network(network, depth = 2)
-  net_3 <- prune_network(network, depth = 3)
-  net_4 <- prune_network(network, depth = 4)
-
-  net <- net_4
-  net <- network
-
-  graph <- igraph::make_graph(t(net$edges), directed = FALSE)
-
-  plot(
-    graph, vertex.color = "red", vertex.size = 2, vertex.label.cex = 0.6
-    , vertex.label = net$nodes$name[unique(as.integer(net$edges))]
-    , layout = igraph::layout.kamada.kawai
-  )
+  for (i in seq_along(graphs)) {
+    net <- nets[[i]]
+    plot(
+      graphs[[i]],
+      vertex.color = "red",
+      vertex.size = 2,
+      vertex.label.cex = 0.6
+      , vertex.label = net$nodes$name[unique(as.integer(net$edges))]
+      , layout = igraph::layout.kamada.kawai
+    )
+  }
 
   testtable <- data.frame(path = as.character(pl)[1:5000], value = 1)
 
@@ -104,12 +104,9 @@ get_node_positions <- function(x)
 }
 
 # create_network ---------------------------------------------------------------
-create_network <- function(x)
+create_network <- function(x, method = 1)
 {
   kwb.utils::stopIfNotMatrix(x)
-
-  # Which fields are set, i.e. not empty?
-  is_set <- matrix(nzchar(x), nrow = nrow(x), ncol = ncol(x))
 
   # Initialise a matrix of (tree node) IDs
   ids <- matrix(integer(), nrow = nrow(x), ncol = ncol(x))
@@ -123,11 +120,11 @@ create_network <- function(x)
   # Loop through the columns of the subdirectory matrix
   for (j in seq_len(ncol(x))) {
 
-    #j <- 4
+    #j <- 3
     message("Giving IDs to nodes in depth ", j, "/", ncol(x))
 
     # Which rows have non-empty values in the current column?
-    rows <- which(is_set[, j])
+    rows <- which(nzchar(x[, j]))
 
     # Values in the current column j
     xj <- x[rows, j]
@@ -136,28 +133,28 @@ create_network <- function(x)
     xx <- if (j == 1) xj else paste(ids[rows, j - 1], xj, sep = "-")
 
     # Give new IDs to unique combinations of parent (if any) and value
-    unique_values <- unique(xx)
-
-    new_ids <- match(xx, unique_values)
-
-    id_offset <- length(unique_values)
+    new_ids <- match(xx, unique(xx))
 
     # Store the node names in the list
-    node_names[[j]] <- sapply(unname(split(xj, new_ids)), "[", 1)
+    node_names[[j]] <- if (method == 1) {
+      sapply(unname(split(xj, new_ids)), "[", 1)
+    } else {
+      xj[diff(c(0, new_ids)) > 0]
+    }
 
     # Store the new IDs in the ID matrix
     ids[rows, j] <- new_ids + max_id
 
     # Update maximal ID
-    max_id <- max_id + id_offset
+    max_id <- max_id + max(new_ids)
   }
 
   # Generate edges between start-node and end-node
-  to_nodes_and_edges(ids, is_set, node_names)
+  to_nodes_and_edges(ids, node_names)
 }
 
 # to_nodes_and_edges -----------------------------------------------------------
-to_nodes_and_edges <- function(ids, is_set, node_names)
+to_nodes_and_edges <- function(ids, node_names)
 {
   `%>%` <- magrittr::`%>%`
 
@@ -166,7 +163,7 @@ to_nodes_and_edges <- function(ids, is_set, node_names)
   # Generate edges between start-node and end-node
   edges <- do.call(rbind, lapply(seq(2, n_col, by = 1), function(j) {
     message("Creating edges to depth ", j, "/", n_col)
-    unique(ids[is_set[, j], c(j - 1, j)])
+    unique(ids[! is.na(ids[, j]), c(j - 1, j)])
   }))
 
   nodes <- seq_along(node_names) %>%
