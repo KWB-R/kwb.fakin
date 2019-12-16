@@ -1,19 +1,32 @@
-# M A I N ----------------------------------------------------------------------
+#
+# author: Hauke Sonnenberg
+# instructions:
+#   - source the whole script to load the functions defined below
+#   - go interactively through the main sections in "if (FALSE)"
+
+# Provide a vector of paths ----------------------------------------------------
 if (FALSE)
 {
+  file_info_dir <- "//medusa/processing/CONTENTS/file-info_by-department/2019-12/"
+  path_list <- kwb.fakin:::read_path_information(file_info_dir, "path-info-ps-1_20191215")
+  paths <- path_list$`path-info-ps-1_20191215_SUW_Department`$path
+  #kwb.fakin:::store(paths, "paths_to_treenodes_2")
+
   paths <- kwb.fakin:::restore("paths")
+
   paths <- kwb.pathdict::random_paths()
 
   length(paths)
+}
 
-  # For comparison: pathlist structure
-  system.time(pl <- pathlist::pathlist(paths))
-
+# MAIN 1: Get information on the tree leaves -----------------------------------
+if (FALSE)
+{
   # Split paths and put them into an efficient data structure
-  system.time(nodes_in_depth <- get_nodes_in_depth_from_paths(paths))
+  system.time(leaves <- get_leaves_in_depths(paths))
 
   # Reconstruct paths
-  system.time(paths_reconstructed <- reconstruct_paths(nodes_in_depth))
+  system.time(paths_reconstructed <- reconstruct_paths(leaves))
 
   # Was the reconstruction successful?
   identical(paths, paths_reconstructed)
@@ -21,26 +34,28 @@ if (FALSE)
   # What can we use the data structure for?
 
   # Filter for depth levels
-  depth <- 4
-  p1 <- reconstruct_paths(nodes_in_depth, depths = depth + 1)
+  depth <- 6
+  p1 <- reconstruct_paths(leaves, depths = depth + 5)
+
+  # For comparison: Use pathlist structure
+  system.time(pl <- pathlist::pathlist(paths))
   p2 <- pl[pl@depths == depth]
   identical(as.character(p2), p1)
   head(p1)
   head(p2)
 
-  lapply(nodes_in_depth, kwb.utils::getAttribute, "parent_ids")
-
-  parent_ids <- lapply(nodes_in_depth, kwb.utils::getAttribute, "parent_ids")
+  parent_ids <- lapply(leaves, kwb.utils::getAttribute, "parent_ids")
 
   parent_paths <- unlist(use.names = FALSE, lapply(
-    nodes_in_depth, kwb.utils::getAttribute, "parent_paths"
+    leaves, kwb.utils::getAttribute, "parent_paths"
   ))
 
-  system.time(parents_in_depth <- get_nodes_in_depth_from_paths(parent_paths))
-  parent_paths_reconstructed <- reconstruct_paths(parents_in_depth)
-  identical(parent_paths, parent_paths_reconstructed)
+  # Get the leaves of the parent paths
+  system.time(parent_leaves <- get_leaves_in_depths(parent_paths))
+  parents_reconstructed <- reconstruct_paths(parent_leaves)
+  identical(parent_paths, parents_reconstructed)
 
-  str(parents_in_depth)
+  str(parent_leaves)
 
   head(parent_paths)
 
@@ -69,81 +84,49 @@ if (FALSE)
   head(paths)
 
   depth_name <- "2"
-  nodes_in_depth[[depth_name]]
+  leaves[[depth_name]]
 
   ids <- rep.int(sapply(result, max)[-length(result)], lengths(result[-1]))
 }
 
-# MAIN 2 -----------------------------------------------------------------------
+# MAIN 2: Get full tree information --------------------------------------------
 if (FALSE)
 {
-  paths <- gsub("^//(?=[^/])", "", kwb.fakin:::restore("paths"), perl = TRUE)
+  #backup <- list(nodes, edges)
+  #identical(list(nodes, edges), backup)
 
-  head(paths)
+  system.time(network <- get_nodes_and_edges(paths))
 
-  nodes_in_depth_old <- get_nodes_in_depth_from_paths(paths)
+  network_df <- network_lists_to_data_frames(network)
 
-  node_depths <- kwb.utils::getAttribute(nodes_in_depth_old, "node_depths")
-  sep_pos <- kwb.utils::getAttribute(nodes_in_depth_old, "sep_pos")
+  head(network_df$nodes)
+  head(network_df$edges)
 
-  depths <- sort(unique(node_depths))
+  depth <- 5
+  nodes <- network_df$nodes[network_df$nodes$depth <= depth, ]
+  edges <- network_df$edges[network_df$edges$depth <= depth, ]
 
-  dbg <- TRUE
+  graph <- igraph::make_graph(
+    as.integer(t(as.matrix(edges[, c("parent", "node")]))),
+    directed = FALSE
+  )
 
-  offset <- 0
-  nodes_in_depth <- list()
-  links_in_depth <- list()
-
-  system.time(for (depth in seq_len(max(depths))) {
-
-    #depth <- 2
-    kwb.utils::catIf(dbg, sprintf("\b\b\b\b\b%2d/%2d", depth, max(depths)))
-
-    in_depth <- depth <= lengths(sep_pos)
-    #sum(in_depth)
-
-    if (depth > 1) {
-
-      split_pos <- unlist(lapply(sep_pos[in_depth], "[", depth -c(1L, 0L)))
-      subdirs <- substr(rep(paths[in_depth], each = 2L), 1L, split_pos - 1L)
-      m <- matrix(subdirs, ncol = 2, byrow = TRUE)
-      m <- m[which(! duplicated(m[, 2])), , drop = FALSE]
-      parent_ids <- unname(nodes_in_depth[[depth - 1]][m[, 1]])
-      node_paths <- m[, 2]
-
-    } else {
-
-      split_pos <- unlist(lapply(sep_pos[in_depth], "[", depth))
-      subdirs <- substr(paths[in_depth], 1L, split_pos - 1L)
-      node_paths <- unique(subdirs)
-    }
-
-    ids <- seq_along(node_paths) + offset
-
-    offset <- offset + length(node_paths)
-
-    nodes_in_depth[[depth]] <- stats::setNames(ids, node_paths)
-
-    if (depth > 1) {
-      links_in_depth[[depth]] <- cbind(node = ids, parent = parent_ids)
-    }
-  })
+  igraph::plot.igraph(graph, vertex.size = 3, vertex.label = "")
 }
 
-# get_nodes_in_depth_from_paths ------------------------------------------------
-get_nodes_in_depth_from_paths <- function(paths, dbg = TRUE)
+# get_leaves_in_depths ---------------------------------------------------------
+get_leaves_in_depths <- function(paths, method = 1, dbg = TRUE)
 {
-  kwb.utils::catAndRun("Find path separators", dbg = dbg, {
-    sep_pos <- gregexpr("/", paths, fixed = TRUE)
-  })
+  # Get the positions of the slashes separating folder and file names
+  sep_pos <- get_separator_positions(paths, dbg = dbg)
 
   # Depths of the node paths a/b/c => 2 separators => node in depth 3
   node_depths <- lengths(sep_pos) + 1
 
   # Separator positions by depth
-  index_by_depth <- split(seq_along(paths), node_depths)
+  original_index <- split(seq_along(paths), node_depths)
 
-  depths <- as.integer(names(index_by_depth))
+  depths <- as.integer(names(original_index))
 
   kwb.utils::catIf(dbg, "Extracting paths in depth   /  ")
 
@@ -172,20 +155,22 @@ get_nodes_in_depth_from_paths <- function(paths, dbg = TRUE)
 
   kwb.utils::catIf(dbg, "\n")
 
-  structure(
-    result,
-    original_index = index_by_depth,
-    node_depths = node_depths,
-    sep_pos = sep_pos,
-    class = "nodes_in_depth"
-  )
+  structure(result, original_index = original_index, class = "leaves")
+}
+
+# get_separator_positions ------------------------------------------------------
+get_separator_positions <- function(paths, dbg = TRUE)
+{
+  kwb.utils::catAndRun("Finding path separators", dbg = dbg, {
+    sep_pos <- gregexpr("/", paths, fixed = TRUE)
+  })
 }
 
 # reconstruct_paths ------------------------------------------------------------
 reconstruct_paths <- function(x, depths = NULL)
 {
-  #x <- nodes_in_depth;depths = NULL
-  stopifnot(inherits(x, "nodes_in_depth"))
+  #x <- leaves;depths = NULL
+  stopifnot(inherits(x, "leaves"))
 
   depths <- kwb.utils::defaultIfNULL(depths, as.integer(names(x)))
   depth_names <- as.character(depths)
@@ -211,4 +196,96 @@ reconstruct_paths <- function(x, depths = NULL)
   indices <- order(unlist(indices_list[depth_names], use.names = FALSE))
 
   unlist(paths_by_depth, use.names = FALSE)[indices]
+}
+
+# get_nodes_and_edges ----------------------------------------------------------
+get_nodes_and_edges <- function(paths, depths, dbg = TRUE)
+{
+  stopifnot(is.character(paths))
+
+  kwb.utils::catIf(dbg, "Number of paths:", length(paths), "\n")
+
+  # Remove "//" at the beginning to avoid empty fields after splittig
+  paths <- kwb.utils::catAndRun("Removing '//' at the beginning", dbg = dbg, {
+    gsub("^//(?=[^/])", "", paths, perl = TRUE)
+  })
+
+  # Get the positions of the slashes separating folder and file names
+  sep_pos <- get_separator_positions(paths, dbg = dbg)
+
+  # Maximal path depth (= number of slashes + 1)
+  max_depth <- max(lengths(sep_pos)) + 1L
+
+  offset <- 0
+  nodes <- list()
+  edges <- list()
+
+  parents <- character(length(paths))
+
+  kwb.utils::catIf(dbg, "Analysing nodes in depth   /  ")
+
+  for (depth in seq_len(max_depth)) {
+
+    #depth <- 2
+    kwb.utils::catIf(dbg, sprintf("\b\b\b\b\b%2d/%2d", depth, max_depth))
+
+    in_depth <- depth <= lengths(sep_pos) + 1
+
+    pos <- sep_pos[in_depth]
+
+    is_leaf <- lengths(pos) < depth
+
+    split_pos <- integer(sum(in_depth))
+    split_pos[is_leaf] <- nchar(paths[in_depth][is_leaf]) + 1
+    split_pos[! is_leaf] <- unlist(lapply(pos[! is_leaf], "[", depth))
+
+    stopifnot(all(split_pos > 0))
+
+    subdirs <- substr(paths[in_depth], 1L, split_pos - 1L)
+
+    node_paths <- unique(subdirs)
+
+    parent_ids <- if (depth > 1) {
+      unname(nodes[[depth - 1]][parents[in_depth][! duplicated(subdirs)]])
+    } # else NULL
+
+    stopifnot(all(! is.na(parent_ids)))
+
+    parents[in_depth] <- subdirs
+
+    ids <- seq_along(node_paths) + offset
+
+    offset <- offset + length(node_paths)
+
+    nodes[[depth]] <- stats::setNames(ids, node_paths)
+
+    edges[[depth]] <- if (depth > 1) {
+      cbind(node = ids, parent = parent_ids)
+    } # else NULL
+  }
+
+  kwb.utils::catIf(dbg, "\n")
+
+  list(nodes = nodes, edges = edges)
+}
+
+# network_lists_to_data_frames -------------------------------------------------
+network_lists_to_data_frames <- function(network)
+{
+  nodes <- kwb.utils::selectElements(network, "nodes")
+  edges <- kwb.utils::selectElements(network, "edges")
+
+  node_ids <- unlist(nodes)
+
+  list(
+    nodes = kwb.utils::noFactorDataFrame(
+      id = as.integer(node_ids),
+      depth = rep.int(seq_along(nodes), lengths(nodes)),
+      name = sapply(strsplit(names(node_ids), "/", fixed = TRUE), tail, 1),
+      path = names(node_ids)
+    ),
+    edges = kwb.utils::rbindAll(
+      edges, nameColumn = "depth", namesAsFactor = FALSE
+    )
+  )
 }
