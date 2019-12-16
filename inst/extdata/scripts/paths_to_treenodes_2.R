@@ -19,7 +19,7 @@ if (FALSE)
 
   #kwb.fakin:::store(paths, "paths_to_treenodes_2")
 
-  paths <- kwb.fakin:::restore("paths", index = 3)
+  paths <- kwb.fakin:::restore("paths")
 
   paths <- kwb.pathdict::random_paths()
 
@@ -79,11 +79,13 @@ if (FALSE)
   kwb.utils::headtail(network$nodes)
   kwb.utils::headtail(network$edges)
 
-  plot_network(network, max_depth = 5)
+  plot_network(network, n_levels = 3L)
 
-  subnet <- select_subtree(network, node_id = 3, n_levels = 5)
+  `%>%` <- magrittr::`%>%`
 
-  plot_network(subnet, 100)
+  network %>%
+    select_subtree(node_id = c(65, 7)) %>%
+    plot_network(n_levels = 3L)
 }
 
 # get_leaves_in_depths ---------------------------------------------------------
@@ -201,7 +203,7 @@ get_nodes_and_edges <- function(
   # Maximal path depth (= number of slashes + 1)
   max_depth <- max(lengths(sep_pos)) + 1L
 
-  offset <- 0
+  offset <- 0L
   nodes <- list()
   edges <- list()
 
@@ -263,17 +265,22 @@ get_nodes_and_edges <- function(
       path = names(node_ids)
     )
 
-    edges <- kwb.utils::rbindAll(
-      edges, nameColumn = "depth", namesAsFactor = FALSE
-    )
+    edges <- as.data.frame(do.call(rbind, edges))
   }
 
   list(nodes = nodes, edges = edges)
 }
 
 # select_subtree ---------------------------------------------------------------
-select_subtree <- function(network, node_id, n_levels = 2L, dbg = TRUE)
+select_subtree <- function(network, node_id, n_levels = NULL, dbg = TRUE)
 {
+  if (length(node_id) > 1L) {
+    for (id in node_id) {
+      network <- select_subtree(network, id, n_levels, dbg)
+    }
+    return(network)
+  }
+
   #node_id=40;n_levels=2L
   nodes <- kwb.utils::selectElements(network, "nodes")
   edges <- kwb.utils::selectElements(network, "edges")
@@ -286,58 +293,84 @@ select_subtree <- function(network, node_id, n_levels = 2L, dbg = TRUE)
     stop("No such node: ", node_id)
   }
 
-  node_depth <- kwb.utils::selectColumns(nodes, "depth")[node_index]
-
-  # We are only interested in edges to nodes that are deeper than node_depth
-  child_depths <- kwb.utils::selectColumns(edges, "depth")
-
-  min_depth <- node_depth + 1L
-  max_depth <- node_depth + n_levels
-
-  edges <- edges[kwb.utils::inRange(child_depths, min_depth, max_depth), ]
-
   # Collect the ids of all child nodes
   ids <- node_id
+  level_count <- 0
 
   result_ids <- list()
 
-  while (length(ids)) {
+  while (length(ids) && (is.null(n_levels) || level_count <= n_levels)) {
 
     kwb.utils::catAndRun(paste("Adding", length(ids), "ids"), dbg = dbg, {
-
-      result_ids[[length(result_ids) + 1L]] <- ids
-
+      result_ids[[level_count + 1]] <- ids
       ids <- edges$node[edges$parent %in% ids]
     })
+
+    level_count <- level_count + 1
   }
 
   result_ids <- unlist(result_ids)
 
   result_nodes <- nodes[nodes$id %in% result_ids, ]
-  result_edges <- edges[edges$node %in% result_ids, ]
 
   stopifnot(anyDuplicated(result_nodes$id) == 0)
 
-  # Renumber edge nodes
-  result_edges[, 1:2] <- match(as.matrix(result_edges[, 1:2]), result_nodes$id)
+  edge_selected <- edges$node %in% result_ids & edges$parent %in% result_ids
+
+  if (any(edge_selected)) {
+
+    result_edges <- edges[edge_selected, ]
+
+    # Renumber edge nodes
+    result_edges[] <- match(as.matrix(result_edges[]), result_nodes$id)
+  }
 
   # Renumber nodes
   result_nodes$id <- seq_len(nrow(result_nodes))
+
+  # Renumer depth
+  result_nodes$depth <- result_nodes$depth - min(result_nodes$depth) + 1L
 
   # Return list of new nodes and new edges
   list(nodes = result_nodes, edges = result_edges)
 }
 
 # plot_network -----------------------------------------------------------------
-plot_network <- function(network, max_depth = 6)
+plot_network <- function(network, n_levels = 2L, cex = 0.6)
 {
-  nodes <- network$nodes[network$nodes$depth <= max_depth, ]
-  edges <- network$edges[network$edges$depth <= max_depth, ]
+  stopifnot(n_levels > 0L)
+
+  nodes <- network$nodes[network$nodes$depth <= n_levels, ]
+
+  if (nrow(nodes) < 2L) {
+    message("Less than two nodes to plot.")
+    return(invisible(NULL))
+  }
+
+  node_ids <- nodes$id
+
+  from_selected <- network$edges$parent %in% node_ids
+  to_selected <- network$edges$node %in% node_ids
+
+  edges <- network$edges[from_selected & to_selected, , drop = FALSE]
+
+  if (nrow(edges) < 1L) {
+    message("Less than one edge to plot.")
+    return(invisible(NULL))
+  }
 
   graph <- igraph::make_graph(
     as.integer(t(as.matrix(edges[, c("parent", "node")]))),
     directed = FALSE
   )
 
-  igraph::plot.igraph(graph, vertex.size = 3, vertex.label = "")
+  vertex.label <- sprintf("%d:%s", nodes$id, nodes$name)
+  vertex.label[nodes$depth > 2L] <- ""
+
+  igraph::plot.igraph(
+    graph,
+    vertex.size = 3,
+    vertex.label = vertex.label,
+    vertex.label.cex = cex
+  )
 }

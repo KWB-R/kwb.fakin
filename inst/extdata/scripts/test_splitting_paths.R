@@ -25,6 +25,8 @@ if (FALSE)
 
   # Remove paths of which the encoding changed during pathlist-conversion
   paths <- all_paths[- which_changed(all_paths)]
+
+  kwb.fakin:::store(paths, "test_splitting_paths")
 }
 
 # Convert paths to one matrix of subdirectory names ----------------------------
