@@ -70,14 +70,6 @@ if (FALSE)
   plot(tree)
 }
 
-# Find nodes -------------------------------------------------------------------
-if (FALSE)
-{
-  system.time(node_pos <- get_node_positions(x))
-
-  t(node_pos)
-}
-
 # create_network ---------------------------------------------------------------
 create_network <- function(x, method = 1)
 {
@@ -153,31 +145,4 @@ prune_network <- function(network, depth = 2)
   network$edges <- edges[edges[, 2] %in% node_ids, ]
 
   network
-}
-
-# get_node_positions -----------------------------------------------------------
-get_node_positions <- function(x)
-{
-  kwb.utils::stopIfNotMatrix(x)
-
-  stopifnot(nrow(x) > 0)
-
-  next_equals <- x[-nrow(x), ] == x[-1, ]
-
-  n_col <- ncol(x)
-
-  row_of_false <- matrix(nrow = 1, rep(FALSE, n_col))
-
-  next_equals <- rbind(row_of_false, next_equals)
-
-  do.call(rbind, lapply(seq_len(n_col), function(j) {
-
-    message(j, "/", n_col)
-
-    cols <- next_equals[, seq_len(j), drop = FALSE]
-
-    i <- which(! Reduce("&", kwb.utils::asColumnList(cols)))
-
-    matrix(c(i, rep(j, length(i))), ncol = 2)
-  }))
 }
