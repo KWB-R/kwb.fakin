@@ -1,20 +1,31 @@
-# MAIN -------------------------------------------------------------------------
+# Provide a vector of paths ----------------------------------------------------
 if (FALSE)
 {
-  # Provide a matrix of subdirectory names
   # - Either: from real paths
   file_info_dir <- "//medusa/processing/CONTENTS/file-info_by-department/2019-12/"
   path_list <- kwb.fakin:::read_path_information(file_info_dir)
   paths <- path_list$`path-info-ps-1_20191201_SUW_Department`$path
+
+  # - Or: simple test paths
+  paths <- c("a/b/a", "a/b/c", "a/c/a", "a/b/a/x")
+
+  # - Or: random paths consisting of english words
+  paths <- kwb.pathdict:::random_paths(max_depth = 5)
+
+  length(paths)
+}
+
+# MAIN -------------------------------------------------------------------------
+if (FALSE)
+{
+  # Provide a matrix of subdirectory names
+
+  # - 1. implicitly using pathlist
   pl <- pathlist::pathlist(paths)
   x <- pl@folders
 
-  # - Or: test paths
-  paths <- c("a/b/a", "a/b/c", "a/c/a", "a/b/a/x")
-
-  # - Or: from random paths
-  paths <- kwb.pathdict:::random_paths(max_depth = 5)
-
+  # - 2. explicitly using to_subdir_matrix()
+  #remotes::install_github("kwb-r/kwb.file@dev")
   system.time(x1 <- kwb.file::to_subdir_matrix(paths, method = 1))
   system.time(x2 <- kwb.file::to_subdir_matrix(paths, method = 2))
 
@@ -146,12 +157,6 @@ create_network <- function(x, method = 1)
   }
 
   # Generate edges between start-node and end-node
-  to_nodes_and_edges(ids, node_names)
-}
-
-# to_nodes_and_edges -----------------------------------------------------------
-to_nodes_and_edges <- function(ids, node_names)
-{
   n_col <- ncol(ids)
 
   # Generate edges between start-node and end-node
@@ -174,9 +179,14 @@ to_nodes_and_edges <- function(ids, node_names)
 # prune_network ----------------------------------------------------------------
 prune_network <- function(network, depth = 2)
 {
-  node_ids <- which(network$nodes$depth <= depth)
+  nodes <- kwb.utils::selectElements(network, "nodes")
+  edges <- kwb.utils::selectElements(network, "edges")
 
-  network$edges <- network$edges[network$edges[, 2] %in% node_ids, ]
+  stopifnot(is.matrix(edges), ncol(edges) >= 2)
+
+  node_ids <- which(kwb.utils::selectColumns(nodes, "depth") <= depth)
+
+  network$edges <- edges[edges[, 2] %in% node_ids, ]
 
   network
 }
