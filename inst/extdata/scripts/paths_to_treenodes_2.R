@@ -3,6 +3,7 @@
 # instructions:
 #   - source the whole script to load the functions defined below
 #   - go interactively through the main sections in "if (FALSE)"
+#
 
 # Provide a vector of paths ----------------------------------------------------
 if (FALSE)
@@ -12,7 +13,7 @@ if (FALSE)
   paths <- path_list$`path-info-ps-1_20191215_SUW_Department`$path
   #kwb.fakin:::store(paths, "paths_to_treenodes_2")
 
-  paths <- kwb.fakin:::restore("paths")
+  paths <- kwb.fakin:::restore("paths", index = 1)
 
   paths <- kwb.pathdict::random_paths()
 
@@ -25,11 +26,8 @@ if (FALSE)
   # Split paths and put them into an efficient data structure
   system.time(leaves <- get_leaves_in_depths(paths))
 
-  # Reconstruct paths
-  system.time(paths_reconstructed <- reconstruct_paths(leaves))
-
-  # Was the reconstruction successful?
-  identical(paths, paths_reconstructed)
+  # Check if paths can be reconstructed from the new structure
+  check_path_reconstruction(leaves, paths)
 
   # What can we use the data structure for?
 
@@ -44,49 +42,24 @@ if (FALSE)
   head(p1)
   head(p2)
 
+  # Get IDs of the parent nodes
   parent_ids <- lapply(leaves, kwb.utils::getAttribute, "parent_ids")
 
+  # Get paths of the parent nodes
   parent_paths <- unlist(use.names = FALSE, lapply(
     leaves, kwb.utils::getAttribute, "parent_paths"
   ))
 
-  # Get the leaves of the parent paths
+  # Get the leaves of the parent paths and check their reconstruction
   system.time(parent_leaves <- get_leaves_in_depths(parent_paths))
-  parents_reconstructed <- reconstruct_paths(parent_leaves)
-  identical(parent_paths, parents_reconstructed)
+  check_path_reconstruction(parent_leaves, parent_paths)
 
   str(parent_leaves)
-
   head(parent_paths)
 
   stopifnot(anyDuplicated(parent_paths) == 0)
 
   length(parent_paths)
-
-  max_ids <- sapply(parent_ids, max)
-
-  lapply(seq_along(parent_ids), function(i) {
-    parent_ids[[i]] + max_ids[i]
-  })
-
-  n_parents <- unname(sapply(parent_ids, max))
-
-  offsets <- rep(n_parents[-1], lengths(parent_ids)[-length(parent_ids)])
-
-  nodes <- cbind(
-    depth = rep(as.integer(names(parent_ids)) - 1L, lengths(parent_ids)),
-    id = unlist(parent_ids, use.names = FALSE)
-  )
-
-  nrow(nodes)
-  length(offsets)
-
-  head(paths)
-
-  depth_name <- "2"
-  leaves[[depth_name]]
-
-  ids <- rep.int(sapply(result, max)[-length(result)], lengths(result[-1]))
 }
 
 # MAIN 2: Get full tree information --------------------------------------------
@@ -166,6 +139,17 @@ get_separator_positions <- function(paths, dbg = TRUE)
   })
 }
 
+
+# check_path_reconstruction ----------------------------------------------------
+check_path_reconstruction <- function(leaves, paths)
+{
+  # Reconstruct paths
+  system.time(paths_reconstructed <- reconstruct_paths(leaves))
+
+  # Was the reconstruction successful?
+  identical(paths, paths_reconstructed)
+}
+
 # reconstruct_paths ------------------------------------------------------------
 reconstruct_paths <- function(x, depths = NULL)
 {
@@ -199,9 +183,12 @@ reconstruct_paths <- function(x, depths = NULL)
 }
 
 # get_nodes_and_edges ----------------------------------------------------------
-get_nodes_and_edges <- function(paths, depths, dbg = TRUE)
+get_nodes_and_edges <- function(
+  paths, depths, result_type = "data_frames", dbg = TRUE
+)
 {
   stopifnot(is.character(paths))
+  stopifnot(result_type %in% c("lists", "data.frames"))
 
   kwb.utils::catIf(dbg, "Number of paths:", length(paths), "\n")
 
@@ -266,26 +253,22 @@ get_nodes_and_edges <- function(paths, depths, dbg = TRUE)
 
   kwb.utils::catIf(dbg, "\n")
 
-  list(nodes = nodes, edges = edges)
-}
+  # If requested, convert lists "nodes" and "edges" to data frames
+  if (result_type == "data.frames") {
 
-# network_lists_to_data_frames -------------------------------------------------
-network_lists_to_data_frames <- function(network)
-{
-  nodes <- kwb.utils::selectElements(network, "nodes")
-  edges <- kwb.utils::selectElements(network, "edges")
+    node_ids <- unlist(nodes)
 
-  node_ids <- unlist(nodes)
-
-  list(
-    nodes = kwb.utils::noFactorDataFrame(
+    nodes <- kwb.utils::noFactorDataFrame(
       id = as.integer(node_ids),
       depth = rep.int(seq_along(nodes), lengths(nodes)),
       name = sapply(strsplit(names(node_ids), "/", fixed = TRUE), tail, 1),
       path = names(node_ids)
-    ),
-    edges = kwb.utils::rbindAll(
+    )
+
+    edges <- kwb.utils::rbindAll(
       edges, nameColumn = "depth", namesAsFactor = FALSE
     )
-  )
+  }
+
+  list(nodes = nodes, edges = edges)
 }
