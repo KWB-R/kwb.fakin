@@ -8,12 +8,18 @@
 # Provide a vector of paths ----------------------------------------------------
 if (FALSE)
 {
-  file_info_dir <- "//medusa/processing/CONTENTS/file-info_by-department/2019-12/"
-  path_list <- kwb.fakin:::read_path_information(file_info_dir, "path-info-ps-1_20191215")
+  file_info_dir <- "//medusa/processing/CONTENTS/file-info_by-department/2019-01/"
+  path_list <- kwb.fakin:::read_path_information(file_info_dir, "path-info_20190101")
+
+  # All paths together!
+  paths <- unlist(lapply(path_list, kwb.utils::selectColumns, "path"))
+
   paths <- path_list$`path-info-ps-1_20191215_SUW_Department`$path
+  paths <- path_list$`path-info-ps-1_20191215_WWT_Department`$path
+
   #kwb.fakin:::store(paths, "paths_to_treenodes_2")
 
-  paths <- kwb.fakin:::restore("paths", index = 1)
+  paths <- kwb.fakin:::restore("paths", index = 3)
 
   paths <- kwb.pathdict::random_paths()
 
@@ -70,19 +76,14 @@ if (FALSE)
 
   system.time(network <- get_nodes_and_edges(paths))
 
-  head(network$nodes)
-  head(network$edges)
+  kwb.utils::headtail(network$nodes)
+  kwb.utils::headtail(network$edges)
 
-  depth <- 5
-  nodes <- network$nodes[network$nodes$depth <= depth, ]
-  edges <- network$edges[network$edges$depth <= depth, ]
+  plot_network(network, max_depth = 5)
 
-  graph <- igraph::make_graph(
-    as.integer(t(as.matrix(edges[, c("parent", "node")]))),
-    directed = FALSE
-  )
+  subnet <- select_subtree(network, node_id = 3, n_levels = 5)
 
-  igraph::plot.igraph(graph, vertex.size = 3, vertex.label = "")
+  plot_network(subnet, 100)
 }
 
 # get_leaves_in_depths ---------------------------------------------------------
@@ -136,7 +137,6 @@ get_separator_positions <- function(paths, dbg = TRUE)
     sep_pos <- gregexpr("/", paths, fixed = TRUE)
   })
 }
-
 
 # check_path_reconstruction ----------------------------------------------------
 check_path_reconstruction <- function(leaves, paths)
@@ -269,4 +269,75 @@ get_nodes_and_edges <- function(
   }
 
   list(nodes = nodes, edges = edges)
+}
+
+# select_subtree ---------------------------------------------------------------
+select_subtree <- function(network, node_id, n_levels = 2L, dbg = TRUE)
+{
+  #node_id=40;n_levels=2L
+  nodes <- kwb.utils::selectElements(network, "nodes")
+  edges <- kwb.utils::selectElements(network, "edges")
+
+  node_ids <- kwb.utils::selectColumns(nodes, "id")
+
+  node_index <- which(node_ids == node_id)
+
+  if (length(node_index) == 0) {
+    stop("No such node: ", node_id)
+  }
+
+  node_depth <- kwb.utils::selectColumns(nodes, "depth")[node_index]
+
+  # We are only interested in edges to nodes that are deeper than node_depth
+  child_depths <- kwb.utils::selectColumns(edges, "depth")
+
+  min_depth <- node_depth + 1L
+  max_depth <- node_depth + n_levels
+
+  edges <- edges[kwb.utils::inRange(child_depths, min_depth, max_depth), ]
+
+  # Collect the ids of all child nodes
+  ids <- node_id
+
+  result_ids <- list()
+
+  while (length(ids)) {
+
+    kwb.utils::catAndRun(paste("Adding", length(ids), "ids"), dbg = dbg, {
+
+      result_ids[[length(result_ids) + 1L]] <- ids
+
+      ids <- edges$node[edges$parent %in% ids]
+    })
+  }
+
+  result_ids <- unlist(result_ids)
+
+  result_nodes <- nodes[nodes$id %in% result_ids, ]
+  result_edges <- edges[edges$node %in% result_ids, ]
+
+  stopifnot(anyDuplicated(result_nodes$id) == 0)
+
+  # Renumber edge nodes
+  result_edges[, 1:2] <- match(as.matrix(result_edges[, 1:2]), result_nodes$id)
+
+  # Renumber nodes
+  result_nodes$id <- seq_len(nrow(result_nodes))
+
+  # Return list of new nodes and new edges
+  list(nodes = result_nodes, edges = result_edges)
+}
+
+# plot_network -----------------------------------------------------------------
+plot_network <- function(network, max_depth = 6)
+{
+  nodes <- network$nodes[network$nodes$depth <= max_depth, ]
+  edges <- network$edges[network$edges$depth <= max_depth, ]
+
+  graph <- igraph::make_graph(
+    as.integer(t(as.matrix(edges[, c("parent", "node")]))),
+    directed = FALSE
+  )
+
+  igraph::plot.igraph(graph, vertex.size = 3, vertex.label = "")
 }
