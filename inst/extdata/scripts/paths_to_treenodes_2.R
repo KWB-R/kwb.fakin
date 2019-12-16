@@ -70,14 +70,12 @@ if (FALSE)
 
   system.time(network <- get_nodes_and_edges(paths))
 
-  network_df <- network_lists_to_data_frames(network)
-
-  head(network_df$nodes)
-  head(network_df$edges)
+  head(network$nodes)
+  head(network$edges)
 
   depth <- 5
-  nodes <- network_df$nodes[network_df$nodes$depth <= depth, ]
-  edges <- network_df$edges[network_df$edges$depth <= depth, ]
+  nodes <- network$nodes[network$nodes$depth <= depth, ]
+  edges <- network$edges[network$edges$depth <= depth, ]
 
   graph <- igraph::make_graph(
     as.integer(t(as.matrix(edges[, c("parent", "node")]))),
@@ -184,7 +182,7 @@ reconstruct_paths <- function(x, depths = NULL)
 
 # get_nodes_and_edges ----------------------------------------------------------
 get_nodes_and_edges <- function(
-  paths, depths, result_type = "data_frames", dbg = TRUE
+  paths, depths, result_type = "data.frames", dbg = TRUE
 )
 {
   stopifnot(is.character(paths))
