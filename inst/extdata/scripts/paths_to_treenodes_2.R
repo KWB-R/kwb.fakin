@@ -86,8 +86,8 @@ if (FALSE)
   `%>%` <- magrittr::`%>%`
 
   network %>%
-    select_subtree(node_id = c(65, 7)) %>%
-    plot_network(n_levels = 3L)
+    select_subtree(node_id = c(2, 4, 9, 4, 5, 3, 3, 3)) %>%
+    plot_network(n_levels = 30L)
 }
 
 # get_leaves_in_depths ---------------------------------------------------------
@@ -203,8 +203,12 @@ get_nodes_and_edges <- function(
   # Get the positions of the slashes separating folder and file names
   sep_pos <- get_separator_positions(paths, dbg = dbg)
 
+  # Number of depth levels for each path
+  n_levels <- lengths(sep_pos) + 1L
+
   # Maximal path depth (= number of slashes + 1)
-  max_depth <- max(lengths(sep_pos)) + 1L
+  #max_depth <- max(lengths(sep_pos)) + 1L
+  max_depth <- max(n_levels)
 
   offset <- 0L
   nodes <- list()
@@ -220,11 +224,12 @@ get_nodes_and_edges <- function(
     #depth <- 2
     kwb.utils::catIf(dbg, sprintf("\b\b\b\b\b%2d/%2d", depth, max_depth))
 
-    in_depth <- depth <= lengths(sep_pos) + 1L
+    in_depth <- n_levels >= depth
 
     pos <- sep_pos[in_depth]
 
-    is_leaf <- lengths(pos) < depth
+    is_leaf <- n_levels[in_depth] == depth
+
     stop_pos <- integer(sum(in_depth))
     stop_pos[is_leaf] <- nchar(paths[in_depth][is_leaf])
     stop_pos[! is_leaf] <- unlist(lapply(pos[! is_leaf], "[", depth)) -1L
