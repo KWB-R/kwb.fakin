@@ -74,7 +74,10 @@ if (FALSE)
 if (FALSE)
 {
   #backup <- network
-  #identical(network, backup)
+  #identical(`$<-`(network, "node_names", list()), backup)
+
+  str(network)
+  str(backup)
 
   system.time(network <- get_nodes_and_edges(paths))
 
@@ -236,14 +239,14 @@ get_nodes_and_edges <- function(
 
     stopifnot(all(stop_pos > 0))
 
-    start_pos <- 1L
+    subdirs <- substr(paths[in_depth], 1L, stop_pos)
 
-    subdirs <- substr(paths[in_depth], start_pos, stop_pos)
+    is_unique <- ! duplicated.default(subdirs)
 
-    node_paths <- unique(subdirs)
+    node_paths <- subdirs[is_unique]
 
     parent_ids <- if (depth > 1) {
-      unname(nodes[[depth - 1]][parents[in_depth][! duplicated.default(subdirs)]])
+      unname(nodes[[depth - 1]][parents[in_depth][is_unique]])
     } # else NULL
 
     stopifnot(all(! is.na(parent_ids)))
@@ -252,7 +255,28 @@ get_nodes_and_edges <- function(
 
     ids <- seq_along(node_paths) + offset
     offset <- offset + length(node_paths)
+
     nodes[[depth]] <- stats::setNames(ids, node_paths)
+
+    # start_pos <- if (depth > 1L) {
+    #   unlist(lapply(pos[is_unique], "[", depth - 1L)) + 1L
+    # } else {
+    #   1L
+    # }
+    #
+    # node_names[[depth]] <- substr(
+    #   paths[in_depth][is_unique], start_pos, stop_pos[is_unique]
+    # )
+
+    node_names[[depth]] <- if (depth == 1L) {
+      node_paths
+    } else {
+      substr(
+        x = paths[in_depth][is_unique],
+        start = unlist(lapply(pos[is_unique], "[", depth - 1L)) + 1L,
+        stop = stop_pos[is_unique]
+      )
+    }
 
     edges[[depth]] <- if (depth > 1) {
       cbind(node = ids, parent = parent_ids)
@@ -265,20 +289,26 @@ get_nodes_and_edges <- function(
   # If requested, convert lists "nodes" and "edges" to data frames
   if (result_type == "data.frames") {
 
-    node_ids <- unlist(nodes)
+    kwb.utils::catAndRun("Converting lists to data frames", dbg = dbg, {
 
-    nodes <- data.frame(
-      id = as.integer(node_ids),
-      depth = rep.int(seq_along(nodes), lengths(nodes)),
-      name = sapply(strsplit(names(node_ids), "/", fixed = TRUE), tail, 1),
-      path = names(node_ids),
-      stringsAsFactors = FALSE
-    )
+      node_ids <- unlist(nodes)
 
-    edges <- as.data.frame(do.call(rbind, edges))
+      nodes <- data.frame(
+        id = as.integer(node_ids),
+        depth = rep.int(seq_along(nodes), lengths(nodes)),
+        name = unlist(node_names),
+        path = names(node_ids),
+        stringsAsFactors = FALSE
+      )
+
+      edges <- as.data.frame(do.call(rbind, edges))
+    })
   }
 
-  list(nodes = nodes, edges = edges, node_names = node_names)
+  c(
+    list(nodes = nodes, edges = edges),
+    if (result_type == "lists") list(node_names = node_names)
+  )
 }
 
 # select_subtree ---------------------------------------------------------------
