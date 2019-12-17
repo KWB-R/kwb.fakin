@@ -71,10 +71,10 @@ if (FALSE)
 # MAIN 2: Get full tree information --------------------------------------------
 if (FALSE)
 {
-  #backup <- list(nodes, edges)
-  #identical(list(nodes, edges), backup)
+  #backup <- network
+  #identical(network, backup)
 
-  system.time(network <- get_nodes_and_edges(paths))
+  system.time(network <- get_nodes_and_edges(paths, method = 2))
 
   kwb.utils::headtail(network$nodes)
   kwb.utils::headtail(network$edges)
@@ -184,11 +184,12 @@ reconstruct_paths <- function(x, depths = NULL)
 
 # get_nodes_and_edges ----------------------------------------------------------
 get_nodes_and_edges <- function(
-  paths, depths, result_type = "data.frames", dbg = TRUE
+  paths, depths, result_type = "data.frames", dbg = TRUE, method = 1
 )
 {
   stopifnot(is.character(paths))
   stopifnot(result_type %in% c("lists", "data.frames"))
+  stopifnot(method %in% 1:2)
 
   kwb.utils::catIf(dbg, "Number of paths:", length(paths), "\n")
 
@@ -206,6 +207,7 @@ get_nodes_and_edges <- function(
   offset <- 0L
   nodes <- list()
   edges <- list()
+  node_names <- list()
 
   parents <- character(length(paths))
 
@@ -230,21 +232,43 @@ get_nodes_and_edges <- function(
 
     subdirs <- substr(paths[in_depth], 1L, split_pos - 1L)
 
-    node_paths <- unique(subdirs)
+    if (method == 1) {
+      node_paths <- unique(subdirs)
+    } else if (method == 2) {
+      is_unique <- ! duplicated.default(subdirs)
+      #node_paths <- subdirs[is_unique]
+    }
 
     parent_ids <- if (depth > 1) {
-      unname(nodes[[depth - 1]][parents[in_depth][! duplicated(subdirs)]])
+      if (method == 1) {
+        unname(nodes[[depth - 1]][parents[in_depth][! duplicated.default(subdirs)]])
+      } else if (method == 2) {
+        unname(nodes[[depth - 1]][parents[in_depth][is_unique]])
+      }
     } # else NULL
 
     stopifnot(all(! is.na(parent_ids)))
 
     parents[in_depth] <- subdirs
 
-    ids <- seq_along(node_paths) + offset
+    if (method == 1) {
+      ids <- seq_along(node_paths) + offset
+      offset <- offset + length(node_paths)
+      nodes[[depth]] <- stats::setNames(ids, node_paths)
+    } else if (method == 2) {
+      n_nodes <- sum(is_unique)
+      ids <- seq_len(n_nodes) + offset
+      offset <- offset + n_nodes
+      node_paths <- subdirs[is_unique]
+      nodes[[depth]] <- stats::setNames(ids, node_paths)
 
-    offset <- offset + length(node_paths)
-
-    nodes[[depth]] <- stats::setNames(ids, node_paths)
+      # Extract last element from path
+      start <- rep.int(0L, length(node_paths))
+      p <- pos[is_unique]
+      has_slash <- lengths(p) > 0
+      start[has_slash] <- unlist(lapply(p[has_slash], tail, 1))
+      node_names[[depth]] <- substr(node_paths, start + 1L, nchar(node_paths))
+    }
 
     edges[[depth]] <- if (depth > 1) {
       cbind(node = ids, parent = parent_ids)
@@ -258,17 +282,22 @@ get_nodes_and_edges <- function(
 
     node_ids <- unlist(nodes)
 
-    nodes <- kwb.utils::noFactorDataFrame(
+    nodes <- data.frame(
       id = as.integer(node_ids),
       depth = rep.int(seq_along(nodes), lengths(nodes)),
-      name = sapply(strsplit(names(node_ids), "/", fixed = TRUE), tail, 1),
-      path = names(node_ids)
+      name = if (method == 1) {
+        sapply(strsplit(names(node_ids), "/", fixed = TRUE), tail, 1)
+      } else if (method == 2) {
+        ""
+      },
+      path = names(node_ids),
+      stringsAsFactors = FALSE
     )
 
     edges <- as.data.frame(do.call(rbind, edges))
   }
 
-  list(nodes = nodes, edges = edges)
+  list(nodes = nodes, edges = edges, node_names = node_names)
 }
 
 # select_subtree ---------------------------------------------------------------
