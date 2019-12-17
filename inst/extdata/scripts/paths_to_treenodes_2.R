@@ -12,14 +12,16 @@ if (FALSE)
   path_list <- kwb.fakin:::read_path_information(file_info_dir, "path-info_20190101")
 
   # All paths together!
-  paths <- unlist(lapply(path_list, kwb.utils::selectColumns, "path"))
+  paths <- unlist(use.names = FALSE, lapply(
+    path_list, kwb.utils::selectColumns, "path"
+  ))
 
   paths <- path_list$`path-info-ps-1_20191215_SUW_Department`$path
   paths <- path_list$`path-info-ps-1_20191215_WWT_Department`$path
 
   #kwb.fakin:::store(paths, "paths_to_treenodes_2")
 
-  paths <- kwb.fakin:::restore("paths")
+  paths <- kwb.fakin:::restore("paths", 4)
 
   paths <- kwb.pathdict::random_paths()
 
@@ -74,7 +76,7 @@ if (FALSE)
   #backup <- network
   #identical(network, backup)
 
-  system.time(network <- get_nodes_and_edges(paths, method = 2))
+  system.time(network <- get_nodes_and_edges(paths))
 
   kwb.utils::headtail(network$nodes)
   kwb.utils::headtail(network$edges)
@@ -184,12 +186,12 @@ reconstruct_paths <- function(x, depths = NULL)
 
 # get_nodes_and_edges ----------------------------------------------------------
 get_nodes_and_edges <- function(
-  paths, depths, result_type = "data.frames", dbg = TRUE, method = 1
+  paths, depths, result_type = "data.frames", dbg = TRUE#, method = 1
 )
 {
   stopifnot(is.character(paths))
   stopifnot(result_type %in% c("lists", "data.frames"))
-  stopifnot(method %in% 1:2)
+  #stopifnot(method %in% 1:2)
 
   kwb.utils::catIf(dbg, "Number of paths:", length(paths), "\n")
 
@@ -218,62 +220,40 @@ get_nodes_and_edges <- function(
     #depth <- 2
     kwb.utils::catIf(dbg, sprintf("\b\b\b\b\b%2d/%2d", depth, max_depth))
 
-    in_depth <- depth <= lengths(sep_pos) + 1
+    in_depth <- depth <= lengths(sep_pos) + 1L
 
     pos <- sep_pos[in_depth]
 
     is_leaf <- lengths(pos) < depth
+    stop_pos <- integer(sum(in_depth))
+    stop_pos[is_leaf] <- nchar(paths[in_depth][is_leaf])
+    stop_pos[! is_leaf] <- unlist(lapply(pos[! is_leaf], "[", depth)) -1L
 
-    split_pos <- integer(sum(in_depth))
-    split_pos[is_leaf] <- nchar(paths[in_depth][is_leaf]) + 1
-    split_pos[! is_leaf] <- unlist(lapply(pos[! is_leaf], "[", depth))
+    stopifnot(all(stop_pos > 0))
 
-    stopifnot(all(split_pos > 0))
+    start_pos <- 1L
 
-    subdirs <- substr(paths[in_depth], 1L, split_pos - 1L)
+    subdirs <- substr(paths[in_depth], start_pos, stop_pos)
 
-    if (method == 1) {
-      node_paths <- unique(subdirs)
-    } else if (method == 2) {
-      is_unique <- ! duplicated.default(subdirs)
-      #node_paths <- subdirs[is_unique]
-    }
+    node_paths <- unique(subdirs)
 
     parent_ids <- if (depth > 1) {
-      if (method == 1) {
-        unname(nodes[[depth - 1]][parents[in_depth][! duplicated.default(subdirs)]])
-      } else if (method == 2) {
-        unname(nodes[[depth - 1]][parents[in_depth][is_unique]])
-      }
+      unname(nodes[[depth - 1]][parents[in_depth][! duplicated.default(subdirs)]])
     } # else NULL
 
     stopifnot(all(! is.na(parent_ids)))
 
     parents[in_depth] <- subdirs
 
-    if (method == 1) {
-      ids <- seq_along(node_paths) + offset
-      offset <- offset + length(node_paths)
-      nodes[[depth]] <- stats::setNames(ids, node_paths)
-    } else if (method == 2) {
-      n_nodes <- sum(is_unique)
-      ids <- seq_len(n_nodes) + offset
-      offset <- offset + n_nodes
-      node_paths <- subdirs[is_unique]
-      nodes[[depth]] <- stats::setNames(ids, node_paths)
-
-      # Extract last element from path
-      start <- rep.int(0L, length(node_paths))
-      p <- pos[is_unique]
-      has_slash <- lengths(p) > 0
-      start[has_slash] <- unlist(lapply(p[has_slash], tail, 1))
-      node_names[[depth]] <- substr(node_paths, start + 1L, nchar(node_paths))
-    }
+    ids <- seq_along(node_paths) + offset
+    offset <- offset + length(node_paths)
+    nodes[[depth]] <- stats::setNames(ids, node_paths)
 
     edges[[depth]] <- if (depth > 1) {
       cbind(node = ids, parent = parent_ids)
     } # else NULL
-  }
+
+  } # next depth
 
   kwb.utils::catIf(dbg, "\n")
 
@@ -285,11 +265,7 @@ get_nodes_and_edges <- function(
     nodes <- data.frame(
       id = as.integer(node_ids),
       depth = rep.int(seq_along(nodes), lengths(nodes)),
-      name = if (method == 1) {
-        sapply(strsplit(names(node_ids), "/", fixed = TRUE), tail, 1)
-      } else if (method == 2) {
-        ""
-      },
+      name = sapply(strsplit(names(node_ids), "/", fixed = TRUE), tail, 1),
       path = names(node_ids),
       stringsAsFactors = FALSE
     )
