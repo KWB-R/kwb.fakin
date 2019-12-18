@@ -132,24 +132,6 @@ create_network <- function(x, method = 1)
   list(nodes = nodes, edges = edges)
 }
 
-# subdir_matrix_to_paths -------------------------------------------------------
-subdir_matrix_to_paths <- function(subdirs, depths = NULL, dbg = TRUE)
-{
-  stopifnot(is.character(subdirs))
-  kwb.utils::stopIfNotMatrix(subdirs)
-
-  if (is.null(depths)) {
-
-    depths <- kwb.utils::catAndRun("Calculating path depths", dbg = dbg, {
-      rowSums(matrix(nzchar(subdirs), nrow = nrow(subdirs)))
-    })
-  }
-
-  kwb.utils::catAndRun("Pasting subdirectory names together", dbg = dbg, {
-    pathlist:::paste_segments(subdirs, depths)
-  })
-}
-
 # unify_net --------------------------------------------------------------------
 unify_net <- function(net)
 {

@@ -99,6 +99,7 @@ if (FALSE)
 }
 
 # get_leaves_in_depths ---------------------------------------------------------
+#' @importFrom kwb.utils catIf
 get_leaves_in_depths <- function(paths, method = 1, dbg = TRUE)
 {
   # Get the positions of the slashes separating folder and file names
@@ -123,7 +124,7 @@ get_leaves_in_depths <- function(paths, method = 1, dbg = TRUE)
 
     node_paths <- paths[in_depth]
 
-    split_pos <- sapply(sep_pos[in_depth], "[", depth - 1)
+    split_pos <- sapply(sep_pos[in_depth], "[", depth - 1L)
 
     parents <- substr(node_paths, 1L, split_pos - 1L)
     nodes <- substr(node_paths, split_pos + 1L, nchar(node_paths))
@@ -165,6 +166,25 @@ get_separator_positions <- function(paths, attribs = TRUE, dbg = TRUE)
   })
 }
 
+# subdir_matrix_to_paths -------------------------------------------------------
+#' @importFrom kwb.utils stopIfNotMatrix catAndRun
+subdir_matrix_to_paths <- function(subdirs, depths = NULL, dbg = TRUE)
+{
+  stopifnot(is.character(subdirs))
+  kwb.utils::stopIfNotMatrix(subdirs)
+
+  if (is.null(depths)) {
+
+    depths <- kwb.utils::catAndRun("Calculating path depths", dbg = dbg, {
+      rowSums(matrix(nzchar(subdirs), nrow = nrow(subdirs)))
+    })
+  }
+
+  kwb.utils::catAndRun("Pasting subdirectory names together", dbg = dbg, {
+    pathlist:::paste_segments(subdirs, depths)
+  })
+}
+
 # check_path_reconstruction ----------------------------------------------------
 check_path_reconstruction <- function(leaves, paths)
 {
@@ -176,6 +196,7 @@ check_path_reconstruction <- function(leaves, paths)
 }
 
 # reconstruct_paths ------------------------------------------------------------
+#' @importFrom kwb.utils defaultIfNULL getAttribute
 reconstruct_paths <- function(x, depths = NULL)
 {
   #x <- leaves;depths = NULL
@@ -208,6 +229,7 @@ reconstruct_paths <- function(x, depths = NULL)
 }
 
 # get_nodes_and_edges ----------------------------------------------------------
+#' @importFrom kwb.utils catIf catAndRun
 get_nodes_and_edges <- function(
   paths, depths, result_type = "data.frames", dbg = TRUE, method = 1
 )
@@ -320,11 +342,70 @@ get_nodes_and_edges <- function(
 }
 
 # remove_double_slash_left -----------------------------------------------------
+#' @importFrom kwb.utils catAndRun
 remove_double_slash_left <- function(paths, dbg = dbg)
 {
   kwb.utils::catAndRun("Removing '//' at the beginning", dbg = dbg, {
     gsub("^//(?=[^/])", "", paths, perl = TRUE)
   })
+}
+
+# check_network ----------------------------------------------------------------
+check_network <- function(network)
+{
+  nodes <- kwb.utils::selectElements(network, "nodes")
+  edges <- kwb.utils::selectElements(network, "edges")
+
+  stopifnot(all(edges$node %in% nodes$id))
+  stopifnot(all(edges$parent %in% nodes$id))
+  stopifnot(anyDuplicated(edges) == 0)
+  stopifnot(identical(nodes$id, seq_len(nrow(nodes))))
+
+  node_paths <- kwb.utils::selectColumns(nodes, "path")
+  node_names <- kwb.utils::selectColumns(nodes, "name")
+  path_lengths <- nchar(node_paths)
+  start <- path_lengths - nchar(node_names) + 1L
+  stopifnot(all(substr(node_paths, start, path_lengths) == node_names))
+}
+
+# plot_network -----------------------------------------------------------------
+plot_network <- function(network, n_levels = 2L, cex = 0.6)
+{
+  stopifnot(n_levels > 0L)
+
+  nodes <- network$nodes[network$nodes$depth <= n_levels, ]
+
+  if (nrow(nodes) < 2L) {
+    message("Less than two nodes to plot.")
+    return(invisible(NULL))
+  }
+
+  node_ids <- nodes$id
+
+  from_selected <- network$edges$parent %in% node_ids
+  to_selected <- network$edges$node %in% node_ids
+
+  edges <- network$edges[from_selected & to_selected, , drop = FALSE]
+
+  if (nrow(edges) < 1L) {
+    message("Less than one edge to plot.")
+    return(invisible(NULL))
+  }
+
+  graph <- igraph::make_graph(
+    as.integer(t(as.matrix(edges[, c("parent", "node")]))),
+    directed = FALSE
+  )
+
+  vertex.label <- sprintf("%d:%s", nodes$id, nodes$name)
+  vertex.label[nodes$depth > 2L] <- ""
+
+  igraph::plot.igraph(
+    graph,
+    vertex.size = 3,
+    vertex.label = vertex.label,
+    vertex.label.cex = cex
+  )
 }
 
 # select_subtree ---------------------------------------------------------------
@@ -389,62 +470,4 @@ select_subtree <- function(network, node_id, n_levels = NULL, dbg = TRUE)
 
   # Return list of new nodes and new edges
   list(nodes = result_nodes, edges = result_edges)
-}
-
-# plot_network -----------------------------------------------------------------
-plot_network <- function(network, n_levels = 2L, cex = 0.6)
-{
-  stopifnot(n_levels > 0L)
-
-  nodes <- network$nodes[network$nodes$depth <= n_levels, ]
-
-  if (nrow(nodes) < 2L) {
-    message("Less than two nodes to plot.")
-    return(invisible(NULL))
-  }
-
-  node_ids <- nodes$id
-
-  from_selected <- network$edges$parent %in% node_ids
-  to_selected <- network$edges$node %in% node_ids
-
-  edges <- network$edges[from_selected & to_selected, , drop = FALSE]
-
-  if (nrow(edges) < 1L) {
-    message("Less than one edge to plot.")
-    return(invisible(NULL))
-  }
-
-  graph <- igraph::make_graph(
-    as.integer(t(as.matrix(edges[, c("parent", "node")]))),
-    directed = FALSE
-  )
-
-  vertex.label <- sprintf("%d:%s", nodes$id, nodes$name)
-  vertex.label[nodes$depth > 2L] <- ""
-
-  igraph::plot.igraph(
-    graph,
-    vertex.size = 3,
-    vertex.label = vertex.label,
-    vertex.label.cex = cex
-  )
-}
-
-# check_network ----------------------------------------------------------------
-check_network <- function(network)
-{
-  nodes <- kwb.utils::selectElements(network, "nodes")
-  edges <- kwb.utils::selectElements(network, "edges")
-
-  stopifnot(all(edges$node %in% nodes$id))
-  stopifnot(all(edges$parent %in% nodes$id))
-  stopifnot(anyDuplicated(edges) == 0)
-  stopifnot(identical(nodes$id, seq_len(nrow(nodes))))
-
-  node_paths <- kwb.utils::selectColumns(nodes, "path")
-  node_names <- kwb.utils::selectColumns(nodes, "name")
-  path_lengths <- nchar(node_paths)
-  start <- path_lengths - nchar(node_names) + 1L
-  stopifnot(all(substr(node_paths, start, path_lengths) == node_names))
 }
