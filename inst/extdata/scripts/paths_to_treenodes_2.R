@@ -143,42 +143,13 @@ get_leaves_in_depths <- function(paths, method = 1, dbg = TRUE)
 }
 
 # get_separator_positions ------------------------------------------------------
-get_separator_positions <- function(
-  paths, attribs = TRUE, dbg = TRUE, method = 1L
-)
+get_separator_positions <- function(paths, attribs = TRUE, dbg = TRUE)
 {
   stopifnot(is.character(paths))
-  stopifnot(method %in% 1:2)
 
-  # If paths is a matrix (of subdirectory names), do one of the following:
-  # - method 1: construct the list of slash positions from the lengths of
-  #   the subdirectory,
-  # - method 2: create full paths from the subdirectory names and continue as
-  #   if full paths were given
-
+  # If paths is a matrix of subdirectory names, create vector of paths first
   if (is.matrix(paths)) {
-
-    if (method == 1L) {
-
-      result <- kwb.utils::catAndRun(
-        "Calculating separator positions from lengths of subdirectory names",
-        dbg = dbg,
-        expr = {
-          lapply(kwb.utils::asRowList(nchar(subdirs)), function(x) {
-            x <- x[x > 0]
-            x <- x[- length(x)]
-            cumsum(x) + seq_along(x)
-          })
-        }
-      )
-
-      return(result)
-    }
-
-    if (method == 2) {
-
-      paths <- subdir_matrix_to_paths(subdirs, dbg = dbg)
-    }
+    paths <- subdir_matrix_to_paths(subdirs, dbg = dbg)
   }
 
   result <- kwb.utils::catAndRun("Finding path separators", dbg = dbg, {
