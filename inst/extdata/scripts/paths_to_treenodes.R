@@ -38,7 +38,7 @@ if (FALSE)
   system.time(network_1 <- create_network(subdirs, method = 1))
   system.time(network_2 <- create_network(subdirs, method = 2))
 
-  identical(network_1, network_2)
+  identical(unify_net(network_1), unify_net(network_2))
   #diffobj::diffStr(network_1, network_2)
 
   # Continue with either network
@@ -74,6 +74,10 @@ if (FALSE)
 create_network <- function(x, method = 1)
 {
   kwb.utils::stopIfNotMatrix(x)
+
+  if (method == 2) {
+    return(get_nodes_and_edges(paths = subdir_matrix_to_paths(x)))
+  }
 
   # Initialise a matrix of (tree node) IDs
   ids <- matrix(integer(), nrow = nrow(x), ncol = ncol(x))
@@ -130,6 +134,32 @@ create_network <- function(x, method = 1)
   )
 
   list(nodes = nodes, edges = edges)
+}
+
+# subdir_matrix_to_paths -------------------------------------------------------
+subdir_matrix_to_paths <- function(subdirs)
+{
+  stopifnot(is.character(subdirs))
+  kwb.utils::stopIfNotMatrix(subdirs)
+
+  depths <- rowSums(matrix(nzchar(subdirs), nrow = nrow(subdirs)))
+  pathlist:::paste_segments(subdirs, depths)
+}
+
+# unify_net --------------------------------------------------------------------
+unify_net <- function(net)
+{
+  net$nodes <- kwb.utils::selectColumns(net$nodes, c(id = "name", "depth"))
+  net$nodes$name <- gsub("^//", "", net$nodes$name)
+
+  if (is.matrix(net$edges)) {
+    net$edges <- data.frame(
+      node = as.integer(net$edges[, 2]),
+      parent = as.integer(net$edges[, 1])
+    )
+  }
+
+  net
 }
 
 # prune_network ----------------------------------------------------------------
