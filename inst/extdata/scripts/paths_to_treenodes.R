@@ -45,9 +45,7 @@ if (FALSE)
   # Prune the network at different maximal depths
   nets <- lapply(2:5, function(depth) prune_network(network, depth = depth))
 
-  graphs <- lapply(nets, function(net) {
-    igraph::make_graph(t(net$edges), directed = FALSE)
-  })
+  graphs <- lapply(nets, network_to_igraph)
 
   for (i in seq_along(graphs)) {
     net <- nets[[i]]
@@ -135,13 +133,21 @@ create_network <- function(x, method = 1)
 }
 
 # subdir_matrix_to_paths -------------------------------------------------------
-subdir_matrix_to_paths <- function(subdirs)
+subdir_matrix_to_paths <- function(subdirs, depths = NULL, dbg = TRUE)
 {
   stopifnot(is.character(subdirs))
   kwb.utils::stopIfNotMatrix(subdirs)
 
-  depths <- rowSums(matrix(nzchar(subdirs), nrow = nrow(subdirs)))
-  pathlist:::paste_segments(subdirs, depths)
+  if (is.null(depths)) {
+
+    depths <- kwb.utils::catAndRun("Calculating path depths", dbg = dbg, {
+      rowSums(matrix(nzchar(subdirs), nrow = nrow(subdirs)))
+    })
+  }
+
+  kwb.utils::catAndRun("Pasting subdirectory names together", dbg = dbg, {
+    pathlist:::paste_segments(subdirs, depths)
+  })
 }
 
 # unify_net --------------------------------------------------------------------
@@ -180,4 +186,12 @@ prune_network <- function(network, depth = 2)
   network$edges <- edges[edge_nodes %in% node_ids, , drop = FALSE]
 
   network
+}
+
+# network_to_igraph ------------------------------------------------------------
+network_to_igraph <- function(network)
+{
+  edges <- kwb.utils::selectElements(network, "edges")
+
+  igraph::make_graph(t(edges), directed = FALSE)
 }
