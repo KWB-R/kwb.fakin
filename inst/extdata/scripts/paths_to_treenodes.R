@@ -41,6 +41,11 @@ if (FALSE)
   identical(unify_net(network_1), unify_net(network_2))
   #diffobj::diffStr(network_1, network_2)
 
+  net_1 <- prune_network(network_1)
+  net_2 <- prune_network(network_2)
+
+  identical(unify_net(net_1), unify_net(net_2))
+
   # Continue with either network
   network <- network_1
 
@@ -168,11 +173,18 @@ prune_network <- function(network, depth = 2)
   nodes <- kwb.utils::selectElements(network, "nodes")
   edges <- kwb.utils::selectElements(network, "edges")
 
-  stopifnot(is.matrix(edges), ncol(edges) >= 2)
+  edge_nodes <- if (is.matrix(edges)) {
+    stopifnot(ncol(edges) >= 2)
+    edges[, 2]
+  } else if (is.data.frame(edges)) {
+    kwb.utils::selectColumns(edges, "node")
+  } else {
+    stop("network$nodes must be a matrix or a data frame!", call. = FALSE)
+  }
 
   node_ids <- which(kwb.utils::selectColumns(nodes, "depth") <= depth)
 
-  network$edges <- edges[edges[, 2] %in% node_ids, ]
+  network$edges <- edges[edge_nodes %in% node_ids, , drop = FALSE]
 
   network
 }
