@@ -40,12 +40,14 @@ if (FALSE)
   identical(unify_net(net_1), unify_net(net_2))
 
   # Continue with either network
-  network <- network_1
+  network <- network_2
 
   # Prune the network at different maximal depths
-  nets <- lapply(2:5, function(depth) prune_network(network, depth = depth))
+  nets <- lapply(2:4, function(depth) prune_network(network, depth = depth))
 
   graphs <- lapply(nets, network_to_igraph)
+
+  plot(graphs[[3]])
 
   for (i in seq_along(graphs)) {
     net <- nets[[i]]
@@ -171,9 +173,16 @@ prune_network <- function(network, depth = 2)
 }
 
 # network_to_igraph ------------------------------------------------------------
-network_to_igraph <- function(network)
+network_to_igraph <- function(net)
 {
-  edges <- kwb.utils::selectElements(network, "edges")
+  #net <- nets[[1]]
 
-  igraph::make_graph(t(edges), directed = FALSE)
+  edges <- as.integer(as.matrix(kwb.utils::selectElements(net, "edges")))
+  nodes <- kwb.utils::selectElements(net, "nodes")[sort(unique(edges)), ]
+
+  node_names <- kwb.utils::selectColumns(nodes, "name")
+
+  g <- igraph::make_undirected_graph(edges)
+
+  igraph::set_vertex_attr(g, "name", value = node_names)
 }
