@@ -150,8 +150,12 @@ get_separator_positions <- function(
   stopifnot(is.character(paths))
   stopifnot(method %in% 1:2)
 
-  # If paths is a matrix (of subdirectory names) construct the list of slash
-  # positions from the lengths of the subdirectory names
+  # If paths is a matrix (of subdirectory names), do one of the following:
+  # - method 1: construct the list of slash positions from the lengths of
+  #   the subdirectory,
+  # - method 2: create full paths from the subdirectory names and continue as
+  #   if full paths were given
+
   if (is.matrix(paths)) {
 
     if (method == 1L) {
