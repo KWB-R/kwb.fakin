@@ -22,14 +22,7 @@ if (FALSE)
 {
   # Provide a matrix of subdirectory names
   #remotes::install_github("kwb-r/kwb.file@dev")
-  system.time(subdirs_1 <- kwb.file::to_subdir_matrix(paths, method = 1))
-  system.time(subdirs_2 <- kwb.file::to_subdir_matrix(paths, method = 2))
-
-  # Check the subdirectory matrices for identity
-  identical(subdirs_1, subdirs_2)
-
-  # Continue with either subdirectory matrix
-  subdirs <- subdirs_1
+  system.time(subdirs <- kwb.file::to_subdir_matrix(paths))
 
   # Number of rows = number of paths, number of columns = max depth level
   dim(subdirs)
