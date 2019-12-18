@@ -21,7 +21,7 @@ if (FALSE)
 
   #kwb.fakin:::store(paths, "paths_to_treenodes_2")
 
-  paths <- kwb.fakin:::restore("paths", 4)
+  paths <- kwb.fakin:::restore("paths")
 
   paths <- kwb.pathdict::random_paths()
 
@@ -74,12 +74,17 @@ if (FALSE)
 if (FALSE)
 {
   #backup <- network
-  #identical(`$<-`(network, "node_names", list()), backup)
+  #identical(network, backup)
+  system.time(network <- get_nodes_and_edges(paths, dbg = FALSE))
+  system.time(network_lists <- get_nodes_and_edges(paths, result_type = "lists"))
 
-  str(network)
-  str(backup)
+  check_network(network)
 
-  system.time(network <- get_nodes_and_edges(paths))
+  microbenchmark::microbenchmark(
+    v1 = get_nodes_and_edges(p, method = 1, dbg = FALSE),
+    v2 = get_nodes_and_edges(p, method = 2, dbg = FALSE),
+    check = "identical"
+  )
 
   kwb.utils::headtail(network$nodes)
   kwb.utils::headtail(network$edges)
@@ -141,7 +146,7 @@ get_leaves_in_depths <- function(paths, method = 1, dbg = TRUE)
 get_separator_positions <- function(paths, dbg = TRUE)
 {
   kwb.utils::catAndRun("Finding path separators", dbg = dbg, {
-    sep_pos <- gregexpr("/", paths, fixed = TRUE)
+    gregexpr("/", paths, fixed = TRUE)
   })
 }
 
@@ -189,28 +194,28 @@ reconstruct_paths <- function(x, depths = NULL)
 
 # get_nodes_and_edges ----------------------------------------------------------
 get_nodes_and_edges <- function(
-  paths, depths, result_type = "data.frames", dbg = TRUE#, method = 1
+  paths, depths, result_type = "data.frames", dbg = TRUE, method = 1
 )
 {
   stopifnot(is.character(paths))
   stopifnot(result_type %in% c("lists", "data.frames"))
-  #stopifnot(method %in% 1:2)
+  stopifnot(method %in% 1:2)
 
   kwb.utils::catIf(dbg, "Number of paths:", length(paths), "\n")
 
   # Remove "//" at the beginning to avoid empty fields after splittig
-  paths <- kwb.utils::catAndRun("Removing '//' at the beginning", dbg = dbg, {
-    gsub("^//(?=[^/])", "", paths, perl = TRUE)
-  })
+  paths <- remove_double_slash_left(paths, dbg = dbg)
+
+  # Store the lengths of all paths
+  path_lengths <- nchar(paths)
 
   # Get the positions of the slashes separating folder and file names
   sep_pos <- get_separator_positions(paths, dbg = dbg)
 
-  # Number of depth levels for each path
+  # Number of depth levels for each path (= number of slashes + 1)
   n_levels <- lengths(sep_pos) + 1L
 
-  # Maximal path depth (= number of slashes + 1)
-  #max_depth <- max(lengths(sep_pos)) + 1L
+  # Maximal depth level
   max_depth <- max(n_levels)
 
   offset <- 0L
@@ -233,8 +238,8 @@ get_nodes_and_edges <- function(
 
     is_leaf <- n_levels[in_depth] == depth
 
-    stop_pos <- integer(sum(in_depth))
-    stop_pos[is_leaf] <- nchar(paths[in_depth][is_leaf])
+    stop_pos <- integer(length(pos))
+    stop_pos[  is_leaf] <- path_lengths[in_depth][is_leaf]
     stop_pos[! is_leaf] <- unlist(lapply(pos[! is_leaf], "[", depth)) -1L
 
     stopifnot(all(stop_pos > 0))
@@ -242,8 +247,6 @@ get_nodes_and_edges <- function(
     subdirs <- substr(paths[in_depth], 1L, stop_pos)
 
     is_unique <- ! duplicated.default(subdirs)
-
-    node_paths <- subdirs[is_unique]
 
     parent_ids <- if (depth > 1) {
       unname(nodes[[depth - 1]][parents[in_depth][is_unique]])
@@ -253,34 +256,24 @@ get_nodes_and_edges <- function(
 
     parents[in_depth] <- subdirs
 
+    node_paths <- subdirs[is_unique]
+
     ids <- seq_along(node_paths) + offset
+
     offset <- offset + length(node_paths)
 
     nodes[[depth]] <- stats::setNames(ids, node_paths)
 
-    # start_pos <- if (depth > 1L) {
-    #   unlist(lapply(pos[is_unique], "[", depth - 1L)) + 1L
-    # } else {
-    #   1L
-    # }
-    #
-    # node_names[[depth]] <- substr(
-    #   paths[in_depth][is_unique], start_pos, stop_pos[is_unique]
-    # )
+    if (depth > 1L) {
 
-    node_names[[depth]] <- if (depth == 1L) {
-      node_paths
-    } else {
-      substr(
+      node_names[[depth]] <- substr(
         x = paths[in_depth][is_unique],
         start = unlist(lapply(pos[is_unique], "[", depth - 1L)) + 1L,
         stop = stop_pos[is_unique]
       )
-    }
 
-    edges[[depth]] <- if (depth > 1) {
-      cbind(node = ids, parent = parent_ids)
-    } # else NULL
+      edges[[depth]] <- cbind(node = ids, parent = parent_ids)
+    }
 
   } # next depth
 
@@ -296,7 +289,7 @@ get_nodes_and_edges <- function(
       nodes <- data.frame(
         id = as.integer(node_ids),
         depth = rep.int(seq_along(nodes), lengths(nodes)),
-        name = unlist(node_names),
+        name = c(names(nodes[[1]]), unlist(node_names[-1])),
         path = names(node_ids),
         stringsAsFactors = FALSE
       )
@@ -309,6 +302,14 @@ get_nodes_and_edges <- function(
     list(nodes = nodes, edges = edges),
     if (result_type == "lists") list(node_names = node_names)
   )
+}
+
+# remove_double_slash_left -----------------------------------------------------
+remove_double_slash_left <- function(paths, dbg = dbg)
+{
+  kwb.utils::catAndRun("Removing '//' at the beginning", dbg = dbg, {
+    gsub("^//(?=[^/])", "", paths, perl = TRUE)
+  })
 }
 
 # select_subtree ---------------------------------------------------------------
@@ -413,4 +414,22 @@ plot_network <- function(network, n_levels = 2L, cex = 0.6)
     vertex.label = vertex.label,
     vertex.label.cex = cex
   )
+}
+
+# check_network ----------------------------------------------------------------
+check_network <- function(network)
+{
+  nodes <- kwb.utils::selectElements(network, "nodes")
+  edges <- kwb.utils::selectElements(network, "edges")
+
+  stopifnot(all(edges$node %in% nodes$id))
+  stopifnot(all(edges$parent %in% nodes$id))
+  stopifnot(anyDuplicated(edges) == 0)
+  stopifnot(identical(nodes$id, seq_len(nrow(nodes))))
+
+  node_paths <- kwb.utils::selectColumns(nodes, "path")
+  node_names <- kwb.utils::selectColumns(nodes, "name")
+  path_lengths <- nchar(node_paths)
+  start <- path_lengths - nchar(node_names) + 1L
+  stopifnot(all(substr(node_paths, start, path_lengths) == node_names))
 }
