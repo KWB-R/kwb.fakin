@@ -2,8 +2,7 @@ test_that("store() works", {
 
   f <- kwb.fakin:::store
 
-  expect_error(f())
-
   xyz <- 1
-  capture.output(f(xyz, "my-script"))
+  capture.output(result <- f(xyz, "my-script"))
+  expect_identical(result, NULL)
 })

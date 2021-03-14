@@ -4,7 +4,7 @@ test_that("get_file_duplicates() works", {
 
   expect_error(f())
 
-  result <- f(c("folder1/c", "folder2/c"), pattern = "c$")
+  capture.output(result <- f(c("folder1/c", "folder2/c"), pattern = "c$"))
 
   expect_is(result, "list")
   expect_identical(names(result), "c")

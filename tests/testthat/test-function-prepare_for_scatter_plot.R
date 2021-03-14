@@ -21,10 +21,10 @@ test_that("prepare_for_scatter_plot2() works", {
 
   expect_error(f())
 
-  file_data <- pathlist::pathlist(
-    c("a/b/c", "a/b/d"),
-    data = data.frame(size = c(1, 2), type = "file")
-  )
+  capture.output(file_data <- pathlist::pathlist(
+    c("a/b/c", "a/b/d", "a/c/d"),
+    data = data.frame(size = 1:3, type = "file")
+  ))
 
   file_data2 <- file_data
   file_data2@data$type <- "directory"
