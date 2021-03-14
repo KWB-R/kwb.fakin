@@ -11,5 +11,5 @@ test_that("writePathsToFiles() works", {
 
   file <- tempfile(fileext = ".txt")
 
-  f(xall, file = file)
+  capture.output(f(xall, file = file))
 })

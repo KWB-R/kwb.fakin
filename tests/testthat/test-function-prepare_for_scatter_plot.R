@@ -10,9 +10,9 @@ test_that("prepare_for_scatter_plot() works", {
     type = c("file", "file")
   )
 
-  f(file_data = file_data, n_root_parts = 1)
-  f(file_data = file_data, n_root_parts = 1, min_depth = 1)
-  f(file_data = file_data, n_root_parts = 1, start_path = "a")
+  capture.output(f(file_data = file_data, n_root_parts = 1))
+  capture.output(f(file_data = file_data, n_root_parts = 1, min_depth = 1))
+  capture.output(f(file_data = file_data, n_root_parts = 1, start_path = "a"))
 })
 
 test_that("prepare_for_scatter_plot2() works", {
@@ -22,7 +22,8 @@ test_that("prepare_for_scatter_plot2() works", {
   expect_error(f())
 
   file_data <- pathlist::pathlist(
-    c("a/b/c", "a/b/d"), data = data.frame(size = c(1, 2), type = "file")
+    c("a/b/c", "a/b/d"),
+    data = data.frame(size = c(1, 2), type = "file")
   )
 
   file_data2 <- file_data

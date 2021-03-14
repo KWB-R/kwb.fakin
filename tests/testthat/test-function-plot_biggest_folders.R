@@ -8,8 +8,7 @@ test_that("plot_biggest_folders() works", {
     system.file(package = "kwb.fakin"), full.names = TRUE, recursive = TRUE
   )
 
-  tree <- kwb.fakin:::to_tree(x = paths)
+  capture.output(tree <- kwb.fakin:::to_tree(x = paths))
 
   f(tree, to_pdf = FALSE)
 })
-

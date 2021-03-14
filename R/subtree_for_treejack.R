@@ -6,7 +6,7 @@ subtree_for_treejack <- function(
 )
 {
   # root must end in "/"
-  root <- fakin.path.app:::check_or_set_ending_slash(root)
+  root <- kwb.utils::assertFinalSlash(root)
 
   # If no file is given, read paths based on root
   if (is.null(paths) && is.null(file)) {

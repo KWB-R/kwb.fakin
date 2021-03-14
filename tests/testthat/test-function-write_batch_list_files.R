@@ -6,7 +6,9 @@ test_that("write_batch_list_files() works", {
 
   output_file <- "output.txt"
 
-  f(root = system.file(package = "kwb.fakin"), output_file = output_file)
+  capture.output(f(
+    root = system.file(package = "kwb.fakin"), output_file = output_file
+  ))
 
   batchlines <- readLines(file.path(tempdir(), "list_files.bat"))
 

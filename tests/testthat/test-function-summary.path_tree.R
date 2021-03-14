@@ -4,5 +4,7 @@ test_that("summary.path_tree() works", {
 
   expect_error(f())
 
-  f(kwb.fakin:::to_tree(c("a/b", "a/b/c")))
+  capture.output(tree <- kwb.fakin:::to_tree(c("a/b", "a/b/c")))
+
+  f(tree)
 })

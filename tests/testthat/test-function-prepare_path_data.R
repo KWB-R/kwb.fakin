@@ -6,6 +6,6 @@ test_that("prepare_path_data() works", {
 
   path_info <- data.frame(path = "a", size = 1, type = "file")
 
-  f(path_info)
-  f(path_info, pattern = "a")
+  capture.output(f(path_info))
+  capture.output(f(path_info, pattern = "a"))
 })

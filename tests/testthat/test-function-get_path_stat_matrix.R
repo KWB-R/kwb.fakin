@@ -6,5 +6,5 @@ test_that("get_path_stat_matrix() works", {
 
   project_folder <- system.file(package = "kwb.fakin")
 
-  f(project_folder, template_folders = c("a", "b"))
+  capture.output(f(project_folder, template_folders = c("a", "b")))
 })

@@ -6,7 +6,7 @@ test_that("tree_to_text() works", {
 
   expect_null(f(list()))
 
-  tree <- kwb.fakin:::to_tree(c("a/b", "a/b/c", "a/b/c/d"))
+  capture.output(tree <- kwb.fakin:::to_tree(c("a/b", "a/b/c", "a/b/c/d")))
 
   f(tree)
 })

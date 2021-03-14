@@ -7,10 +7,12 @@ test_that("build_folders_from_file() works", {
   writeLines(paths, file <- tempfile())
 
   # Create a temporary target directory
-  target_dir <- kwb.utils::createDirectory(file.path(tempdir(), "test"))
+  target_dir <- kwb.utils::createDirectory(
+    file.path(tempdir(), "test"), dbg = FALSE
+  )
 
   # Create the folder structure as defined by the paths in the temporary file
-  kwb.fakin::build_folders_from_file(file, target_dir)
+  capture.output(kwb.fakin::build_folders_from_file(file, target_dir))
 
   # List the directory paths below the target directory
   paths_reread <- list.dirs(target_dir, recursive = TRUE, full.names = FALSE)

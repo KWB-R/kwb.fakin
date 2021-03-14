@@ -4,7 +4,11 @@ test_that("get_depth_summaries() works", {
 
   expect_error(f())
 
-  file_data <- kwb.utils::noFactorDataFrame(path = "a", size = 1, type = "file")
+  file_data <- kwb.utils::noFactorDataFrame(
+    path = "a",
+    size = 1,
+    type = "file"
+  )
 
-  f(file_data, project_dir = "a")
+  capture.output(result <- f(file_data, project_dir = "a"))
 })

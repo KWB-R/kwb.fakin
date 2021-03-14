@@ -12,11 +12,14 @@ test_that("createLocalProject() works", {
     "WWT_Department/PROJECTS/d"
   )))
 
-  expect_error(f())
-  expect_error(f("x"))
+  # Shortcut
+  capture <- capture.output
 
-  f("a")
-  f("b")
+  expect_error(f())
+  expect_error(capture(f("x")))
+
+  capture(f("a"))
+  capture(f("b"))
 
   targetdir <- file.path(kwb.utils::get_homedir(), "Documents", "Projekte")
 

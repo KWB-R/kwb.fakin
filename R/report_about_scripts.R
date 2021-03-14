@@ -33,7 +33,7 @@ report_about_r_scripts <- function(
 
   rmd_source <- c(
     kwb.prep:::rmd_intro("R Script Analysis"),
-    code_to_r_block("plot_row_numbers(params$script_info)"),
+    code_to_r_block("kwb.fakin:::plot_row_numbers(params$script_info)"),
     "",
     "# Overview of Scripts and Functions",
     "",

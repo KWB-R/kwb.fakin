@@ -6,5 +6,10 @@ test_that("report_about_r_scripts() works", {
 
   expect_error(f())
 
-  f(root = system.file("extdata", package = "kwb.fakin"), show = FALSE)
+  capture.output(
+    result <- f(
+      root = system.file("extdata", package = "kwb.fakin"),
+      show = FALSE
+    )
+  )
 })

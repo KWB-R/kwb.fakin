@@ -4,7 +4,7 @@ author: "Hauke Sonnenberg"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Tracking Changes in Folder Structuers}
+  %\VignetteIndexEntry{Tracking Changes in Folder Structures}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

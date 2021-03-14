@@ -3,9 +3,9 @@ test_that("clear_storage() works", {
   f <- kwb.fakin:::clear_storage
 
   expect_error(f())
-  f("abc")
+  expect_output(f("abc"), "No objects")
 
   xyz <- 1
-  kwb.fakin:::store(xyz, script = "testscript")
-  f("xyz")
+  capture.output(kwb.fakin:::store(xyz, script = "testscript"))
+  expect_output(f("xyz"), "Deleting")
 })

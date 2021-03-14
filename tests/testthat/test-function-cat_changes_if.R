@@ -4,5 +4,5 @@ test_that("cat_changes_if() works", {
 
   expect_error(f())
 
-  f(TRUE, 1:2, 2:3)
+  capture.output(f(TRUE, 1:2, 2:3))
 })

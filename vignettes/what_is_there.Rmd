@@ -2,7 +2,7 @@
 title: "What is in the package?"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{what_is_there}
+  %\VignetteIndexEntry{What is in the package?}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 

@@ -6,7 +6,7 @@ test_that("flatten_tree() works", {
 
   paths <- c("a/b", "a/c", "a/d/e/f")
 
-  tree <- kwb.fakin:::to_tree(paths)
+  capture.output(tree <- kwb.fakin:::to_tree(paths))
 
   expect_identical(f(paths), paths)
   expect_identical(f(tree), paths)

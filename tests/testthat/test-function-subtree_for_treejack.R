@@ -1,6 +1,9 @@
 test_that("subtree_for_treejack() works", {
 
-  f <- kwb.fakin:::subtree_for_treejack
+  f <- function(...) {
+    capture.output(result <- kwb.fakin:::subtree_for_treejack(...))
+    result
+  }
 
   expect_error(f())
 
