@@ -113,6 +113,10 @@ all_path_levels <- function(path)
 # to_leaf_matrix ---------------------------------------------------------------
 to_leaf_matrix <- function(subdirs)
 {
+  if (! is.matrix(subdirs)) {
+    subdirs <- matrix(subdirs)
+  }
+
   t(apply(subdirs, 1, function(row) {
 
     i_last <- max(which(row != ""))
