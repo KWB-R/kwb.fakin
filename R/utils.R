@@ -96,7 +96,7 @@ extend_each_element <- function(x, ...)
 # fails ------------------------------------------------------------------------
 fails <- function(expr)
 {
-  inherits(try(expr), "try-error")
+  inherits(try(expr, silent = TRUE), "try-error")
 }
 
 # indentation ------------------------------------------------------------------
