@@ -87,7 +87,8 @@ get_rmd_per_script <- function(all_function_info, scripts)
         "These functions contain the following numbers of expressions:",
         "",
         code_to_r_block(sprintf(
-          "plot_expression_numbers(params$all_function_info, \"%s\")", script
+          "kwb.fakin:::plot_expression_numbers(%s, \"%s\")",
+          "params$all_function_info", script
         ))
       )
 
