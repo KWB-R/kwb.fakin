@@ -13,7 +13,8 @@ read_path_information(file_info_dir, pattern = "^path-info", ...)
 \item{pattern}{pattern to match against the file names to be read. Default:
 "^path-info"}
 
-\item{\dots}{further arguments passed to \code{\link{read_file_paths}}}
+\item{\dots}{further arguments passed to
+\code{\link[fakin.path.app]{read_file_paths}}}
 }
 \description{
 Read Files Containing File Path Information from Folder
@@ -26,7 +27,7 @@ root_dir <- system.file(package = "kwb.fakin")
 output_dir <- tempdir()
 
 # Write all paths below root_dir into a "path-info"-file
-kwb.fakin::get_and_save_file_info(root_dir, output_dir)
+fakin.path.app::get_and_save_file_info(root_dir, output_dir)
 
 # Read the "path-info"-files that are (now) found in output_dir
 path_info <- kwb.fakin:::read_path_information(output_dir)

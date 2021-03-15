@@ -55,20 +55,20 @@ You can then use the `plot_path_network()` function from the kwb.fakin package
 to plot the example paths defined above:
 
 ```{r}
-kwb.fakin::plot_path_network(paths)
+fakin.path.app::plot_path_network(paths)
 ```
 
 The function accepts all arguments provided by `networkD3::sankeyNetwork()`.
 You may e.g. use the argument `fontSize` to increase the node labels:
 
 ```{r}
-kwb.fakin::plot_path_network(paths, fontSize = 16)
+fakin.path.app::plot_path_network(paths, fontSize = 16)
 ```
 
 Let's always use this font size by defining a short helper function:
 
 ```{r}
-plot_16pt <- function(...) kwb.fakin::plot_path_network(..., fontSize = 16)
+plot_16pt <- function(...) fakin.path.app::plot_path_network(..., fontSize = 16)
 ```
 
 By default only the first three levels of folders or files are shown. You can
@@ -125,7 +125,7 @@ that are contained in the corresponding folder and all of its subfolders. The
 colour indicates the total size of files that are contained in the folders.
 
 ```{r echo = FALSE}
-kwb.fakin::plot_treemaps_from_path_data(file_info, as_png = FALSE)
+fakin.path.app::plot_treemaps_from_path_data(file_info, as_png = FALSE)
 ```
 
 By default the plots are saved to png files in the temporary directory. To let
@@ -199,7 +199,7 @@ You can plot the sub-tree by passing it directly to `plot_path_network`, or here
 to our helper function, without prior conversion:
 
 ```{r}
-plot_16pt(subtree)
+plot_16pt(kwb.fakin:::flatten_tree(subtree))
 ```
 
 ## Quality of File and Folder Names

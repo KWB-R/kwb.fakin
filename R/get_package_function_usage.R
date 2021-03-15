@@ -149,7 +149,7 @@ filter_for_package_functions <- function(frequency_data, package)
     paste0(package, ":::", package_functions)
   ))
 
-  result <- frequency_data[frequency_data$name %in% functions, ]
+  result <- frequency_data[frequency_data$name %in% functions, , drop = FALSE]
 
   if (nrow(result) > 0) {
 
@@ -166,7 +166,7 @@ digest_package_specifier <- function(ff)
 {
   kwb.utils::checkForMissingColumns(ff, c("script", "name", "count"))
 
-  parts <- strsplit(ff$name, ":::?")
+  parts <- strsplit(as.character(ff$name), ":::?")
 
   is_explicit <- lengths(parts) > 1
 

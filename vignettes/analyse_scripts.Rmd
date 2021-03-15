@@ -96,10 +96,10 @@ on all files that are below a certain root folder:
 root_dir <- system.file(package = "kwb.fakin")
 
 # Get information on all files in this directory
-file_info <- kwb.fakin::get_recursive_file_info(root_dir)
+file_info <- fakin.path.app::get_recursive_file_info(root_dir)
 
 # Get information on R scripts only...
-file_info_scripts <- kwb.fakin::get_recursive_file_info(root_dir, "[.]R$")
+file_info_scripts <- fakin.path.app::get_recursive_file_info(root_dir, "[.]R$")
 
 print(utils::sessionInfo())
 

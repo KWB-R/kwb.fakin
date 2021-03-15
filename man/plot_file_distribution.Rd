@@ -4,8 +4,7 @@
 \alias{plot_file_distribution}
 \title{Plot Distributions of Files in Folder Depths and Name Summaries}
 \usage{
-plot_file_distribution(file_data, start_path, n_root_parts, ...,
-  to_pdf = TRUE)
+plot_file_distribution(file_data, start_path, n_root_parts, ..., to_pdf = TRUE)
 }
 \arguments{
 \item{file_data}{data frame with columns \code{path}, \code{type},

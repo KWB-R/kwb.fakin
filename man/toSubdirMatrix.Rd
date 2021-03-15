@@ -4,8 +4,7 @@
 \alias{toSubdirMatrix}
 \title{Deprecated.}
 \usage{
-toSubdirMatrix(paths, fill.value = "", result_type = "matrix",
-  dbg = TRUE)
+toSubdirMatrix(paths, fill.value = "", result_type = "matrix", dbg = TRUE)
 }
 \arguments{
 \item{paths}{vector of path strings}

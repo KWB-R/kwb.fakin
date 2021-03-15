@@ -18,7 +18,7 @@ str(files)
 if (FALSE)
 {
   metadata_list <- kwb.fakin:::extend_each_element(
-    lapply(files, kwb.fakin:::guess_file_metadata, n_first_rows = 10),
+    lapply(files, fakin.path.app:::guess_file_metadata, n_first_rows = 10),
     encoding = "ISO-8859-1",
     encoding_fread = "Latin-1"
   )
@@ -27,7 +27,9 @@ if (FALSE)
   do.call(rbind, metadata_list)
 
   contents <- lapply(seq_along(files), function(i) {
-    kwb.fakin::read_file_paths(file = files[[i]], metadata = metadata_list[[i]])
+    fakin.path.app::read_file_paths(
+      file = files[[i]], metadata = metadata_list[[i]]
+    )
   })
 
   contents <- kwb.utils::excludeNULL(contents)
@@ -43,11 +45,11 @@ if (FALSE)
 {
   file <- files$files_desktop_powershell
 
-  path_data <- kwb.fakin::read_file_paths(file)
+  path_data <- fakin.path.app::read_file_paths(file)
 
   table(path_data$type)
 
-  #kwb.fakin::plot_treemaps_from_path_data(path_data) # -> error
+  #fakin.path.app::plot_treemaps_from_path_data(path_data) # -> error
 }
 
 # MAIN 3 -----------------------------------------------------------------------
@@ -59,7 +61,7 @@ if (FALSE)
 
   path_info_2 <- lapply(
     files[grepl("^path-info_", names(files))],
-    kwb.fakin::read_file_paths
+    fakin.path.app::read_file_paths
   )
 
   # Check identity of the results
@@ -72,7 +74,7 @@ if (FALSE)
 if (FALSE)
 {
   file <- files$files_hauke
-  file_info <- kwb.fakin::read_file_paths(file)
+  file_info <- fakin.path.app::read_file_paths(file)
   str(file_info)
   # 'data.frame':	164629 obs. of  18 variables:
   # $ path             : chr  "Y:/SUW_Department/Bibliographie" "Y:/SUW_Department/Bibliographie/Abwasserbeseitigungsplan_Berlin" "Y:/SUW_Department/Bibliographie/Abwasserbeseitigungsplan_Berlin/AB-Plan0.pdf" "Y:/SUW_Department/Bibliographie/Abwasserbeseitigungsplan_Berlin/AB-Plan1.pdf" ...

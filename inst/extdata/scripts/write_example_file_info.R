@@ -36,7 +36,7 @@ stopifnot(basename(getwd()) == "kwb.fakin")
 # Helper function
 path <- function(x) file.path("inst/extdata", x)
 
-kwb.fakin::write_csv(full_info, path("example_file_info_1.csv"))
+fakin.path.app::write_csv(full_info, path("example_file_info_1.csv"))
 
 file_info <- kwb.fakin::read_file_info(path("example_file_info_1.csv"))
 

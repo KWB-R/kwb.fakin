@@ -6,7 +6,7 @@ subtree_for_treejack <- function(
 )
 {
   # root must end in "/"
-  root <- check_or_set_ending_slash(root)
+  root <- kwb.utils::assertFinalSlash(root)
 
   # If no file is given, read paths based on root
   if (is.null(paths) && is.null(file)) {
@@ -113,6 +113,10 @@ all_path_levels <- function(path)
 # to_leaf_matrix ---------------------------------------------------------------
 to_leaf_matrix <- function(subdirs)
 {
+  if (! is.matrix(subdirs)) {
+    subdirs <- matrix(subdirs)
+  }
+
   t(apply(subdirs, 1, function(row) {
 
     i_last <- max(which(row != ""))

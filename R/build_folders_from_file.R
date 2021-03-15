@@ -37,7 +37,9 @@ build_folders_from_file <- function(
 {
   #pattern = NULL; max_depth = NULL; encoding = "Latin-1"
   #kwb.utils::assignPackageObjects("kwb.fakin")
-  paths_raw <- read_paths_(file, do_sort = FALSE, encoding = encoding)
+  paths_raw <- fakin.path.app:::read_paths_(
+    file, do_sort = FALSE, encoding = encoding
+  )
 
   path_list <- pathlist::pathlist(if (is.null(pattern)) {
     paths_raw

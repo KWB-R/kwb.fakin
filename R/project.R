@@ -17,7 +17,7 @@ createLocalProject <- function(project)
 
   index <- grep(paste0("/", project, "$"), paths)
 
-  projects <- sapply(kwb.file::split_paths(paths), kwb.utils::lastElement())
+  projects <- sapply(kwb.file::split_paths(paths), kwb.utils::lastElement)
 
   if (length(index) == 0) {
 

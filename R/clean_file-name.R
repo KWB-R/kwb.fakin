@@ -1,75 +1,7 @@
-if (FALSE)
-{
-  #paths <- readLines(file, encoding = "ISO-8859-1")
-  paths <- readLines(file, encoding = "latin1")
-  catLines(paths[1:100])
-
-  table(Encoding(paths))
-
-  # basename() removes the information on the Encoding!
-  table(Encoding(file_names_raw <- basename(paths)))
-
-  file_names <- file_names_raw
-
-  # Neglect files starting or ending with "~" (backup files?)
-  file_names <- file_names[! grepl("^~|~$|~\\d+[.]PDF$|[.]~FL$", file_names)]
-
-  file_names <- get_non_standard_names(file_names)
-  length(file_names)
-  head(file_names, 100)
-
-  file_names <- clean_file_name(file_names)
-
-  x <- file_names[20]
-
-  get_special_character_info(file_names[17], bytes_per_char = 2)
-
-  # Use restoreEncoding to keep the declared Encodings
-  table(Encoding(file_names_old <- restoreEncoding(paths, basename)))
-
-  table(name_is_ok(file_names_old))
-
-  file_names <- file_names_old
-
-  length(file_names)
-
-  kwb.utils::catLines(sort_unique(file_names[non_standard]))
-
-  file_names <- standardise_file_names(file_names)
-}
-
 # get_non_standard_names -------------------------------------------------------
 get_non_standard_names <- function(x)
 {
-  x[! name_is_ok(x)]
-}
-
-# name_is_ok -------------------------------------------------------------------
-
-#' Is the Name Ok According to Our Best Practices?
-#'
-#' @param x vector of character
-#' @param mildness level of mildness. 1: not mild, all characters must be
-#'   hyphen or alphanumeric or dot or underscore, 2: more mild, all characters
-#'   must be one of the above or space
-#' @export
-#'
-#' @return vector of logical as long as \code{x}
-#'
-#' @examples
-#' name_is_ok(c("a", "$", ".", " "))
-#' name_is_ok(c("a", "$", ".", " "), mildness = 2)
-#'
-name_is_ok <- function(x, mildness = 1)
-{
-  stopifnot(mildness %in% 1:2)
-
-  patterns <- list(
-    "^[-A-Za-z0-9._]+$",
-    "^[-A-Za-z0-9._ ]+$"
-  )
-
-  grepl(patterns[[mildness]], x)
+  x[! fakin.path.app::name_is_ok(x)]
 }
 
 # clean_file_name --------------------------------------------------------------

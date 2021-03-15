@@ -1,5 +1,5 @@
-[![Appveyor build Status](https://ci.appveyor.com/api/projects/status/18p0ui3jcdm5lqw9/branch/master?svg=true)](https://ci.appveyor.com/project/KWB-R/kwb-fakin/branch/master)
-[![Travis build Status](https://travis-ci.org/KWB-R/kwb.fakin.svg?branch=master)](https://travis-ci.org/KWB-R/kwb.fakin)
+[![R-CMD-check](https://github.com/KWB-R/kwb.fakin/workflows/R-CMD-check/badge.svg)](https://github.com/KWB-R/kwb.fakin/actions?query=workflow%3AR-CMD-check)
+[![pkgdown](https://github.com/KWB-R/kwb.fakin/workflows/pkgdown/badge.svg)](https://github.com/KWB-R/kwb.fakin/actions?query=workflow%3Apkgdown)
 [![codecov](https://codecov.io/github/KWB-R/kwb.fakin/branch/master/graphs/badge.svg)](https://codecov.io/github/KWB-R/kwb.fakin)
 [![Project Status](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/kwb.fakin)]()
@@ -10,7 +10,7 @@ This package contains all functions and evaluations related to KWB project
 
 ## Installation
 
-```{r echo = TRUE, eval = FALSE}
+```r
 #install.packages("devtools", repos = "https://cloud.r-project.org")
 devtools::install_github("KWB-R/kwb.fakin")
 ```

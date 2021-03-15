@@ -4,8 +4,13 @@
 \alias{build_folders_from_file}
 \title{Create Folder Structure from Paths in File}
 \usage{
-build_folders_from_file(file, target_dir, pattern = NULL,
-  max_depth = NULL, encoding = "Latin-1")
+build_folders_from_file(
+  file,
+  target_dir,
+  pattern = NULL,
+  max_depth = NULL,
+  encoding = "Latin-1"
+)
 }
 \arguments{
 \item{file}{path to file containing path strings}

@@ -49,5 +49,5 @@ if (FALSE)
   writeLines(paths)
 
   # Plot the folder network
-  plot_path_network(paths, max_depth = 3, fontSize = 12)
+  fakin.path.app::plot_path_network(paths, max_depth = 3, fontSize = 12)
 }
