@@ -22,6 +22,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -40,12 +42,6 @@
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -79,7 +75,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/kwb-r/kwb.fakin/">
+  <a href="https://github.com/kwb-r/kwb.fakin/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -100,15 +96,15 @@
 
       
 
-      </header><script src="working_with_paths_files/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="working_with_paths_files/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="working_with_paths_files/d3-4.5.0/d3.min.js"></script><script src="working_with_paths_files/sankey-1/sankey.js"></script><script src="working_with_paths_files/sankeyNetwork-binding-0.4/sankeyNetwork.js"></script><div class="row">
+      </header><script src="working_with_paths_files/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="working_with_paths_files/htmlwidgets-1.5.4/htmlwidgets.js"></script><script src="working_with_paths_files/d3-4.5.0/d3.min.js"></script><script src="working_with_paths_files/sankey-1/sankey.js"></script><script src="working_with_paths_files/sankeyNetwork-binding-0.4/sankeyNetwork.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Working with Paths</h1>
-                        <h4 class="author">Hauke Sonnenberg</h4>
+                        <h4 data-toc-skip class="author">Hauke Sonnenberg</h4>
             
-            <h4 class="date">2021-03-15</h4>
+            <h4 data-toc-skip class="date">2021-12-21</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/kwb-r/kwb.fakin/blob/master/vignettes/working_with_paths.Rmd"><code>vignettes/working_with_paths.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/kwb-r/kwb.fakin/blob/HEAD/vignettes/working_with_paths.Rmd" class="external-link"><code>vignettes/working_with_paths.Rmd</code></a></small>
       <div class="hidden name"><code>working_with_paths.Rmd</code></div>
 
     </div>
@@ -117,12 +113,12 @@
     
 <p>In our FAKIN project we want to improve the (research) data management at KWB. We realised that we have difficulties in finding files. One reason is that our folder structures differ between the projects and they are often not intuitive at all.</p>
 <p>This package contains functions that help analysing folder structures.</p>
-<div id="providing-file-path-information" class="section level2">
-<h2 class="hasAnchor">
-<a href="#providing-file-path-information" class="anchor"></a>Providing File Path Information</h2>
+<div class="section level2">
+<h2 id="providing-file-path-information">Providing File Path Information<a class="anchor" aria-label="anchor" href="#providing-file-path-information"></a>
+</h2>
 <p>Assume we have a vector of file paths. It may have been read from a file that was created by redirecting the output of the <code>dir</code> command in the Windows Command Window to a file (<code>dir /s /b &gt; paths.txt</code>).</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">paths</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
+<code class="sourceCode R"><span class="va">paths</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>
   <span class="st">"project-1/wp-1/input/file 1.csv"</span>,
   <span class="st">"project-1/wp-1/input/file-2.csv"</span>,
   <span class="st">"project-1/wp-1/analysis/summary.pdf"</span>,
@@ -134,254 +130,252 @@
   <span class="st">"project-2/Berichte/bericht-2.doc"</span>
 <span class="op">)</span></code></pre></div>
 </div>
-<div id="plotting-paths" class="section level2">
-<h2 class="hasAnchor">
-<a href="#plotting-paths" class="anchor"></a>Plotting Paths</h2>
-<p>Let’s get a first impression on the paths defined above by plotting them. We provide a plot function that uses the <code><a href="https://rdrr.io/pkg/networkD3/man/sankeyNetwork.html">sankeyNetwork()</a></code> function from the networkD3 package. Make sure that this package is installed:</p>
+<div class="section level2">
+<h2 id="plotting-paths">Plotting Paths<a class="anchor" aria-label="anchor" href="#plotting-paths"></a>
+</h2>
+<p>Let’s get a first impression on the paths defined above by plotting them. We provide a plot function that uses the <code><a href="https://rdrr.io/pkg/networkD3/man/sankeyNetwork.html" class="external-link">sankeyNetwork()</a></code> function from the networkD3 package. Make sure that this package is installed:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="st"><a href="https://CRAN.R-project.org/package=networkD3">"networkD3"</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
+<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://CRAN.R-project.org/package=networkD3" class="external-link">"networkD3"</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
   
-  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"networkD3"</span>, repos <span class="op">=</span> <span class="st">"https://cloud.r-project.org"</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"networkD3"</span>, repos <span class="op">=</span> <span class="st">"https://cloud.r-project.org"</span><span class="op">)</span>
 <span class="op">}</span></code></pre></div>
-<pre><code>## Loading required package: networkD3</code></pre>
+<pre><code><span class="co">## Loading required package: networkD3</span></code></pre>
 <p>You can then use the <code>plot_path_network()</code> function from the kwb.fakin package to plot the example paths defined above:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">fakin.path.app</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/fakin.path.app/man/plot_path_network.html">plot_path_network</a></span><span class="op">(</span><span class="va">paths</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-d43e8fabf5af0109a7e0" style="width:700px;height:162px;" class="sankeyNetwork html-widget"></div>
-<script type="application/json" data-for="htmlwidget-d43e8fabf5af0109a7e0">{"x":{"links":{"source":[0,0,0,1,1,2,3,3,4,5,6,2,6],"target":[3,5,4,6,2,7,8,9,10,11,12,13,14],"value":[2,1,1,2,3,1,1,1,1,1,1,2,1]},"nodes":{"name":["project-2","project-1","wp-1","Berichte","Grafiken","Daten","wp 2","analysis","bericht-1.doc","bericht-2.doc","file 1.png","file-1.csv","input","input","output"],"group":["green","green","green","green","green","green","yellow","green","green","green","yellow","green","green","green","green"]},"options":{"NodeID":"name","NodeGroup":"colour","LinkGroup":null,"colourScale":"d3.scaleOrdinal() .domain(['green', 'yellow']) .range(['green', 'yellow'])","fontSize":7,"fontFamily":null,"nodeWidth":15,"nodePadding":8,"units":"","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":false}},"evals":[],"jsHooks":[]}</script><p>The function accepts all arguments provided by <code><a href="https://rdrr.io/pkg/networkD3/man/sankeyNetwork.html">networkD3::sankeyNetwork()</a></code>. You may e.g. use the argument <code>fontSize</code> to increase the node labels:</p>
+<code class="sourceCode R"><span class="fu">fakin.path.app</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/fakin.path.app/man/plot_path_network.html" class="external-link">plot_path_network</a></span><span class="op">(</span><span class="va">paths</span><span class="op">)</span></code></pre></div>
+<div id="htmlwidget-b9b1278f459aff25e65e" style="width:700px;height:162px;" class="sankeyNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b9b1278f459aff25e65e">{"x":{"links":{"source":[0,0,0,1,1,2,3,3,4,5,6,2,6],"target":[3,5,4,6,2,7,8,9,10,11,12,13,14],"value":[2,1,1,2,3,1,1,1,1,1,1,2,1]},"nodes":{"name":["project-2","project-1","wp-1","Berichte","Grafiken","Daten","wp 2","analysis","bericht-1.doc","bericht-2.doc","file 1.png","file-1.csv","input","input","output"],"group":["green","green","green","green","green","green","yellow","green","green","green","yellow","green","green","green","green"]},"options":{"NodeID":"name","NodeGroup":"colour","LinkGroup":null,"colourScale":"d3.scaleOrdinal() .domain(['green', 'yellow']) .range(['green', 'yellow'])","fontSize":7,"fontFamily":null,"nodeWidth":15,"nodePadding":8,"units":"","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":false}},"evals":[],"jsHooks":[]}</script><p>The function accepts all arguments provided by <code><a href="https://rdrr.io/pkg/networkD3/man/sankeyNetwork.html" class="external-link">networkD3::sankeyNetwork()</a></code>. You may e.g. use the argument <code>fontSize</code> to increase the node labels:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">fakin.path.app</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/fakin.path.app/man/plot_path_network.html">plot_path_network</a></span><span class="op">(</span><span class="va">paths</span>, fontSize <span class="op">=</span> <span class="fl">16</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-4a8e94927d039f7a0b10" style="width:700px;height:162px;" class="sankeyNetwork html-widget"></div>
-<script type="application/json" data-for="htmlwidget-4a8e94927d039f7a0b10">{"x":{"links":{"source":[0,0,0,1,1,2,3,3,4,5,6,2,6],"target":[3,5,4,6,2,7,8,9,10,11,12,13,14],"value":[2,1,1,2,3,1,1,1,1,1,1,2,1]},"nodes":{"name":["project-2","project-1","wp-1","Berichte","Grafiken","Daten","wp 2","analysis","bericht-1.doc","bericht-2.doc","file 1.png","file-1.csv","input","input","output"],"group":["green","green","green","green","green","green","yellow","green","green","green","yellow","green","green","green","green"]},"options":{"NodeID":"name","NodeGroup":"colour","LinkGroup":null,"colourScale":"d3.scaleOrdinal() .domain(['green', 'yellow']) .range(['green', 'yellow'])","fontSize":16,"fontFamily":null,"nodeWidth":15,"nodePadding":8,"units":"","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":false}},"evals":[],"jsHooks":[]}</script><p>Let’s always use this font size by defining a short helper function:</p>
+<code class="sourceCode R"><span class="fu">fakin.path.app</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/fakin.path.app/man/plot_path_network.html" class="external-link">plot_path_network</a></span><span class="op">(</span><span class="va">paths</span>, fontSize <span class="op">=</span> <span class="fl">16</span><span class="op">)</span></code></pre></div>
+<div id="htmlwidget-0844233c2aca2f4e8cb9" style="width:700px;height:162px;" class="sankeyNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0844233c2aca2f4e8cb9">{"x":{"links":{"source":[0,0,0,1,1,2,3,3,4,5,6,2,6],"target":[3,5,4,6,2,7,8,9,10,11,12,13,14],"value":[2,1,1,2,3,1,1,1,1,1,1,2,1]},"nodes":{"name":["project-2","project-1","wp-1","Berichte","Grafiken","Daten","wp 2","analysis","bericht-1.doc","bericht-2.doc","file 1.png","file-1.csv","input","input","output"],"group":["green","green","green","green","green","green","yellow","green","green","green","yellow","green","green","green","green"]},"options":{"NodeID":"name","NodeGroup":"colour","LinkGroup":null,"colourScale":"d3.scaleOrdinal() .domain(['green', 'yellow']) .range(['green', 'yellow'])","fontSize":16,"fontFamily":null,"nodeWidth":15,"nodePadding":8,"units":"","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":false}},"evals":[],"jsHooks":[]}</script><p>Let’s always use this font size by defining a short helper function:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">plot_16pt</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="fu">fakin.path.app</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/fakin.path.app/man/plot_path_network.html">plot_path_network</a></span><span class="op">(</span><span class="va">...</span>, fontSize <span class="op">=</span> <span class="fl">16</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">plot_16pt</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="fu">fakin.path.app</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/fakin.path.app/man/plot_path_network.html" class="external-link">plot_path_network</a></span><span class="op">(</span><span class="va">...</span>, fontSize <span class="op">=</span> <span class="fl">16</span><span class="op">)</span></code></pre></div>
 <p>By default only the first three levels of folders or files are shown. You can increase (or decrease) the number of shown levels by setting the <code>max_depth</code> argument:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">plot_16pt</span><span class="op">(</span><span class="va">paths</span>, max_depth <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-604a2033b1ebfd0e389b" style="width:700px;height:162px;" class="sankeyNetwork html-widget"></div>
-<script type="application/json" data-for="htmlwidget-604a2033b1ebfd0e389b">{"x":{"links":{"source":[0,0,0,1,1,2,3,3,4,5,6,2,6,7,7,8,9,10],"target":[3,5,4,6,2,10,11,12,13,14,9,7,8,15,16,17,18,19],"value":[2,1,1,2,3,1,1,1,1,1,1,2,1,1,1,1,1,1]},"nodes":{"name":["project-2","project-1","wp-1","Berichte","Grafiken","Daten","wp 2","input","output","input","analysis","bericht-1.doc","bericht-2.doc","file 1.png","file-1.csv","file 1.csv","file-2.csv","koepenick_clean.csv","köpenick_dirty.csv","summary.pdf"],"group":["green","green","green","green","green","green","yellow","green","green","green","green","green","green","yellow","green","yellow","green","green","red","green"]},"options":{"NodeID":"name","NodeGroup":"colour","LinkGroup":null,"colourScale":"d3.scaleOrdinal() .domain(['green', 'yellow', 'red']) .range(['green', 'yellow', 'red'])","fontSize":16,"fontFamily":null,"nodeWidth":15,"nodePadding":8,"units":"","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":false}},"evals":[],"jsHooks":[]}</script><p>Now, that all three traffic light colours (green, yellow, red) appear in the plot, we want to explain what these colours are intended to indicate:</p>
+<div id="htmlwidget-3fe9068c2b9caae541c6" style="width:700px;height:162px;" class="sankeyNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3fe9068c2b9caae541c6">{"x":{"links":{"source":[0,0,0,1,1,2,3,3,4,5,6,2,6,7,7,8,9,10],"target":[3,5,4,6,2,10,11,12,13,14,9,7,8,15,16,17,18,19],"value":[2,1,1,2,3,1,1,1,1,1,1,2,1,1,1,1,1,1]},"nodes":{"name":["project-2","project-1","wp-1","Berichte","Grafiken","Daten","wp 2","input","output","input","analysis","bericht-1.doc","bericht-2.doc","file 1.png","file-1.csv","file 1.csv","file-2.csv","koepenick_clean.csv","köpenick_dirty.csv","summary.pdf"],"group":["green","green","green","green","green","green","yellow","green","green","green","green","green","green","yellow","green","yellow","green","green","red","green"]},"options":{"NodeID":"name","NodeGroup":"colour","LinkGroup":null,"colourScale":"d3.scaleOrdinal() .domain(['green', 'yellow', 'red']) .range(['green', 'yellow', 'red'])","fontSize":16,"fontFamily":null,"nodeWidth":15,"nodePadding":8,"units":"","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":false}},"evals":[],"jsHooks":[]}</script><p>Now, that all three traffic light colours (green, yellow, red) appear in the plot, we want to explain what these colours are intended to indicate:</p>
 <ul>
 <li><p>Green: name is fully compliant with our naming rules. It consists only of alphanumeric letters, underscore, hyphen or dot.</p></li>
 <li><p>Yellow: name is almost compliant with our naming rules. It constists only of alphanumeric letters, underscore, hyphen, dot or space.</p></li>
 <li><p>Red: name does not comply with our naming rules. It contains at least one character that is not alphanumeric or underscore, hyphen, dot or space. In most of our cases this is due to German special characters, such as ‘ä’, ‘ö’, ‘ü’.</p></li>
 </ul>
-<p>The naming rules are documented in our <a href="https://kwb-r.github.io/fakin.doc/best-practices.html#data-storage-naming">FAKIN Best Practices Document</a></p>
+<p>The naming rules are documented in our <a href="https://kwb-r.github.io/fakin.doc/best-practices.html#data-storage-naming" class="external-link">FAKIN Best Practices Document</a></p>
 </div>
-<div id="treemaps" class="section level2">
-<h2 class="hasAnchor">
-<a href="#treemaps" class="anchor"></a>Treemaps</h2>
+<div class="section level2">
+<h2 id="treemaps">Treemaps<a class="anchor" aria-label="anchor" href="#treemaps"></a>
+</h2>
 <p>The proportion of folder sizes can be visualised in so called tree-maps. We provide a function that uses the <code>treemaps</code> package to generate these plots.</p>
 <p>The input to the function is a data frame with columns <code>path</code>, <code>type</code> and <code>size</code>, representing the file or folder paths, the type of path (<code>"file"</code> or <code>"directory"</code>) and file size, respectively. Such a data frame can e.g. be retrieved by means of the function <code>get_recursive_file_info()</code>. Here, we provide some fake data:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">file_info</span> <span class="op">&lt;-</span> <span class="fu">kwb.utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kwb.utils/man/noFactorDataFrame.html">noFactorDataFrame</a></span><span class="op">(</span>
+<code class="sourceCode R"><span class="va">file_info</span> <span class="op">&lt;-</span> <span class="fu">kwb.utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kwb.utils/man/noFactorDataFrame.html" class="external-link">noFactorDataFrame</a></span><span class="op">(</span>
   path <span class="op">=</span> <span class="va">paths</span>,
   type <span class="op">=</span> <span class="st">"file"</span>,
-  size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">paths</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+  size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">paths</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="op">)</span> </code></pre></div>
 <p>From these file information, generate the treeplot with <code>plot_treemaps_from_path_data()</code>. Two plots are generated:</p>
 <ul>
 <li><p>In the first plot, the rectangle sizes represent the total size of files that are contained in the corresponding folder and all of its subfolders. The colour indicates the total number of files that are contained in the folders.</p></li>
 <li><p>In the second plot, the rectangle sizes represent the total number of files that are contained in the corresponding folder and all of its subfolders. The colour indicates the total size of files that are contained in the folders.</p></li>
 </ul>
-<pre><code>## Preparing data for 'root' ... 
-## Splitting paths ... ok. (0.00s) 
-## ok. (0.00s) 
-## Aggregating by first 2 path levels ... ok. (0.03s) 
-## Creating treemap 'size' ...</code></pre>
+<pre><code><span class="co">## Preparing data for 'root' ... </span>
+<span class="co">## Splitting paths ... ok. (0.00s) </span>
+<span class="co">## ok. (0.00s) </span>
+<span class="co">## Aggregating by first 2 path levels ... ok. (0.02s) </span>
+<span class="co">## Creating treemap 'size' ...</span></code></pre>
 <p><img src="working_with_paths_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
-<pre><code>## ok. (0.27s) 
-## Creating treemap 'files' ...</code></pre>
+<pre><code><span class="co">## ok. (0.19s) </span>
+<span class="co">## Creating treemap 'files' ...</span></code></pre>
 <p><img src="working_with_paths_files/figure-html/unnamed-chunk-8-2.png" width="700"></p>
-<pre><code>## ok. (0.28s)</code></pre>
-<pre><code>## NULL</code></pre>
+<pre><code><span class="co">## ok. (0.25s)</span></code></pre>
+<pre><code><span class="co">## NULL</span></code></pre>
 <p>By default the plots are saved to png files in the temporary directory. To let the plots show up here we set <code>as_png</code> to <code>FALSE</code> in the above call.</p>
 </div>
-<div id="selecting-paths" class="section level2">
-<h2 class="hasAnchor">
-<a href="#selecting-paths" class="anchor"></a>Selecting Paths</h2>
+<div class="section level2">
+<h2 id="selecting-paths">Selecting Paths<a class="anchor" aria-label="anchor" href="#selecting-paths"></a>
+</h2>
 <p>If you want to investigate a complex folder structure with hundreds or thousands of files the overview plot will not show up properly. It is then useful to select only a subsection of the folder structure for further investigation.</p>
-<div id="selecting-paths-from-a-list-or-matrix-of-subfolders" class="section level3">
-<h3 class="hasAnchor">
-<a href="#selecting-paths-from-a-list-or-matrix-of-subfolders" class="anchor"></a>Selecting Paths from a List or Matrix of Subfolders</h3>
-<p>Once you have split a vector of paths into its subfolder names you may use the function <code><a href="https://rdrr.io/pkg/kwb.pathdict/man/starts_with_parts.html">kwb.pathdict::starts_with_parts()</a></code> to filter for paths starting with a certain sequence of subfolders:</p>
+<div class="section level3">
+<h3 id="selecting-paths-from-a-list-or-matrix-of-subfolders">Selecting Paths from a List or Matrix of Subfolders<a class="anchor" aria-label="anchor" href="#selecting-paths-from-a-list-or-matrix-of-subfolders"></a>
+</h3>
+<p>Once you have split a vector of paths into its subfolder names you may use the function <code><a href="https://rdrr.io/pkg/kwb.pathdict/man/starts_with_parts.html" class="external-link">kwb.pathdict::starts_with_parts()</a></code> to filter for paths starting with a certain sequence of subfolders:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">path_parts</span> <span class="op">&lt;-</span> <span class="fu">kwb.file</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kwb.file/man/split_paths.html">split_paths</a></span><span class="op">(</span><span class="va">paths</span><span class="op">)</span></code></pre></div>
-<pre><code>## Splitting paths ... ok. (0.00s)</code></pre>
+<code class="sourceCode R"><span class="va">path_parts</span> <span class="op">&lt;-</span> <span class="fu">kwb.file</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kwb.file/man/split_paths.html" class="external-link">split_paths</a></span><span class="op">(</span><span class="va">paths</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## Splitting paths ... ok. (0.00s)</span></code></pre>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">start_parts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"project-1"</span>, <span class="st">"wp-1"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">start_parts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"project-1"</span>, <span class="st">"wp-1"</span><span class="op">)</span>
 
-<span class="va">path_parts</span><span class="op">[</span><span class="fu">kwb.pathdict</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kwb.pathdict/man/starts_with_parts.html">starts_with_parts</a></span><span class="op">(</span><span class="va">path_parts</span>, <span class="va">start_parts</span><span class="op">)</span><span class="op">]</span></code></pre></div>
-<pre><code>## [[1]]
-## [1] "project-1"  "wp-1"       "input"      "file 1.csv"
-## 
-## [[2]]
-## [1] "project-1"  "wp-1"       "input"      "file-2.csv"
-## 
-## [[3]]
-## [1] "project-1"   "wp-1"        "analysis"    "summary.pdf"</code></pre>
+<span class="va">path_parts</span><span class="op">[</span><span class="fu">kwb.pathdict</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kwb.pathdict/man/starts_with_parts.html" class="external-link">starts_with_parts</a></span><span class="op">(</span><span class="va">path_parts</span>, <span class="va">start_parts</span><span class="op">)</span><span class="op">]</span></code></pre></div>
+<pre><code><span class="co">## [[1]]</span>
+<span class="co">## [1] "project-1"  "wp-1"       "input"      "file 1.csv"</span>
+<span class="co">## </span>
+<span class="co">## [[2]]</span>
+<span class="co">## [1] "project-1"  "wp-1"       "input"      "file-2.csv"</span>
+<span class="co">## </span>
+<span class="co">## [[3]]</span>
+<span class="co">## [1] "project-1"   "wp-1"        "analysis"    "summary.pdf"</span></code></pre>
 <p>The function can also be used on a matrix of subfolders:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">folders</span> <span class="op">&lt;-</span> <span class="fu">kwb.file</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kwb.file/man/to_subdir_matrix.html">to_subdir_matrix</a></span><span class="op">(</span><span class="va">paths</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">folders</span> <span class="op">&lt;-</span> <span class="fu">kwb.file</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kwb.file/man/to_subdir_matrix.html" class="external-link">to_subdir_matrix</a></span><span class="op">(</span><span class="va">paths</span><span class="op">)</span>
 
-<span class="va">folders</span><span class="op">[</span><span class="fu">kwb.pathdict</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kwb.pathdict/man/starts_with_parts.html">starts_with_parts</a></span><span class="op">(</span><span class="va">folders</span>, <span class="va">start_parts</span><span class="op">)</span>, <span class="op">]</span></code></pre></div>
-<pre><code>##      [,1]        [,2]   [,3]       [,4]         
-## [1,] "project-1" "wp-1" "input"    "file 1.csv" 
-## [2,] "project-1" "wp-1" "input"    "file-2.csv" 
-## [3,] "project-1" "wp-1" "analysis" "summary.pdf"</code></pre>
+<span class="va">folders</span><span class="op">[</span><span class="fu">kwb.pathdict</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kwb.pathdict/man/starts_with_parts.html" class="external-link">starts_with_parts</a></span><span class="op">(</span><span class="va">folders</span>, <span class="va">start_parts</span><span class="op">)</span>, <span class="op">]</span></code></pre></div>
+<pre><code><span class="co">##      [,1]        [,2]   [,3]       [,4]         </span>
+<span class="co">## [1,] "project-1" "wp-1" "input"    "file 1.csv" </span>
+<span class="co">## [2,] "project-1" "wp-1" "input"    "file-2.csv" </span>
+<span class="co">## [3,] "project-1" "wp-1" "analysis" "summary.pdf"</span></code></pre>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">folders</span><span class="op">[</span><span class="fu">kwb.pathdict</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kwb.pathdict/man/starts_with_parts.html">starts_with_parts</a></span><span class="op">(</span><span class="va">folders</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">start_parts</span>, <span class="st">"input"</span><span class="op">)</span><span class="op">)</span>, <span class="op">]</span></code></pre></div>
-<pre><code>##      [,1]        [,2]   [,3]    [,4]        
-## [1,] "project-1" "wp-1" "input" "file 1.csv"
-## [2,] "project-1" "wp-1" "input" "file-2.csv"</code></pre>
+<code class="sourceCode R"><span class="va">folders</span><span class="op">[</span><span class="fu">kwb.pathdict</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kwb.pathdict/man/starts_with_parts.html" class="external-link">starts_with_parts</a></span><span class="op">(</span><span class="va">folders</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">start_parts</span>, <span class="st">"input"</span><span class="op">)</span><span class="op">)</span>, <span class="op">]</span></code></pre></div>
+<pre><code><span class="co">##      [,1]        [,2]   [,3]    [,4]        </span>
+<span class="co">## [1,] "project-1" "wp-1" "input" "file 1.csv"</span>
+<span class="co">## [2,] "project-1" "wp-1" "input" "file-2.csv"</span></code></pre>
 </div>
-<div id="selecting-paths-from-a-path-tree" class="section level3">
-<h3 class="hasAnchor">
-<a href="#selecting-paths-from-a-path-tree" class="anchor"></a>Selecting Paths from a Path Tree</h3>
+<div class="section level3">
+<h3 id="selecting-paths-from-a-path-tree">Selecting Paths from a Path Tree<a class="anchor" aria-label="anchor" href="#selecting-paths-from-a-path-tree"></a>
+</h3>
 <p>To simplify the selection of paths we wrote a function that converts a vector of path strings into a nested list. In that list, the folder names appear as the names of the list elements. Let’s try this out with the example paths defined above:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Convert the vector of paths into a tree structure</span>
 <span class="va">path_tree</span> <span class="op">&lt;-</span> <span class="fu">kwb.fakin</span><span class="fu">:::</span><span class="fu"><a href="../reference/to_tree.html">to_tree</a></span><span class="op">(</span><span class="va">paths</span><span class="op">)</span></code></pre></div>
-<pre><code>## Checking for duplicates in 'as.character(x)' ... ok. (0.00s)</code></pre>
+<pre><code><span class="co">## Checking for duplicates in 'as.character(x)' ... ok. (0.00s)</span></code></pre>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Show the structure of the tree</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">path_tree</span><span class="op">)</span></code></pre></div>
-<pre><code>## List of 2
-##  $ project-1:List of 2
-##   ..$ wp 2:List of 2
-##   .. ..$ input :List of 1
-##   .. .. ..$ köpenick_dirty.csv: chr ""
-##   .. .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"
-##   .. ..$ output:List of 1
-##   .. .. ..$ koepenick_clean.csv: chr ""
-##   .. .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"
-##   .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"
-##   ..$ wp-1:List of 2
-##   .. ..$ analysis:List of 1
-##   .. .. ..$ summary.pdf: chr ""
-##   .. .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"
-##   .. ..$ input   :List of 2
-##   .. .. ..$ file 1.csv: chr ""
-##   .. .. ..$ file-2.csv: chr ""
-##   .. .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"
-##   .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"
-##   ..- attr(*, "class")= chr [1:2] "path_tree" "list"
-##  $ project-2:List of 3
-##   ..$ Berichte:List of 2
-##   .. ..$ bericht-1.doc: chr ""
-##   .. ..$ bericht-2.doc: chr ""
-##   .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"
-##   ..$ Daten   :List of 1
-##   .. ..$ file-1.csv: chr ""
-##   .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"
-##   ..$ Grafiken:List of 1
-##   .. ..$ file 1.png: chr ""
-##   .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"
-##   ..- attr(*, "class")= chr [1:2] "path_tree" "list"
-##  - attr(*, "class")= chr [1:2] "path_tree" "list"</code></pre>
-<p>The path tree is a list of lists with the top level elements representing the top level folders of the paths, the second level elements representing the sub-folders of the top level folders, and so on. With that tree structure, it is easy to select a sub-tree by just using the dollar operator <code><a href="https://rdrr.io/r/base/Extract.html">$</a></code> for lists. If, for example, we want to select the paths belonging to project 1, we can write:</p>
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">path_tree</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## List of 2</span>
+<span class="co">##  $ project-1:List of 2</span>
+<span class="co">##   ..$ wp 2:List of 2</span>
+<span class="co">##   .. ..$ input :List of 1</span>
+<span class="co">##   .. .. ..$ köpenick_dirty.csv: chr ""</span>
+<span class="co">##   .. .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"</span>
+<span class="co">##   .. ..$ output:List of 1</span>
+<span class="co">##   .. .. ..$ koepenick_clean.csv: chr ""</span>
+<span class="co">##   .. .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"</span>
+<span class="co">##   .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"</span>
+<span class="co">##   ..$ wp-1:List of 2</span>
+<span class="co">##   .. ..$ analysis:List of 1</span>
+<span class="co">##   .. .. ..$ summary.pdf: chr ""</span>
+<span class="co">##   .. .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"</span>
+<span class="co">##   .. ..$ input   :List of 2</span>
+<span class="co">##   .. .. ..$ file 1.csv: chr ""</span>
+<span class="co">##   .. .. ..$ file-2.csv: chr ""</span>
+<span class="co">##   .. .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"</span>
+<span class="co">##   .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"</span>
+<span class="co">##   ..- attr(*, "class")= chr [1:2] "path_tree" "list"</span>
+<span class="co">##  $ project-2:List of 3</span>
+<span class="co">##   ..$ Berichte:List of 2</span>
+<span class="co">##   .. ..$ bericht-1.doc: chr ""</span>
+<span class="co">##   .. ..$ bericht-2.doc: chr ""</span>
+<span class="co">##   .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"</span>
+<span class="co">##   ..$ Daten   :List of 1</span>
+<span class="co">##   .. ..$ file-1.csv: chr ""</span>
+<span class="co">##   .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"</span>
+<span class="co">##   ..$ Grafiken:List of 1</span>
+<span class="co">##   .. ..$ file 1.png: chr ""</span>
+<span class="co">##   .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"</span>
+<span class="co">##   ..- attr(*, "class")= chr [1:2] "path_tree" "list"</span>
+<span class="co">##  - attr(*, "class")= chr [1:2] "path_tree" "list"</span></code></pre>
+<p>The path tree is a list of lists with the top level elements representing the top level folders of the paths, the second level elements representing the sub-folders of the top level folders, and so on. With that tree structure, it is easy to select a sub-tree by just using the dollar operator <code>$</code> for lists. If, for example, we want to select the paths belonging to project 1, we can write:</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Select the sub-tree below "project-1"</span>
 <span class="va">subtree</span> <span class="op">&lt;-</span> <span class="va">path_tree</span><span class="op">$</span><span class="va">`project-1`</span>
 
 <span class="co"># Show the sub-tree</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">subtree</span><span class="op">)</span></code></pre></div>
-<pre><code>## List of 2
-##  $ wp 2:List of 2
-##   ..$ input :List of 1
-##   .. ..$ köpenick_dirty.csv: chr ""
-##   .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"
-##   ..$ output:List of 1
-##   .. ..$ koepenick_clean.csv: chr ""
-##   .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"
-##   ..- attr(*, "class")= chr [1:2] "path_tree" "list"
-##  $ wp-1:List of 2
-##   ..$ analysis:List of 1
-##   .. ..$ summary.pdf: chr ""
-##   .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"
-##   ..$ input   :List of 2
-##   .. ..$ file 1.csv: chr ""
-##   .. ..$ file-2.csv: chr ""
-##   .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"
-##   ..- attr(*, "class")= chr [1:2] "path_tree" "list"
-##  - attr(*, "class")= chr [1:2] "path_tree" "list"</code></pre>
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">subtree</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## List of 2</span>
+<span class="co">##  $ wp 2:List of 2</span>
+<span class="co">##   ..$ input :List of 1</span>
+<span class="co">##   .. ..$ köpenick_dirty.csv: chr ""</span>
+<span class="co">##   .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"</span>
+<span class="co">##   ..$ output:List of 1</span>
+<span class="co">##   .. ..$ koepenick_clean.csv: chr ""</span>
+<span class="co">##   .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"</span>
+<span class="co">##   ..- attr(*, "class")= chr [1:2] "path_tree" "list"</span>
+<span class="co">##  $ wp-1:List of 2</span>
+<span class="co">##   ..$ analysis:List of 1</span>
+<span class="co">##   .. ..$ summary.pdf: chr ""</span>
+<span class="co">##   .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"</span>
+<span class="co">##   ..$ input   :List of 2</span>
+<span class="co">##   .. ..$ file 1.csv: chr ""</span>
+<span class="co">##   .. ..$ file-2.csv: chr ""</span>
+<span class="co">##   .. ..- attr(*, "class")= chr [1:2] "path_tree" "list"</span>
+<span class="co">##   ..- attr(*, "class")= chr [1:2] "path_tree" "list"</span>
+<span class="co">##  - attr(*, "class")= chr [1:2] "path_tree" "list"</span></code></pre>
 <p><strong>Note</strong> that the element name <code>project-1</code> needs to be quoted in special quotes because, in R, the hyphen would else be interpreted as minus operator.</p>
 <p>To convert the tree structure back to the path strings, use <code>flatten_tree</code>:</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">kwb.fakin</span><span class="fu">:::</span><span class="fu">flatten_tree</span><span class="op">(</span><span class="va">subtree</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "wp 2/input/köpenick_dirty.csv"   "wp 2/output/koepenick_clean.csv"
-## [3] "wp-1/analysis/summary.pdf"       "wp-1/input/file 1.csv"          
-## [5] "wp-1/input/file-2.csv"</code></pre>
+<pre><code><span class="co">## [1] "wp 2/input/köpenick_dirty.csv"   "wp 2/output/koepenick_clean.csv"</span>
+<span class="co">## [3] "wp-1/analysis/summary.pdf"       "wp-1/input/file 1.csv"          </span>
+<span class="co">## [5] "wp-1/input/file-2.csv"</span></code></pre>
 <p>You can plot the sub-tree by passing it directly to <code>plot_path_network</code>, or here to our helper function, without prior conversion:</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">plot_16pt</span><span class="op">(</span><span class="fu">kwb.fakin</span><span class="fu">:::</span><span class="fu">flatten_tree</span><span class="op">(</span><span class="va">subtree</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-2d1de7a7e3016acaf311" style="width:700px;height:90px;" class="sankeyNetwork html-widget"></div>
-<script type="application/json" data-for="htmlwidget-2d1de7a7e3016acaf311">{"x":{"links":{"source":[0,1,0,1,2,2,3,4,5],"target":[5,4,2,3,6,7,8,9,10],"value":[1,1,2,1,1,1,1,1,1]},"nodes":{"name":["wp-1","wp 2","input","output","input","analysis","file 1.csv","file-2.csv","koepenick_clean.csv","köpenick_dirty.csv","summary.pdf"],"group":["green","yellow","green","green","green","green","yellow","green","green","red","green"]},"options":{"NodeID":"name","NodeGroup":"colour","LinkGroup":null,"colourScale":"d3.scaleOrdinal() .domain(['green', 'yellow', 'red']) .range(['green', 'yellow', 'red'])","fontSize":16,"fontFamily":null,"nodeWidth":15,"nodePadding":8,"units":"","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-a1c8a38b826fd0a6ec27" style="width:700px;height:90px;" class="sankeyNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a1c8a38b826fd0a6ec27">{"x":{"links":{"source":[0,1,0,1,2,2,3,4,5],"target":[5,4,2,3,6,7,8,9,10],"value":[1,1,2,1,1,1,1,1,1]},"nodes":{"name":["wp-1","wp 2","input","output","input","analysis","file 1.csv","file-2.csv","koepenick_clean.csv","köpenick_dirty.csv","summary.pdf"],"group":["green","yellow","green","green","green","green","yellow","green","green","red","green"]},"options":{"NodeID":"name","NodeGroup":"colour","LinkGroup":null,"colourScale":"d3.scaleOrdinal() .domain(['green', 'yellow', 'red']) .range(['green', 'yellow', 'red'])","fontSize":16,"fontFamily":null,"nodeWidth":15,"nodePadding":8,"units":"","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
-<div id="quality-of-file-and-folder-names" class="section level2">
-<h2 class="hasAnchor">
-<a href="#quality-of-file-and-folder-names" class="anchor"></a>Quality of File and Folder Names</h2>
+<div class="section level2">
+<h2 id="quality-of-file-and-folder-names">Quality of File and Folder Names<a class="anchor" aria-label="anchor" href="#quality-of-file-and-folder-names"></a>
+</h2>
 <p>The automatic processing of files may fail due to special characters (e.g.  German Umlaute) that are contained in the folder or file names. The package contains a function <code>ascii_stats</code> that calculates the percentages of strings containing or not containing special (non-ASCII) characters.</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">kwb.fakin</span><span class="fu">:::</span><span class="fu">ascii_stats</span><span class="op">(</span><span class="va">paths</span><span class="op">)</span></code></pre></div>
-<pre><code>## nonAscii
-##    FALSE     TRUE 
-## 88.88889 11.11111</code></pre>
+<pre><code><span class="co">## nonAscii</span>
+<span class="co">##    FALSE     TRUE </span>
+<span class="co">## 88.88889 11.11111</span></code></pre>
 <p>The aim should be to reduce the percentage of non-ASCI characters.</p>
 </div>
-<div id="quality-of-folder-structures" class="section level2">
-<h2 class="hasAnchor">
-<a href="#quality-of-folder-structures" class="anchor"></a>Quality of Folder Structures</h2>
+<div class="section level2">
+<h2 id="quality-of-folder-structures">Quality of Folder Structures<a class="anchor" aria-label="anchor" href="#quality-of-folder-structures"></a>
+</h2>
 <p>If we modify folder structures in order to make them more intuitive we need a tool to measure the improvement. Therefore I created an account on the following website:</p>
-<p><a href="https://www.optimalworkshop.com/treejack" class="uri">https://www.optimalworkshop.com/treejack</a></p>
+<p><a href="https://www.optimalworkshop.com/treejack" class="external-link uri">https://www.optimalworkshop.com/treejack</a></p>
 <p>There, you can define tree structures of which interactive web-pages are created where users are asked to navigate to a certain file in the tree. Behind the scenes the web page tracks the clicks of the user on his way through the tree. The treejack service provides an import functionality where you can define the structure of the tree by giving a set of text lines with each line representing a branch or a leaf of the tree.</p>
 <p>The function <code>subtree_for_treejack</code> creates the text that is required here:</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">kwb.fakin</span><span class="fu">:::</span><span class="fu">subtree_for_treejack</span><span class="op">(</span>root <span class="op">=</span> <span class="st">"project-1"</span>, <span class="va">paths</span><span class="op">)</span></code></pre></div>
-<pre><code>## Filter for paths starting with project-1/ ...
-##   ok. Remaining paths: 5 
-## Convert to relative paths ... ok.
-## Splitting paths ... ok. (0.00s) 
-## Splitting paths ... ok. (0.00s) 
-## Splitting paths ... ok. (0.00s) 
-## Splitting paths ... ok. (0.00s) 
-## 
-## ================================================================
-## 
-## Copy and paste the output below to the 'Bulk import' input field
-## at https://www.optimalworkshop.com
-## 
-## ================================================================
-## 
-## wp 2 
-##  input
-##  output
-## wp-1 
-##  analysis
-##  input</code></pre>
+<pre><code><span class="co">## Filter for paths starting with project-1/ ...</span>
+<span class="co">##   ok. Remaining paths: 5 </span>
+<span class="co">## Convert to relative paths ... ok.</span>
+<span class="co">## Splitting paths ... ok. (0.00s) </span>
+<span class="co">## Splitting paths ... ok. (0.00s) </span>
+<span class="co">## Splitting paths ... ok. (0.00s) </span>
+<span class="co">## Splitting paths ... ok. (0.00s) </span>
+<span class="co">## </span>
+<span class="co">## ================================================================</span>
+<span class="co">## </span>
+<span class="co">## Copy and paste the output below to the 'Bulk import' input field</span>
+<span class="co">## at https://www.optimalworkshop.com</span>
+<span class="co">## </span>
+<span class="co">## ================================================================</span>
+<span class="co">## </span>
+<span class="co">## wp 2 </span>
+<span class="co">##  input</span>
+<span class="co">##  output</span>
+<span class="co">## wp-1 </span>
+<span class="co">##  analysis</span>
+<span class="co">##  input</span></code></pre>
 </div>
-<div id="analysis-of-paths" class="section level2">
-<h2 class="hasAnchor">
-<a href="#analysis-of-paths" class="anchor"></a>Analysis of Paths</h2>
+<div class="section level2">
+<h2 id="analysis-of-paths">Analysis of Paths<a class="anchor" aria-label="anchor" href="#analysis-of-paths"></a>
+</h2>
 <p>We can split the paths into their parts using the <code>split_paths</code> function from the kwb.file package:</p>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">parts</span> <span class="op">&lt;-</span> <span class="fu">kwb.file</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kwb.file/man/split_paths.html">split_paths</a></span><span class="op">(</span><span class="va">paths</span><span class="op">)</span></code></pre></div>
-<pre><code>## Splitting paths ... ok. (0.00s)</code></pre>
+<code class="sourceCode R"><span class="va">parts</span> <span class="op">&lt;-</span> <span class="fu">kwb.file</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kwb.file/man/split_paths.html" class="external-link">split_paths</a></span><span class="op">(</span><span class="va">paths</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## Splitting paths ... ok. (0.00s)</span></code></pre>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">parts</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span></code></pre></div>
-<pre><code>## [[1]]
-## [1] "project-1"  "wp-1"       "input"      "file 1.csv"
-## 
-## [[2]]
-## [1] "project-1"  "wp-1"       "input"      "file-2.csv"
-## 
-## [[3]]
-## [1] "project-1"   "wp-1"        "analysis"    "summary.pdf"</code></pre>
+<pre><code><span class="co">## [[1]]</span>
+<span class="co">## [1] "project-1"  "wp-1"       "input"      "file 1.csv"</span>
+<span class="co">## </span>
+<span class="co">## [[2]]</span>
+<span class="co">## [1] "project-1"  "wp-1"       "input"      "file-2.csv"</span>
+<span class="co">## </span>
+<span class="co">## [[3]]</span>
+<span class="co">## [1] "project-1"   "wp-1"        "analysis"    "summary.pdf"</span></code></pre>
 <p>It may be useful to convert the list that is returned by <code>split_paths</code> into a matrix:</p>
 <div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">subdirs</span> <span class="op">&lt;-</span> <span class="fu">kwb.file</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kwb.file/man/to_subdir_matrix.html">to_subdir_matrix</a></span><span class="op">(</span><span class="va">parts</span><span class="op">)</span></code></pre></div>
-<pre><code>## Warning in kable_pipe(x = structure(c("project-1", "project-1", "project-1", :
-## The table should have a header (column names)</code></pre>
+<code class="sourceCode R"><span class="va">subdirs</span> <span class="op">&lt;-</span> <span class="fu">kwb.file</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kwb.file/man/to_subdir_matrix.html" class="external-link">to_subdir_matrix</a></span><span class="op">(</span><span class="va">parts</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <caption>Content of the subdirs matrix</caption>
 <tbody>
@@ -443,15 +437,13 @@
 </table>
 <p>In the matrix, each row represents a path and each column represents a depth level.</p>
 <p>If you have only one path, you may create the paths to all direct parent directories using the function <code>all_path_levels</code>. This is how <code>subtree_for_treejack</code> creates the text for the bulk import to Treejack (see above).</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="op">(</span><span class="va">parent_paths</span> <span class="op">&lt;-</span> <span class="fu">kwb.fakin</span><span class="fu">:::</span><span class="fu"><a href="../reference/all_path_levels.html">all_path_levels</a></span><span class="op">(</span><span class="va">paths</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## Splitting paths ... ok. (0.00s)</code></pre>
-<pre><code>## [1] "project-1"                       "project-1/wp-1"                 
-## [3] "project-1/wp-1/input"            "project-1/wp-1/input/file 1.csv"</code></pre>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">parents</span> <span class="op">&lt;-</span> <span class="fu">kwb.file</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kwb.file/man/to_subdir_matrix.html">to_subdir_matrix</a></span><span class="op">(</span><span class="va">parent_paths</span><span class="op">)</span></code></pre></div>
-<pre><code>## Warning in kable_pipe(x = structure(c("project-1", "project-1", "project-1", :
-## The table should have a header (column names)</code></pre>
+<pre><code><span class="co">## Splitting paths ... ok. (0.00s)</span></code></pre>
+<pre><code><span class="co">## [1] "project-1"                       "project-1/wp-1"                 </span>
+<span class="co">## [3] "project-1/wp-1/input"            "project-1/wp-1/input/file 1.csv"</span></code></pre>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">parents</span> <span class="op">&lt;-</span> <span class="fu">kwb.file</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kwb.file/man/to_subdir_matrix.html" class="external-link">to_subdir_matrix</a></span><span class="op">(</span><span class="va">parent_paths</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <caption>Content of the parents matrix</caption>
 <tbody>
@@ -495,11 +487,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Hauke Sonnenberg.</p>
+  <p></p>
+<p>Developed by Hauke Sonnenberg.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>

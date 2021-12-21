@@ -22,6 +22,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -40,12 +42,6 @@
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -79,7 +75,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/kwb-r/kwb.fakin/">
+  <a href="https://github.com/kwb-r/kwb.fakin/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -104,11 +100,11 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Understanding Encoding</h1>
-                        <h4 class="author">Hauke Sonnenberg</h4>
+                        <h4 data-toc-skip class="author">Hauke Sonnenberg</h4>
             
-            <h4 class="date">2021-03-15</h4>
+            <h4 data-toc-skip class="date">2021-12-21</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/kwb-r/kwb.fakin/blob/master/vignettes/understanding_encoding.Rmd"><code>vignettes/understanding_encoding.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/kwb-r/kwb.fakin/blob/HEAD/vignettes/understanding_encoding.Rmd" class="external-link"><code>vignettes/understanding_encoding.Rmd</code></a></small>
       <div class="hidden name"><code>understanding_encoding.Rmd</code></div>
 
     </div>
@@ -116,66 +112,66 @@
     
     
 <p>Read this first:</p>
-<p><a href="https://dss.iq.harvard.edu/blog/escaping-character-encoding-hell-r-windows">Escaping from character encoding hell in R on Windows</a></p>
-<div id="introduction" class="section level2">
-<h2 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h2>
-<p>In our document on best practices in research data managment we recommend to stick to a very basic set of characters when <a href="https://kwb-r.github.io/fakin.doc/best-practices.html#data-storage-naming">naming files and folders</a>.</p>
+<p><a href="https://dss.iq.harvard.edu/blog/escaping-character-encoding-hell-r-windows" class="external-link">Escaping from character encoding hell in R on Windows</a></p>
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
+<p>In our document on best practices in research data managment we recommend to stick to a very basic set of characters when <a href="https://kwb-r.github.io/fakin.doc/best-practices.html#data-storage-naming" class="external-link">naming files and folders</a>.</p>
 <p>You may ask, why? You may never have had any problems when working with files containing spaces or special characters. If this is the case for you, you are lucky. You then most probably</p>
 <ul>
 <li><p>do not exchange files between computers with different operating systems (i.e. Windows vs. Linux) and/or with different regional settings (e.g. German vs.  English vs. French vs. Bulgarian),</p></li>
 <li><p>do not automate tasks by programming.</p></li>
 </ul>
 </div>
-<div id="example-sessions" class="section level2">
-<h2 class="hasAnchor">
-<a href="#example-sessions" class="anchor"></a>Example Sessions</h2>
+<div class="section level2">
+<h2 id="example-sessions">Example Sessions<a class="anchor" aria-label="anchor" href="#example-sessions"></a>
+</h2>
 <p>What does R tell us about Encoding?</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="op">?</span><span class="va">Encoding</span></code></pre></div>
-<p>We learn, that R offers a function <code><a href="https://rdrr.io/r/base/Encoding.html">Encoding()</a></code> as well as the functions <code><a href="https://rdrr.io/r/base/Encoding.html">enc2native()</a></code> and <code><a href="https://rdrr.io/r/base/Encoding.html">enc2utf8()</a></code>. How do these functions work?</p>
+<p>We learn, that R offers a function <code><a href="https://rdrr.io/r/base/Encoding.html" class="external-link">Encoding()</a></code> as well as the functions <code><a href="https://rdrr.io/r/base/Encoding.html" class="external-link">enc2native()</a></code> and <code><a href="https://rdrr.io/r/base/Encoding.html" class="external-link">enc2utf8()</a></code>. How do these functions work?</p>
 <p>Let’s have a look at the Examples given in the R documentation:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## x is intended to be in latin1</span>
 <span class="va">x</span> <span class="op">&lt;-</span> <span class="st">"fa\xE7ile"</span>
-<span class="fu"><a href="https://rdrr.io/r/base/Encoding.html">Encoding</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Encoding.html" class="external-link">Encoding</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
 <span class="co">#&gt; [1] "unknown"</span>
-<span class="fu"><a href="https://rdrr.io/r/base/Encoding.html">Encoding</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"latin1"</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Encoding.html" class="external-link">Encoding</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"latin1"</span>
 <span class="va">x</span>
 <span class="co">#&gt; [1] "façile"</span>
-<span class="va">xx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/iconv.html">iconv</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"latin1"</span>, <span class="st">"UTF-8"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/Encoding.html">Encoding</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">xx</span><span class="op">)</span><span class="op">)</span>
+<span class="va">xx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/iconv.html" class="external-link">iconv</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"latin1"</span>, <span class="st">"UTF-8"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Encoding.html" class="external-link">Encoding</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">xx</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; [1] "latin1" "UTF-8"</span>
-<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">xx</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">xx</span><span class="op">)</span>
 <span class="co">#&gt; [1] "façile" "façile"</span>
 
 <span class="co">### The following now gives an error</span>
-<span class="fu"><a href="https://rdrr.io/r/base/Encoding.html">Encoding</a></span><span class="op">(</span><span class="va">xx</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"bytes"</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Encoding.html" class="external-link">Encoding</a></span><span class="op">(</span><span class="va">xx</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"bytes"</span>
 <span class="va">xx</span> <span class="co"># will be encoded in hex</span>
 <span class="co">#&gt; [1] "fa\\xc3\\xa7ile"</span>
-<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"xx = "</span>, <span class="va">xx</span>, <span class="st">"\n"</span>, sep <span class="op">=</span> <span class="st">""</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"xx = "</span>, <span class="va">xx</span>, <span class="st">"\n"</span>, sep <span class="op">=</span> <span class="st">""</span><span class="op">)</span>
 <span class="co">#&gt; xx = fa\xc3\xa7ile</span></code></pre></div>
 </div>
-<div id="writing-to-and-reading-from-files" class="section level2">
-<h2 class="hasAnchor">
-<a href="#writing-to-and-reading-from-files" class="anchor"></a>Writing to and Reading from Files</h2>
-<p>Lets write a line containing German special characters to a text file. We use the function <code>writeText()</code> from our <a href="https://github.com/kwb-r/kwb.utils">kwb.utils</a> package. This function does no more than using <code><a href="https://rdrr.io/r/base/writeLines.html">writeLines()</a></code>, but additionally gives a message about it and returns the path to the file:</p>
+<div class="section level2">
+<h2 id="writing-to-and-reading-from-files">Writing to and Reading from Files<a class="anchor" aria-label="anchor" href="#writing-to-and-reading-from-files"></a>
+</h2>
+<p>Lets write a line containing German special characters to a text file. We use the function <code>writeText()</code> from our <a href="https://github.com/kwb-r/kwb.utils" class="external-link">kwb.utils</a> package. This function does no more than using <code><a href="https://rdrr.io/r/base/writeLines.html" class="external-link">writeLines()</a></code>, but additionally gives a message about it and returns the path to the file:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">text</span> <span class="op">&lt;-</span> <span class="st">"Schöne Grüße"</span>
 
-<span class="va">test_file</span> <span class="op">&lt;-</span> <span class="fu">kwb.utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kwb.utils/man/writeText.html">writeText</a></span><span class="op">(</span><span class="va">text</span>, <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".txt"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Writing '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpPrxn5F/filedf66196187c.txt' ... ok.</span></code></pre></div>
-<p>And now read the line back with <code><a href="https://rdrr.io/r/base/readLines.html">readLines()</a></code>:</p>
+<span class="va">test_file</span> <span class="op">&lt;-</span> <span class="fu">kwb.utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kwb.utils/man/writeText.html" class="external-link">writeText</a></span><span class="op">(</span><span class="va">text</span>, <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".txt"</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; Writing '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpnGOe0W/file40701b9916de.txt' ... ok.</span></code></pre></div>
+<p>And now read the line back with <code><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines()</a></code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span><span class="op">(</span><span class="va">test_file</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="va">test_file</span><span class="op">)</span>
 <span class="co">#&gt; [1] "Schöne Grüße"</span></code></pre></div>
 <p>Ok, no problem so far, because we used the same system to write and read the file.</p>
 <p>Let’s have a look at the file byte-by-byte:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/connections.html">file</a></span><span class="op">(</span><span class="va">test_file</span>, <span class="st">"r"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/connections.html" class="external-link">file</a></span><span class="op">(</span><span class="va">test_file</span>, <span class="st">"r"</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nchar.html">nchar</a></span><span class="op">(</span><span class="va">text</span>, <span class="st">"bytes"</span><span class="op">)</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/readChar.html">readChar</a></span><span class="op">(</span><span class="va">con</span>, <span class="fl">1</span>, useBytes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nchar.html" class="external-link">nchar</a></span><span class="op">(</span><span class="va">text</span>, <span class="st">"bytes"</span><span class="op">)</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="op">{</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/readChar.html" class="external-link">readChar</a></span><span class="op">(</span><span class="va">con</span>, <span class="fl">1</span>, useBytes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="op">}</span><span class="op">)</span>
 <span class="co">#&gt; Warning in readChar(con, 1, useBytes = TRUE): text connection used with</span>
 <span class="co">#&gt; readChar(), results may be incorrect</span>
@@ -224,73 +220,73 @@
 <span class="co">#&gt;  [1] "S"    "c"    "h"    "\xc3" "\xb6" "n"    "e"    " "    "G"    "r"   </span>
 <span class="co">#&gt; [11] "\xc3" "\xbc" "\xc3" "\x9f" "e"</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/connections.html">close</a></span><span class="op">(</span><span class="va">con</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/connections.html" class="external-link">close</a></span><span class="op">(</span><span class="va">con</span><span class="op">)</span></code></pre></div>
 <p>Wow, that is interesting. I did not know that! Standard characters are stored as one byte and only the special characters are stored as two bytes!</p>
 <p>Now read the file again, this time as a vector of <code>raw</code>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="op">(</span><span class="va">raw_bytes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readBin.html">readBin</a></span><span class="op">(</span><span class="va">test_file</span>, <span class="st">"raw"</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="op">(</span><span class="va">raw_bytes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readBin.html" class="external-link">readBin</a></span><span class="op">(</span><span class="va">test_file</span>, <span class="st">"raw"</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;  [1] 53 63 68 c3 b6 6e 65 20 47 72 c3 bc c3 9f 65 0a</span></code></pre></div>
 </div>
-<div id="conversion-between-numeric-codes-and-characters" class="section level2">
-<h2 class="hasAnchor">
-<a href="#conversion-between-numeric-codes-and-characters" class="anchor"></a>Conversion Between Numeric Codes and Characters</h2>
+<div class="section level2">
+<h2 id="conversion-between-numeric-codes-and-characters">Conversion Between Numeric Codes and Characters<a class="anchor" aria-label="anchor" href="#conversion-between-numeric-codes-and-characters"></a>
+</h2>
 <p>What characters do the numeric codes given as hexedecimal numbers in <code>raw_bytes</code> represent?</p>
 <p>Let’s first see what the hexanumeric codes are in the decimal system:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span><span class="op">(</span><span class="va">raw_bytes</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">raw_bytes</span><span class="op">)</span>
 <span class="co">#&gt;  [1]  83  99 104 195 182 110 101  32  71 114 195 188 195 159 101  10</span></code></pre></div>
 <p>And now let’s convert the codes to characters:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/rawConversion.html">rawToChar</a></span><span class="op">(</span><span class="va">raw_bytes</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/rawConversion.html" class="external-link">rawToChar</a></span><span class="op">(</span><span class="va">raw_bytes</span><span class="op">)</span>
 <span class="co">#&gt; [1] "Schöne Grüße\n"</span></code></pre></div>
-<p>The function <code><a href="https://rdrr.io/r/base/rawConversion.html">rawToChar()</a></code> seems to know how to interpret the sequence of byte codes.</p>
+<p>The function <code><a href="https://rdrr.io/r/base/rawConversion.html" class="external-link">rawToChar()</a></code> seems to know how to interpret the sequence of byte codes.</p>
 <p>Note that the last character (<code>10</code> in the decimal and <code>0a</code> in the hexadecimal system) represents the newline character <code>\n</code>.</p>
-<p>What happens if I ask <code><a href="https://rdrr.io/r/base/rawConversion.html">rawToChar()</a></code> to convert the first and second byte representing the <code>ö</code> character separately?</p>
+<p>What happens if I ask <code><a href="https://rdrr.io/r/base/rawConversion.html" class="external-link">rawToChar()</a></code> to convert the first and second byte representing the <code>ö</code> character separately?</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/rawConversion.html">rawToChar</a></span><span class="op">(</span><span class="va">raw_bytes</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/rawConversion.html" class="external-link">rawToChar</a></span><span class="op">(</span><span class="va">raw_bytes</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span>
 <span class="co">#&gt; [1] "\xc3"</span>
-<span class="fu"><a href="https://rdrr.io/r/base/rawConversion.html">rawToChar</a></span><span class="op">(</span><span class="va">raw_bytes</span><span class="op">[</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/rawConversion.html" class="external-link">rawToChar</a></span><span class="op">(</span><span class="va">raw_bytes</span><span class="op">[</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span>
 <span class="co">#&gt; [1] "\xb6"</span></code></pre></div>
 <p>And now together:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/rawConversion.html">rawToChar</a></span><span class="op">(</span><span class="va">raw_bytes</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/rawConversion.html" class="external-link">rawToChar</a></span><span class="op">(</span><span class="va">raw_bytes</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span>
 <span class="co">#&gt; [1] "ö"</span></code></pre></div>
-<p>There is an argument <code>multiple</code> to <code><a href="https://rdrr.io/r/base/rawConversion.html">rawToChar()</a></code>. It is <code>FALSE</code> by default. What happens if we set it to <code>TRUE</code>?</p>
+<p>There is an argument <code>multiple</code> to <code><a href="https://rdrr.io/r/base/rawConversion.html" class="external-link">rawToChar()</a></code>. It is <code>FALSE</code> by default. What happens if we set it to <code>TRUE</code>?</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/rawConversion.html">rawToChar</a></span><span class="op">(</span><span class="va">raw_bytes</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, multiple <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/rawConversion.html" class="external-link">rawToChar</a></span><span class="op">(</span><span class="va">raw_bytes</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, multiple <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; [1] "\xc3" "\xb6"</span></code></pre></div>
 <p>As the documentation says, setting <code>multiple</code> to <code>TRUE</code> returns the single characters instead of a single string.</p>
 <p>How does this look if we convert the whole string?</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="op">(</span><span class="va">characters_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rawConversion.html">rawToChar</a></span><span class="op">(</span><span class="va">raw_bytes</span>, multiple <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="op">(</span><span class="va">characters_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rawConversion.html" class="external-link">rawToChar</a></span><span class="op">(</span><span class="va">raw_bytes</span>, multiple <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;  [1] "S"    "c"    "h"    "\xc3" "\xb6" "n"    "e"    " "    "G"    "r"   </span>
 <span class="co">#&gt; [11] "\xc3" "\xbc" "\xc3" "\x9f" "e"    "\n"</span></code></pre></div>
 <p>Is this the same as splitting the original string into single characters?</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span><span class="op">(</span><span class="va">text</span>, split <span class="op">=</span> <span class="st">""</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/strsplit.html" class="external-link">strsplit</a></span><span class="op">(</span><span class="va">text</span>, split <span class="op">=</span> <span class="st">""</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
 <span class="co">#&gt;  [1] "S" "c" "h" "ö" "n" "e" " " "G" "r" "ü" "ß" "e"</span></code></pre></div>
 <p>No, the German special characters are here shown as one character only instead of two. But we can achieve the same when setting the argument <code>useBytes</code> to <code>TRUE</code>:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="op">(</span><span class="va">characters_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span><span class="op">(</span><span class="va">text</span>, split <span class="op">=</span> <span class="st">""</span>, useBytes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
+<code class="sourceCode R"><span class="op">(</span><span class="va">characters_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/strsplit.html" class="external-link">strsplit</a></span><span class="op">(</span><span class="va">text</span>, split <span class="op">=</span> <span class="st">""</span>, useBytes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
 <span class="co">#&gt;  [1] "S"      "c"      "h"      "\xc3"   "\xb6"      "n"      "e"      " "     </span>
 <span class="co">#&gt;  [9] "G"      "r"      "\xc3"   "\xbc"      "\xc3"   "\x9f" "e"</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/identical.html">identical</a></span><span class="op">(</span><span class="va">characters_1</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">characters_1</span><span class="op">)</span><span class="op">]</span>, <span class="va">characters_2</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">characters_1</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">characters_1</span><span class="op">)</span><span class="op">]</span>, <span class="va">characters_2</span><span class="op">)</span>
 <span class="co">#&gt; [1] FALSE</span></code></pre></div>
 </div>
-<div id="replace-special-characters-with-ascii-characters" class="section level1">
-<h1 class="hasAnchor">
-<a href="#replace-special-characters-with-ascii-characters" class="anchor"></a>Replace Special Characters with ASCII Characters</h1>
+<div class="section level1">
+<h1 id="replace-special-characters-with-ascii-characters">Replace Special Characters with ASCII Characters<a class="anchor" aria-label="anchor" href="#replace-special-characters-with-ascii-characters"></a>
+</h1>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">raw_bytes</span>
 <span class="co">#&gt;  [1] 53 63 68 c3 b6 6e 65 20 47 72 c3 bc c3 9f 65 0a</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/rawConversion.html">rawToChar</a></span><span class="op">(</span><span class="va">raw_bytes</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/rawConversion.html" class="external-link">rawToChar</a></span><span class="op">(</span><span class="va">raw_bytes</span><span class="op">)</span>
 <span class="co">#&gt; [1] "Schöne Grüße\n"</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"\xc3\xb6"</span>, <span class="st">"oe"</span>, <span class="fu"><a href="https://rdrr.io/r/base/rawConversion.html">rawToChar</a></span><span class="op">(</span><span class="va">raw_bytes</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"\xc3\xb6"</span>, <span class="st">"oe"</span>, <span class="fu"><a href="https://rdrr.io/r/base/rawConversion.html" class="external-link">rawToChar</a></span><span class="op">(</span><span class="va">raw_bytes</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; [1] "Schoene Grüße\n"</span>
-<span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"\xc3\xb6"</span>, <span class="st">"oe"</span>, <span class="fu"><a href="https://rdrr.io/r/base/rawConversion.html">rawToChar</a></span><span class="op">(</span><span class="va">raw_bytes</span><span class="op">)</span>, useBytes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"\xc3\xb6"</span>, <span class="st">"oe"</span>, <span class="fu"><a href="https://rdrr.io/r/base/rawConversion.html" class="external-link">rawToChar</a></span><span class="op">(</span><span class="va">raw_bytes</span><span class="op">)</span>, useBytes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; [1] "Schoene Grüße\n"</span></code></pre></div>
 <p>Ok, it seems that we can replace special characters if we know their byte codes (here: <code>c3</code> and <code>b6</code> for letter <code>ö</code>).</p>
 <p>It will be helpful to have a function that shows the special characters and the corresponding byte codes</p>
@@ -318,11 +314,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Hauke Sonnenberg.</p>
+  <p></p>
+<p>Developed by Hauke Sonnenberg.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>

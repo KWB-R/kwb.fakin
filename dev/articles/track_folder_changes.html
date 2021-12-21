@@ -22,6 +22,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -40,12 +42,6 @@
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -79,7 +75,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/kwb-r/kwb.fakin/">
+  <a href="https://github.com/kwb-r/kwb.fakin/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -104,30 +100,30 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Tracking Changes in Folder Structures</h1>
-                        <h4 class="author">Hauke Sonnenberg</h4>
+                        <h4 data-toc-skip class="author">Hauke Sonnenberg</h4>
             
-            <h4 class="date">2021-03-15</h4>
+            <h4 data-toc-skip class="date">2021-12-21</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/kwb-r/kwb.fakin/blob/master/vignettes/track_folder_changes.Rmd"><code>vignettes/track_folder_changes.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/kwb-r/kwb.fakin/blob/HEAD/vignettes/track_folder_changes.Rmd" class="external-link"><code>vignettes/track_folder_changes.Rmd</code></a></small>
       <div class="hidden name"><code>track_folder_changes.Rmd</code></div>
 
     </div>
 
     
     
-<div id="problem" class="section level2">
-<h2 class="hasAnchor">
-<a href="#problem" class="anchor"></a>Problem</h2>
+<div class="section level2">
+<h2 id="problem">Problem<a class="anchor" aria-label="anchor" href="#problem"></a>
+</h2>
 <p>We are modifying files and folders direcly on the file server. With this practice there is a risk that changes in our folder structure, such as renaming, moving or deleting folders have undesired effects. For example, a link to a folder will be broken once the folder has been renamed. Or a script will not work any more because an input file or folder has been renamed or moved. Therefore, it is important to know what changes have been made to files and folders on the server.</p>
 </div>
-<div id="permanent-tracking-is-not-an-option" class="section level2">
-<h2 class="hasAnchor">
-<a href="#permanent-tracking-is-not-an-option" class="anchor"></a>Permanent Tracking Is Not an Option</h2>
+<div class="section level2">
+<h2 id="permanent-tracking-is-not-an-option">Permanent Tracking Is Not an Option<a class="anchor" aria-label="anchor" href="#permanent-tracking-is-not-an-option"></a>
+</h2>
 <p>It would be possible to let the operating system track such changes. However, this would slow down the server so much that this is not an option.</p>
 </div>
-<div id="proposal-of-a-simple-solution" class="section level2">
-<h2 class="hasAnchor">
-<a href="#proposal-of-a-simple-solution" class="anchor"></a>Proposal of a Simple Solution</h2>
+<div class="section level2">
+<h2 id="proposal-of-a-simple-solution">Proposal of a Simple Solution<a class="anchor" aria-label="anchor" href="#proposal-of-a-simple-solution"></a>
+</h2>
 <p>We propose the following “hand-made” and simple solution to track changes: Once per day (preferably during the night) we run a script. This script gets a full list of files and folders that are currently stored on the server. This list does not only contain the paths to the files and folders but also additional information such as file sizes, times of last access and owners of the files. All these information are written to a text file.</p>
 <p>These text files allow to</p>
 <ul>
@@ -135,21 +131,21 @@
 <li><p>compare text files referring to different days. Using the tools provided by professional version control software can support the comparison.</p></li>
 </ul>
 </div>
-<div id="supporting-functions" class="section level2">
-<h2 class="hasAnchor">
-<a href="#supporting-functions" class="anchor"></a>Supporting Functions</h2>
+<div class="section level2">
+<h2 id="supporting-functions">Supporting Functions<a class="anchor" aria-label="anchor" href="#supporting-functions"></a>
+</h2>
 <p>This package contains a set of functions that aim at supporting the approach described above.</p>
-<div id="read-and-save-file-path-information" class="section level3">
-<h3 class="hasAnchor">
-<a href="#read-and-save-file-path-information" class="anchor"></a>Read and Save File Path Information</h3>
+<div class="section level3">
+<h3 id="read-and-save-file-path-information">Read and Save File Path Information<a class="anchor" aria-label="anchor" href="#read-and-save-file-path-information"></a>
+</h3>
 <ul>
 <li>
 <code>read_paths()</code>: Read paths from a text file that contains exactly one path per line.</li>
 </ul>
 </div>
-<div id="recreate-folder-structure-from-paths" class="section level3">
-<h3 class="hasAnchor">
-<a href="#recreate-folder-structure-from-paths" class="anchor"></a>Recreate Folder Structure From Paths</h3>
+<div class="section level3">
+<h3 id="recreate-folder-structure-from-paths">Recreate Folder Structure From Paths<a class="anchor" aria-label="anchor" href="#recreate-folder-structure-from-paths"></a>
+</h3>
 <ul>
 <li><p><code>write_paths_to_folder_tree()</code>: Create a folder structure up to a certain folder depth in a given target directory. The folder structure is defined by a vector of paths. The idea of this function is to restore an old folder structure of which the paths have been saved. When two folder structures are restored from two path vectors that represent an original folder structrue at two different points in time, version control software can be used to compare these folder structures. In Tortoise SVN, for example, changes are marked with a red exclamation mark.</p></li>
 <li><p><code><a href="../reference/build_folders_from_file.html">build_folders_from_file()</a></code>: Restore a folder structure of which the paths were stored in a text file. This function first reads a vector of paths from a text file and then calls <code>write_paths_to_folder_tree()</code> to restore the so defined folder structure.</p></li>
@@ -169,11 +165,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Hauke Sonnenberg.</p>
+  <p></p>
+<p>Developed by Hauke Sonnenberg.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>

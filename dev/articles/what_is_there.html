@@ -22,6 +22,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -40,12 +42,6 @@
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -79,7 +75,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/kwb-r/kwb.fakin/">
+  <a href="https://github.com/kwb-r/kwb.fakin/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -106,29 +102,29 @@
       <h1 data-toc-skip>What is in the package?</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/kwb-r/kwb.fakin/blob/master/vignettes/what_is_there.Rmd"><code>vignettes/what_is_there.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/kwb-r/kwb.fakin/blob/HEAD/vignettes/what_is_there.Rmd" class="external-link"><code>vignettes/what_is_there.Rmd</code></a></small>
       <div class="hidden name"><code>what_is_there.Rmd</code></div>
 
     </div>
 
     
     
-<div id="example-files" class="section level2">
-<h2 class="hasAnchor">
-<a href="#example-files" class="anchor"></a>Example files</h2>
+<div class="section level2">
+<h2 id="example-files">Example files<a class="anchor" aria-label="anchor" href="#example-files"></a>
+</h2>
 <p>This package provides example files containing artificial path data. The files are located in the <code>extdata</code> folder of the package. The function <code><a href="../reference/extdata_file.html">extdata_file()</a></code> returns the full path to a file in this folder when being given the filename:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="op">(</span><span class="va">example_file</span> <span class="op">&lt;-</span> <span class="fu">fakin.path.app</span><span class="fu">:::</span><span class="fu">extdata_file</span><span class="op">(</span><span class="st">"example_file_info_1.csv"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; [1] "/Users/runner/work/_temp/Library/fakin.path.app/extdata/example_file_info_1.csv"</span></code></pre></div>
 </div>
-<div id="read-functions" class="section level2">
-<h2 class="hasAnchor">
-<a href="#read-functions" class="anchor"></a>Read Functions</h2>
+<div class="section level2">
+<h2 id="read-functions">Read Functions<a class="anchor" aria-label="anchor" href="#read-functions"></a>
+</h2>
 <p>The package contains functions named <code>read_*</code>. These functions are described in the following.</p>
-<div id="read_csv" class="section level3">
-<h3 class="hasAnchor">
-<a href="#read_csv" class="anchor"></a>read_csv()</h3>
-<p>This function reads a csv file either with <code><a href="https://rdrr.io/r/utils/read.table.html">read.table()</a></code> (version = 1) or with <code><a href="https://Rdatatable.gitlab.io/data.table/reference/fread.html">data.table::fread()</a></code> (version = 2). It reports about what it does and about the time it takes.</p>
+<div class="section level3">
+<h3 id="read_csv">read_csv()<a class="anchor" aria-label="anchor" href="#read_csv"></a>
+</h3>
+<p>This function reads a csv file either with <code><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.table()</a></code> (version = 1) or with <code><a href="https://Rdatatable.gitlab.io/data.table/reference/fread.html" class="external-link">data.table::fread()</a></code> (version = 2). It reports about what it does and about the time it takes.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data_1</span> <span class="op">&lt;-</span> <span class="fu">kwb.fakin</span><span class="fu">::</span><span class="fu"><a href="../reference/read_csv.html">read_csv</a></span><span class="op">(</span><span class="va">example_file</span>, version <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> 
 <span class="co">#&gt; Reading '/Users/runner/work/_temp/Library/fakin.path.app/extdata/example_file_info_1.csv' with utils::read.table() ... ok. (0.00s)</span>
@@ -136,27 +132,27 @@
 <span class="va">data_2</span> <span class="op">&lt;-</span> <span class="fu">kwb.fakin</span><span class="fu">::</span><span class="fu"><a href="../reference/read_csv.html">read_csv</a></span><span class="op">(</span><span class="va">example_file</span>, version <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
 <span class="co">#&gt; Reading '/Users/runner/work/_temp/Library/fakin.path.app/extdata/example_file_info_1.csv' with data.table::fread() ... ok. (0.00s)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">data_1</span>, <span class="fl">3</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">data_1</span>, <span class="fl">3</span><span class="op">)</span>
 <span class="co">#&gt;               path      size          last_access      type</span>
 <span class="co">#&gt; 1            radio         0 2016-12-31T12:46:27Z directory</span>
 <span class="co">#&gt; 2 radio/effect.png 729340270 2009-08-08T05:41:27Z      file</span>
 <span class="co">#&gt; 3 radio/person.pdf 812027222 2011-01-17T18:35:28Z      file</span>
 
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">data_2</span>, <span class="fl">3</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">data_2</span>, <span class="fl">3</span><span class="op">)</span>
 <span class="co">#&gt;               path      size         last_access      type</span>
 <span class="co">#&gt; 1            radio         0 2016-12-31 12:46:27 directory</span>
 <span class="co">#&gt; 2 radio/effect.png 729340270 2009-08-08 05:41:27      file</span>
 <span class="co">#&gt; 3 radio/person.pdf 812027222 2011-01-17 18:35:28      file</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/identical.html">identical</a></span><span class="op">(</span><span class="va">data_1</span>, <span class="va">data_2</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">data_1</span>, <span class="va">data_2</span><span class="op">)</span>
 <span class="co">#&gt; [1] FALSE</span></code></pre></div>
 </div>
-<div id="read_file_info" class="section level3">
-<h3 class="hasAnchor">
-<a href="#read_file_info" class="anchor"></a>read_file_info()</h3>
+<div class="section level3">
+<h3 id="read_file_info">read_file_info()<a class="anchor" aria-label="anchor" href="#read_file_info"></a>
+</h3>
 <p>This function reads a text file that contains any kind of file path information. The function is aimed to read files containing file paths only, one path per line, as well as files that contain additional information such as file size, creation time or last modification time. File sizes are assumed to be given in bytes and are converted to Mebibytes (MiB = 2^20 bytes) in order to avoid very large numbers that require a non-standard data type.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">file_info</span> <span class="op">&lt;-</span> <span class="fu">fakin.path.app</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/fakin.path.app/man/read_file_paths.html">read_file_paths</a></span><span class="op">(</span><span class="va">example_file</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">file_info</span> <span class="op">&lt;-</span> <span class="fu">fakin.path.app</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/fakin.path.app/man/read_file_paths.html" class="external-link">read_file_paths</a></span><span class="op">(</span><span class="va">example_file</span><span class="op">)</span>
 <span class="co">#&gt; Encodings guessed by readr:</span>
 <span class="co">#&gt; [1] "ASCII"</span>
 <span class="co">#&gt; Selected encoding: ascii</span>
@@ -164,7 +160,7 @@
 <span class="co">#&gt; Converting file size to MiB ... ok. (0.00s) </span>
 <span class="co">#&gt; ok. (0.00s)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">file_info</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">file_info</span><span class="op">)</span>
 <span class="co">#&gt;                   path     size         last_access      type</span>
 <span class="co">#&gt; 1                radio   0.0000 2016-12-31 12:46:27 directory</span>
 <span class="co">#&gt; 2     radio/effect.png 695.5531 2009-08-08 05:41:27      file</span>
@@ -172,11 +168,11 @@
 <span class="co">#&gt; 4       radio/please.R 111.6977 2016-05-21 02:07:34      file</span>
 <span class="co">#&gt; 5        radio/provide   0.0000 2012-10-24 05:32:42 directory</span>
 <span class="co">#&gt; 6 radio/provide/double   0.0000 2018-04-05 02:02:54 directory</span></code></pre></div>
-<p>When reading files that only contain file paths (without any additional columns) the function adds columns <code>type</code> and <code>size</code>. The <code>type</code> is guessed from the filename extension whereas the <code>size</code> is set to 0 for directories and to <code>2^20</code> for files. You can specify the <code>fileEncoding</code> assumed for the file. When being set to <code>NULL</code> the function uses <code><a href="https://rdrr.io/r/utils/localeToCharset.html">utils::localeToCharset()</a></code> to guess an encoding. The encoding is passed to the function <code><a href="https://rdrr.io/r/base/connections.html">file()</a></code> that is used to open an explicit connection. This connection is then given to <code><a href="https://rdrr.io/r/base/readLines.html">readLines()</a></code>. The lines read are assumed to be full file paths. Backslashes are converted to slashes. By default, all paths are sorted.</p>
+<p>When reading files that only contain file paths (without any additional columns) the function adds columns <code>type</code> and <code>size</code>. The <code>type</code> is guessed from the filename extension whereas the <code>size</code> is set to 0 for directories and to <code>2^20</code> for files. You can specify the <code>fileEncoding</code> assumed for the file. When being set to <code>NULL</code> the function uses <code><a href="https://rdrr.io/r/utils/localeToCharset.html" class="external-link">utils::localeToCharset()</a></code> to guess an encoding. The encoding is passed to the function <code><a href="https://rdrr.io/r/base/connections.html" class="external-link">file()</a></code> that is used to open an explicit connection. This connection is then given to <code><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines()</a></code>. The lines read are assumed to be full file paths. Backslashes are converted to slashes. By default, all paths are sorted.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Helper function</span>
 <span class="va">read_example</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu">fakin.path.app</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/fakin.path.app/man/read_file_paths.html">read_file_paths</a></span><span class="op">(</span><span class="fu">kwb.fakin</span><span class="fu">::</span><span class="fu"><a href="../reference/extdata_file.html">extdata_file</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>
+  <span class="fu">fakin.path.app</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/fakin.path.app/man/read_file_paths.html" class="external-link">read_file_paths</a></span><span class="op">(</span><span class="fu">kwb.fakin</span><span class="fu">::</span><span class="fu"><a href="../reference/extdata_file.html">extdata_file</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span> 
 
 <span class="va">file_paths</span> <span class="op">&lt;-</span> <span class="fu">read_example</span><span class="op">(</span><span class="st">"example_file_paths.csv"</span><span class="op">)</span>
@@ -187,8 +183,8 @@
 <span class="co">#&gt; Reading paths from '/Users/runner/work/_temp/Library/kwb.fakin/extdata/example_file_paths.csv' ... ok. (0.00s) </span>
 <span class="co">#&gt; 546 lines have been read.</span>
 <span class="co">#&gt; Sorting paths ... ok. (0.00s) </span>
-<span class="co">#&gt; Guessing file path type ... ok. (0.00s) </span>
-<span class="co">#&gt; ok. (0.01s)</span>
+<span class="co">#&gt; Guessing file path type ... ok. (0.09s) </span>
+<span class="co">#&gt; ok. (0.10s)</span>
 <span class="va">folder_paths</span> <span class="op">&lt;-</span> <span class="fu">read_example</span><span class="op">(</span><span class="st">"example_folder_paths.csv"</span><span class="op">)</span>
 <span class="co">#&gt; Encodings guessed by readr:</span>
 <span class="co">#&gt; [1] "ASCII"</span>
@@ -200,7 +196,7 @@
 <span class="co">#&gt; Guessing file path type ... ok. (0.00s) </span>
 <span class="co">#&gt; ok. (0.00s)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">file_paths</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">file_paths</span><span class="op">)</span>
 <span class="co">#&gt;                                           path type    size</span>
 <span class="co">#&gt; 1                             radio/effect.png file 1048576</span>
 <span class="co">#&gt; 2                             radio/person.pdf file 1048576</span>
@@ -208,7 +204,7 @@
 <span class="co">#&gt; 4             radio/provide/double/between.xls file 1048576</span>
 <span class="co">#&gt; 5     radio/provide/double/corner/describe.png file 1048576</span>
 <span class="co">#&gt; 6 radio/provide/double/corner/select/final.pdf file 1048576</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">folder_paths</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">folder_paths</span><span class="op">)</span>
 <span class="co">#&gt;                                 path      type size</span>
 <span class="co">#&gt; 1                              radio directory    0</span>
 <span class="co">#&gt; 2                      radio/provide directory    0</span>
@@ -217,9 +213,9 @@
 <span class="co">#&gt; 5 radio/provide/double/corner/select directory    0</span>
 <span class="co">#&gt; 6        radio/provide/double/design directory    0</span></code></pre></div>
 </div>
-<div id="read_path_information" class="section level3">
-<h3 class="hasAnchor">
-<a href="#read_path_information" class="anchor"></a>read_path_information()</h3>
+<div class="section level3">
+<h3 id="read_path_information">read_path_information()<a class="anchor" aria-label="anchor" href="#read_path_information"></a>
+</h3>
 <p>This function reads file information files specified by a name pattern matching the files to be read. It calls <code>read_file_info()</code> in a loop over the files and returns a list with the list elements named according to the file names. The content of a file matching <code>path-info_&lt;yyyy-mm-dd_HHMM&gt;_&lt;name&gt;.csv</code> appears in the list as element <code>&lt;name&gt;</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">file_infos</span> <span class="op">&lt;-</span> <span class="fu">kwb.fakin</span><span class="fu">::</span><span class="fu"><a href="../reference/read_path_information.html">read_path_information</a></span><span class="op">(</span>
@@ -243,13 +239,13 @@
 <span class="co">#&gt;   'testcalls_3.R'</span></code></pre></div>
 </div>
 </div>
-<div id="file-listing-functions" class="section level2">
-<h2 class="hasAnchor">
-<a href="#file-listing-functions" class="anchor"></a>File Listing Functions</h2>
+<div class="section level2">
+<h2 id="file-listing-functions">File Listing Functions<a class="anchor" aria-label="anchor" href="#file-listing-functions"></a>
+</h2>
 <p>The functions treated so far have in common that they read file information from files. The following functions can be used to create these files. They use <code>dir</code> or more advanced functions from the fs package.</p>
-<div id="list_files" class="section level3">
-<h3 class="hasAnchor">
-<a href="#list_files" class="anchor"></a>list_files</h3>
+<div class="section level3">
+<h3 id="list_files">list_files<a class="anchor" aria-label="anchor" href="#list_files"></a>
+</h3>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">kwb.fakin</span><span class="fu">::</span><span class="va"><a href="../reference/list_files.html">list_files</a></span>
 <span class="co">#&gt; function (root, file, use_batch = TRUE) </span>
@@ -274,27 +270,27 @@
 <span class="co">#&gt;     }</span>
 <span class="co">#&gt;     cat_time("End")</span>
 <span class="co">#&gt; }</span>
-<span class="co">#&gt; &lt;bytecode: 0x7fba45f37f00&gt;</span>
+<span class="co">#&gt; &lt;bytecode: 0x7f9792ed3498&gt;</span>
 <span class="co">#&gt; &lt;environment: namespace:kwb.fakin&gt;</span></code></pre></div>
 </div>
-<div id="get_recursive_file_info" class="section level3">
-<h3 class="hasAnchor">
-<a href="#get_recursive_file_info" class="anchor"></a>get_recursive_file_info</h3>
-<p>This is just a wrapper around <code><a href="http://fs.r-lib.org/reference/dir_ls.html">fs::dir_info()</a></code> with <code>recurse = TRUE</code>. The function is run inside a call to <code><a href="https://rdrr.io/pkg/kwb.utils/man/catAndRun.html">kwb.utils::catAndRun()</a></code>.</p>
+<div class="section level3">
+<h3 id="get_recursive_file_info">get_recursive_file_info<a class="anchor" aria-label="anchor" href="#get_recursive_file_info"></a>
+</h3>
+<p>This is just a wrapper around <code><a href="https://fs.r-lib.org/reference/dir_ls.html" class="external-link">fs::dir_info()</a></code> with <code>recurse = TRUE</code>. The function is run inside a call to <code><a href="https://rdrr.io/pkg/kwb.utils/man/catAndRun.html" class="external-link">kwb.utils::catAndRun()</a></code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">root</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"kwb.fakin"</span><span class="op">)</span>
-<span class="va">file_info</span> <span class="op">&lt;-</span> <span class="fu">fakin.path.app</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/fakin.path.app/man/get_recursive_file_info.html">get_recursive_file_info</a></span><span class="op">(</span><span class="va">root</span><span class="op">)</span>
-<span class="co">#&gt; Getting file information on files below /Users/runner/work/_temp/Library/kwb.fakin ... ok. (0.01s)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">file_info</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 6 x 3</span>
-<span class="co">#&gt;   path                                                      type            size</span>
-<span class="co">#&gt;   &lt;fs::path&gt;                                                &lt;fct&gt;     &lt;fs::byte&gt;</span>
-<span class="co">#&gt; 1 /Users/runner/work/_temp/Library/kwb.fakin/DESCRIPTION    file           1.97K</span>
-<span class="co">#&gt; 2 /Users/runner/work/_temp/Library/kwb.fakin/INDEX          file           2.24K</span>
-<span class="co">#&gt; 3 /Users/runner/work/_temp/Library/kwb.fakin/LICENSE        file           1.08K</span>
-<span class="co">#&gt; 4 /Users/runner/work/_temp/Library/kwb.fakin/Meta           directory        256</span>
-<span class="co">#&gt; 5 /Users/runner/work/_temp/Library/kwb.fakin/Meta/Rd.rds    file           1.56K</span>
-<span class="co">#&gt; 6 /Users/runner/work/_temp/Library/kwb.fakin/Meta/features… file             122</span></code></pre></div>
+<code class="sourceCode R"><span class="va">root</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"kwb.fakin"</span><span class="op">)</span>
+<span class="va">file_info</span> <span class="op">&lt;-</span> <span class="fu">fakin.path.app</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/fakin.path.app/man/get_recursive_file_info.html" class="external-link">get_recursive_file_info</a></span><span class="op">(</span><span class="va">root</span><span class="op">)</span>
+<span class="co">#&gt; Getting file information on files below /Users/runner/work/_temp/Library/kwb.fakin ... ok. (0.00s)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">file_info</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 3</span></span>
+<span class="co">#&gt;   path                                                         type         size</span>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fs::path&gt;</span>                                                   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;fs::b&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> /Users/runner/work/_temp/Library/kwb.fakin/DESCRIPTION       file        1.97K</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> /Users/runner/work/_temp/Library/kwb.fakin/INDEX             file        2.24K</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> /Users/runner/work/_temp/Library/kwb.fakin/LICENSE           file        1.08K</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> <span style="color: #0000BB; font-weight: bold;">/Users/runner/work/_temp/Library/kwb.fakin/Meta</span>              directory     256</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">5</span> /Users/runner/work/_temp/Library/kwb.fakin/Meta/Rd.rds       file        1.56K</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">6</span> /Users/runner/work/_temp/Library/kwb.fakin/Meta/features.rds file          123</span></code></pre></div>
 </div>
 </div>
   </div>
@@ -310,11 +306,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Hauke Sonnenberg.</p>
+  <p></p>
+<p>Developed by Hauke Sonnenberg.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>

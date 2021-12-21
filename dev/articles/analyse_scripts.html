@@ -22,6 +22,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -40,12 +42,6 @@
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -79,7 +75,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/kwb-r/kwb.fakin/">
+  <a href="https://github.com/kwb-r/kwb.fakin/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -104,22 +100,22 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Analysing R Scripts</h1>
-                        <h4 class="author">Hauke Sonnenberg</h4>
+                        <h4 data-toc-skip class="author">Hauke Sonnenberg</h4>
             
-            <h4 class="date">2021-03-15</h4>
+            <h4 data-toc-skip class="date">2021-12-21</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/kwb-r/kwb.fakin/blob/master/vignettes/analyse_scripts.Rmd"><code>vignettes/analyse_scripts.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/kwb-r/kwb.fakin/blob/HEAD/vignettes/analyse_scripts.Rmd" class="external-link"><code>vignettes/analyse_scripts.Rmd</code></a></small>
       <div class="hidden name"><code>analyse_scripts.Rmd</code></div>
 
     </div>
 
     
     
-<p>It is quite impressive how, since more or less ten years, more and more people at our research institute <a href="http://komptenz-wasser.de">Kompetenzzentrum Wasser Berlin</a> began to use the programming language R to support their daily data-related work. As a result, we are currently hosting more than one thousand R scripts in our internal version control system.</p>
+<p>It is quite impressive how, since more or less ten years, more and more people at our research institute <a href="http://komptenz-wasser.de" class="external-link">Kompetenzzentrum Wasser Berlin</a> began to use the programming language R to support their daily data-related work. As a result, we are currently hosting more than one thousand R scripts in our internal version control system.</p>
 <p>It is difficult to keep control over so many files. Therefore, this package contains a function that aims at giving an overview of R script files and the functions defined within these files. Use the function <code><a href="../reference/report_about_r_scripts.html">report_about_r_scripts()</a></code> to create an R Markdown document about all the R script files below a certain root directory:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">kwb.fakin</span><span class="fu">::</span><span class="fu"><a href="../reference/report_about_r_scripts.html">report_about_r_scripts</a></span><span class="op">(</span>root <span class="op">=</span> <span class="st">"path/to/your/script/folder"</span><span class="op">)</span></code></pre></div>
-<p>With the (private) helper functions <code>github_package_path()</code> and <code>github_package_files()</code> that are also contained in the package, we can also report on the R files that are contained in an R package hosted on <a href="https://github.com">GitHub</a>. For example, we can have a look at the files that are contained in this package. They are available in the repository <a href="https://github.com/kwb-r/kwb.fakin">kwb.fakin</a> on our <a href="https://github.com/kwb-r">GitHub account</a>:</p>
+<p>With the (private) helper functions <code>github_package_path()</code> and <code>github_package_files()</code> that are also contained in the package, we can also report on the R files that are contained in an R package hosted on <a href="https://github.com" class="external-link">GitHub</a>. For example, we can have a look at the files that are contained in this package. They are available in the repository <a href="https://github.com/kwb-r/kwb.fakin" class="external-link">kwb.fakin</a> on our <a href="https://github.com/kwb-r" class="external-link">GitHub account</a>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">repo</span> <span class="op">&lt;-</span> <span class="st">"kwb-r/kwb.fakin"</span>
 
@@ -135,9 +131,9 @@
 <p>It is up to you to compare with what the great guys do. Try e.g.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">kwb.fakin</span><span class="fu">::</span><span class="fu"><a href="../reference/report_about_github_package.html">report_about_github_package</a></span><span class="op">(</span><span class="st">"tidyverse/dplyr"</span><span class="op">)</span></code></pre></div>
-<div id="what-packages-are-used-by-our-scripts" class="section level2">
-<h2 class="hasAnchor">
-<a href="#what-packages-are-used-by-our-scripts" class="anchor"></a>What packages are used by our scripts?</h2>
+<div class="section level2">
+<h2 id="what-packages-are-used-by-our-scripts">What packages are used by our scripts?<a class="anchor" aria-label="anchor" href="#what-packages-are-used-by-our-scripts"></a>
+</h2>
 <p>To find out what R-packages are used in our R-scripts, you may use the function <code>get_names_of_used_packages</code> of our <code>kwb.code</code> package:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#devtools::install_github("kwb-r/kwb.code")</span>
@@ -146,29 +142,29 @@
 <span class="va">root_dir</span> <span class="op">=</span> <span class="st">"~/Desktop/R-Development/RScripts"</span>
 
 <span class="co"># Get the names of the packages that are loaded in the scripts with "library()"</span>
-<span class="va">packages</span> <span class="op">&lt;-</span> <span class="fu">kwb.code</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kwb.code/man/get_names_of_used_packages.html">get_names_of_used_packages</a></span><span class="op">(</span><span class="va">root_dir</span><span class="op">)</span>
+<span class="va">packages</span> <span class="op">&lt;-</span> <span class="fu">kwb.code</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kwb.code/man/get_names_of_used_packages.html" class="external-link">get_names_of_used_packages</a></span><span class="op">(</span><span class="va">root_dir</span><span class="op">)</span>
 
 <span class="co"># Print the script names</span>
-<span class="fu"><a href="https://rdrr.io/r/base/writeLines.html">writeLines</a></span><span class="op">(</span><span class="va">packages</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/writeLines.html" class="external-link">writeLines</a></span><span class="op">(</span><span class="va">packages</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="get-file-properties-recursively" class="section level2">
-<h2 class="hasAnchor">
-<a href="#get-file-properties-recursively" class="anchor"></a>Get file properties recursively</h2>
+<div class="section level2">
+<h2 id="get-file-properties-recursively">Get file properties recursively<a class="anchor" aria-label="anchor" href="#get-file-properties-recursively"></a>
+</h2>
 <p>The base function <code>file.info</code> can be used to get detailed information about a file. The package <code>kwb.fakin</code> contains a function that calls this function on all files that are below a certain root folder:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Define the root directory</span>
-<span class="va">root_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"kwb.fakin"</span><span class="op">)</span>
+<span class="va">root_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"kwb.fakin"</span><span class="op">)</span>
 
 <span class="co"># Get information on all files in this directory</span>
-<span class="va">file_info</span> <span class="op">&lt;-</span> <span class="fu">fakin.path.app</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/fakin.path.app/man/get_recursive_file_info.html">get_recursive_file_info</a></span><span class="op">(</span><span class="va">root_dir</span><span class="op">)</span>
+<span class="va">file_info</span> <span class="op">&lt;-</span> <span class="fu">fakin.path.app</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/fakin.path.app/man/get_recursive_file_info.html" class="external-link">get_recursive_file_info</a></span><span class="op">(</span><span class="va">root_dir</span><span class="op">)</span>
 
 <span class="co"># Get information on R scripts only...</span>
-<span class="va">file_info_scripts</span> <span class="op">&lt;-</span> <span class="fu">fakin.path.app</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/fakin.path.app/man/get_recursive_file_info.html">get_recursive_file_info</a></span><span class="op">(</span><span class="va">root_dir</span>, <span class="st">"[.]R$"</span><span class="op">)</span>
+<span class="va">file_info_scripts</span> <span class="op">&lt;-</span> <span class="fu">fakin.path.app</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/fakin.path.app/man/get_recursive_file_info.html" class="external-link">get_recursive_file_info</a></span><span class="op">(</span><span class="va">root_dir</span>, <span class="st">"[.]R$"</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># Show the structure of the result</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/structure.html">structure</a></span><span class="op">(</span><span class="va">file_info_scripts</span>, class <span class="op">=</span> <span class="st">"data.frame"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/structure.html" class="external-link">structure</a></span><span class="op">(</span><span class="va">file_info_scripts</span>, class <span class="op">=</span> <span class="st">"data.frame"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
   </div>
 
@@ -183,11 +179,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Hauke Sonnenberg.</p>
+  <p></p>
+<p>Developed by Hauke Sonnenberg.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>
