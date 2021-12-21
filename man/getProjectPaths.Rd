@@ -4,13 +4,17 @@
 \alias{getProjectPaths}
 \title{Paths where to find project on the KWB server}
 \usage{
-getProjectPaths(start_directory, as_list = FALSE)
+getProjectPaths(start_directory, as_list = FALSE, skip_pattern = "/_")
 }
 \arguments{
 \item{start_directory}{Path to the project network drive at KWB}
 
 \item{as_list}{If \code{TRUE} (the default is \code{FALSE}) the paths
 are returned as a list with the folder names as list element names.}
+
+\item{skip_pattern}{pattern matching paths to be removed from the returned
+path list. By default all paths containing underscore at the beginning of
+a subdirectory name are removed.}
 }
 \value{
 full paths to project folders as a vector of character or as a named

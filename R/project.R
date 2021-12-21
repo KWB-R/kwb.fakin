@@ -8,18 +8,24 @@
 #'
 #' @param project Project name. Must correspond with the name of a folder below
 #'   one of the server locations returned by \code{\link{getProjectPaths}}
-#'
+#' @param start_directory Path to the project network drive at KWB
 #' @export
 #'
-createLocalProject <- function(project)
+createLocalProject <- function(
+  project,
+  start_directory = options()$kwb.fakin.paths$projects
+)
 {
-  paths <- getProjectPaths(start_directory = options()$kwb.fakin.paths$projects)
+  paths <- getProjectPaths(
+    start_directory = start_directory,
+    skip_pattern = NULL
+  )
 
   index <- grep(paste0("/", project, "$"), paths)
 
   projects <- sapply(kwb.file::split_paths(paths), kwb.utils::lastElement)
 
-  if (length(index) == 0) {
+  if (length(index) == 0L) {
 
     project_list <- kwb.utils::stringList(projects, collapse = "\n  ")
 
@@ -44,16 +50,23 @@ createLocalProject <- function(project)
 #' @param start_directory Path to the project network drive at KWB
 #' @param as_list If \code{TRUE} (the default is \code{FALSE}) the paths
 #'   are returned as a list with the folder names as list element names.
-#'
+#' @param skip_pattern pattern matching paths to be removed from the returned
+#'   path list. By default all paths containing underscore at the beginning of
+#'   a subdirectory name are removed.
 #' @return full paths to project folders as a vector of character or as a named
 #'   list if \code{as_list = TRUE}.
 #'
 #' @export
 #'
-getProjectPaths <- function(start_directory, as_list = FALSE)
+getProjectPaths <- function(
+  start_directory, as_list = FALSE, skip_pattern = "/_"
+)
 {
+  #start_directory <- "Y:"
+
   roots <- file.path(start_directory, c(
-    "Auftraege",
+    "AUFTRAEGE/_Angebote_in_Arbeit",
+    "AUFTRAEGE/_Auftraege_laufend",
     "SUW_Department/Projects",
     "GROUNDWATER/PROJECTS",
     "WWT_Department/PROJECTS"
@@ -62,8 +75,10 @@ getProjectPaths <- function(start_directory, as_list = FALSE)
   # Get the paths to all sub directories
   paths <- unlist(lapply(roots, list.dirs, recursive = FALSE))
 
-  # Remove subdirectories starting with underscore
-  paths <- paths[! grepl("/_", paths)]
+  # Remove paths matching skip_pattern
+  if (kwb.utils::defaultIfNULL(skip_pattern, "") != "") {
+    paths <- paths[! grepl("/_", paths)]
+  }
 
   # Convert to named list if requested
   if (as_list) {
