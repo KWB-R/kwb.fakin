@@ -46,7 +46,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -102,7 +102,7 @@
       <h1 data-toc-skip>Understanding Encoding</h1>
                         <h4 data-toc-skip class="author">Hauke Sonnenberg</h4>
             
-            <h4 data-toc-skip class="date">2021-12-21</h4>
+            <h4 data-toc-skip class="date">2022-06-02</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/kwb-r/kwb.fakin/blob/HEAD/vignettes/understanding_encoding.Rmd" class="external-link"><code>vignettes/understanding_encoding.Rmd</code></a></small>
       <div class="hidden name"><code>understanding_encoding.Rmd</code></div>
@@ -113,9 +113,9 @@
     
 <p>Read this first:</p>
 <p><a href="https://dss.iq.harvard.edu/blog/escaping-character-encoding-hell-r-windows" class="external-link">Escaping from character encoding hell in R on Windows</a></p>
-<div class="section level2">
-<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
-</h2>
+<div class="section level3">
+<h3 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h3>
 <p>In our document on best practices in research data managment we recommend to stick to a very basic set of characters when <a href="https://kwb-r.github.io/fakin.doc/best-practices.html#data-storage-naming" class="external-link">naming files and folders</a>.</p>
 <p>You may ask, why? You may never have had any problems when working with files containing spaces or special characters. If this is the case for you, you are lucky. You then most probably</p>
 <ul>
@@ -123,9 +123,9 @@
 <li><p>do not automate tasks by programming.</p></li>
 </ul>
 </div>
-<div class="section level2">
-<h2 id="example-sessions">Example Sessions<a class="anchor" aria-label="anchor" href="#example-sessions"></a>
-</h2>
+<div class="section level3">
+<h3 id="example-sessions">Example Sessions<a class="anchor" aria-label="anchor" href="#example-sessions"></a>
+</h3>
 <p>What does R tell us about Encoding?</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="op">?</span><span class="va">Encoding</span></code></pre></div>
@@ -152,15 +152,15 @@
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"xx = "</span>, <span class="va">xx</span>, <span class="st">"\n"</span>, sep <span class="op">=</span> <span class="st">""</span><span class="op">)</span>
 <span class="co">#&gt; xx = fa\xc3\xa7ile</span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="writing-to-and-reading-from-files">Writing to and Reading from Files<a class="anchor" aria-label="anchor" href="#writing-to-and-reading-from-files"></a>
-</h2>
+<div class="section level3">
+<h3 id="writing-to-and-reading-from-files">Writing to and Reading from Files<a class="anchor" aria-label="anchor" href="#writing-to-and-reading-from-files"></a>
+</h3>
 <p>Lets write a line containing German special characters to a text file. We use the function <code>writeText()</code> from our <a href="https://github.com/kwb-r/kwb.utils" class="external-link">kwb.utils</a> package. This function does no more than using <code><a href="https://rdrr.io/r/base/writeLines.html" class="external-link">writeLines()</a></code>, but additionally gives a message about it and returns the path to the file:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">text</span> <span class="op">&lt;-</span> <span class="st">"Schöne Grüße"</span>
 
 <span class="va">test_file</span> <span class="op">&lt;-</span> <span class="fu">kwb.utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kwb.utils/man/writeText.html" class="external-link">writeText</a></span><span class="op">(</span><span class="va">text</span>, <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".txt"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Writing '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpnGOe0W/file40701b9916de.txt' ... ok.</span></code></pre></div>
+<span class="co">#&gt; Writing '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpi0VLlb/file10a152442bd1.txt' ... ok.</span></code></pre></div>
 <p>And now read the line back with <code><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines()</a></code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="va">test_file</span><span class="op">)</span>
@@ -227,9 +227,9 @@
 <code class="sourceCode R"><span class="op">(</span><span class="va">raw_bytes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readBin.html" class="external-link">readBin</a></span><span class="op">(</span><span class="va">test_file</span>, <span class="st">"raw"</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;  [1] 53 63 68 c3 b6 6e 65 20 47 72 c3 bc c3 9f 65 0a</span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="conversion-between-numeric-codes-and-characters">Conversion Between Numeric Codes and Characters<a class="anchor" aria-label="anchor" href="#conversion-between-numeric-codes-and-characters"></a>
-</h2>
+<div class="section level3">
+<h3 id="conversion-between-numeric-codes-and-characters">Conversion Between Numeric Codes and Characters<a class="anchor" aria-label="anchor" href="#conversion-between-numeric-codes-and-characters"></a>
+</h3>
 <p>What characters do the numeric codes given as hexedecimal numbers in <code>raw_bytes</code> represent?</p>
 <p>Let’s first see what the hexanumeric codes are in the decimal system:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -268,15 +268,15 @@
 <p>No, the German special characters are here shown as one character only instead of two. But we can achieve the same when setting the argument <code>useBytes</code> to <code>TRUE</code>:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="op">(</span><span class="va">characters_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/strsplit.html" class="external-link">strsplit</a></span><span class="op">(</span><span class="va">text</span>, split <span class="op">=</span> <span class="st">""</span>, useBytes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
-<span class="co">#&gt;  [1] "S"      "c"      "h"      "\xc3"   "\xb6"      "n"      "e"      " "     </span>
-<span class="co">#&gt;  [9] "G"      "r"      "\xc3"   "\xbc"      "\xc3"   "\x9f" "e"</span>
+<span class="co">#&gt;  [1] "S"    "c"    "h"    "\xc3" "\xb6" "n"    "e"    " "    "G"    "r"   </span>
+<span class="co">#&gt; [11] "\xc3" "\xbc" "\xc3" "\x9f" "e"</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">characters_1</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">characters_1</span><span class="op">)</span><span class="op">]</span>, <span class="va">characters_2</span><span class="op">)</span>
-<span class="co">#&gt; [1] FALSE</span></code></pre></div>
+<span class="co">#&gt; [1] TRUE</span></code></pre></div>
 </div>
-<div class="section level1">
-<h1 id="replace-special-characters-with-ascii-characters">Replace Special Characters with ASCII Characters<a class="anchor" aria-label="anchor" href="#replace-special-characters-with-ascii-characters"></a>
-</h1>
+<div class="section level2">
+<h2 id="replace-special-characters-with-ascii-characters">Replace Special Characters with ASCII Characters<a class="anchor" aria-label="anchor" href="#replace-special-characters-with-ascii-characters"></a>
+</h2>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">raw_bytes</span>
 <span class="co">#&gt;  [1] 53 63 68 c3 b6 6e 65 20 47 72 c3 bc c3 9f 65 0a</span>
@@ -320,7 +320,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer>
