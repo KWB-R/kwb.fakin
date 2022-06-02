@@ -6,7 +6,8 @@ test_that("createLocalProject() works", {
   on.exit(options(old_opts))
 
   fs::dir_create(recurse = TRUE, file.path(tempdir(), c(
-    "Auftraege/a",
+    "AUFTRAEGE/_Angebote_in_Arbeit/a1",
+    "AUFTRAEGE/_Auftraege_laufend/a2",
     "SUW_Department/Projects/b",
     "GROUNDWATER/PROJECTS/c",
     "WWT_Department/PROJECTS/d"
@@ -18,12 +19,13 @@ test_that("createLocalProject() works", {
   expect_error(f())
   expect_error(capture(f("x")))
 
-  capture(f("a"))
+  capture(f("a1"))
+  capture(f("a2"))
   capture(f("b"))
 
   targetdir <- file.path(kwb.utils::get_homedir(), "Documents", "Projekte")
 
-  expect_true(all(c("a", "b") %in% dir(targetdir)))
+  expect_true(all(c("a1", "a2", "b") %in% dir(targetdir)))
 
-  fs::dir_delete(file.path(targetdir, c("a", "b")))
+  fs::dir_delete(file.path(targetdir, c("a1", "a2", "b")))
 })
