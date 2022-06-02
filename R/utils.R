@@ -20,23 +20,6 @@ bytes_to_mib <- function(x)
   x / 2^20
 }
 
-# cat_changes_if ---------------------------------------------------------------
-cat_changes_if <- function(dbg, x, y)
-{
-  if (dbg) {
-
-    cat_changes(x, y)
-  }
-}
-
-# cat_changes ------------------------------------------------------------------
-cat_changes <- function(x, y)
-{
-  is_modified <- x != y
-
-  kwb.utils::catLines(sprintf("%s -> %s", x[is_modified], y[is_modified]))
-}
-
 # cat_time ---------------------------------------------------------------------
 cat_time <- function(tag)
 {
@@ -173,21 +156,6 @@ read_csv <- function(file, sep = ";", version = 2, fileEncoding = NULL, ...)
 read_csv_de <- function(file, ...)
 {
   utils::read.csv2(file, stringsAsFactors = FALSE, ...)
-}
-
-# remove_empty -----------------------------------------------------------------
-remove_empty <- function(x, dbg = FALSE)
-{
-  is_empty <- (x == "")
-
-  if (! any(is_empty)) {
-
-    return(x)
-  }
-
-  kwb.utils::catIf(dbg, sum(is_empty), "elements removed.\n")
-
-  x[! is_empty]
 }
 
 # sort_unique ------------------------------------------------------------------

@@ -49,7 +49,10 @@ extract_properties <- function(x, patterns, replacements, as_data_frame = FALSE)
 
   property_strings <- sapply(seq_along(x), function(i) {
 
-    kwb.utils::collapsed(remove_empty(sapply(property_list, "[", i)), "+")
+    kwb.utils::collapsed(
+      kwb.utils::removeEmpty2(sapply(property_list, "[", i)),
+      "+"
+    )
   })
 
   if (as_data_frame) {
