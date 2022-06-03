@@ -24,7 +24,7 @@ Imports:
     kwb.file (>= 0.2.1),
     kwb.plot (>= 0.2.0),
     kwb.prep,
-    kwb.utils (>= 0.4.3),
+    kwb.utils (>= 0.12.0.9000),
     methods,
     magrittr (>= 1.5),
     pathlist (>= 0.2.1),
@@ -39,7 +39,7 @@ Remotes:
     github::kwb-r/kwb.pathdict@v0.1.0,
     github::kwb-r/kwb.plot,
     github::kwb-r/kwb.prep,
-    github::kwb-r/kwb.utils
+    github::kwb-r/kwb.utils@dev
 Suggests: 
     covr (>= 3.2.1),
     jsonlite (>= 1.6),
