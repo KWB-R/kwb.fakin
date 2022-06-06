@@ -122,11 +122,22 @@ a data frame is returned.</p></dd>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Extract property values as strings</span></span>
 <span class="r-in"><span class="fu">extract_properties</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, <span class="va">patterns</span>, <span class="va">replacements</span><span class="op">)</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> 'removeEmpty2' is not an exported object from 'namespace:kwb.utils'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                          Bericht </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                    "type:report" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                        Bericht 1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                           "type:report+number:1" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                 Abschlussbericht </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                        "type:report+stage:final" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                               Zwischenbericht_HS </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "type:report+stage:intermediate+author:Sonnenberg+reviewed:true" </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Arrange the properties in a data frame</span></span>
 <span class="r-in"><span class="fu">extract_properties</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, <span class="va">patterns</span>, <span class="va">replacements</span>, as_data_frame <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> 'removeEmpty2' is not an exported object from 'namespace:kwb.utils'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 name     author number reviewed        stage   type</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1            Bericht       &lt;NA&gt;   &lt;NA&gt;     &lt;NA&gt;         &lt;NA&gt; report</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2          Bericht 1       &lt;NA&gt;      1     &lt;NA&gt;         &lt;NA&gt; report</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   Abschlussbericht       &lt;NA&gt;   &lt;NA&gt;     &lt;NA&gt;        final report</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Zwischenbericht_HS Sonnenberg   &lt;NA&gt;     true intermediate report</span>
 </code></pre></div>
     </div>
   </div>
