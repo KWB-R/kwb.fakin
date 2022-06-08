@@ -3,6 +3,8 @@
 [![codecov](https://codecov.io/github/KWB-R/kwb.fakin/branch/master/graphs/badge.svg)](https://codecov.io/github/KWB-R/kwb.fakin)
 [![Project Status](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/kwb.fakin)]()
+[![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.1309311.svg)](https://doi.org/10.5281/zenodo.1309311)
+[![R-Universe_Status_Badge](https://kwb-r.r-universe.dev/badges/kwb.fakin)](https://kwb-r.r-universe.dev/)
 
 # kwb.fakin
 

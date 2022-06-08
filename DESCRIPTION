@@ -1,13 +1,14 @@
 Package: kwb.fakin
 Type: Package
 Title: Functions Used in Our Fakin Project
-Version: 0.4.1.9000
+Version: 0.4.2
 Authors@R: c(
     person("Hauke", "Sonnenberg", , "hauke.sonnenberg@kompetenz-wasser.de", 
            role = c("aut", "cre"), comment = c(ORCID = "0000-0001-9134-2871")),
     person("Michael", "Rustler", , "michael.rustler@kompetenz-wasser.de", 
            role = c("ctb"), comment = c(ORCID = "0000-0003-0647-7726")),
-    person("Kompetenzzentrum Wasser Berlin gGmbH", role = c("cph")))
+    person("FAKIN", role = "fnd"),
+    person("Kompetenzzentrum Wasser Berlin gGmbH (KWB)", role = c("cph")))
 Description: This package contains all functions and evaluations related to
     KWB project "FAKIN". Set the Subversion setting 'enable-auto-props' to 'yes' 
     so that the 'auto-probs' options are considered.
@@ -33,13 +34,13 @@ Imports:
     yaml (> 2.1)
 Remotes: 
     github::hsonne/pathlist,
-    github::kwb-r/fakin.path.app@dev,
-    github::kwb-r/kwb.code@v0.1.0,
+    github::kwb-r/fakin.path.app,
+    github::kwb-r/kwb.code,
     github::kwb-r/kwb.file,
-    github::kwb-r/kwb.pathdict@v0.1.0,
+    github::kwb-r/kwb.pathdict,
     github::kwb-r/kwb.plot,
     github::kwb-r/kwb.prep,
-    github::kwb-r/kwb.utils@dev
+    github::kwb-r/kwb.utils
 Suggests: 
     covr (>= 3.2.1),
     jsonlite (>= 1.6),

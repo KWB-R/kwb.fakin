@@ -3,6 +3,8 @@
 [![codecov](https://codecov.io/github/KWB-R/kwb.fakin/branch/master/graphs/badge.svg)](https://codecov.io/github/KWB-R/kwb.fakin)
 [![Project Status](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/kwb.fakin)]()
+[![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.1309311.svg)](https://doi.org/10.5281/zenodo.1309311)
+[![R-Universe_Status_Badge](https://kwb-r.r-universe.dev/badges/kwb.fakin)](https://kwb-r.r-universe.dev/)
 
 This package contains all functions and evaluations related to KWB project 
 "FAKIN". Set the Subversion setting 'enable-auto-props' to 'yes' so that the 
@@ -10,9 +12,20 @@ This package contains all functions and evaluations related to KWB project
 
 ## Installation
 
+For installing the latest release of this R package run the following code below:
+
 ```r
-#install.packages("devtools", repos = "https://cloud.r-project.org")
-devtools::install_github("KWB-R/kwb.fakin")
+# Enable repository from kwb-r
+options(repos = c(
+  kwbr = 'https://kwb-r.r-universe.dev',
+  CRAN = 'https://cloud.r-project.org'))
+
+# Download and install kwb.fakin in R
+install.packages('kwb.fakin')
+
+# Browse the kwb.fakin manual pages
+help(package = 'kwb.fakin')
+
 ```
 
 
