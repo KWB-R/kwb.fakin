@@ -1,6 +1,6 @@
 # [kwb.fakin 0.4.1](https://github.com/KWB-R/kwb.fakin/releases/tag/v0.4.1) <small>2022-06-09</small>
 
-* Harmonise with R package kwb.pkgbuild
+* Harmonise with R package [kwb.pkgbuild](https://kwb-r.github.io/kwb.pkgbuild)
 
 * `plot_path_network`: add remove_common_root as argument (#6)
 
