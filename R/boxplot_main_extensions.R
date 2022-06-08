@@ -3,7 +3,7 @@ boxplot_main_extensions <- function(data, top_n = 10)
 {
   extensions <- kwb.utils::selectColumns(data, "extension")
 
-  data$extension <- to_top_n(extensions, n = top_n)
+  data$extension <- fakin.path.app:::to_top_n(extensions, n = top_n)
 
   data$size[kwb.utils::selectColumns(data, "size") == 0] <- 1
 

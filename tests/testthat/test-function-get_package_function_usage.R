@@ -7,7 +7,11 @@ test_that("get_package_function_usage() works", {
   )
 
   get_usage <- function(script) {
-    tree <- kwb.code::parse_scripts(dirname(script), basename(script))
+    tree <- kwb.code::parse_scripts(
+      dirname(script),
+      basename(script),
+      dbg = FALSE
+    )
     kwb.fakin:::get_package_function_usage(tree, package = "kwb.code")
   }
 

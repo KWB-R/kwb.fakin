@@ -1,13 +1,14 @@
 Package: kwb.fakin
 Type: Package
 Title: Functions Used in Our Fakin Project
-Version: 0.4.1
+Version: 0.4.2
 Authors@R: c(
     person("Hauke", "Sonnenberg", , "hauke.sonnenberg@kompetenz-wasser.de", 
            role = c("aut", "cre"), comment = c(ORCID = "0000-0001-9134-2871")),
     person("Michael", "Rustler", , "michael.rustler@kompetenz-wasser.de", 
            role = c("ctb"), comment = c(ORCID = "0000-0003-0647-7726")),
-    person("Kompetenzzentrum Wasser Berlin gGmbH", role = c("cph")))
+    person("FAKIN", role = "fnd"),
+    person("Kompetenzzentrum Wasser Berlin gGmbH (KWB)", role = c("cph")))
 Description: This package contains all functions and evaluations related to
     KWB project "FAKIN". Set the Subversion setting 'enable-auto-props' to 'yes' 
     so that the 'auto-probs' options are considered.
@@ -17,40 +18,41 @@ Imports:
     data.table (>= 1.11.8),
     digest (>= 0.6.18),
     dplyr (>= 0.7.8),
+    fakin.path.app,
     fs (>= 1.2.6),
     ggplot2 (>= 3.2.0),
     kwb.code (>= 0.1.0),
     kwb.file (>= 0.2.1),
-    kwb.pathdict (>= 0.1.0),
     kwb.plot (>= 0.2.0),
-    kwb.utils (>= 0.4.3),
-    lubridate (>= 1.7.4),
+    kwb.prep,
+    kwb.utils (>= 0.12.0.9000),
     methods,
     magrittr (>= 1.5),
     pathlist (>= 0.2.1),
-    readr (>= 1.3.1),
     rlang (>= 0.4.0),
-    stringi (>= 1.2.4),
     stringr (>= 1.3.1),
-    treemap (>= 2.4.2),
     yaml (> 2.1)
 Remotes: 
     github::hsonne/pathlist,
-    github::kwb-r/kwb.code@v0.1.0,
+    github::kwb-r/fakin.path.app,
+    github::kwb-r/kwb.code,
     github::kwb-r/kwb.file,
-    github::kwb-r/kwb.pathdict@v0.1.0,
+    github::kwb-r/kwb.pathdict,
     github::kwb-r/kwb.plot,
+    github::kwb-r/kwb.prep,
     github::kwb-r/kwb.utils
 Suggests: 
     covr (>= 3.2.1),
     jsonlite (>= 1.6),
     knitr (>= 1.20),
+    kwb.pathdict (>= 0.1.0),
     networkD3 (>= 0.4),
     rmarkdown (>= 1.10),
-    testthat (>= 2.0.1)
+    testthat (>= 2.0.1),
+    treemap (>= 2.4.2)
 License: MIT + file LICENSE
 LazyData: TRUE
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.2
 VignetteBuilder: knitr
 URL: https://github.com/kwb-r/kwb.fakin
 BugReports: https://github.com/kwb-r/kwb.fakin/issues

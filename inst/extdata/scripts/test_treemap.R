@@ -1,6 +1,6 @@
 path_data <- path_infos$SUW_Department
 
-x <- kwb.fakin:::prepare_for_treemap(path_data, n_keep = 1)
+x <- fakin.path.app:::prepare_for_treemap(path_data, n_keep = 1)
 
 x$size[x$size == 0] <- 1
 
@@ -8,7 +8,7 @@ max_levels <- min(which(is.na(x[grep("^level", names(x))]), arr.ind = TRUE)[, 2]
 
 for (n_levels in seq_len(max_levels)) {
 
-  treemap::treemap(x, index = names(x)[1:n_levels], vSize = "size")
+  treemap::treemap(x, index = names(x)[seq_len(n_levels)], vSize = "size")
 }
 
 head(folder_data)

@@ -30,7 +30,7 @@ patterns <- c(
 )
 
 # Define property:value pairs (or even prop1:value1+prob2:value2+...)
-# referring to parts of the pattern enclosed in parentheses with \\1, \\2, ...
+# referring to parts of the pattern enclosed in parentheses with \1, \2, ...
 replacements <- c(
   "type:report",
   "number:\\\\1",

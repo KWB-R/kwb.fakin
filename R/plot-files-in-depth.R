@@ -9,7 +9,7 @@ check_depth_summaries <- function(depth_summaries)
   }))
 
   stopifnot(kwb.utils::allAreEqual(depth_summary$n_files))
-  stopifnot(kwb.utils::allAreEqual(depth_summary$n_files))
+
   invisible(depth_summary)
 }
 
@@ -62,4 +62,3 @@ plot_files_in_depth <- function(depth_summaries, project)
 {
   stop_("plot_files_in_depth() has been removed.")
 }
-

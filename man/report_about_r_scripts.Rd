@@ -4,8 +4,11 @@
 \alias{report_about_r_scripts}
 \title{Create a HTML Report About R Scripts}
 \usage{
-report_about_r_scripts(root, scripts = dir(root, "\\\\.R$", ignore.case =
-  TRUE, recursive = TRUE), show = TRUE)
+report_about_r_scripts(
+  root,
+  scripts = dir(root, "\\\\.R$", ignore.case = TRUE, recursive = TRUE),
+  show = TRUE
+)
 }
 \arguments{
 \item{root}{path to directory from which to start looking for R scripts}

@@ -32,8 +32,8 @@ report_about_r_scripts <- function(
   all_function_info <- kwb.code::get_full_function_info(trees)
 
   rmd_source <- c(
-    rmd_intro("R Script Analysis"),
-    code_to_r_block("plot_row_numbers(params$script_info)"),
+    kwb.prep:::rmd_intro("R Script Analysis"),
+    code_to_r_block("kwb.fakin:::plot_row_numbers(params$script_info)"),
     "",
     "# Overview of Scripts and Functions",
     "",
@@ -44,27 +44,13 @@ report_about_r_scripts <- function(
     get_rmd_per_script(all_function_info, scripts = names(trees))
   )
 
-  invisible(render_text(rmd_source, show = show, params_to_rmd = list(
-    script_info = script_info,
-    all_function_info = all_function_info
-  )))
-}
-
-# rmd_intro --------------------------------------------------------------------
-rmd_intro <- function(title, author = "Hauke Sonnenberg")
-{
-  double_quoted <- function(x) kwb.utils::hsQuoteChr(x)
-
-  c(
-    "---",
-    paste("title:", double_quoted(title)),
-    paste("author:", double_quoted(author)),
-    paste("date:", double_quoted(Sys.Date())),
-    paste("output:", "html_document"),
-    "params:",
-    "  script_info: NULL",
-    "  all_function_info: NULL",
-    "---\n"
+  invisible(kwb.prep:::render_text(
+    rmd_source,
+    show = show,
+    params_to_rmd = list(
+      script_info = script_info,
+      all_function_info = all_function_info
+    ))
   )
 }
 
@@ -101,7 +87,8 @@ get_rmd_per_script <- function(all_function_info, scripts)
         "These functions contain the following numbers of expressions:",
         "",
         code_to_r_block(sprintf(
-          "plot_expression_numbers(params$all_function_info, \"%s\")", script
+          "kwb.fakin:::plot_expression_numbers(%s, \"%s\")",
+          "params$all_function_info", script
         ))
       )
 
@@ -147,28 +134,6 @@ get_rmd_function_enumeration <- function(all_function_info, script)
     "",
     paste(sprintf("* %s()", function_info$functionName))
   )
-}
-
-# render_text ------------------------------------------------------------------
-render_text <- function(
-  rmd_source, params_to_rmd, rmd_file = tempfile(fileext = ".Rmd"), show = TRUE
-)
-{
-  writeLines(rmd_source, con = rmd_file)
-
-  kwb.utils::catAndRun(sprintf("Rendering '%s'", rmd_file), {
-
-    html_file <- rmarkdown::render(
-      rmd_file, params = params_to_rmd, quiet = TRUE
-    )
-  })
-
-  if (isTRUE(show)) {
-
-    utils::browseURL(html_file)
-  }
-
-  html_file
 }
 
 # plot_row_numbers -------------------------------------------------------------

@@ -171,9 +171,9 @@ provide_path_tree <- function(file, fileEncoding)
   # Try to restore a vector of folder paths or recreate and store it
   if (kwb.fakin:::fails(paths <- kwb.fakin:::restore("paths"))) {
 
-    metadata <- kwb.fakin::guess_file_metadata(file)
+    metadata <- fakin.path.app:::guess_file_metadata(file)
     metadata$fileEncoding <- fileEncoding
-    paths <- kwb.fakin::read_file_paths(file, metadata)$path
+    paths <- fakin.path.app::read_file_paths(file, metadata)$path
     paths <- kwb.file::remove_common_root(paths)
 
     kwb.fakin:::store(paths, THIS_SCRIPT)

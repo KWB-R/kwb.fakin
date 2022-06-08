@@ -4,8 +4,12 @@
 \alias{plot_number_of_elements_per_folder}
 \title{Plot Folders with Number of Direct Children}
 \usage{
-plot_number_of_elements_per_folder(x, main = "", to_pdf = FALSE,
-  max_chars = 20)
+plot_number_of_elements_per_folder(
+  x,
+  main = "",
+  to_pdf = FALSE,
+  max_chars = 20
+)
 }
 \arguments{
 \item{x}{tree list structure as returned by \code{\link{to_tree}}}

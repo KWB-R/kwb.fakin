@@ -2,7 +2,7 @@
 performanceTestResolve <- function
 (
   x, dict,
-  N = c(1, 5, 10, 50, 100, 200, 500, 1000, 2000, 5000, 10000)[1:n.points],
+  N = c(1, 5, 10, 50, 100, 200, 500, 1000, 2000, 5000, 10000)[seq_len(n.points)],
   n.points = 11
 )
 {

@@ -3,7 +3,7 @@
 ^codemeta\.json$
 ^.*\.Rproj$
 ^\.Rproj\.user$
-.travis.yml
+^\.travis\.yml
 ^appveyor\.yml$
 ^codecov\.yml$
 ^README\.md$
@@ -12,3 +12,4 @@ _pkgdown.yaml
 LICENSE\.md$
 .gitlab-ci.yml
 ^index\.Rmd$
+^index\.md$

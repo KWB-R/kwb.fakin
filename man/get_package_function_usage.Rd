@@ -4,8 +4,7 @@
 \alias{get_package_function_usage}
 \title{How Often Are the Functions of a Package Used?}
 \usage{
-get_package_function_usage(tree, package, simple = FALSE,
-  by_script = FALSE)
+get_package_function_usage(tree, package, simple = FALSE, by_script = FALSE)
 }
 \arguments{
 \item{tree}{parse tree as returned by \code{\link{parse_scripts}}}

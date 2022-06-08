@@ -4,11 +4,16 @@
 \alias{createLocalProject}
 \title{Create Empty Project Folder Structure Locally}
 \usage{
-createLocalProject(project)
+createLocalProject(
+  project,
+  start_directory = options()$kwb.fakin.paths$projects
+)
 }
 \arguments{
 \item{project}{Project name. Must correspond with the name of a folder below
 one of the server locations returned by \code{\link{getProjectPaths}}}
+
+\item{start_directory}{Path to the project network drive at KWB}
 }
 \description{
 Copy the pure folder structure (without files) of a given KWB project from
